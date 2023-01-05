@@ -1,9 +1,12 @@
-
+import { Link } from "react-router-dom";
+import logo from "../images/logo.png"
 const NavBar = () => {
     return (
-        <nav className="navbar navbar-expand-lg" style={{backgroundColor: "#e3f2fd"}}>
+        <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "#70B9E6" }}>
             <div className="container-fluid">
-                <a className="navbar-brand" href="#">Navbar</a>
+                <Link class="navbar-brand" to="/">
+                    <img src={logo} width="35" height="35"/>
+                </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -19,10 +22,10 @@ const NavBar = () => {
                             <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Dropdown
                             </a>
-                            <ul className="dropdown-menu">
+                            <ul className="dropdown-menu" style={{ backgroundColor: "#E8E6E7" }}>
                                 <li><a className="dropdown-item" href="#">Action</a></li>
                                 <li><a className="dropdown-item" href="#">Another action</a></li>
-                                <li><hr className="dropdown-divider"/></li>
+                                <li><hr className="dropdown-divider" /></li>
                                 <li><a className="dropdown-item" href="#">Something else here</a></li>
                             </ul>
                         </li>
