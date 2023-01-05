@@ -1,10 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const Sample = ()=>{
-    return(
+import NavBar from "../components/NavBar";
+const Sample = () => {
+    return (
         <React.Fragment>
-            <h1>This is Sample Page...</h1>
-            <Link to="/">Welcome Page React Router DOM Navigation</Link>
+            <NavBar></NavBar>
+            <div className="container p-4">
+                <h4>This is Sample Page...</h4>
+                <Link to="/" className="btn btn-primary">Welcome Page React Router DOM Navigation</Link>
+            </div>
         </React.Fragment>
     );
 }
