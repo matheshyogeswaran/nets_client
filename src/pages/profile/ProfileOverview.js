@@ -1,6 +1,6 @@
 // import addtowishlist from "../images/addtowishlist.png";
 // import { SocialIcon } from "react-social-icons";
-import "../../App.css";
+// import "../../App.css";
 import image5 from "../../images/12.png";
 import Employee from "../../data/Employee.json";
 

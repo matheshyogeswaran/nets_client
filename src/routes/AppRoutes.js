@@ -12,7 +12,6 @@ import CreateUserRole from '../pages/user_role/CreateUserRole';
 import HiredEmployee from '../pages/home_pages/HiredEmployee';
 import EditUserRole from '../pages/user_role/EditUserRole';
 import GoogleLogin from '../pages/login/GoogleLogin';
-import Home from '../pages/home_pages/Home';
 import PendingUserApproval from '../pages/login/PendingUserApproval';
 import PromoteDemote from '../pages/user_role/PromoteDemote';
 import ShowUsersUnderRole from '../pages/user_role/SHowUsersUnderRole';
@@ -52,7 +51,7 @@ const AppRoutes = () => {
                 <Route exact path="/promoteDemoteUser/" element={<RequireAuth><PromoteDemote /></RequireAuth>} />
                 <Route exact path="/pendingrequests/" element={<RequireAuth><PendingUserApproval /></RequireAuth>} />
                 <Route exact path="/hiredemployee/" element={<RequireAuth><HiredEmployee /></RequireAuth>} />
-                <Route exact path="/" element={<Home></Home>} />
+                {/* <Route exact path="/" element={<Home></Home>} /> */}
                 <Route exact path="/department/" element={<Department />} />
                 <Route exact path="/jobtitle/" element={<Jobtitle />} />
                 <Route exact path="/chapter/" element={<Chapter />} />

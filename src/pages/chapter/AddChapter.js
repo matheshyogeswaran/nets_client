@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import image4 from "../../images/1.svg";
-import "../../App.css";
+// import "../../App.css";
 import swal from "sweetalert";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -63,7 +63,7 @@ const AddChapter = () => {
           <label class="ml-5 createchap">Suitable Department</label>
           <br></br>
           <div className="col-md-2">
-          <select
+            <select
               onChange={(e) => {
                 setSelectedDepartment(e.target.value);
               }}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import image4 from "../../images/1.svg";
-import "../../App.css";
+// import "../../App.css";
 import swal from "sweetalert";
 import { Link } from "react-router-dom";
 import axios from "axios";
