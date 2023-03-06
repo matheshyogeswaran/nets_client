@@ -3,6 +3,7 @@ import axios from "axios";
 import swal from 'sweetalert'
 import { useNavigate } from "react-router-dom";
 const FurtherDetails = (props) => {
+    console.log("Hello"+ JSON.stringify(props.loginData))
     const navigate = useNavigate();
     // console.log("object")
     const [firstName] = useState(props.userData.given_name);
@@ -64,7 +65,7 @@ const FurtherDetails = (props) => {
                                             id="fname"
                                         >
                                         </input>
-                                        <label for="fname">First Name</label>
+                                        <label htmlFor="fname">First Name</label>
                                     </div>
                                 </div>
                                 {/* Last Name */}
@@ -78,7 +79,7 @@ const FurtherDetails = (props) => {
                                             id="lastname"
                                         >
                                         </input>
-                                        <label for="lastname">Last Name</label>
+                                        <label htmlFor="lastname">Last Name</label>
                                     </div>
 
                                 </div>
@@ -92,7 +93,7 @@ const FurtherDetails = (props) => {
                                             <option value="Female">Female</option>
                                             <option value="N/A">Prefer not to say</option>
                                         </select>
-                                        <label for="gender">Select your gender</label>
+                                        <label htmlFor="gender">Select your gender</label>
                                     </div>
                                 </div>
                                 {/* Date of Birth */}
@@ -107,7 +108,7 @@ const FurtherDetails = (props) => {
                                             onChange={e => setDob(e.target.value)}
                                         >
                                         </input>
-                                        <label for="dob">Select your Date of Birth</label>
+                                        <label htmlFor="dob">Select your Date of Birth</label>
                                     </div>
 
                                 </div>
@@ -123,7 +124,7 @@ const FurtherDetails = (props) => {
                                             id="phone"
                                             onChange={e => setPhone(e.target.value)}>
                                         </input>
-                                        <label for="phone">Phone Number</label>
+                                        <label htmlFor="phone">Phone Number</label>
                                     </div>
 
                                 </div>
@@ -139,7 +140,7 @@ const FurtherDetails = (props) => {
                                         // onChange={e => setEmail(e.target.value)}
                                         >
                                         </input>
-                                        <label for="email">Email Address</label>
+                                        <label htmlFor="email">Email Address</label>
                                     </div>
 
                                 </div>
@@ -154,7 +155,7 @@ const FurtherDetails = (props) => {
                                             <option value="ABC">Abc</option>
                                             <option value="XYZ">Xyz</option>
                                         </select>
-                                        <label for="dep">Select your department</label>
+                                        <label htmlFor="dep">Select your department</label>
                                     </div>
 
                                 </div>
@@ -167,7 +168,7 @@ const FurtherDetails = (props) => {
                                             <option value="Job Abc">Abc</option>
                                             <option value="Job Xyz">Xyz</option>
                                         </select>
-                                        <label for="jt">Select your job title</label>
+                                        <label htmlFor="jt">Select your job title</label>
                                     </div>
 
                                 </div>

@@ -39,7 +39,7 @@ const AddDepartment = () => {
       <div className="columns mt-5">
         <form name="myForm" onSubmit={submitDepartment}>
           <div className="field">
-            <label class="ml-5 createchap">Department Name</label>
+            <label className="ml-5 createchap">Department Name</label>
             <div className="control">
               <input
                 type="text"

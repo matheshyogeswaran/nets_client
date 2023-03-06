@@ -42,7 +42,7 @@ const EditChapter = () => {
       <div className="columns mt-5">
         <form name="myForm" onSubmit={submitEdit}>
           <div className="field">
-            <label class="ml-5 createchap">Chapter Name after edit</label>
+            <label className="ml-5 createchap">Chapter Name after edit</label>
             <div className="control">
               <input
                 type="text"
@@ -58,7 +58,7 @@ const EditChapter = () => {
             </div>
           </div>
           <div className="field">
-            <label class="ml-5 createchap">Reason</label>
+            <label className="ml-5 createchap">Reason</label>
             <div className="control">
               <input
                 type="text"

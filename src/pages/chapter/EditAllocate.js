@@ -36,26 +36,26 @@ const EditAllocate = () => {
             {chaptername.map((item) => {
               return (
                 <>
-                  <div class="form-check form-switch">
+                  <div className="form-check form-switch">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="checkbox"
                       id="flexSwitchCheckDefault"
                     ></input>
                     <label
-                      class="form-check-label"
-                      for="flexSwitchCheckDefault"
+                      className="form-check-label"
+                      htmlFor="flexSwitchCheckDefault"
                     >
                       {item.chaptername}
                     </label>
                   </div>
                   {/* <tr className="align-middle">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="checkbox"
                       value=""
                     ></input>
-                    <label class="form-check-label">{item.chapter}</label>
+                    <label className="form-check-label">{item.chapter}</label>
                   </tr> */}
                 </>
               );

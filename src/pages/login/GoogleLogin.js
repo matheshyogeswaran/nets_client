@@ -31,6 +31,7 @@ const GoogleLogin = () => {
     const [googleLoginDecodedValues, setGoogleLoginDecodedValues] = useState();
     //function to handle google login response
     const handleGoogle = async (response) => {
+        console.log(response)
         setGoogleLoginDecodedValues(jwt_decode(response.credential));
         fetch("http://localhost:1337/authentication/login", {
             method: "POST",
@@ -39,6 +40,7 @@ const GoogleLogin = () => {
         }).then((res) => {
             return res.json();
         }).then((data) => {
+            console.log("From Line 42" + JSON.stringify(data))
             setLoginData(data);
         }).catch((error) => {
             console.log(error)

@@ -48,7 +48,7 @@ const NavBar = () => {
                                     <ul className="dropdown-menu dropdown-menu-end  " aria-labelledby="navbarDropdown">
                                         <li>
                                             <button className="disabled dropdown-item " onClick={logout}>
-                                                <i class="bi bi-person-check me-2"></i>
+                                                <i className="bi bi-person-check me-2"></i>
                                                 <i>Logged in as: </i>
                                                 <b>
                                                     {JSON.parse(localStorage.getItem("user"))?.userRole}
