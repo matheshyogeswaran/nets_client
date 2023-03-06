@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "value": "IT"
+    },
+    {
+        "id": 2,
+        "value": "Finance"
+    },
+    {
+        "id": 3,
+        "value": "Operations"
+    },
+    {
+        "id": 4,
+        "value": "Human Resource"
+    },
+    {
+        "id": 5,
+        "value": "Sales"
+    },
+    {
+        "id": 6,
+        "value": "Development"
+    }
+]

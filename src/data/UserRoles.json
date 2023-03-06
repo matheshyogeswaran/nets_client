@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "value": "Super Admin",
+        "count":1
+    },
+    {
+        "id": 2,
+        "value": "Hired Employee",
+        "count":60
+    },
+    {
+        "id": 3,
+        "value": "Content Creator",
+        "count":36
+    },
+    {
+        "id": 4,
+        "value": "Supervisor",
+        "count":12
+    },
+    {
+        "id": 5,
+        "value": "Moderator",
+        "count":6
+    },
+    {
+        "id": 6,
+        "value": "System Admin",
+        "count":6
+    }
+]

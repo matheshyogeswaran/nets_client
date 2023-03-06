@@ -1,0 +1,182 @@
+[
+    {
+     "id": "Permission001",
+     "permission": "Attempt the final project assignment"
+    },
+    {
+     "id": "Permission002",
+     "permission": "View Learning Chapters"
+    },
+    {
+     "id": "Permission003",
+     "permission": "Check Profile Overview"
+    },
+    {
+     "id": "Permission004",
+     "permission": "Attempt Quiz"
+    },
+    {
+     "id": "Permission005",
+     "permission": "Create, Edit, Delete Quizzes"
+    },
+    {
+     "id": "Permission006",
+     "permission": "Complete Guidance Request Tickets"
+    },
+    {
+     "id": "Permission007",
+     "permission": "Raise Guidance Request Ticket"
+    },
+    {
+     "id": "Permission008",
+     "permission": "Direct Guidance Request Ticket"
+    },
+    {
+     "id": "Permission009",
+     "permission": "Create Learning Materials"
+    },
+    {
+     "id": "Permission0010",
+     "permission": "View Created Learning Materials by that User"
+    },
+    {
+     "id": "Permission0011",
+     "permission": "Edit  Learning Materials"
+    },
+    {
+     "id": "Permission0012",
+     "permission": "Delete  Learning Materials"
+    },
+    {
+     "id": "Permission0013",
+     "permission": "Upload  Learning Materials"
+    },
+    {
+     "id": "Permission0014",
+     "permission": "View Discussion Forums, Posts and Replies"
+    },
+    {
+     "id": "Permission0015",
+     "permission": "Create, Edit, Lock Discussion Forum"
+    },
+    {
+     "id": "Permission0016",
+     "permission": "Post or Reply on Discussion forum "
+    },
+    {
+     "id": "Permission0017",
+     "permission": "Rate on Learning Materials"
+    },
+    {
+     "id": "Permission0018",
+     "permission": "View Ratings on Learning Materials"
+    },
+    {
+     "id": "Permission0019",
+     "permission": "Comment or Replying on Learning Materials"
+    },
+    {
+     "id": "Permission0020",
+     "permission": "View Comments and Replies on Learning Materials"
+    },
+    {
+     "id": "Permission0021",
+     "permission": "Evaluate Final Project Assignment of Hired Employee"
+    },
+    {
+     "id": "Permission0022",
+     "permission": "Create Chapter"
+    },
+    {
+     "id": "Permission0023",
+     "permission": "Edit Chapter"
+    },
+    {
+     "id": "Permission0024",
+     "permission": "Temporary Delete Chapter"
+    },
+    {
+     "id": "Permission0025",
+     "permission": "Create common chapters"
+    },
+    {
+     "id": "Permission0026",
+     "permission": "View Chapters"
+    },
+    {
+     "id": "Permission0027",
+     "permission": "Delete Chapters Permanently"
+    },
+    {
+     "id": "Permission0028",
+     "permission": "Request for additional chapters"
+    },
+    {
+     "id": "Permission0029",
+     "permission": "Give permissions to additional chapters"
+    },
+    {
+     "id": "Permission0030",
+     "permission": "Assign default chapters to Job title"
+    },
+    {
+     "id": "Permission0031",
+     "permission": "Edit default Chapters of each job title"
+    },
+    {
+     "id": "Permission0032",
+     "permission": "Allow and Verify designations of the User"
+    },
+    {
+     "id": "Permission0033",
+     "permission": "Promote Employee to Supervisor"
+    },
+    {
+     "id": "Permission0034",
+     "permission": "Create User Roles"
+    },
+    {
+     "id": "Permission0035",
+     "permission": "Edit User Roles"
+    },
+    {
+     "id": "Permission0036",
+     "permission": "Delete User Roles"
+    },
+    {
+     "id": "Permission0037",
+     "permission": "View User Roles"
+    },
+    {
+     "id": "Permission0038",
+     "permission": "Create Department"
+    },
+    {
+     "id": "Permission0039",
+     "permission": "Edit Department"
+    },
+    {
+     "id": "Permission0040",
+     "permission": "Delete Department"
+    },
+    {
+     "id": "Permission0041",
+     "permission": "View Department"
+    },
+    {
+     "id": "Permission0042",
+     "permission": "Create Job Title"
+    },
+    {
+     "id": "Permission0043",
+     "permission": "Edit Job Title"
+    },
+    {
+     "id": "Permission0044",
+     "permission": "Delete Job Title"
+    },
+    {
+     "id": "Permission0045",
+     "permission": "View Job Title"
+    }
+   ]

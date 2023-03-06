@@ -1,0 +1,75 @@
+[
+    {
+        "department": "IT",
+        "chapters": [
+            "Database Concepts and Systems",
+            "Systems Programming",
+            "Internet of Things",
+            "Web Development",
+            "Database Technologies",
+            "Graphics and Animation",
+            "Data Structure and Algorithms"
+        ]
+    },
+    {
+        "department": "Finance",
+        "chapters": [
+            "Introduction to Financial Management",
+            "Financial Statement Analysis",
+            "Time Value of Money",
+            "Valuation and Bond Analysis",
+            "Stocks and Stock Valuation",
+            "The Financial System and Interest Rates",
+            "Risk Analysis",
+            "Introduction to Capital Budgeting"
+        ]
+    },
+    {
+        "department": "Operations",
+        "chapters": [
+            "Goods and services",
+            "Quality management",
+            "Process and capacity design",
+            "Location",
+            "Layout design and strategy",
+            "Human resources and job design",
+            "Supply chain management",
+            "Inventory"
+        ]
+    },
+    {
+        "department": "Human Resource",
+        "chapters": [
+            "The Role of Human Resources",
+            "Developing and Implementing Strategic HRM Plans",
+            "Diversity and Multiculturalism",
+            "Recruitment",
+            "Selection",
+            "Compensation and Benefits",
+            "Retention and Motivation"
+        ]
+    },
+    {
+        "department": "Sales",
+        "chapters": [
+            "Basic concepts of marketing",
+            "Strategic marketing partners",
+            "The marketing environment",
+            "Customer insights",
+            "Consumer buyer behaviour",
+            "Business markets",
+            "Customer-driven strategy",
+            "Building customer value"
+        ]
+    },
+    {
+        "department": "Development",
+        "chapters": [
+            "develop a broad range of IT skills, knowledge and understanding",
+            "apply their learning to efficiently solve problems in a range of situations",
+            "study the structure and use of IT systems for a variety of contexts",
+            "learn about practical IT solutions for business and creative digital technology",
+            "learn about new and emerging technologies and their impact on society"
+        ]
+    }
+]
