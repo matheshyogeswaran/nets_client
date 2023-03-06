@@ -3,7 +3,7 @@ import axios from "axios";
 import swal from 'sweetalert'
 import { useNavigate } from "react-router-dom";
 const FurtherDetails = (props) => {
-    console.log("Hello"+ JSON.stringify(props.loginData))
+    console.log("Hello" + JSON.stringify(props.loginData))
     const navigate = useNavigate();
     // console.log("object")
     const [firstName] = useState(props.userData.given_name);
@@ -30,8 +30,18 @@ const FurtherDetails = (props) => {
             .then((res) => {
                 if (res.data.status === "success") {
                     swal("Good job!", res.data.message, "success")
-                    localStorage.setItem("user", JSON.stringify(props.loginData?.user));
-                    navigate("/home")
+                    swal({
+                        title: "Success ! Please Login to NETS",
+                        text: res.data.message,
+                        icon: "success",
+                        buttons: true,
+                        dangerMode: false,
+                    })
+                        .then((willDelete) => {
+                            window.location.reload();
+                        });
+                    // localStorage.setItem("user", JSON.stringify(props.loginData?.user));
+                    // navigate("/")
                     // window.location.reload();
                 } else if (res.data.status === "duplicate") {
                     swal("Warning", res.data.message, "warning")
@@ -47,7 +57,7 @@ const FurtherDetails = (props) => {
                 <div className="card shadow shadow-lg" >
                     <div className="card-header bg-dark ">
                         <center>
-                            <img draggable={false} alt="userImage" src={props.userData.picture} className=" p-3 rounded-circle"></img>
+                            <img draggable={false} referrerPolicy="no-referrer" alt="userImage" src={props.userData.picture} className=" p-3 rounded-circle"></img>
                         </center>
                     </div>
                     <form onSubmit={submitFurtherDetails}>

@@ -16,44 +16,44 @@ const Home = () => {
           <tbody>
             <tr>
               <td>
-                <Link to="department">Department</Link>
+                <Link to="/department">Department</Link>
               </td>
               <td>Super Admin</td>
             </tr>
             <tr>
               <td>
-                <Link to="jobtitle">Jobtitle</Link>
+                <Link to="/jobtitle">Jobtitle</Link>
               </td>
               <td>Super Admin</td>
             </tr>
             <tr>
               <td>
-                <Link to="chapter">Chapter</Link>
+                <Link to="/chapter">Chapter</Link>
               </td>
               <td>System Admin,Super Admin</td>
             </tr>
             <tr>
               <td>
-                <Link to="viewchapter">View Chapters</Link>
+                <Link to="/viewchapter">View Chapters</Link>
               </td>
               <td>System Admin,Super Admin</td>
             </tr>
             <tr>
               <td>
-                <Link to="allocatechapter">Allocate Chapters</Link>
+                <Link to="/allocatechapter">Allocate Chapters</Link>
               </td>
               <td>System Admin</td>
             </tr>
             <tr>
               <td>
-                <Link to="editallocatechapter">Edit Allocate Chapters</Link>
+                <Link to="/editallocatechapter">Edit Allocate Chapters</Link>
               </td>
               <td>System Admin</td>
             </tr>
 
             <tr>
               <td>
-                <Link to="permanentdeletechapter">
+                <Link to="/permanentdeletechapter">
                   Permanent Delete Chapter
                 </Link>
               </td>
@@ -61,7 +61,7 @@ const Home = () => {
             </tr>
             <tr>
               <td>
-                <Link to="profile">Profile overview</Link>
+                <Link to="/profile">Profile overview</Link>
               </td>
               <td>
                 Hired employee,Supervisor,Content creator,System Admin,Super
@@ -70,7 +70,7 @@ const Home = () => {
             </tr>
             <tr>
               <td>
-                <Link to="enrollrequestsupervisor">
+                <Link to="/enrollrequestsupervisor">
                   Enroll request-Supervisor
                 </Link>
               </td>
@@ -78,7 +78,7 @@ const Home = () => {
             </tr>
             <tr>
               <td>
-                <Link to="enrollrequestemployee">Enroll request-Employee</Link>
+                <Link to="/enrollrequestemployee">Enroll request-Employee</Link>
               </td>
               <td>Hired Employee</td>
             </tr>

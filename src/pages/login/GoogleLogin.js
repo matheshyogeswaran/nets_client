@@ -136,7 +136,7 @@ const GoogleLogin = () => {
             </div>
 
             {
-                (isUserAvailable === false) ? <FurtherDetails loginData={loginData} userData={googleLoginDecodedValues} /> : null
+                (isUserAvailable === false) ? <FurtherDetails id="furtherdata" loginData={loginData} userData={googleLoginDecodedValues} /> : null
             }
 
 
