@@ -9,17 +9,18 @@ const RequireAuth = ({ children }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const checkTokenValidity = () => {
-        console.log("Hello");
-        axios.post('http://localhost:1337/authentication/verifyToken', { token: userData.token })
-            .then((res) => {
-                if (res.data.status === false) {
-                    localStorage.removeItem("user");
-                    navigate("/login", { replace: true });
-                    swal("Session Time Out!", "Sorry, Session Time out. Login again to use the application.", "warning");
-                }
-            }).catch((error) => {
-                console.log(error)
-            });
+        if (userData) {
+            axios.post('http://localhost:1337/authentication/verifyToken', { token: userData.token })
+                .then((res) => {
+                    if (res.data.status === false) {
+                        localStorage.removeItem("user");
+                        navigate("/login", { replace: true });
+                        swal("Session Time Out!", "Sorry, Session Time out. Login again to use the application.", "warning");
+                    }
+                }).catch((error) => {
+                    console.log(error)
+                });
+        }
     }
 
     useEffect(() => {

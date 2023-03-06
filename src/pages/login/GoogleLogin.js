@@ -31,7 +31,7 @@ const GoogleLogin = () => {
     const [googleLoginDecodedValues, setGoogleLoginDecodedValues] = useState();
     //function to handle google login response
     const handleGoogle = async (response) => {
-        console.log(response)
+        // console.log(response)
         setGoogleLoginDecodedValues(jwt_decode(response.credential));
         fetch("http://localhost:1337/authentication/login", {
             method: "POST",
@@ -40,7 +40,7 @@ const GoogleLogin = () => {
         }).then((res) => {
             return res.json();
         }).then((data) => {
-            console.log("From Line 42" + JSON.stringify(data))
+            // console.log("From Line 42" + JSON.stringify(data))
             setLoginData(data);
         }).catch((error) => {
             console.log(error)
@@ -56,7 +56,7 @@ const GoogleLogin = () => {
             // console.log(loginData);
             axios.post('http://localhost:1337/users/isUserAvailable', { email: loginData?.user?.email })
                 .then((res) => {
-                    console.log("User Availability: " + res.data.status)
+                    // console.log("User Availability: " + res.data.status)
                     if (res.data.status === true) {
                         localStorage.setItem("user", JSON.stringify(loginData?.user));
                         navigate(redirectPath, { replace: true });
