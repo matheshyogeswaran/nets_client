@@ -83,16 +83,16 @@ const AppRoutes = () => {
         <Route exact path="/editchap/:id/:name" element={<RequireAuth><EditChapter /></RequireAuth>} />
         <Route exact path="/deletechap/:id" element={<RequireAuth><DeleteChapter /></RequireAuth>} />
 
-        <Route exact path="/comments" element={<CommentSection />} />
-        <Route exact path="/forums" element={<Forums />} />
-        <Route exact path="/view-forum/:forumId" element={<ViewForum />} />
-        <Route exact path="/create-forum" element={<CreateForum />} />
-        <Route exact path="/edit-forum/:forumId" element={<EditForum />} />
-        <Route exact path="/create-post/:forumId" element={<CreatePost />} />
-        <Route exact path="/add-reply/:forumId/:commentId" element={<AddReply />} />
-        <Route exact path="/request-guidance-ticket" element={<RequestGuidanceTickets />} />
-        <Route exact path="/direct-guidance-ticket" element={<DirectGuidanceTickets />} />
-        <Route exact path="/complete-guidance-ticket" element={<CompleteGuidanceTickets />}/>
+        <Route exact path="/comments" element={<RequireAuth><CommentSection /></RequireAuth>} />
+        <Route exact path="/forums" element={<RequireAuth><Forums /></RequireAuth>} />
+        <Route exact path="/view-forum/:forumId" element={<RequireAuth><ViewForum /></RequireAuth>} />
+        <Route exact path="/create-forum" element={<RequireAuth><CreateForum /></RequireAuth>} />
+        <Route exact path="/edit-forum/:forumId" element={<RequireAuth><EditForum /></RequireAuth>} />
+        <Route exact path="/create-post/:forumId" element={<RequireAuth><CreatePost /></RequireAuth>} />
+        <Route exact path="/add-reply/:forumId/:commentId" element={<RequireAuth><AddReply /></RequireAuth>} />
+        <Route exact path="/request-guidance-ticket" element={<RequireAuth><RequestGuidanceTickets /></RequireAuth>} />
+        <Route exact path="/direct-guidance-ticket" element={<RequireAuth><DirectGuidanceTickets /></RequireAuth>} />
+        <Route exact path="/complete-guidance-ticket" element={<RequireAuth><CompleteGuidanceTickets /> </RequireAuth>} />
       </Routes>
     </BrowserRouter>
   );
