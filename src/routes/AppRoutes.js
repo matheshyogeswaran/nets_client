@@ -37,6 +37,17 @@ import EditChapter from "../pages/chapter/EditChapter";
 import DeleteChapter from "../pages/chapter/DeleteChapter";
 import Sample from "../pages/Sample";
 
+import AddReply from "../components/Forums/AddReply";
+import CreateForum from "../components/Forums/CreateForum";
+import CreatePost from "../components/Forums/CreatePost";
+import EditForum from "../components/Forums/EditForum";
+import Forums from "../components/Forums/Forums";
+import ViewForum from "../components/Forums/ViewForum";
+import CompleteGuidanceTickets from "../components/GuidanceTickets/CompleteTickets/CompleteGuidanceTickets";
+import DirectGuidanceTickets from "../components/GuidanceTickets/DirectTickets/DirectGuidanceTickets";
+import RequestGuidanceTickets from "../components/GuidanceTickets/RequestTickets/RequestGuidanceTickets";
+import CommentSection from "../components/Comments/CommentSection"
+
 const AppRoutes = () => {
     return (
         <BrowserRouter>
@@ -72,6 +83,32 @@ const AppRoutes = () => {
                 <Route exact path="/newchap/" element={<RequireAuth><AddChapter /></RequireAuth>} />
                 <Route exact path="/editchap/:id/:name" element={<RequireAuth><EditChapter /></RequireAuth>} />
                 <Route exact path="/deletechap/:id" element={<RequireAuth><DeleteChapter /></RequireAuth>} />
+                <Route exact path="/comments" element={<CommentSection />} />
+          <Route exact path="/forums" element={<Forums />} />
+          <Route exact path="/view-forum/:forumId" element={<ViewForum />} />
+          <Route exact path="/create-forum" element={<CreateForum />} />
+          <Route exact path="/edit-forum/:forumId" element={<EditForum />} />
+          <Route exact path="/create-post/:forumId" element={<CreatePost />} />
+          <Route
+            exact
+            path="/add-reply/:forumId/:commentId"
+            element={<AddReply />}
+          />
+          <Route
+            exact
+            path="/request-guidance-ticket"
+            element={<RequestGuidanceTickets />}
+          />
+          <Route
+            exact
+            path="/direct-guidance-ticket"
+            element={<DirectGuidanceTickets />}
+          />
+          <Route
+            exact
+            path="/complete-guidance-ticket"
+            element={<CompleteGuidanceTickets />}
+          />
             </Routes>
         </BrowserRouter>
     );
