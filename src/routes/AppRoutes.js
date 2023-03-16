@@ -16,20 +16,7 @@ import RequireAuth from '../utils/RequireAuth';
 import RedirectIfLoggedIn from '../utils/RedirectIfLoggedIn';
 
 // Page Imports
-import Result from "./pages/Quiz/result";
-import Review from "./pages/Quiz/review";
-import Submission from "./pages/ProjSubmission/submission";
-import Evaluate from "./pages/ProjSubmission/Evaluate";
-import Feedback from "./pages/ProjSubmission/feedback";
-import LeaderBoard from "./pages/Leaderboard/leaderBoard";
-import Report from "./pages/Report/Report";
-import LeaderboardSup from "./pages/Leaderboard/LeaderboardSup";
-import ChapterReport from "./pages/Report/chapterReport";
-import OverviewReport from "./pages/Report/overviewReport";
-import QuizReportFront from "./pages/Report/quizReportFront";
-import QuizReport from "./pages/Report/quizReport";
-import Ratings from "./pages/Report/Ratings";
-import Home from "../pages/home_pages/Home";
+
 import AvailableUserRoles from '../pages/user_role/AvailableUserRoles';
 import CreateUserRole from '../pages/user_role/CreateUserRole';
 import HiredEmployee from '../pages/home_pages/HiredEmployee';
@@ -58,8 +45,36 @@ import AddChapter from "../pages/chapter/AddChapter";
 import EditChapter from "../pages/chapter/EditChapter";
 import DeleteChapter from "../pages/chapter/DeleteChapter";
 import Sample from "../pages/Sample";
+import AddReply from "../components/Forums/AddReply";
+import CreateForum from "../components/Forums/CreateForum";
+import CreatePost from "../components/Forums/CreatePost";
+import EditForum from "../components/Forums/EditForum";
+import Forums from "../components/Forums/Forums";
+import ViewForum from "../components/Forums/ViewForum";
+import CompleteGuidanceTickets from "../components/GuidanceTickets/CompleteTickets/CompleteGuidanceTickets";
+import DirectGuidanceTickets from "../components/GuidanceTickets/DirectTickets/DirectGuidanceTickets";
+import RequestGuidanceTickets from "../components/GuidanceTickets/RequestTickets/RequestGuidanceTickets";
+import CommentSection from "../components/Comments/CommentSection"
+import AssignFinalAssignment from '../pages/final_project_assignment/AssignFinalAssignment';
+import NoInternet from '../pages/NoInternet';
+
+import Result from "./pages/Quiz/result";
+import Review from "./pages/Quiz/review";
+import Submission from "./pages/ProjSubmission/submission";
+import Evaluate from "./pages/ProjSubmission/Evaluate";
+import Feedback from "./pages/ProjSubmission/feedback";
+import LeaderBoard from "./pages/Leaderboard/leaderBoard";
+import Report from "./pages/Report/Report";
+import LeaderboardSup from "./pages/Leaderboard/LeaderboardSup";
+import ChapterReport from "./pages/Report/chapterReport";
+import OverviewReport from "./pages/Report/overviewReport";
+import QuizReportFront from "./pages/Report/quizReportFront";
+import QuizReport from "./pages/Report/quizReport";
+import Ratings from "./pages/Report/Ratings";
+import Home from "../pages/home_pages/Home";
 
 const AppRoutes = () => {
+<<<<<<< HEAD
     const [employee, setEmployee] = useState([]);
     const [unit, setUnit] = useState([]);
     const [chapter, setChapter] = useState([]);
@@ -110,6 +125,8 @@ const AppRoutes = () => {
                 <Route exact path="/promoteDemoteUser/" element={<RequireAuth><PromoteDemote /></RequireAuth>} />
                 <Route exact path="/pendingrequests/" element={<RequireAuth><PendingUserApproval /></RequireAuth>} />
                 <Route exact path="/hiredemployee/" element={<RequireAuth><HiredEmployee /></RequireAuth>} />
+                <Route exact path="/assignFinalProjectAssignment/" element={<RequireAuth><AssignFinalAssignment /></RequireAuth>} />
+
 
                 <Route exact path="/department/" element={<RequireAuth><Department /></RequireAuth>} />
                 <Route exact path="/jobtitle/" element={<RequireAuth><Jobtitle /></RequireAuth>} />
@@ -131,6 +148,18 @@ const AppRoutes = () => {
                 <Route exact path="/newchap/" element={<RequireAuth><AddChapter /></RequireAuth>} />
                 <Route exact path="/editchap/:id/:name" element={<RequireAuth><EditChapter /></RequireAuth>} />
                 <Route exact path="/deletechap/:id" element={<RequireAuth><DeleteChapter /></RequireAuth>} />
+
+                
+                <Route exact path="/comments" element={<RequireAuth><CommentSection /></RequireAuth>} />
+                <Route exact path="/forums" element={<RequireAuth><Forums /></RequireAuth>} />
+                <Route exact path="/view-forum/:forumId" element={<RequireAuth><ViewForum /></RequireAuth>} />
+                <Route exact path="/create-forum" element={<RequireAuth><CreateForum /></RequireAuth>} />
+                <Route exact path="/edit-forum/:forumId" element={<RequireAuth><EditForum /></RequireAuth>} />
+                <Route exact path="/create-post/:forumId" element={<RequireAuth><CreatePost /></RequireAuth>} />
+                <Route exact path="/add-reply/:forumId/:commentId" element={<RequireAuth><AddReply /></RequireAuth>} />
+                <Route exact path="/request-guidance-ticket" element={<RequireAuth><RequestGuidanceTickets /></RequireAuth>} />
+                <Route exact path="/direct-guidance-ticket" element={<RequireAuth><DirectGuidanceTickets /></RequireAuth>} />
+                <Route exact path="/complete-guidance-ticket" element={<RequireAuth><CompleteGuidanceTickets /> </RequireAuth>} />
 
 
                 <AppContext.Provider
