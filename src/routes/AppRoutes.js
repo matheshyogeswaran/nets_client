@@ -2,11 +2,33 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+//Sagini
+import { useState, createContext, useEffect } from "react";
+import axios from "axios";
+import "./App.css";
+
+const API_BASE = "http://localhost:8080";
+
+export const AppContext = createContext();
+
 // Util Imports
 import RequireAuth from '../utils/RequireAuth';
 import RedirectIfLoggedIn from '../utils/RedirectIfLoggedIn';
 
 // Page Imports
+import Result from "./pages/Quiz/result";
+import Review from "./pages/Quiz/review";
+import Submission from "./pages/ProjSubmission/submission";
+import Evaluate from "./pages/ProjSubmission/Evaluate";
+import Feedback from "./pages/ProjSubmission/feedback";
+import LeaderBoard from "./pages/Leaderboard/leaderBoard";
+import Report from "./pages/Report/Report";
+import LeaderboardSup from "./pages/Leaderboard/LeaderboardSup";
+import ChapterReport from "./pages/Report/chapterReport";
+import OverviewReport from "./pages/Report/overviewReport";
+import QuizReportFront from "./pages/Report/quizReportFront";
+import QuizReport from "./pages/Report/quizReport";
+import Ratings from "./pages/Report/Ratings";
 import Home from "../pages/home_pages/Home";
 import AvailableUserRoles from '../pages/user_role/AvailableUserRoles';
 import CreateUserRole from '../pages/user_role/CreateUserRole';
@@ -38,6 +60,43 @@ import DeleteChapter from "../pages/chapter/DeleteChapter";
 import Sample from "../pages/Sample";
 
 const AppRoutes = () => {
+    const [employee, setEmployee] = useState([]);
+    const [unit, setUnit] = useState([]);
+    const [chapter, setChapter] = useState([]);
+    const [quizSubmission, setQuizSubmission] = useState([]);
+    useEffect(() => {
+      GetUsers();
+      Getunit();
+      GetChapter();
+      GetQuizSubmissions();
+    }, []);
+  
+    const GetUsers = () => {
+      axios
+        .get(API_BASE + "/users")
+        .then((res) => {
+          setEmployee(res.data);
+        })
+        .catch((error) => console.error("Error: ", error));
+    };
+    const Getunit = () => {
+      axios
+        .get(API_BASE + "/unit")
+        .then((res) => setUnit(res.data))
+        .catch((error) => console.log(error));
+    };
+    const GetChapter = () => {
+      axios
+        .get(API_BASE + "/chapter")
+        .then((res) => setChapter(res.data))
+        .catch((error) => console.log(error));
+    };
+    const GetQuizSubmissions = () => {
+      axios
+        .get(API_BASE + "/quiz_submission")
+        .then((res) => setQuizSubmission(res.data))
+        .catch((error) => console.log(error));
+    };
     return (
         <BrowserRouter>
             <Routes>
@@ -72,6 +131,31 @@ const AppRoutes = () => {
                 <Route exact path="/newchap/" element={<RequireAuth><AddChapter /></RequireAuth>} />
                 <Route exact path="/editchap/:id/:name" element={<RequireAuth><EditChapter /></RequireAuth>} />
                 <Route exact path="/deletechap/:id" element={<RequireAuth><DeleteChapter /></RequireAuth>} />
+
+
+                <AppContext.Provider
+                    value={{
+                    employee: employee,
+                    unit: unit,
+                    chapter: chapter,
+                    quizSubmission: quizSubmission,
+                    }}
+                >
+                    <Route path="/" element={<Home />} />
+                    <Route path="/result" element={<Result />} />
+                    <Route path="/review" element={<Review />} />
+                    <Route path="/submission" element={<Submission />} />
+                    <Route path="/evaluate" element={<Evaluate />} />
+                    <Route path="/leaderboard" element={<LeaderBoard />} />
+                    <Route path="/feedback" element={<Feedback />} />
+                    <Route path="/report" element={<Report />} />
+                    <Route path="/leaderboardsup" element={<LeaderboardSup />} />
+                    <Route path="/chapterreport" element={<ChapterReport />} />
+                    <Route path="/overviewreport" element={<OverviewReport />} />
+                    <Route path="/quizreportfront" element={<QuizReportFront />} />
+                    <Route path="/quizreport" element={<QuizReport />} />
+                    <Route path="/ratings" element={<Ratings />} />
+                </AppContext.Provider>
             </Routes>
         </BrowserRouter>
     );
