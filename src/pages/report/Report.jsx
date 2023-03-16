@@ -6,7 +6,6 @@ import TabReport from "../../component/tabReport";
 
 const Report = () => {
   const { employee } = useContext(AppContext);
-  const { unit } = useContext(AppContext);
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState();
   const [show, setShow] = useState(true);
@@ -34,7 +33,12 @@ const Report = () => {
     <>
       <h1 className="py-4 result-head card ps-5">Employee Report</h1>
       <TabReport handleGetTabReport={getTabReport} />
-      <Search handleGetSearchValue={getSearchValue} />
+      <div className="mt-5">
+        <Search
+          handleGetSearchValue={getSearchValue}
+          width={{ width: "w-auto" }}
+        />
+      </div>
       <table className=" empTable table table-striped table-hover mt-sm-5 mt-lg-5 ">
         <thead>
           <tr className="table-head">

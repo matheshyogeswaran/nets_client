@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const Search = ({ handleGetSearchValue }) => {
+const Search = ({ handleGetSearchValue, width }) => {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
 
@@ -9,9 +9,9 @@ const Search = ({ handleGetSearchValue }) => {
   }, [showSearch]);
 
   return (
-    <div className="d-flex mt-5 justify-content-end me-lg-5 me-md-2 me-sm-3">
+    <div className="d-flex justify-content-end me-lg-5 me-md-2 me-sm-3">
       <input
-        className="form-control me-2 w-auto"
+        className={`form-control me-2 ${width.width}`}
         type="text"
         placeholder="Search Name"
         onChange={(e) => setSearch(e.target.value)}

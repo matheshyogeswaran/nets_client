@@ -1,11 +1,17 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Avatar from "react-avatar";
-import { useState, useContext } from "react";
-import App, { AppContext } from "../../App";
+import { useState, useContext, useEffect } from "react";
+import { AppContext } from "../../App";
+import axios from "axios";
 
 const ChapterReport = () => {
+  const API_BASE = "http://localhost:1337";
+
+  const [chapters, setChapters] = useState([]);
+
   const { chapter } = useContext(AppContext);
   const { unit } = useContext(AppContext);
+  const [unitScore, setUnitScore] = useState([]);
   const [navActive, setNavActive] = useState(0);
   const [selectedOption, setSelectedOption] = useState("Chapter Report");
   //get props
@@ -23,10 +29,30 @@ const ChapterReport = () => {
       },
     });
   };
-  
+
+  useEffect(() => {
+    let empId = propsData?.empId;
+    axios
+      .post(API_BASE + "/overview_report/" + empId)
+      .then((res) => setUnitScore(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+  useEffect(() => {
+    handleChapters();
+  }, [unitScore]);
+
+  let chapCount = 0;
+  const handleChapters = () => {
+    chapter.map((chap) => {
+      unitScore.map((unit) => unit.chapterId === chap._id && chapCount++);
+      chapCount > 0 && setChapters((prev) => [...prev, chap.chapterName]);
+      chapCount = 0;
+    });
+  };
+  chapters.map((chap) => console.log(chap));
   return (
     <div className="">
-      <h1 className="py-4 result-head card ps-5">ChapterReport</h1>
+      <h1 className="py-4 result-head card ps-5">Chapter Report</h1>
       <div className="chap-name-select">
         <div className=" d-flex ps-4">
           <Avatar name={`${propsData?.firstName}`} round />
@@ -39,7 +65,7 @@ const ChapterReport = () => {
           </div>
         </div>
         <select
-          className="form-select"
+          className="form-select mt-sm-4"
           aria-label="Default select example"
           value={selectedOption}
           onChange={handleOptionChange}
@@ -49,113 +75,112 @@ const ChapterReport = () => {
         </select>
       </div>
 
-      <div className=" chapter-content m-3 pt-5">
+      <div className=" chapter-content m-3 pt-lg-5">
         <div
           className="nav flex-column nav-pills me-3"
           id="v-pills-tab"
           role="tablist"
           aria-orientation="vertical"
         >
-          {chapter.map((chap, index) => (
-            <>
-              <button
-                key={index}
-                className={index == navActive ? "nav-link active" : "nav-link"}
-                data-bs-toggle="pill"
-                data-bs-target="#0"
-                type="button"
-                role="tab"
-              >
-                {chap.chapterName}
-              </button>
-            </>
+          {chapters.map((chap, index) => (
+            <button
+              key={index}
+              onClick={() => setNavActive(index)}
+              className={index == navActive ? "nav-link active" : "nav-link"}
+              data-bs-toggle="pill"
+              data-bs-target={`#${index}`}
+              type="button"
+              role="tab"
+              aria-controls={index}
+              aria-selected={index == navActive ? "true" : "false"}
+            >
+              {chap}
+            </button>
           ))}
         </div>
         <div className="tab-content" id="v-pills-tabContent">
-          <div className="tab-pane fade" id="0" role="tabpanel" tabIndex="0">
-            Hello world
-          </div>
+          {chapter.map((chap) =>
+            chapters.map(
+              (chapter, index) =>
+                chapter === chap.chapterName && (
+                  <div
+                    key={index}
+                    className={
+                      index == navActive
+                        ? "tab-pane fade active show"
+                        : "tab-pane fade"
+                    }
+                    id={index}
+                    role="tabpane"
+                    aria-labelledby={index}
+                    tabIndex={index}
+                  >
+                    <table className="table leaderboard-table">
+                      <thead>
+                        <tr className="table-head">
+                          <th className="leaderboard-th align-middle text-center">
+                            Unit Name
+                          </th>
+                          <th className="leaderboard-th align-middle text-center">
+                            Score
+                          </th>
+                          <th className="leaderboard-th align-middle text-center">
+                            Grade
+                          </th>
+                          <th className="leaderboard-th align-middle text-center">
+                            Percentage
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {unit.map((uni) =>
+                          chap.unitsOffer.map(
+                            (unitsId) =>
+                              unitsId == uni.unitId &&
+                              unitScore.map(
+                                (uniScore) =>
+                                  uni.unitId === uniScore.unitId && (
+                                    <tr
+                                      key={index}
+                                      className=" bg-info bg-opacity-10 leaderboard-tr fw-semibold"
+                                    >
+                                      <td className="leaderboard-td align-middle text-center">
+                                        {uni.unitName}
+                                      </td>
+                                      <td className="leaderboard-td align-middle text-center">
+                                        {uniScore.score}
+                                      </td>
+                                      <td className="leaderboard-td align-middle text-center">
+                                        {uniScore.score >= 75
+                                          ? "A"
+                                          : uniScore.score < 75 &&
+                                            uniScore.score >= 65
+                                          ? "B"
+                                          : uniScore.score < 65 &&
+                                            uniScore.score >= 55
+                                          ? "C"
+                                          : uniScore.score < 55 &&
+                                            uniScore.score >= 40
+                                          ? "S"
+                                          : "F"}
+                                      </td>
+                                      <td className="leaderboard-td align-middle text-center">
+                                        {uniScore.score}%
+                                      </td>
+                                    </tr>
+                                  )
+                              )
+                          )
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                )
+            )
+          )}
         </div>
       </div>
-
-      {/* <div className="tab-content" id="v-pills-tabContent">
-          <div
-            className="tab-pane fade show active"
-            id="v-pills-home"
-            role="tabpanel"
-            tabIndex="0"
-          >
-            <table className="table leaderboard-table">
-              <thead>
-                <tr className="table-head">
-                  <th className="leaderboard-th align-middle text-center">
-                    Unit Name
-                  </th>
-                  <th className="leaderboard-th align-middle text-center">
-                    Grade
-                  </th>
-                  <th className="leaderboard-th align-middle text-center">
-                    Range
-                  </th>
-                  <th className="leaderboard-th align-middle text-center">
-                    Percentage
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {true && (
-                  <tr className=" bg-info bg-opacity-10 leaderboard-tr fw-semibold">
-                    <td className="leaderboard-td align-middle text-center">
-                      HTML basics
-                    </td>
-                    <td className="leaderboard-td align-middle text-center">
-                      50
-                    </td>
-                    <td className="leaderboard-td align-middle text-center">
-                      0 -100
-                    </td>
-                    <td className="leaderboard-td align-middle text-center">
-                      50%
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-          <div
-            className="tab-pane fade"
-            id="v-pills-profile"
-            role="tabpanel"
-            tabIndex="0"
-          >
-            ...
-          </div>
-          <div
-            className="tab-pane fade"
-            id="v-pills-disabled"
-            role="tabpanel"
-            tabIndex="0"
-          >
-            ...
-          </div>
-          <div
-            className="tab-pane fade"
-            id="v-pills-messages"
-            role="tabpanel"
-            tabIndex="0"
-          >
-            ...
-          </div>
-          <div
-            className="tab-pane fade"
-            id="v-pills-settings"
-            role="tabpanel"
-            tabIndex="0"
-          >
-            ...
-          </div>
-        </div> */}
-      {/* </div> */}
     </div>
   );
 };

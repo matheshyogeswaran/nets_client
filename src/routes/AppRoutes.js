@@ -7,10 +7,6 @@ import { useState, createContext, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
-const API_BASE = "http://localhost:8080";
-
-export const AppContext = createContext();
-
 // Util Imports
 import RequireAuth from "../utils/RequireAuth";
 import RedirectIfLoggedIn from "../utils/RedirectIfLoggedIn";
@@ -73,16 +69,17 @@ import QuizReport from "./pages/Report/quizReport";
 import Ratings from "./pages/Report/Ratings";
 import Home from "../pages/home_pages/Home";
 
+const API_BASE = "http://localhost:1337";
+export const AppContext = createContext();
+
 const AppRoutes = () => {
   const [employee, setEmployee] = useState([]);
   const [unit, setUnit] = useState([]);
   const [chapter, setChapter] = useState([]);
-  const [quizSubmission, setQuizSubmission] = useState([]);
   useEffect(() => {
     GetUsers();
     Getunit();
     GetChapter();
-    GetQuizSubmissions();
   }, []);
 
   const GetUsers = () => {
@@ -105,12 +102,7 @@ const AppRoutes = () => {
       .then((res) => setChapter(res.data))
       .catch((error) => console.log(error));
   };
-  const GetQuizSubmissions = () => {
-    axios
-      .get(API_BASE + "/quiz_submission")
-      .then((res) => setQuizSubmission(res.data))
-      .catch((error) => console.log(error));
-  };
+
   return (
     <BrowserRouter>
       <Routes>
@@ -491,7 +483,6 @@ const AppRoutes = () => {
             employee: employee,
             unit: unit,
             chapter: chapter,
-            quizSubmission: quizSubmission,
           }}
         >
           <Route path="/" element={<Home />} />

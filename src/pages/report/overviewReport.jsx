@@ -1,12 +1,14 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Avatar from "react-avatar";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AppContext } from "../../App";
+import axios from "axios";
 
 const OverviewReport = () => {
+  const API_BASE = "http://localhost:1337";
+
   const { chapter } = useContext(AppContext);
-  const { quizSubmission } = useContext(AppContext);
-  const [totalScore, setTotalScore] = useState(0);
+  const [chapterScore, setChapterScore] = useState([]);
   const [selectedOption, setSelectedOption] = useState("Overview Report");
   const location = useLocation();
   const propsData = location.state;
@@ -23,11 +25,19 @@ const OverviewReport = () => {
     });
   };
 
+  useEffect(() => {
+    let empId = propsData?.empId;
+    axios
+      .post(API_BASE + "/overview_report/" + empId)
+      .then((res) => setChapterScore(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div className="">
       <h1 className="py-4 result-head card ps-5 ">Overview Report</h1>
       <div className="chap-name-select">
-        <div className=".emp-name-and-id d-flex py-4 ms-5">
+        <div className=".emp-name-and-id d-flex py-4 ms-5 ps-lg-5">
           <Avatar name={`${propsData?.firstName}`} round />
           <div className="d-flex flex-column ps-4">
             <h3>
@@ -68,21 +78,38 @@ const OverviewReport = () => {
           </thead>
 
           <tbody>
-            {chapter.map((chap, index) => (
-              <tr
-                key={index}
-                className=" bg-primary bg-opacity-10 leaderboard-tr fw-semibold"
-              >
-                <td className="leaderboard-td align-middle text-center">
-                  {chap.chapterName}
-                </td>
-                <td className="leaderboard-td align-middle text-center">
-                  {chap.unitsOffer.length}
-                </td>
-                <td className="leaderboard-td align-middle text-center">750</td>
-                <td className="leaderboard-td align-middle text-center">75</td>
-              </tr>
-            ))}
+            {chapter.map((chap, index) => {
+              let score = 0;
+              let unitCount = 0;
+              {
+                chapterScore.map((quiz) => {
+                  quiz.chapterId === chap._id && (score += quiz.score);
+                  chap._id === quiz.chapterId && unitCount++;
+                });
+              }
+              return (
+                unitCount !== 0 && (
+                  <tr
+                    key={index}
+                    className=" bg-primary bg-opacity-10 leaderboard-tr fw-semibold"
+                  >
+                    <td className="leaderboard-td align-middle text-center">
+                      {chap.chapterName}
+                    </td>
+                    <td className="leaderboard-td align-middle text-center">
+                      {unitCount}
+                    </td>
+
+                    <td className="leaderboard-td align-middle text-center">
+                      {score}
+                    </td>
+                    <td className="leaderboard-td align-middle text-center">
+                      {score / unitCount}
+                    </td>
+                  </tr>
+                )
+              );
+            })}
           </tbody>
         </table>
       </div>
