@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 //Sagini
 import { useState, createContext, useEffect } from "react";
 import axios from "axios";
-import "./App.css";
+import "../App.css";
 
 // Util Imports
 import RequireAuth from "../utils/RequireAuth";
@@ -54,19 +54,19 @@ import CommentSection from "../components/Comments/CommentSection";
 import AssignFinalAssignment from "../pages/final_project_assignment/AssignFinalAssignment";
 import NoInternet from "../pages/NoInternet";
 
-import Result from "./pages/Quiz/result";
-import Review from "./pages/Quiz/review";
-import Submission from "./pages/ProjSubmission/submission";
-import Evaluate from "./pages/ProjSubmission/Evaluate";
-import Feedback from "./pages/ProjSubmission/feedback";
-import LeaderBoard from "./pages/Leaderboard/leaderBoard";
-import Report from "./pages/Report/Report";
-import LeaderboardSup from "./pages/Leaderboard/LeaderboardSup";
-import ChapterReport from "./pages/Report/chapterReport";
-import OverviewReport from "./pages/Report/overviewReport";
-import QuizReportFront from "./pages/Report/quizReportFront";
-import QuizReport from "./pages/Report/quizReport";
-import Ratings from "./pages/Report/Ratings";
+import Result from "../pages/quiz/result";
+import Review from "../pages/quiz/review";
+import Submission from "../pages/projSubmission/submission";
+import Evaluate from "../pages/projSubmission/Evaluate";
+import Feedback from "../pages/projSubmission/feedback";
+import LeaderBoard from "../pages/leaderboard/leaderBoard";
+import Report from "../pages/report/Report";
+import LeaderboardSup from "../pages/leaderboard/LeaderboardSup";
+import ChapterReport from "../pages/report/chapterReport";
+import OverviewReport from "../pages/report/overviewReport";
+import QuizReportFront from "../pages/report/quizReportFront";
+import QuizReport from "../pages/report/quizReport";
+import Ratings from "../pages/report/Ratings";
 import Home from "../pages/home_pages/Home";
 
 const API_BASE = "http://localhost:1337";

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { AppContext } from "../../App";
+import { AppContext } from "../../routes/AppRoutes";
 import Avatar from "react-avatar";
 
 const Feedback = () => {

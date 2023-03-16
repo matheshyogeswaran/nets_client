@@ -1,7 +1,7 @@
 import React from "react";
 import { useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { AppContext } from "../../App";
+import { AppContext } from "../../routes/AppRoutes";
 import Search from "./../../subComponents/search";
 import axios from "axios";
 const QuizReport = () => {

@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useContext } from "react";
-import { AppContext } from "../../App";
+import { AppContext } from "../../routes/AppRoutes";
 const LeaderboardSup = () => {
   const { employee } = useContext(AppContext);
   const [scoreArr] = useState([]);

@@ -1,5 +1,5 @@
 import React from "react";
-import { AppContext } from "../../App";
+import { AppContext } from "../../routes/AppRoutes";
 import { useContext, useState } from "react";
 
 const LeaderBoard = () => {

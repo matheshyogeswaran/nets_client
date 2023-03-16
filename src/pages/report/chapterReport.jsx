@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Avatar from "react-avatar";
 import { useState, useContext, useEffect } from "react";
-import { AppContext } from "../../App";
+import { AppContext } from "../../routes/AppRoutes";
 import axios from "axios";
 
 const ChapterReport = () => {
