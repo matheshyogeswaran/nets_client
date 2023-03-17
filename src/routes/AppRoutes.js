@@ -46,7 +46,6 @@ import DirectGuidanceTickets from "../components/GuidanceTickets/DirectTickets/D
 import RequestGuidanceTickets from "../components/GuidanceTickets/RequestTickets/RequestGuidanceTickets";
 import CommentSection from "../components/Comments/CommentSection"
 import AssignFinalAssignment from '../pages/final_project_assignment/AssignFinalAssignment';
-import NoInternet from '../pages/NoInternet';
 
 const AppRoutes = () => {
   return (
