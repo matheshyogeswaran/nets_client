@@ -1,6 +1,6 @@
 // import addtowishlist from "../images/addtowishlist.png";
 // import { SocialIcon } from "react-social-icons";
-// import "../../App.css";
+import "../../App.css";
 import image5 from "../../images/12.png";
 import Employee from "../../data/Employee.json";
 
@@ -26,7 +26,7 @@ function ProfileOverview(props) {
           className="card mt-5 crud shadow-lg p-3 mb-5 mt-5 bg-body rounded "
         // style={{ backgroundColor: "rgb(199,227,244)" }}
         >
-          <div className="col d-flex justify-content-center mt-3">
+          <div class="col d-flex justify-content-center mt-3">
             <img
               src={image5}
               className="rounded-circle"
@@ -36,15 +36,15 @@ function ProfileOverview(props) {
           </div>
           <div className="card-body">
             <form>
-              <div className="row justify-content-center">
+              <div class="row justify-content-center">
                 <div className="col-md-2"></div>
-                <div className="form-group col-md-3">
-                  <label htmlFor="inputFirst name">Name</label>
+                <div class="form-group col-md-3">
+                  <label for="inputFirst name">Name</label>
                 </div>
-                <div className="form-group col-md-5">
+                <div class="form-group col-md-5">
                   <input
                     type="email"
-                    className="form-control a2"
+                    class="form-control a2"
                     id="inputEmail4"
                     value={Employee[0].name}
                     disabled={true}
@@ -52,97 +52,97 @@ function ProfileOverview(props) {
                 </div>
               </div>
 
-              <div className="row mt-2 justify-content-center">
+              <div class="row mt-2 justify-content-center">
                 <div className="col-md-2"></div>
-                <div className="form-group col-md-3">
-                  <label htmlFor="inputLastName">Jobtitle</label>
+                <div class="form-group col-md-3">
+                  <label for="inputLastName">Jobtitle</label>
                 </div>
-                <div className="form-group col-md-5">
+                <div class="form-group col-md-5">
                   <input
                     type="lastname"
-                    className="form-control a2"
+                    class="form-control a2"
                     id="inputLastname"
                     value={Employee[0].jobtitle}
                     disabled={true}
                   />
                 </div>
               </div>
-              <div className="row mt-2 justify-content-center">
+              <div class="row mt-2 justify-content-center">
                 <div className="col-md-2"></div>
-                <div className="form-group col-md-3">
-                  <label htmlFor="inputEmail4">Department</label>
+                <div class="form-group col-md-3">
+                  <label for="inputEmail4">Department</label>
                 </div>
-                <div className="form-group col-md-5">
+                <div class="form-group col-md-5">
                   <input
                     type="email"
-                    className="form-control a2"
+                    class="form-control a2"
                     id="inputEmail4"
                     value={Employee[0].department}
                     disabled={true}
                   />
                 </div>
               </div>
-              <div className="row mt-2 justify-content-center">
+              <div class="row mt-2 justify-content-center">
                 <div className="col-md-2"></div>
-                <div className="form-group col-md-3">
-                  <label htmlFor="inputEmail4">User Role</label>
+                <div class="form-group col-md-3">
+                  <label for="inputEmail4">User Role</label>
                 </div>
-                <div className="form-group col-md-5">
+                <div class="form-group col-md-5">
                   <input
                     type="email"
-                    className="form-control a2"
+                    class="form-control a2"
                     id="inputEmail4"
                     value={Employee[0].userrole}
                     disabled={true}
                   />
                 </div>
               </div>
-              <div className="row mt-2 justify-content-center">
+              <div class="row mt-2 justify-content-center">
                 <div className="col-md-2"></div>
-                <div className="form-group col-md-3">
-                  <label htmlFor="inputEmail4">Email </label>
+                <div class="form-group col-md-3">
+                  <label for="inputEmail4">Email </label>
                 </div>
-                <div className="form-group col-md-5">
+                <div class="form-group col-md-5">
                   <input
                     type="email"
-                    className="form-control a2"
+                    class="form-control a2"
                     id="inputEmail4"
                     value={Employee[0].email}
                     disabled={true}
                   />
                 </div>
               </div>
-              <div className="row mt-2 justify-content-center">
+              <div class="row mt-2 justify-content-center">
                 <div className="col-md-2"></div>
-                <div className="form-group col-md-3">
-                  <label htmlFor="inputEmail4">Phone No</label>
+                <div class="form-group col-md-3">
+                  <label for="inputEmail4">Phone No</label>
                 </div>
-                <div className="form-group col-md-5">
+                <div class="form-group col-md-5">
                   <input
                     type="email"
-                    className="form-control a2"
+                    class="form-control a2"
                     id="inputEmail4"
                     value={Employee[0].phone}
                     disabled={true}
                   />
                 </div>
               </div>
-              <div className="row mt-2 justify-content-center">
+              <div class="row mt-2 justify-content-center">
                 <div className="col-md-2"></div>
-                <div className="form-group col-md-3">
-                  <label htmlFor="inputEmail4">Date Of Birth </label>
+                <div class="form-group col-md-3">
+                  <label for="inputEmail4">Date Of Birth </label>
                 </div>
-                <div className="form-group col-md-5">
+                <div class="form-group col-md-5">
                   <input
                     type="email"
-                    className="form-control a2"
+                    class="form-control a2"
                     id="inputEmail4"
                     value={Employee[0].dob}
                     disabled={true}
                   />
                 </div>
               </div>
-              <div className="row mt-2 ">
+              <div class="row mt-2 ">
                 <div className="col-md-2"></div>
                 {/* <div className="col-md-3 mt-3">
                   <button
@@ -150,7 +150,7 @@ function ProfileOverview(props) {
                     className="btn form-control  border border-secondary "
                     style={{ background: "#ass" }}
                   >
-                    <i className="bi bi-heart" style={{ height: "50px" }}></i>
+                    <i class="bi bi-heart" style={{ height: "50px" }}></i>
                     <h6>Add to wishlist</h6>
                   </button>
                 </div> */}

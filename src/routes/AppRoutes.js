@@ -39,6 +39,7 @@ import DeleteJobtitle from "../pages/department/DeleteJobtitle";
 import AddChapter from "../pages/chapter/AddChapter";
 import EditChapter from "../pages/chapter/EditChapter";
 import DeleteChapter from "../pages/chapter/DeleteChapter";
+import DepartmentAddChapter from "../pages/chapter/DepartmentAddChapter";
 import Sample from "../pages/Sample";
 import AddReply from "../components/Forums/AddReply";
 import CreateForum from "../components/Forums/CreateForum";
@@ -383,6 +384,13 @@ const AppRoutes = () => {
                 <RequireAuth>
                   <DeleteChapter />
                 </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/newdepchap/"
+              element={
+                <DepartmentAddChapter />
               }
             />
 

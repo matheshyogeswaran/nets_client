@@ -49,10 +49,10 @@ const DeleteChapter = () => {
       <div className="columns mt-5">
         <form name="myForm" onSubmit={deletemsg}>
           <div className="field">
-            <div className="form-group">
-              <label htmlFor="reasonfield">Reason</label>
+            <div class="form-group">
+              <label for="reasonfield">Reason</label>
               <textarea
-                className="form-control"
+                class="form-control"
                 id="exampleFormControlTextarea3"
                 placeholder="Enter valid reason"
                 rows="4"

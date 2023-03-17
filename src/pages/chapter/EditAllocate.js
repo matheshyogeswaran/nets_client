@@ -10,7 +10,8 @@ const EditAllocate = () => {
     axios
       .get("http://localhost:1337/chapters/showAllChapters")
       .then(function (response) {
-        setChapter(response.data);
+        const filteredChapters = response.data.filter(chapter => chapter.depID !== null);
+        setChapter(filteredChapters);
       });
   }, []);
 
@@ -36,26 +37,26 @@ const EditAllocate = () => {
             {chaptername.map((item) => {
               return (
                 <>
-                  <div className="form-check form-switch">
+                  <div class="form-check form-switch">
                     <input
-                      className="form-check-input"
+                      class="form-check-input"
                       type="checkbox"
                       id="flexSwitchCheckDefault"
                     ></input>
                     <label
-                      className="form-check-label"
-                      htmlFor="flexSwitchCheckDefault"
+                      class="form-check-label"
+                      for="flexSwitchCheckDefault"
                     >
                       {item.chaptername}
                     </label>
                   </div>
                   {/* <tr className="align-middle">
                     <input
-                      className="form-check-input"
+                      class="form-check-input"
                       type="checkbox"
                       value=""
                     ></input>
-                    <label className="form-check-label">{item.chapter}</label>
+                    <label class="form-check-label">{item.chapter}</label>
                   </tr> */}
                 </>
               );

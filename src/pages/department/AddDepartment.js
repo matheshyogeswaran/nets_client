@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import image4 from "../../images/1.svg";
-// import "../../App.css";
+import "../../App.css";
 import swal from "sweetalert";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -39,7 +39,7 @@ const AddDepartment = () => {
       <div className="columns mt-5">
         <form name="myForm" onSubmit={submitDepartment}>
           <div className="field">
-            <label className="ml-5 createchap">Department Name</label>
+            <label class="ml-5 createchap">Department Name</label>
             <div className="control">
               <input
                 type="text"

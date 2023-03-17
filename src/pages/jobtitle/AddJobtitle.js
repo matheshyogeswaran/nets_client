@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import image4 from "../../images/1.svg";
-// import "../../App.css";
+import "../../App.css";
 import swal from "sweetalert";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -48,7 +48,7 @@ const AddJobtitle = () => {
       <div className="columns mt-5">
         <form name="myForm" onSubmit={submitJobtitle}>
           <div className="field">
-            <label className="ml-5 createchap">Jobtitle Name</label>
+            <label class="ml-5 createchap">Jobtitle Name</label>
             <div className="control">
               <input
                 type="text"
@@ -61,14 +61,14 @@ const AddJobtitle = () => {
               />
             </div>
           </div>
-          <label className="ml-5 createchap">Suitable Department</label>
+          <label class="ml-5 createchap">Suitable Department</label>
           <br></br>
           <div className="col-md-2">
             <select
               onChange={(e) => {
                 setSelectedDepartment(e.target.value);
               }}
-              className="form-select"
+              class="form-select"
               aria-label="Default select example"
             >
               <option selected>Department</option>

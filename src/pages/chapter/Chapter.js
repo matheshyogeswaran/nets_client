@@ -8,10 +8,10 @@ const Chapter = () => {
   const [chapters, setChapter] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:1337/chapters/showAllChapters")
+    axios.get("http://localhost:1337/chapters/showAllChapters")
       .then(function (response) {
-        setChapter(response.data);
+        const filteredChapters = response.data.filter(chapter => chapter.depID !== null);
+        setChapter(filteredChapters);
       });
   }, []);
 
