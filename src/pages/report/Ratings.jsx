@@ -2,10 +2,29 @@ import { useLocation } from "react-router-dom";
 import Avatar from "react-avatar";
 import { FaStar } from "react-icons/fa";
 import { useState } from "react";
+import axios from "axios";
+
 const Ratings = () => {
+  const API_BASE = "http://localhost:1337";
   const location = useLocation();
   const propsData = location.state;
-  const [overall] = useState([42, 10, 83, 43, 53]);
+  const [ktSessionRating, setKtSessionRating] = useState({});
+  const [articleRating, setArticleRating] = useState({});
+
+  useEffect(() => {
+    let empId = propsData?.empId;
+    axios
+      .post(API_BASE + "/ktsessionRatings/" + empId)
+      .then((res) => setKtSessionRating(res.data))
+      .catch((err) => console.log(err));
+    axios
+      .post(API_BASE + "/articleRatings/" + empId)
+      .then((res) => setArticleRating(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  console.log(ktSessionRating?.ratingData?.[0]);
+
   return (
     <>
       <h1 className="py-4 result-head card ps-5 mx-sm-1 ">Ratings Report</h1>
@@ -27,13 +46,20 @@ const Ratings = () => {
           <div className="d-flex">
             <div className=" w-50 mt-5 ms-lg-5 ms-md-5 ps-md-3 ms-sm-3">
               <div className="d-flex ms-3">
-                <span className="fw-bold me-1">4.5</span>
+                <span className="fw-bold">
+                  {ktSessionRating?.finalOverAllRating}
+                </span>
                 <FaStar color="orange" className="mt-1" />
               </div>
-              <h6 className="text-secondary">9 KT sessions</h6>
+              <h6 className="text-secondary mt-1">
+                {ktSessionRating?.numOfKtSessions < 10
+                  ? "0" + ktSessionRating?.numOfKtSessions
+                  : ktSessionRating?.numOfKtSessions}{" "}
+                KT sessions
+              </h6>
             </div>
             <div className="d-flex flex-column w-100">
-              {overall.map((rate, index) => {
+              {ktSessionRating?.overAllRatingData?.map((rate, index) => {
                 return (
                   <div key={index} className="d-flex flex-row w-100 my-1">
                     <span>{index + 1} star</span>
@@ -52,7 +78,7 @@ const Ratings = () => {
           </div>
         </div>
 
-        {/*  */}
+        {/*KT sessions    */}
         <div className="col col-11 col-lg-5 specific-chapter p-3 mx-4 mx-lg-0">
           <div
             id="carouselExampleDark"
@@ -60,170 +86,95 @@ const Ratings = () => {
             data-bs-ride="carousel"
           >
             <div className="carousel-indicators">
-              <button
-                type="button"
-                data-bs-target="#carouselExampleDark"
-                data-bs-slide-to="0"
-                className="active"
-                aria-current="true"
-                aria-label="Slide 1"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#carouselExampleDark"
-                data-bs-slide-to="1"
-                aria-label="Slide 2"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#carouselExampleDark"
-                data-bs-slide-to="2"
-                aria-label="Slide 3"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#carouselExampleDark"
-                data-bs-slide-to="3"
-                aria-label="Slide 4"
-              ></button>
+              {[
+                ktSessionRating?.finaOverAllQuality,
+                ktSessionRating?.finalOverAllComm,
+                ktSessionRating?.finaOverAllClarity,
+                ktSessionRating?.finalOverAllKnowledgeAndSkill,
+              ].map((ratingCriteria, index) => (
+                <button
+                  type="button"
+                  data-bs-target="#carouselExampleDark"
+                  data-bs-slide-to={index}
+                  className={index == 0 ? "active" : ""}
+                  aria-current={index == 0 ? "true" : ""}
+                  aria-label={`Slide ${index + 1}`}
+                ></button>
+              ))}
             </div>
             <div className="carousel-inner">
-              <div className="carousel-item active" data-bs-interval="10000">
-                <div className="rating-type ">
-                  <h5 className="mt-3">Quality Rate</h5>
-                  <div className="d-flex">
-                    <div className=" w-50 mt-5 ms-lg-5 ms-md-5 ps-md-3 ms-sm-5">
-                      <div className="d-flex ms-3">
-                        <span className="fw-bold me-1">4.5</span>
-                        <FaStar color="orange" className="mt-1" />
-                      </div>
-                      <h6 className="text-secondary">9 KT sessions</h6>
-                    </div>
-                    <div className="d-flex flex-column w-100">
-                      {overall.map((rate, index) => {
-                        return (
-                          <div
-                            key={index}
-                            className="d-flex flex-row w-100 my-1"
-                          >
-                            <span>{index + 1} star</span>
-                            <span className="progress w-50 mx-2">
-                              <span
-                                className="progress-bar"
-                                style={{ width: `${rate}%` }}
-                                role="progressbar"
-                              ></span>
+              {[
+                ktSessionRating?.finalOverAllQuality,
+                ktSessionRating?.finalOverAllComm,
+                ktSessionRating?.finalOverAllClarity,
+                ktSessionRating?.finalOverAllKnowledgeAndSkill,
+              ].map((ratingCriteria, index) => {
+                const selectedRatingData =
+                  index === 0
+                    ? ktSessionRating?.ratingData?.[0]
+                    : index === 1
+                    ? ktSessionRating?.ratingData?.[1]
+                    : index === 2
+                    ? ktSessionRating?.ratingData?.[2]
+                    : index === 3
+                    ? ktSessionRating?.ratingData?.[3]
+                    : [];
+                return (
+                  <div
+                    key={index}
+                    className={
+                      index == 0 ? "carousel-item active" : "carousel-item"
+                    }
+                    data-bs-interval={index == 0 ? "10000" : "2000"}
+                  >
+                    <div className="rating-type ">
+                      <h5 className="mt-3">
+                        {index == 0
+                          ? "Quality Rate"
+                          : index == 1
+                          ? "Communication Rate"
+                          : index == 2
+                          ? "Clarity Rate"
+                          : "Knowledge and Skill Rate"}
+                      </h5>
+                      <div className="d-flex">
+                        <div className=" w-50 mt-5 ms-lg-5 ms-md-5 ps-md-3 ms-sm-5">
+                          <div className="d-flex ms-3">
+                            <span className="fw-bold me-1">
+                              {ratingCriteria}
                             </span>
-                            <span>{rate}%</span>
+                            <FaStar color="orange" className="mt-1" />
                           </div>
-                        );
-                      })}
+                          <h6 className="text-secondary mt-1">
+                            {ktSessionRating?.numOfKtSessions < 10
+                              ? "0" + ktSessionRating?.numOfKtSessions
+                              : ktSessionRating?.numOfKtSessions}{" "}
+                            KT sessions
+                          </h6>
+                        </div>
+                        <div className="d-flex flex-column w-100">
+                          {selectedRatingData?.map((rate, indexi) => (
+                            <div
+                              key={indexi}
+                              className="d-flex flex-row w-100 my-1"
+                            >
+                              <span>{indexi + 1} star</span>
+                              <span className="progress w-50 mx-2">
+                                <span
+                                  className="progress-bar"
+                                  style={{ width: `${rate}%` }}
+                                  role="progressbar"
+                                ></span>
+                              </span>
+                              <span>{rate}%</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="carousel-item" data-bs-interval="2000">
-                <div className="rating-type">
-                  <h5 className="mt-3">Communication Rate</h5>
-                  <div className="d-flex">
-                    <div className=" w-50 mt-5 ms-lg-5 ps-lg-3 ms-lg-5 ms-md-5 ps-md-3 ms-sm-5">
-                      <div className="d-flex ms-3">
-                        <span className="fw-bold me-1">4.5</span>
-                        <FaStar color="orange" className="mt-1" />
-                      </div>
-                      <h6 className="text-secondary">9 KT sessions</h6>
-                    </div>
-                    <div className="d-flex flex-column w-100">
-                      {overall.map((rate, index) => {
-                        return (
-                          <div
-                            key={index}
-                            className="d-flex flex-row w-100 my-1"
-                          >
-                            <span>{index + 1} star</span>
-                            <span className="progress w-50 mx-2">
-                              <span
-                                className="progress-bar"
-                                style={{ width: `${rate}%` }}
-                                role="progressbar"
-                              ></span>
-                            </span>
-                            <span>{rate}%</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="carousel-item" data-bs-interval="2000">
-                <div className="rating-type">
-                  <h5 className="mt-3">Clarity Rate</h5>
-                  <div className="d-flex">
-                    <div className=" w-50 mt-5 ms-lg-5 ps-lg-3 ms-lg-5 ms-md-5 ps-md-3 ms-sm-5">
-                      <div className="d-flex ms-3">
-                        <span className="fw-bold me-1">4.5</span>
-                        <FaStar color="orange" className="mt-1" />
-                      </div>
-                      <h6 className="text-secondary">9 KT sessions</h6>
-                    </div>
-                    <div className="d-flex flex-column w-100">
-                      {overall.map((rate, index) => {
-                        return (
-                          <div
-                            key={index}
-                            className="d-flex flex-row w-100 my-1"
-                          >
-                            <span>{index + 1} star</span>
-                            <span className="progress w-50 mx-2">
-                              <span
-                                className="progress-bar"
-                                style={{ width: `${rate}%` }}
-                                role="progressbar"
-                              ></span>
-                            </span>
-                            <span>{rate}%</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <div className="rating-type">
-                  <h5 className="mt-3">Knowledge and Skill Rate</h5>
-                  <div className="d-flex">
-                    <div className=" w-50 mt-5 ms-lg-5 ps-lg-3 ms-lg-5 ms-md-5 ps-md-3 ms-sm-5">
-                      <div className="d-flex ms-3">
-                        <span className="fw-bold me-1">4.5</span>
-                        <FaStar color="orange" className="mt-1" />
-                      </div>
-                      <h6 className="text-secondary">9 KT sessions</h6>
-                    </div>
-                    <div className="d-flex flex-column w-100">
-                      {overall.map((rate, index) => {
-                        return (
-                          <div
-                            key={index}
-                            className="d-flex flex-row w-100 my-1"
-                          >
-                            <span>{index + 1} star</span>
-                            <span className="progress w-50 mx-2">
-                              <span
-                                className="progress-bar"
-                                style={{ width: `${rate}%` }}
-                                role="progressbar"
-                              ></span>
-                            </span>
-                            <span>{rate}%</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </div>
+                );
+              })}
             </div>
             <button
               className="carousel-control-prev "
@@ -252,20 +203,27 @@ const Ratings = () => {
           </div>
         </div>
       </div>
-      {/* React */}
+      {/* Articles */}
       <div className="row g-3 justify-content-evenly m-0">
         <div className="col col-11 col-lg-5 overall-chapter p-3 mx-4 mx-lg-0">
           <h5 className="mt-3">Articles</h5>
           <div className="d-flex">
             <div className=" w-50 mt-5 ms-lg-5 ms-md-5 ps-md-3 ms-sm-3">
               <div className="d-flex ms-3">
-                <span className="fw-bold me-1">2.9</span>
+                <span className="fw-bold me-1">
+                  {articleRating?.finalOverAllRating}
+                </span>
                 <FaStar color="orange" className="mt-1" />
               </div>
-              <h6 className="text-secondary">9 articles</h6>
+              <h6 className="text-secondary">
+                {articleRating?.numOfArticles < 10
+                  ? "0" + articleRating?.numOfArticles
+                  : articleRating?.numOfArticles}{" "}
+                Articles
+              </h6>
             </div>
             <div className="d-flex flex-column w-100">
-              {overall.map((rate, index) => {
+              {articleRating?.overAllRatingData?.map((rate, index) => {
                 return (
                   <div key={index} className="d-flex flex-row w-100 my-1">
                     <span>{index + 1} star</span>
@@ -285,182 +243,112 @@ const Ratings = () => {
         </div>
 
         {/*  */}
-        <div className="col col-11 col-lg-5 specific-chapter p-3 mx-4 mx-lg-0">
+        <div
+          div
+          className="col col-11 col-lg-5 specific-chapter p-3 mx-4 mx-lg-0"
+        >
           <div
-            id="carouselExampleLight"
+            id="articles"
             className="carousel carousel-dark slide "
             data-bs-ride="carousel"
           >
             <div className="carousel-indicators">
-              <button
-                type="button"
-                data-bs-target="#carouselExampleLight"
-                data-bs-slide-to="0"
-                className="active"
-                aria-current="true"
-                aria-label="Slide 1"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#carouselExampleLight"
-                data-bs-slide-to="1"
-                aria-label="Slide 2"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#carouselExampleLight"
-                data-bs-slide-to="2"
-                aria-label="Slide 3"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#carouselExampleLight"
-                data-bs-slide-to="3"
-                aria-label="Slide 4"
-              ></button>
+              {[
+                articleRating?.finaOverAllQuality,
+                articleRating?.finalOverAllComm,
+                articleRating?.finaOverAllClarity,
+                articleRating?.finalOverAllKnowledgeAndSkill,
+              ].map((ratingCriteria, index) => (
+                <button
+                  type="button"
+                  data-bs-target="#articles"
+                  data-bs-slide-to={index}
+                  className={index == 0 ? "active" : ""}
+                  aria-current={index == 0 ? "true" : ""}
+                  aria-label={`Slide ${index + 1}`}
+                ></button>
+              ))}
             </div>
             <div className="carousel-inner">
-              <div className="carousel-item active" data-bs-interval="10000">
-                <div className="rating-type ">
-                  <h5 className="mt-3">Quality Rate</h5>
-                  <div className="d-flex">
-                    <div className=" w-50 mt-5 ms-lg-5 ms-md-5 ps-md-3 ms-sm-5">
-                      <div className="d-flex ms-3">
-                        <span className="fw-bold me-1">4.0</span>
-                        <FaStar color="orange" className="mt-1" />
-                      </div>
-                      <h6 className="text-secondary">9 articles</h6>
-                    </div>
-                    <div className="d-flex flex-column w-100">
-                      {overall.map((rate, index) => {
-                        return (
-                          <div
-                            key={index}
-                            className="d-flex flex-row w-100 my-1"
-                          >
-                            <span>{index + 1} star</span>
-                            <span className="progress w-50 mx-2">
-                              <span
-                                className="progress-bar"
-                                style={{ width: `${rate}%` }}
-                                role="progressbar"
-                              ></span>
+              {[
+                articleRating?.finalOverAllQuality,
+                articleRating?.finalOverAllComm,
+                articleRating?.finalOverAllClarity,
+                articleRating?.finalOverAllKnowledgeAndSkill,
+              ].map((ratingCriteria, index) => {
+                const selectedRatingData =
+                  index === 0
+                    ? articleRating?.ratingData?.[0]
+                    : index === 1
+                    ? articleRating?.ratingData?.[1]
+                    : index === 2
+                    ? articleRating?.ratingData?.[2]
+                    : index === 3
+                    ? articleRating?.ratingData?.[3]
+                    : [];
+                return (
+                  <div
+                    key={index}
+                    className={
+                      index == 0 ? "carousel-item active" : "carousel-item"
+                    }
+                    data-bs-interval={index == 0 ? "10000" : "2000"}
+                  >
+                    <div className="rating-type ">
+                      <h5 className="mt-3">
+                        {index == 0
+                          ? "Quality Rate"
+                          : index == 1
+                          ? "Communication Rate"
+                          : index == 2
+                          ? "Clarity Rate"
+                          : "Knowledge and Skill Rate"}
+                      </h5>
+                      <div className="d-flex">
+                        <div className=" w-50 mt-5 ms-lg-5 ms-md-5 ps-md-3 ms-sm-5">
+                          <div className="d-flex ms-3">
+                            <span className="fw-bold me-1">
+                              {ratingCriteria}
                             </span>
-                            <span>{rate}%</span>
+                            <FaStar color="orange" className="mt-1" />
                           </div>
-                        );
-                      })}
+                          <h6 className="text-secondary mt-1">
+                            {articleRating?.numOfArticles < 10
+                              ? "0" + articleRating?.numOfArticles
+                              : articleRating?.numOfArticles}{" "}
+                            Articles
+                          </h6>
+                        </div>
+                        <div className="d-flex flex-column w-100">
+                          {selectedRatingData?.map((rate, indexi) => {
+                            return (
+                              <div
+                                key={indexi}
+                                className="d-flex flex-row w-100 my-1"
+                              >
+                                <span>{indexi + 1} star</span>
+                                <span className="progress w-50 mx-2">
+                                  <span
+                                    className="progress-bar"
+                                    style={{ width: `${rate}%` }}
+                                    role="progressbar"
+                                  ></span>
+                                </span>
+                                <span>{rate}%</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="carousel-item" data-bs-interval="2000">
-                <div className="rating-type">
-                  <h5 className="mt-3">Communication Rate</h5>
-                  <div className="d-flex">
-                    <div className=" w-50 mt-5 ms-lg-5 ps-lg-3 ms-lg-5 ms-md-5 ps-md-3 ms-sm-5">
-                      <div className="d-flex ms-3">
-                        <span className="fw-bold me-1">3.2</span>
-                        <FaStar color="orange" className="mt-1" />
-                      </div>
-                      <h6 className="text-secondary">9 articles</h6>
-                    </div>
-                    <div className="d-flex flex-column w-100">
-                      {overall.map((rate, index) => {
-                        return (
-                          <div
-                            key={index}
-                            className="d-flex flex-row w-100 my-1"
-                          >
-                            <span>{index + 1} star</span>
-                            <span className="progress w-50 mx-2">
-                              <span
-                                className="progress-bar"
-                                style={{ width: `${rate}%` }}
-                                role="progressbar"
-                              ></span>
-                            </span>
-                            <span>{rate}%</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="carousel-item" data-bs-interval="2000">
-                <div className="rating-type">
-                  <h5 className="mt-3">Clarity Rate</h5>
-                  <div className="d-flex">
-                    <div className=" w-50 mt-5 ms-lg-5 ps-lg-3 ms-lg-5 ms-md-5 ps-md-3 ms-sm-5">
-                      <div className="d-flex ms-3">
-                        <span className="fw-bold me-1">4.5</span>
-                        <FaStar color="orange" className="mt-1" />
-                      </div>
-                      <h6 className="text-secondary">9 articles</h6>
-                    </div>
-                    <div className="d-flex flex-column w-100">
-                      {overall.map((rate, index) => {
-                        return (
-                          <div
-                            key={index}
-                            className="d-flex flex-row w-100 my-1"
-                          >
-                            <span>{index + 1} star</span>
-                            <span className="progress w-50 mx-2">
-                              <span
-                                className="progress-bar"
-                                style={{ width: `${rate}%` }}
-                                role="progressbar"
-                              ></span>
-                            </span>
-                            <span>{rate}%</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <div className="rating-type">
-                  <h5 className="mt-3">Knowledge and Skill Rate</h5>
-                  <div className="d-flex">
-                    <div className=" w-50 mt-5 ms-lg-5 ps-lg-3 ms-lg-5 ms-md-5 ps-md-3 ms-sm-5">
-                      <div className="d-flex ms-3">
-                        <span className="fw-bold me-1">4.5</span>
-                        <FaStar color="orange" className="mt-1" />
-                      </div>
-                      <h6 className="text-secondary">9 articles</h6>
-                    </div>
-                    <div className="d-flex flex-column w-100">
-                      {overall.map((rate, index) => {
-                        return (
-                          <div
-                            key={index}
-                            className="d-flex flex-row w-100 my-1"
-                          >
-                            <span>{index + 1} star</span>
-                            <span className="progress w-50 mx-2">
-                              <span
-                                className="progress-bar"
-                                style={{ width: `${rate}%` }}
-                                role="progressbar"
-                              ></span>
-                            </span>
-                            <span>{rate}%</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </div>
+                );
+              })}
             </div>
             <button
               className="carousel-control-prev "
               type="button"
-              data-bs-target="#carouselExampleLight"
+              data-bs-target="#articles"
               data-bs-slide="prev"
             >
               <span
@@ -472,7 +360,7 @@ const Ratings = () => {
             <button
               className="carousel-control-next"
               type="button"
-              data-bs-target="#carouselExampleLight"
+              data-bs-target="#articles"
               data-bs-slide="next"
             >
               <span
