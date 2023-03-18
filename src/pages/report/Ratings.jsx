@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import Avatar from "react-avatar";
 import { FaStar } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 const Ratings = () => {
