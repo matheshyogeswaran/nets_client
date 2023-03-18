@@ -11,7 +11,7 @@ import jwt_decode from "jwt-decode";
 import { useLocation, useNavigate } from "react-router-dom";
 import image1 from "../../images/employee.png"
 import image2 from "../../images/employeegroup.webp"
-
+import swal from 'sweetalert'
 const GoogleLogin = () => {
     // purpose of this code is to navigate user to entered required URL before login
     // After successful login, the user will be redirected to the required page
@@ -31,7 +31,7 @@ const GoogleLogin = () => {
     const [googleLoginDecodedValues, setGoogleLoginDecodedValues] = useState();
     //function to handle google login response
     const handleGoogle = async (response) => {
-        // console.log(response)
+        console.log(response)
         setGoogleLoginDecodedValues(jwt_decode(response.credential));
         fetch("http://localhost:1337/authentication/login", {
             method: "POST",
@@ -42,6 +42,9 @@ const GoogleLogin = () => {
         }).then((data) => {
             // console.log("From Line 42" + JSON.stringify(data))
             setLoginData(data);
+            if(data.status===false){
+                swal("Welcome to NETS !", data.message, "info")
+            }
         }).catch((error) => {
             console.log(error)
             // console.log(error?.message);
@@ -56,7 +59,7 @@ const GoogleLogin = () => {
             // console.log(loginData);
             axios.post('http://localhost:1337/users/isUserAvailable', { email: loginData?.user?.email })
                 .then((res) => {
-                    // console.log("User Availability: " + res.data.status)
+                    console.log("User Availability: " + JSON.stringify(res.data))
                     if (res.data.status === true) {
                         localStorage.setItem("user", JSON.stringify(loginData?.user));
                         navigate(redirectPath, { replace: true });

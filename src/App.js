@@ -7,4 +7,4 @@ function App() {
     <AppRoutes></AppRoutes>
   );
 }
-export default App;
+export default App
