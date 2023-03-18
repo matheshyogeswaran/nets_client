@@ -106,9 +106,7 @@ const AppRoutes = () => {
       <AppContext.Provider value={{ employee: employee, unit: unit, chapter: chapter, }}>
         <BrowserRouter>
           <Routes>
-            <Route
-              exact
-              path="/"
+            <Route exact path="/"
               element={
                 <RedirectIfLoggedIn>
                   <GoogleLogin />
@@ -309,9 +307,9 @@ const AppRoutes = () => {
               exact
               path="/newdep/"
               element={
-                <RequireAuth>
+                // <RequireAuth>
                   <AddDepartment />
-                </RequireAuth>
+                // </RequireAuth>
               }
             />
             <Route
@@ -336,9 +334,7 @@ const AppRoutes = () => {
               exact
               path="/newjob/"
               element={
-                <RequireAuth>
                   <AddJobtitle />
-                </RequireAuth>
               }
             />
             <Route

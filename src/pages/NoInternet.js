@@ -24,9 +24,9 @@ const NoInternet = (props) => {
     } else {
         return (
             <>
-                <div class="d-flex justify-content-center mt-5">
-                    <button class="btn btn-light btn-lg border border-dark" type="button" disabled>
-                        {/* <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> */}
+                <div className="d-flex justify-content-center mt-5">
+                    <button className="btn btn-light btn-lg border border-dark" type="button" disabled>
+                        {/* <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> */}
                         No Internet ! 
                     </button>
                 </div>

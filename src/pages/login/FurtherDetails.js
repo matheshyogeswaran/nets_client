@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import swal from 'sweetalert'
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,21 @@ const FurtherDetails = (props) => {
     const [email] = useState(props.userData.email);
     const [department, setDepartment] = useState();
     const [jobTitle, setJobTitle] = useState();
+
+    const [availableDepartments, setAvailableDepartments] = useState([]);
+    const [availableJobTitles, setAvailableJobTitles] = useState([]);
+    useEffect(() => {
+        axios
+            .get("http://localhost:1337/departments/showAllDepartments")
+            .then(function (response) {
+                setAvailableDepartments(response.data);
+            });
+        axios
+            .get("http://localhost:1337/jobtitles/showAllJobtitles")
+            .then(function (response) {
+                setAvailableJobTitles(response.data);
+            });
+    }, [])
     const submitFurtherDetails = (e) => {
         e.preventDefault();
         const postData = {
@@ -160,10 +175,13 @@ const FurtherDetails = (props) => {
                                     <div className="form-floating mb-3">
                                         <select id="dep" required className="form-control" onChange={e => setDepartment(e.target.value)}>
                                             <option selected value="" disabled>Select Department</option>
-                                            <option value="IT">IT</option>
-                                            <option value="HR">HR</option>
-                                            <option value="ABC">Abc</option>
-                                            <option value="XYZ">Xyz</option>
+                                            {
+                                                availableDepartments.map((e) => {
+                                                    return (
+                                                        <option value={e._id}>{e.depName}</option>
+                                                    )
+                                                })
+                                            }
                                         </select>
                                         <label htmlFor="dep">Select your department</label>
                                     </div>
@@ -173,10 +191,13 @@ const FurtherDetails = (props) => {
                                     <div className="form-floating mb-3">
                                         <select id="jt" required className="form-control" onChange={e => setJobTitle(e.target.value)}>
                                             <option selected value="" disabled>Select Job Title</option>
-                                            <option value="Intern SE">Intern Software Engineer</option>
-                                            <option value="Assistant Manager">Assistant Manager</option>
-                                            <option value="Job Abc">Abc</option>
-                                            <option value="Job Xyz">Xyz</option>
+                                            {
+                                                availableJobTitles.map((e) => {
+                                                    return (
+                                                        <option value={e._id}>{e.jobTitlename}</option>
+                                                    )
+                                                })
+                                            }
                                         </select>
                                         <label htmlFor="jt">Select your job title</label>
                                     </div>
