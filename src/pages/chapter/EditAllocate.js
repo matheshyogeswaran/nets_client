@@ -6,6 +6,8 @@ import axios from "axios";
 
 const EditAllocate = () => {
   const [chaptername, setChapter] = useState([]);
+  const [checked, setChecked] = useState({});
+
   useEffect(() => {
     axios
       .get("http://localhost:1337/chapters/showAllChapters")
@@ -14,6 +16,13 @@ const EditAllocate = () => {
         setChapter(filteredChapters);
       });
   }, []);
+
+  const handleCheck = (event) => {
+    setChecked({
+      ...checked,
+      [event.target.id]: event.target.checked,
+    });
+  };
 
   return (
     <React.Fragment>
@@ -24,54 +33,37 @@ const EditAllocate = () => {
         </div>
         <br></br> <br></br>
         <table className="table">
-          {/* <thead>
-              <tr>
-                <th scope="col">Job title</th>
-  
-                <th scope="col">
-                  <center>Actions</center>
-                </th>
-              </tr>
-            </thead> */}
           <tbody>
             {chaptername.map((item) => {
               return (
-                <>
-                  <div class="form-check form-switch">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      id="flexSwitchCheckDefault"
-                    ></input>
-                    <label
-                      class="form-check-label"
-                      for="flexSwitchCheckDefault"
-                    >
-                      {item.chaptername}
-                    </label>
-                  </div>
-                  {/* <tr className="align-middle">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      value=""
-                    ></input>
-                    <label class="form-check-label">{item.chapter}</label>
-                  </tr> */}
-                </>
+                <div key={item.id} className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id={item.id}
+                    checked={checked[item.id]}
+                    onChange={handleCheck}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor={item.id}
+                  >
+                    {item.chaptername}
+                  </label>
+                </div>
               );
             })}
             <input
               type="submit"
               className="btn btn-primary"
               value="Edit Allocated chapter"
-            ></input>{" "}
+            />{" "}
             &nbsp;
             <input
               type="reset"
               className="btn btn-warning"
               value="Reset"
-            ></input>
+            />
           </tbody>
         </table>
       </div>
@@ -79,6 +71,3 @@ const EditAllocate = () => {
   );
 };
 export default EditAllocate;
-
-
-

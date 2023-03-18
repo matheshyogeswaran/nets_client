@@ -102,19 +102,21 @@ import image4 from "../../images/1.svg";
 import "../../App.css";
 import swal from "sweetalert";
 import { Link } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 import axios from "axios";
 
 const DepartmentAddChapter = () => {
+    const deptID = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.department;
     const [chaptername, setChapterName] = useState("");
-    const [departments, setDepartment] = useState([]);
+    // const [departments, setDepartment] = useState([]);
     const [selectedDepartment, setSelectedDepartment] = useState();
-    useEffect(() => {
-        axios
-            .get("http://localhost:1337/departments/showAllDepartments")
-            .then(function (response) {
-                setDepartment(response.data);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios
+    //         .get("http://localhost:1337/departments/showAllDepartments")
+    //         .then(function (response) {
+    //             setDepartment(response.data);
+    //         });
+    // }, []);
     function submitChapter(e) {
         e.preventDefault();
         axios
@@ -171,9 +173,8 @@ const DepartmentAddChapter = () => {
                         >
                             <option>Department</option>
                             {
-                                departments.find(item => item._id === '6406ec2710f934870495ebed') &&
                                 <option value='6406ec2710f934870495ebed'>
-                                    {departments.find(item => item._id === '6406ec2710f934870495ebed').depName}
+                                    {deptID}
                                 </option>
                             }
                         </select>
@@ -188,7 +189,7 @@ const DepartmentAddChapter = () => {
                         </button>
                     </div>
                     <div>
-                        <img src={image4} draggable={false} alt="this is image" />
+                        <img src={image4} className="picside" draggable={false} alt="this is image" />
                     </div>
                     <div className="field"></div>
                 </form>

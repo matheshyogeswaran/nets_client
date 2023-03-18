@@ -84,7 +84,7 @@ const EditJobtitle = () => {
           </div>
 
           <div>
-            <img src={image1} draggable={false} alt="this is image" />
+            <img src={image1} className="picside" draggable={false} alt="this is image" />
           </div>
           <div className="field"></div>
         </form>
