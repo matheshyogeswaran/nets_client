@@ -85,11 +85,11 @@ const EnrollRequestEmployee = () => {
             {
               chapters.map((value) => {
                 return (
-                  (value?.depID._id !== "6406ec4210f934870495ebf1")
+                  (value?.depID._id !== jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.department)
                     ?
                     <div className="row m-2">
                       <div className="col-md-6">
-                        <div className="form-control">{value?.chaptername}</div>
+                        <div className="form-control">{value?.chapterName}</div>
                       </div>
                       <div className="col-md-4">
                         <div className="form-control">
