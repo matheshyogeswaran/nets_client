@@ -75,7 +75,7 @@ const DeleteChapter = () => {
           </div>
 
           <div>
-            <img src={image3} draggable={false} alt="this is image" />
+            <img src={image3} className="picside" draggable={false} alt="this is image" />
           </div>
           <div className="field"></div>
         </form>

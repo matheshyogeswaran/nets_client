@@ -3,8 +3,11 @@
 import "../../App.css";
 import image5 from "../../images/12.png";
 import Employee from "../../data/Employee.json";
+import jwt_decode from "jwt-decode";
 
 function ProfileOverview(props) {
+  const data = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
+  console.log(jwt_decode(JSON.parse(localStorage.getItem("user")).token));
   return (
     <div className="row justify-content-center ">
       <div
@@ -46,7 +49,7 @@ function ProfileOverview(props) {
                     type="email"
                     class="form-control a2"
                     id="inputEmail4"
-                    value={Employee[0].name}
+                    value={data.firstName}
                     disabled={true}
                   />
                 </div>
@@ -62,7 +65,7 @@ function ProfileOverview(props) {
                     type="lastname"
                     class="form-control a2"
                     id="inputLastname"
-                    value={Employee[0].jobtitle}
+                    value={data.jobPosition}
                     disabled={true}
                   />
                 </div>
@@ -77,7 +80,7 @@ function ProfileOverview(props) {
                     type="email"
                     class="form-control a2"
                     id="inputEmail4"
-                    value={Employee[0].department}
+                    value={data.department}
                     disabled={true}
                   />
                 </div>
@@ -92,7 +95,7 @@ function ProfileOverview(props) {
                     type="email"
                     class="form-control a2"
                     id="inputEmail4"
-                    value={Employee[0].userrole}
+                    value={data.userRole}
                     disabled={true}
                   />
                 </div>
@@ -107,7 +110,7 @@ function ProfileOverview(props) {
                     type="email"
                     class="form-control a2"
                     id="inputEmail4"
-                    value={Employee[0].email}
+                    value={data.emailAddress}
                     disabled={true}
                   />
                 </div>
@@ -122,7 +125,7 @@ function ProfileOverview(props) {
                     type="email"
                     class="form-control a2"
                     id="inputEmail4"
-                    value={Employee[0].phone}
+                    value={data.phoneNumber}
                     disabled={true}
                   />
                 </div>
@@ -137,7 +140,7 @@ function ProfileOverview(props) {
                     type="email"
                     class="form-control a2"
                     id="inputEmail4"
-                    value={Employee[0].dob}
+                    value={data.dob}
                     disabled={true}
                   />
                 </div>

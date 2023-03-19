@@ -87,7 +87,7 @@ const AddJobtitle = () => {
             </button>
           </div>
           <div>
-            <img src={image4} draggable={false} alt="this is image" />
+            <img src={image4} className="picside" draggable={false} alt="this is image" />
           </div>
           <div className="field"></div>
         </form>
