@@ -2,12 +2,10 @@
 // import { SocialIcon } from "react-social-icons";
 import "../../App.css";
 import image5 from "../../images/12.png";
-import Employee from "../../data/Employee.json";
 import jwt_decode from "jwt-decode";
 
 function ProfileOverview(props) {
   const data = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
-  console.log(jwt_decode(JSON.parse(localStorage.getItem("user")).token));
   return (
     <div className="row justify-content-center ">
       <div

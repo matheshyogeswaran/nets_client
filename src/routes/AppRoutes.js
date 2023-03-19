@@ -287,7 +287,7 @@ const AppRoutes = () => {
             />
             <Route
               exact
-              path="/enrollrequestsupervisor/"
+              path="/enrollrequestsupervisor"
               element={
                 <RequireAuth>
                   <EnrollRequestSupervisor />
@@ -308,7 +308,7 @@ const AppRoutes = () => {
               path="/newdep/"
               element={
                 // <RequireAuth>
-                  <AddDepartment />
+                <AddDepartment />
                 // </RequireAuth>
               }
             />
@@ -334,7 +334,7 @@ const AppRoutes = () => {
               exact
               path="/newjob/"
               element={
-                  <AddJobtitle />
+                <AddJobtitle />
               }
             />
             <Route

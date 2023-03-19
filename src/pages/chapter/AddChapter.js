@@ -1,6 +1,6 @@
 
 
-
+import jwt_decode from "jwt-decode";
 import React, { useState, useEffect } from "react";
 import image4 from "../../images/1.svg";
 import "../../App.css";
@@ -25,6 +25,7 @@ const AddChapter = () => {
       .post("http://localhost:1337/chapters/addChapter", {
         chapterName: chaptername,
         depID: selectedDepartment,
+        userID: jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.emailAddress
       })
       .then((res) => {
         if (res.data.status === true) {

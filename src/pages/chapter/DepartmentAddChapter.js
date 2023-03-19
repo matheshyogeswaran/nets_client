@@ -10,7 +10,6 @@ import axios from "axios";
 const DepartmentAddChapter = () => {
     const deptID = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.department;
     const [chaptername, setChapterName] = useState("");
-
     const [selectedDepartment, setSelectedDepartment] = useState();
     const [departments, setDepartments] = useState([]);
     useEffect(() => {
@@ -24,7 +23,7 @@ const DepartmentAddChapter = () => {
     }, []);
 
     const selectedDepartmentName = departments.find(department => department._id === deptID)?.depName;
-    console.log(selectedDepartmentName);
+    // console.log(selectedDepartmentName);
 
     function submitChapter(e) {
         e.preventDefault();
@@ -32,6 +31,7 @@ const DepartmentAddChapter = () => {
             .post("http://localhost:1337/chapters/addChapter", {
                 chapterName: chaptername,
                 depID: selectedDepartment,
+                userID: jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.emailAddress
             })
             .then((res) => {
                 if (res.data.status === true) {
