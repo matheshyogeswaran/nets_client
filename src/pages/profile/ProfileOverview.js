@@ -7,6 +7,7 @@ import jwt_decode from "jwt-decode";
 
 function ProfileOverview(props) {
   const data = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
+  console.log(jwt_decode(JSON.parse(localStorage.getItem("user")).token));
   return (
     <div className="row justify-content-center ">
       <div
