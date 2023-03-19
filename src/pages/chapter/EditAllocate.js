@@ -48,7 +48,7 @@ const EditAllocate = () => {
                     className="form-check-label"
                     htmlFor={item.id}
                   >
-                    {item.chaptername}
+                    {item.chapterName}
                   </label>
                 </div>
               );

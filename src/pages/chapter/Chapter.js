@@ -50,11 +50,11 @@ const Chapter = () => {
                 <tr className="align-middle" key={item._id}>
                   <th scope="row">{item._id}</th>
 
-                  <td>{item.chaptername}</td>
+                  <td>{item.chapterName}</td>
 
                   <td>
                     <Link
-                      to={"/editchap/" + item._id + "/" + item.chaptername}
+                      to={"/editchap/" + item._id + "/" + item.chapterName}
                       className="btn btn-outline-primary form-control"
                     >
                       Edit

@@ -69,9 +69,9 @@ const ViewChapter = () => {
             {filteredChapters.map((chapter) => (
               <tr className="align-middle" key={chapter._id}>
                 <th scope="row">{chapter._id}</th>
-                <td>{chapter.chaptername}</td>
+                <td>{chapter.chapterName}</td>
                 <td>{chapter.depID?.depName}</td>
-                <td>{chapter.createdBy}</td>
+                <td>{chapter.createdBy?.firstName}</td>
               </tr>
             ))}
           </tbody>
