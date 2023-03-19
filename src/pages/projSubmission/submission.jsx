@@ -37,7 +37,7 @@ const Submission = () => {
                 <td></td>
                 {/* <td>{emp.date}</td> */}
                 <td>
-                  React {/* <i class="uil uil-folder-download"></i> */}
+                  React {/* <i className="uil uil-folder-download"></i> */}
                   {downloadIcon == emp.empId && (
                     <UilFolderDownload
                       color="#0198E1"

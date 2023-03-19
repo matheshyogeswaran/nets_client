@@ -51,10 +51,10 @@ const DeleteDepartment = () => {
       <div className="columns mt-5">
         <form name="myForm" onSubmit={deletemsg}>
           <div className="field">
-            <div class="form-group">
+            <div className="form-group">
               <label for="reasonfield">Reason</label>
               <textarea
-                class="form-control"
+                className="form-control"
                 id="exampleFormControlTextarea3"
                 placeholder="Enter valid reason"
                 rows="4"

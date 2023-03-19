@@ -89,7 +89,7 @@ const LeaderBoard = () => {
         <div className="d-flex justify-content-center mt-5">
           <img src="gold.png" className="badge ms-5" draggable="false" />
           <div className=" d-flex justify-content-center ">
-            <div class="score-alert alert alert-info ms-5" role="alert">
+            <div className="score-alert alert alert-info ms-5" role="alert">
               You Need{" "}
               <span className="text-primary fw-bold">
                 {scoreArr[0].score - scoreArr[1].score}

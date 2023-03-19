@@ -87,7 +87,7 @@ const Forums = () => {
                 <Link to={`/edit-forum/${f.id}`}>
                   <button
                     type="button"
-                    class="btn btn-outline-primary mx-2"
+                    className="btn btn-outline-primary mx-2"
                     style={{ borderColor: "#1D9EEC" }}
                   >
                     Edit
@@ -128,17 +128,17 @@ const Forums = () => {
                         <div className="modal-body">
                           Do you want to lock the Discussion Forum - {forum}?
                         </div>
-                        <div class="modal-footer">
+                        <div className="modal-footer">
                           <button
                             type="button"
-                            class="btn btn-secondary"
+                            className="btn btn-secondary"
                             data-bs-dismiss="modal"
                           >
                             No
                           </button>
                           <button
                             type="button"
-                            class="btn btn-primary"
+                            className="btn btn-primary"
                             onClick={() => setForum(f.id)}
                           >
                             Yes

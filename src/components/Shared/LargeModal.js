@@ -3,8 +3,8 @@ import React from "react";
 const LargeModal = (props) => {
   return (
     <div>
-      <div class="row">
-        <div class="col">
+      <div className="row">
+        <div className="col">
           <button
             type="button"
             className="btn btn-primary"

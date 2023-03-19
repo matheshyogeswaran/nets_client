@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import swal from 'sweetalert'
 const FurtherDetails = (props) => {
-    console.log("Hello" + JSON.stringify(props.loginData))
+    console.log("Component Rendered")
     // console.log("object")
     const [firstName, setFirstName] = useState(props.userData.given_name);
     const [lastName, setLastName] = useState(props.userData.family_name);
@@ -15,10 +15,9 @@ const FurtherDetails = (props) => {
 
     const [availableDepartments, setAvailableDepartments] = useState([]);
     const [availableJobTitles, setAvailableJobTitles] = useState([]);
-    const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
     const currentYear = new Date().getFullYear();
-    const maxDate = `${currentYear-15}-12-31`; // Set maximum date to last day of current year
+    const maxDate = `${currentYear - 15}-12-31`; // Set maximum date to last day of current year
     const minDate = `${currentYear - 80}-01-01`; // Set minimum date to first day of previous year
 
 
@@ -33,10 +32,9 @@ const FurtherDetails = (props) => {
             .then(function (response) {
                 setAvailableJobTitles(response.data);
             });
-        if (availableDepartments.length === 0 && availableJobTitles.length === 0) {
-            setIsSuperAdmin(true);
-        }
-    }, [availableDepartments, availableJobTitles])
+
+    }, [])
+
     const submitFurtherDetails = (e) => {
         e.preventDefault();
         const postData = {
@@ -49,6 +47,7 @@ const FurtherDetails = (props) => {
             department: department,
             jobTitle: jobTitle
         }
+
         axios.post('http://localhost:1337/authentication/addFurtherDetails', postData)
             .then((res) => {
                 if (res.data.status === "success") {
@@ -76,8 +75,9 @@ const FurtherDetails = (props) => {
     return (
         <React.Fragment>
             <div className="container mt-3">
-                {<div className="alert alert-warning">
-                    <b><i class="bi bi-info-circle-fill"></i> Attention:</b> You are the very first user of this application, which means
+                {(availableDepartments.length===0 && availableJobTitles.length===0)&&<div className="alert alert-warning">
+                    <b><i className="bi bi-info-circle-fill"></i> Attention:</b> You are the very first user of 
+                    this application, which means
                     <b> you have been automatically assigned the role of Super Admin</b>. Any updates
                     you make to your personal details will affect your account accordingly.
                     Please proceed with caution !
@@ -187,7 +187,7 @@ const FurtherDetails = (props) => {
                                 </div>
                             </div>
                             {
-                                !isSuperAdmin && <div className="row m-2">
+                                (availableDepartments.length!==0 && availableJobTitles.length!==0) && <div className="row m-2">
                                     <div className="col-md-6">
                                         <div className="form-floating mb-3">
                                             <select id="dep" required className="form-control" onChange={e => setDepartment(e.target.value)}>

@@ -39,8 +39,8 @@ const AssignFinalAssignment = () => {
                         <label htmlFor="dl">Select Deadline</label>
                     </div>
 
-                    <div class="mb-3">
-                        <input class="form-control" type="file" multiple />
+                    <div className="mb-3">
+                        <input className="form-control" type="file" multiple />
                     </div>
                     <div className="row">
                         <div className="col-md-6">

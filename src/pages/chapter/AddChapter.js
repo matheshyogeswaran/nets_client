@@ -20,6 +20,8 @@ const AddChapter = () => {
       });
   }, []);
   function submitChapter(e) {
+    // console.log(chaptername);
+    // console.log(selectedDepartment);
     e.preventDefault();
     axios
       .post("http://localhost:1337/chapters/addChapter", {
@@ -51,7 +53,7 @@ const AddChapter = () => {
       <div className="columns mt-5">
         <form name="myForm" onSubmit={submitChapter}>
           <div className="field">
-            <label class="ml-5 createchap">Chapter Name</label>
+            <label className="ml-5 createchap">Chapter Name</label>
             <div className="control">
               <input
                 type="text"
@@ -64,14 +66,14 @@ const AddChapter = () => {
               />
             </div>
           </div>
-          <label class="ml-5 createchap">Suitable Department</label>
+          <label className="ml-5 createchap">Suitable Department</label>
           <br></br>
           <div className="col-md-2">
             <select
               onChange={(e) => {
                 setSelectedDepartment(e.target.value);
               }}
-              class="form-select"
+              className="form-select"
               aria-label="Default select example"
             >
               <option selected>Department</option>
@@ -153,7 +155,7 @@ export default AddChapter;
 //       <div className="columns mt-5">
 //         <form name="myForm" onSubmit={submitChapter}>
 //           <div className="field">
-//             <label class="ml-5 createchap">Chapter Name</label>
+//             <label className="ml-5 createchap">Chapter Name</label>
 //             <div className="control">
 //               <input
 //                 type="text"
@@ -166,14 +168,14 @@ export default AddChapter;
 //               />
 //             </div>
 //           </div>
-//           <label class="ml-5 createchap">Suitable Department</label>
+//           <label className="ml-5 createchap">Suitable Department</label>
 //           <br></br>
 //           <div className="col-md-2">
 //             <select
 //               onChange={(e) => {
 //                 setSelectedDepartment(e.target.value);
 //               }}
-//               class="form-select"
+//               className="form-select"
 //               aria-label="Default select example"
 //             >
 //               <option selected>Department</option>
