@@ -3,13 +3,13 @@ import { Navigate, useNavigate } from "react-router-dom"
 import { useLocation } from "react-router-dom";
 import swal from 'sweetalert';
 import axios from "axios";
-// import {logout} from "../components/NavBar"
 const RequireAuth = ({ children }) => {
     const userData = JSON.parse(localStorage.getItem("user"));
     const location = useLocation();
     const navigate = useNavigate();
-    const checkTokenValidity = () => {
+    useEffect(() => {
         if (userData) {
+            console.log("Check Token Validity");
             axios.post('http://localhost:1337/authentication/verifyToken', { token: userData.token })
                 .then((res) => {
                     if (res.data.status === false) {
@@ -21,14 +21,9 @@ const RequireAuth = ({ children }) => {
                     console.log(error)
                 });
         }
-    }
+    }, [navigate, userData])
 
-    useEffect(() => {
-        checkTokenValidity();
-    })
-
-    //state={{path:location.pathname}}will pass requested url to the component
-    // if (userData?.email && tokenValidity) {
+    //state={{path:location.pathname}} in else part will pass requested url to the component
     if (userData?.email) {
         return children
     } else {
