@@ -1,18 +1,9 @@
 import React from "react";
-import {
-  BrowserRouter,
-  Route,
-  Routes
-}
-  from "react-router-dom";
-import {
-  useState,
-  createContext,
-  useEffect
-}
-  from "react";
+import {BrowserRouter,Route,Routes}from "react-router-dom";
+import {useState,createContext,useEffect}from "react";
 import axios from "axios";
 import "../App.css";
+
 // Util Imports
 import RequireAuth from "../utils/RequireAuth";
 import RedirectIfLoggedIn from "../utils/RedirectIfLoggedIn";
