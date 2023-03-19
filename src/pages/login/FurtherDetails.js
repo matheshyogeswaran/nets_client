@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import swal from 'sweetalert'
-import { useNavigate } from "react-router-dom";
 const FurtherDetails = (props) => {
     console.log("Hello" + JSON.stringify(props.loginData))
-    const navigate = useNavigate();
     // console.log("object")
-    const [firstName] = useState(props.userData.given_name);
-    const [lastName] = useState(props.userData.family_name);
-    const [gender, setGender] = useState("NA");
+    const [firstName, setFirstName] = useState(props.userData.given_name);
+    const [lastName, setLastName] = useState(props.userData.family_name);
+    const [gender, setGender] = useState();
     const [dob, setDob] = useState();
     const [phone, setPhone] = useState();
     const [email] = useState(props.userData.email);
@@ -17,6 +15,13 @@ const FurtherDetails = (props) => {
 
     const [availableDepartments, setAvailableDepartments] = useState([]);
     const [availableJobTitles, setAvailableJobTitles] = useState([]);
+    const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+
+    const currentYear = new Date().getFullYear();
+    const maxDate = `${currentYear-15}-12-31`; // Set maximum date to last day of current year
+    const minDate = `${currentYear - 80}-01-01`; // Set minimum date to first day of previous year
+
+
     useEffect(() => {
         axios
             .get("http://localhost:1337/departments/showAllDepartments")
@@ -28,7 +33,10 @@ const FurtherDetails = (props) => {
             .then(function (response) {
                 setAvailableJobTitles(response.data);
             });
-    }, [])
+        if (availableDepartments.length === 0 && availableJobTitles.length === 0) {
+            setIsSuperAdmin(true);
+        }
+    }, [availableDepartments, availableJobTitles])
     const submitFurtherDetails = (e) => {
         e.preventDefault();
         const postData = {
@@ -44,7 +52,6 @@ const FurtherDetails = (props) => {
         axios.post('http://localhost:1337/authentication/addFurtherDetails', postData)
             .then((res) => {
                 if (res.data.status === "success") {
-                    swal("Good job!", res.data.message, "success")
                     swal({
                         title: "Success ! Please Login to NETS",
                         text: res.data.message,
@@ -69,6 +76,12 @@ const FurtherDetails = (props) => {
     return (
         <React.Fragment>
             <div className="container mt-3">
+                {<div className="alert alert-warning">
+                    <b><i class="bi bi-info-circle-fill"></i> Attention:</b> You are the very first user of this application, which means
+                    <b> you have been automatically assigned the role of Super Admin</b>. Any updates
+                    you make to your personal details will affect your account accordingly.
+                    Please proceed with caution !
+                </div>}
                 <div className="card shadow shadow-lg" >
                     <div className="card-header bg-dark ">
                         <center>
@@ -82,10 +95,10 @@ const FurtherDetails = (props) => {
                                 <div className="col-md-6">
                                     <div className="form-floating mb-3">
                                         <input type="text"
-                                            disabled
                                             className="form-control"
                                             placeholder="First Name"
                                             value={firstName}
+                                            onChange={e => setFirstName(e.target.value)}
                                             required
                                             id="fname"
                                         >
@@ -97,10 +110,10 @@ const FurtherDetails = (props) => {
                                 <div className="col-md-6">
                                     <div className="form-floating mb-3">
                                         <input required type="text"
-                                            disabled
                                             className="form-control"
                                             placeholder="Last Name"
                                             value={lastName}
+                                            onChange={e => setLastName(e.target.value)}
                                             id="lastname"
                                         >
                                         </input>
@@ -113,7 +126,8 @@ const FurtherDetails = (props) => {
                                 {/* Gender */}
                                 <div className="col-md-6">
                                     <div className="form-floating mb-3">
-                                        <select id="gender" className="form-control" onChange={e => setGender(e.target.value)}>
+                                        <select id="gender" required className="form-control" onChange={e => setGender(e.target.value)}>
+                                            <option selected value="" disabled>Select Gender</option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
                                             <option value="N/A">Prefer not to say</option>
@@ -127,6 +141,8 @@ const FurtherDetails = (props) => {
                                         <input required type="text"
                                             className="form-control"
                                             placeholder="Date of Birth"
+                                            max={maxDate}
+                                            min={minDate}
                                             onFocus={(e) => e.target.type = 'date'}
                                             value={dob}
                                             id="dob"
@@ -170,40 +186,42 @@ const FurtherDetails = (props) => {
 
                                 </div>
                             </div>
-                            <div className="row m-2">
-                                <div className="col-md-6">
-                                    <div className="form-floating mb-3">
-                                        <select id="dep" required className="form-control" onChange={e => setDepartment(e.target.value)}>
-                                            <option selected value="" disabled>Select Department</option>
-                                            {
-                                                availableDepartments.map((e) => {
-                                                    return (
-                                                        <option value={e._id}>{e.depName}</option>
-                                                    )
-                                                })
-                                            }
-                                        </select>
-                                        <label htmlFor="dep">Select your department</label>
-                                    </div>
+                            {
+                                !isSuperAdmin && <div className="row m-2">
+                                    <div className="col-md-6">
+                                        <div className="form-floating mb-3">
+                                            <select id="dep" required className="form-control" onChange={e => setDepartment(e.target.value)}>
+                                                <option selected value="" disabled>Select Department</option>
+                                                {
+                                                    availableDepartments.map((e) => {
+                                                        return (
+                                                            <option value={e._id}>{e.depName}</option>
+                                                        )
+                                                    })
+                                                }
+                                            </select>
+                                            <label htmlFor="dep">Select your department</label>
+                                        </div>
 
-                                </div>
-                                <div className="col-md-6">
-                                    <div className="form-floating mb-3">
-                                        <select id="jt" required className="form-control" onChange={e => setJobTitle(e.target.value)}>
-                                            <option selected value="" disabled>Select Job Title</option>
-                                            {
-                                                availableJobTitles.map((e) => {
-                                                    return (
-                                                        <option value={e._id}>{e.jobTitlename}</option>
-                                                    )
-                                                })
-                                            }
-                                        </select>
-                                        <label htmlFor="jt">Select your job title</label>
                                     </div>
+                                    <div className="col-md-6">
+                                        <div className="form-floating mb-3">
+                                            <select id="jt" required className="form-control" onChange={e => setJobTitle(e.target.value)}>
+                                                <option selected value="" disabled>Select Job Title</option>
+                                                {
+                                                    availableJobTitles.map((e) => {
+                                                        return (
+                                                            <option value={e._id}>{e.jobTitlename}</option>
+                                                        )
+                                                    })
+                                                }
+                                            </select>
+                                            <label htmlFor="jt">Select your job title</label>
+                                        </div>
 
+                                    </div>
                                 </div>
-                            </div>
+                            }
 
                         </div>
                         <div className="card-footer">
