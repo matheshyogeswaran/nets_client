@@ -3,7 +3,7 @@ import {BrowserRouter,Route,Routes}from "react-router-dom";
 import {useState,createContext,useEffect}from "react";
 import axios from "axios";
 import "../App.css";
-
+import jwt_decode from "jwt-decode";
 // Util Imports
 import RequireAuth from "../utils/RequireAuth";
 import RedirectIfLoggedIn from "../utils/RedirectIfLoggedIn";
@@ -62,6 +62,7 @@ import QuizReportFront from "../pages/report/quizReportFront";
 import QuizReport from "../pages/report/quizReport";
 import Ratings from "../pages/report/Ratings";
 import Home from "../pages/home_pages/Home";
+import MainDashBoard from "../pages/home_pages/MainDashBoard";
 const API_BASE = "http://localhost:1337";
 
 export const AppContext = createContext();
@@ -70,6 +71,7 @@ const AppRoutes = () => {
   const [employee, setEmployee] = useState([]);
   const [unit, setUnit] = useState([]);
   const [chapter, setChapter] = useState([]);
+
 
   useEffect(() => {
     GetUsers();
@@ -100,13 +102,14 @@ const AppRoutes = () => {
 
   return (
     <>
-      <AppContext.Provider value={{ employee: employee, unit: unit, chapter: chapter, }}>
+      <AppContext.Provider value={{ employee: employee, unit: unit, chapter: chapter}}>
         <BrowserRouter>
           <Routes>
             <Route exact path="/" element={<RedirectIfLoggedIn><GoogleLogin /></RedirectIfLoggedIn>} />
             <Route exact path="/login/" element={<RedirectIfLoggedIn> <GoogleLogin /> </RedirectIfLoggedIn>} />
-            <Route exact path="/home" element={<RequireAuth> <Home /> </RequireAuth>} />
-            <Route exact path="/availableuserroles" element={<RequireAuth> <AvailableUserRoles /></RequireAuth>} />
+            <Route exact path="/ishvini" element={<RequireAuth> <Home /> </RequireAuth>} />
+            <Route exact path="/home" element={<RequireAuth> <MainDashBoard/> </RequireAuth>} />
+            <Route exact path="/manageuserrole" element={<RequireAuth> <AvailableUserRoles /></RequireAuth>} />
             <Route exact path="/createUserRole" element={<RequireAuth> <CreateUserRole /> </RequireAuth>} />
             <Route exact path="/editUserRole/:userRole" element={<RequireAuth> <EditUserRole /> </RequireAuth>} />
             <Route exact path="/ShowUsersUnderRole/:userRole" element={<RequireAuth><ShowUsersUnderRole /></RequireAuth>} />

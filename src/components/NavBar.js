@@ -3,8 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import "../css/Nav.css";
 import swal from "sweetalert";
 import RenderIfLoggedIn from "../utils/RenderIfLoggedIn";
-
+import jwt_decode from "jwt-decode";
 const NavBar = () => {
+  const userData = jwt_decode(JSON.parse(localStorage.getItem("user")).token)?.userData;
   const navigate = useNavigate();
   const logout = () => {
     localStorage.removeItem("user");
@@ -92,7 +93,7 @@ const NavBar = () => {
                         <i className="bi bi-person-check me-2"></i>
                         <i>Logged in as: </i>
                         <b>
-                          {JSON.parse(localStorage.getItem("user"))?.userRole}
+                          {(userData?.userRoleId?.userRoleValue)?userData?.userRoleId?.userRoleValue:"Guest"}
                         </b>
                       </button>
                     </li>
