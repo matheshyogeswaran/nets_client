@@ -1,6 +1,6 @@
 import React from "react";
-import {BrowserRouter,Route,Routes}from "react-router-dom";
-import {useState,createContext,useEffect}from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useState, createContext, useEffect } from "react";
 import axios from "axios";
 import "../App.css";
 import jwt_decode from "jwt-decode";
@@ -46,8 +46,8 @@ import ViewForum from "../components/Forums/ViewForum";
 import CompleteGuidanceTickets from "../components/GuidanceTickets/CompleteTickets/CompleteGuidanceTickets";
 import DirectGuidanceTickets from "../components/GuidanceTickets/DirectTickets/DirectGuidanceTickets";
 import RequestGuidanceTickets from "../components/GuidanceTickets/RequestTickets/RequestGuidanceTickets";
-import CommentSection from "../components/Comments/CommentSection"
-import AssignFinalAssignment from '../pages/final_project_assignment/AssignFinalAssignment';
+import CommentSection from "../components/Comments/CommentSection";
+import AssignFinalAssignment from "../pages/final_project_assignment/AssignFinalAssignment";
 import Result from "../pages/quiz/result";
 import Review from "../pages/quiz/review";
 import Submission from "../pages/projSubmission/submission";
@@ -83,7 +83,6 @@ const AppRoutes = () => {
   const [unit, setUnit] = useState([]);
   const [chapter, setChapter] = useState([]);
 
-
   useEffect(() => {
     GetUsers();
     Getunit();
@@ -93,9 +92,7 @@ const AppRoutes = () => {
   const GetUsers = () => {
     axios
       .get(API_BASE + "/users")
-      .then((res) => {
-        setEmployee(res.data);
-      })
+      .then((res) => setEmployee(res.data))
       .catch((error) => console.error("Error: ", error));
   };
   const Getunit = () => {
@@ -113,52 +110,417 @@ const AppRoutes = () => {
 
   return (
     <>
-      <AppContext.Provider value={{ employee: employee, unit: unit, chapter: chapter}}>
+      <AppContext.Provider
+        value={{ employee: employee, unit: unit, chapter: chapter }}
+      >
         <BrowserRouter>
           <Routes>
-            <Route exact path="/" element={<RedirectIfLoggedIn><GoogleLogin /></RedirectIfLoggedIn>} />
-            <Route exact path="/login/" element={<RedirectIfLoggedIn> <GoogleLogin /> </RedirectIfLoggedIn>} />
-            <Route exact path="/ishvini" element={<RequireAuth> <Home /> </RequireAuth>} />
-            <Route exact path="/home" element={<RequireAuth> <MainDashBoard/> </RequireAuth>} />
-            <Route exact path="/manageuserrole" element={<RequireAuth> <AvailableUserRoles /></RequireAuth>} />
-            <Route exact path="/createUserRole" element={<RequireAuth> <CreateUserRole /> </RequireAuth>} />
-            <Route exact path="/editUserRole/:userRole" element={<RequireAuth> <EditUserRole /> </RequireAuth>} />
-            <Route exact path="/ShowUsersUnderRole/:userRole" element={<RequireAuth><ShowUsersUnderRole /></RequireAuth>} />
-            <Route exact path="/promoteDemoteUser/" element={<RequireAuth> <PromoteDemote /> </RequireAuth>} />
-            <Route exact path="/pendingrequests/" element={<RequireAuth> <PendingUserApproval /> </RequireAuth>} />
-            <Route exact path="/hiredemployee/" element={<RequireAuth>  <HiredEmployee /> </RequireAuth>} />
-            <Route exact path="/assignFinalProjectAssignment/" element={<RequireAuth> <AssignFinalAssignment /> </RequireAuth>} />
-            <Route exact path="/department/" element={<RequireAuth><Department /> </RequireAuth>} />
-            <Route exact path="/jobtitle/" element={<RequireAuth><Jobtitle /> </RequireAuth>} />
-            <Route exact path="/chapter/" element={<RequireAuth> <Chapter /></RequireAuth>} />
-            <Route exact path="/viewchapter/" element={<RequireAuth> <ViewChapter /> </RequireAuth>} />
-            <Route exact path="/allocatechapter/" element={<RequireAuth><AllocateChapter /></RequireAuth>} />
-            <Route exact path="/editallocatechapter/:id/:name" element={<RequireAuth><EditAllocate /></RequireAuth>} />
-            <Route exact path="/profile/" element={<RequireAuth> <ProfileOverview /> </RequireAuth>} />
-            <Route exact path="/sample/" element={<RequireAuth> <Sample /></RequireAuth>} />
-            <Route exact path="/permanentdeletechapter/" element={<RequireAuth> <PermanentDeleteChapter /> </RequireAuth>} />
-            <Route exact path="/enrollrequestsupervisor" element={<RequireAuth> <EnrollRequestSupervisor /> </RequireAuth>} />
-            <Route exact path="/enrollrequestemployee/" element={<RequireAuth> <EnrollRequestEmployee /> </RequireAuth>} />
-            <Route exact path="/newdep/" element={<RequireAuth> <AddDepartment /> </RequireAuth>} />
-            <Route exact path="/editdep/:id/:name" element={<RequireAuth>  <EditDepartment /> </RequireAuth>} />
-            <Route exact path="/deletedep/:id" element={<RequireAuth>  <DeleteDepartment /></RequireAuth>} />
+            <Route
+              exact
+              path="/"
+              element={
+                <RedirectIfLoggedIn>
+                  <GoogleLogin />
+                </RedirectIfLoggedIn>
+              }
+            />
+            <Route
+              exact
+              path="/login/"
+              element={
+                <RedirectIfLoggedIn>
+                  {" "}
+                  <GoogleLogin />{" "}
+                </RedirectIfLoggedIn>
+              }
+            />
+            <Route
+              exact
+              path="/ishvini"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <Home />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/home"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <MainDashBoard />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/manageuserrole"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <AvailableUserRoles />
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/createUserRole"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <CreateUserRole />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/editUserRole/:userRole"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <EditUserRole />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/ShowUsersUnderRole/:userRole"
+              element={
+                <RequireAuth>
+                  <ShowUsersUnderRole />
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/promoteDemoteUser/"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <PromoteDemote />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/pendingrequests/"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <PendingUserApproval />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/hiredemployee/"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <HiredEmployee />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/assignFinalProjectAssignment/"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <AssignFinalAssignment />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/department/"
+              element={
+                <RequireAuth>
+                  <Department />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/jobtitle/"
+              element={
+                <RequireAuth>
+                  <Jobtitle />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/chapter/"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <Chapter />
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/viewchapter/"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <ViewChapter />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/allocatechapter/"
+              element={
+                <RequireAuth>
+                  <AllocateChapter />
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/editallocatechapter/:id/:name"
+              element={
+                <RequireAuth>
+                  <EditAllocate />
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/profile/"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <ProfileOverview />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/sample/"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <Sample />
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/permanentdeletechapter/"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <PermanentDeleteChapter />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/enrollrequestsupervisor"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <EnrollRequestSupervisor />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/enrollrequestemployee/"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <EnrollRequestEmployee />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/newdep/"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <AddDepartment />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/editdep/:id/:name"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <EditDepartment />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/deletedep/:id"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <DeleteDepartment />
+                </RequireAuth>
+              }
+            />
             <Route exact path="/newjob/" element={<AddJobtitle />} />
-            <Route exact path="/editjob/:id/:name" element={<RequireAuth>  <EditJobtitle /> </RequireAuth>} />
-            <Route exact path="/deletejob/:id" element={<RequireAuth> <DeleteJobtitle /> </RequireAuth>} />
-            <Route exact path="/newchap/" element={<RequireAuth> <AddChapter />  </RequireAuth>} />
-            <Route exact path="/editchap/:id/:name" element={<RequireAuth>  <EditChapter /> </RequireAuth>} />
-            <Route exact path="/deletechap/:id" element={<RequireAuth> <DeleteChapter /> </RequireAuth>} />
-            <Route exact path="/newdepchap/" element={<DepartmentAddChapter />} />
-            <Route exact path="/comments" element={<RequireAuth><CommentSection /></RequireAuth>} />
-            <Route exact path="/forums" element={<RequireAuth><Forums /></RequireAuth>} />
-            <Route exact path="/view-forum/:forumId" element={<RequireAuth><ViewForum /> </RequireAuth>} />
-            <Route exact path="/create-forum" element={<RequireAuth> <CreateForum /> </RequireAuth>} />
-            <Route exact path="/edit-forum/:forumId" element={<RequireAuth> <EditForum /> </RequireAuth>} />
-            <Route exact path="/create-post/:forumId" element={<RequireAuth> <CreatePost /> </RequireAuth>} />
-            <Route exact path="/add-reply/:forumId/:commentId" element={<RequireAuth> <AddReply /> </RequireAuth>} />
-            <Route exactpath="/request-guidance-ticket" element={<RequireAuth> <RequestGuidanceTickets /> </RequireAuth>} />
-            <Route exact path="/direct-guidance-ticket" element={<RequireAuth> <DirectGuidanceTickets /> </RequireAuth>} />
-            <Route exact path="/complete-guidance-ticket" element={<RequireAuth> <CompleteGuidanceTickets />{" "}</RequireAuth>} />
+            <Route
+              exact
+              path="/editjob/:id/:name"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <EditJobtitle />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/deletejob/:id"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <DeleteJobtitle />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/newchap/"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <AddChapter />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/editchap/:id/:name"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <EditChapter />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/deletechap/:id"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <DeleteChapter />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/newdepchap/"
+              element={<DepartmentAddChapter />}
+            />
+            <Route
+              exact
+              path="/comments"
+              element={
+                <RequireAuth>
+                  <CommentSection />
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/forums"
+              element={
+                <RequireAuth>
+                  <Forums />
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/view-forum/:forumId"
+              element={
+                <RequireAuth>
+                  <ViewForum />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/create-forum"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <CreateForum />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/edit-forum/:forumId"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <EditForum />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/create-post/:forumId"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <CreatePost />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/add-reply/:forumId/:commentId"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <AddReply />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exactpath="/request-guidance-ticket"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <RequestGuidanceTickets />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/direct-guidance-ticket"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <DirectGuidanceTickets />{" "}
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/complete-guidance-ticket"
+              element={
+                <RequireAuth>
+                  {" "}
+                  <CompleteGuidanceTickets />{" "}
+                </RequireAuth>
+              }
+            />
             <Route path="/" element={<Home />} />
             <Route path="/result" element={<Result />} />
             <Route path="/review" element={<Review />} />
