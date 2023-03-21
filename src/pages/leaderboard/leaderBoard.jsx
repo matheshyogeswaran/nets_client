@@ -1,18 +1,19 @@
 import React from "react";
-import { AppContext } from "../../routes/AppRoutes";
-import { useContext, useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import rank1 from "../../images/gold.png";
 
 const LeaderBoard = () => {
-  const { employee } = useContext(AppContext);
-  const [scoreArr] = useState([]);
-  {
-    employee.map((emp) =>
-      scoreArr.push({ id: emp.id, name: emp.name, score: emp.score })
-    );
-  }
-  {
-    scoreArr.sort((a, b) => b.score - a.score);
-  }
+  const API_BASE = "http://localhost:1337";
+  const [score, setScore] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(API_BASE + "/getLeaderboardData")
+      .then((res) => setScore(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div>
       <h1 className="py-4 result-head card ps-5"> Leaderboard</h1>
@@ -22,7 +23,7 @@ const LeaderBoard = () => {
           <div className="col col-12 col-md-12 col-lg-3">
             <div className="card leaderboard-card text-center">
               <div className={`card-header leaderboard-header `}>
-                <h2 className="w-100">{scoreArr[0].score}</h2>
+                <h2 className="w-100">{score?.[0]?.totalScore}</h2>
               </div>
               <div className="leaderboard-avatar-wrapper">
                 <img
@@ -32,10 +33,10 @@ const LeaderBoard = () => {
               </div>
               <div className="card-body">
                 <h5 className="card-title leaderboard-title">
-                  {scoreArr[0].name}
+                  {score?.[0]?.firstName} {score?.[0]?.lastName}
                 </h5>
                 <h5 className="card-title leaderboard-desc">
-                  {scoreArr[0].id}
+                  {score?.[0]?.empId}
                 </h5>
               </div>
             </div>
@@ -43,10 +44,8 @@ const LeaderBoard = () => {
 
           <div className="col col-12 col-md-6 col-lg-3">
             <div className="card leaderboard-card text-center">
-              <div
-                className={`card-header leaderboard-header bg-primary text-white `}
-              >
-                <h2 className="w-100">{scoreArr[1].score}</h2>
+              <div className={`card-header leaderboard-header`}>
+                <h2 className="w-100">{score?.[1]?.totalScore}</h2>
               </div>
               <div className="leaderboard-avatar-wrapper">
                 <img
@@ -56,10 +55,10 @@ const LeaderBoard = () => {
               </div>
               <div className="card-body">
                 <h5 className="card-title leaderboard-title">
-                  {scoreArr[1].name}
+                  {score?.[1]?.firstName} {score?.[1]?.lastName}
                 </h5>
                 <h5 className="card-title leaderboard-desc">
-                  {scoreArr[1].id}
+                  {score?.[1]?.empId}
                 </h5>
               </div>
             </div>
@@ -67,7 +66,7 @@ const LeaderBoard = () => {
           <div className="col col-12 col-md-6 col-lg-3">
             <div className="card leaderboard-card text-center">
               <div className={`card-header leaderboard-header `}>
-                <h2 className="w-100">{scoreArr[2].score}</h2>
+                <h2 className="w-100">{score?.[2]?.totalScore}</h2>
               </div>
               <div className="leaderboard-avatar-wrapper">
                 <img
@@ -77,35 +76,45 @@ const LeaderBoard = () => {
               </div>
               <div className="card-body">
                 <h5 className="card-title leaderboard-title">
-                  {scoreArr[2].name}
+                  {score?.[2]?.firstName} {score?.[2]?.lastName}
                 </h5>
                 <h5 className="card-title leaderboard-desc">
-                  {scoreArr[2].id}
+                  {score?.[2]?.empId}
                 </h5>
               </div>
             </div>
           </div>
         </div>
+
         <div className="d-flex justify-content-center mt-5">
-          <img src="gold.png" className="badge ms-5" draggable="false" />
+          <img
+            src={rank1}
+            className=" rank-badge mt-6 ms-5"
+            draggable="false"
+          />
           <div className=" d-flex justify-content-center ">
-            <div className="score-alert alert alert-info ms-5" role="alert">
-              You Need{" "}
+            <div class="score-alert alert alert-info ms-5" role="alert">
+              You Need
               <span className="text-primary fw-bold">
-                {scoreArr[0].score - scoreArr[1].score}
-              </span>{" "}
-              score to beat{" "}
-              <span className="text-primary"> {scoreArr[0].name}</span>
+                {" "}
+                {score?.[0]?.totalScore - score?.[1]?.totalScore}{" "}
+              </span>
+              score to beat
+              <span className="text-primary">
+                {" "}
+                {score?.[0]?.firstName} {score?.[0]?.lastName}
+              </span>
             </div>
           </div>
         </div>
 
+        <img src={rank1} className="badge ms-5" draggable="false" />
         <div className="leaderboard-table-wrapper">
           <h4 className="top-gainers">All Employees</h4>
           <table className="table leaderboard-table">
             <thead>
               <tr className="table-head">
-                <th className="leaderboard-th align-middle text-center">ID</th>
+                <th className="leaderboard-empId leaderboard-th">ID</th>
                 <th className="leaderboard-th align-middle text-center">
                   Name
                 </th>
@@ -118,9 +127,9 @@ const LeaderBoard = () => {
               </tr>
             </thead>
             <tbody>
-              {scoreArr.map(
+              {score?.map(
                 (emp, index) =>
-                  index > 3 && (
+                  index > 2 && (
                     <tr className="leaderboard-tr">
                       <td className="leaderboard-td align-middle text-center">
                         <div className="d-flex align-items-center h-100">
@@ -130,19 +139,19 @@ const LeaderBoard = () => {
                           />
                           <div className="d-flex flex-column px-3">
                             <span className="text-start leaderboard-table-name">
-                              {emp.id}
+                              {emp.empId}
                             </span>
                           </div>
                         </div>
                       </td>
                       <td className="leaderboard-td align-middle text-center">
-                        {emp.name}
+                        {emp.firstName} {emp.lastName}
                       </td>
                       <td className="leaderboard-td align-middle text-center">
-                        {emp.score}
+                        {emp.totalScore}
                       </td>
                       <td className="leaderboard-td align-middle text-center">
-                        {index}
+                        {score?.indexOf(emp) + 1}
                       </td>
                     </tr>
                   )

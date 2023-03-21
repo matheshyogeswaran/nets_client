@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const Search = ({ handleGetSearchValue, width }) => {
   const [search, setSearch] = useState("");
-  const [showSearch, setShowSearch] = useState(false);
+  const [showSearch, setShowSearch] = useState(true);
 
   useEffect(() => {
     handleGetSearchValue(search, showSearch);
@@ -18,7 +18,7 @@ const Search = ({ handleGetSearchValue, width }) => {
         onClick={() => setShowSearch(true)}
         onKeyUp={(e) => {
           e.preventDefault();
-          e.key == "Enter" && setShowSearch((prev) => !prev);
+          e.key === "Enter" && setShowSearch((prev) => !prev);
         }}
       />
       <button

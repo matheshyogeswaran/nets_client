@@ -33,7 +33,7 @@ const ChapterReport = () => {
   useEffect(() => {
     let empId = propsData?.empId;
     axios
-      .post(API_BASE + "/overview_report/" + empId)
+      .get(API_BASE + "/overviewReport/" + empId)
       .then((res) => setUnitScore(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -45,11 +45,13 @@ const ChapterReport = () => {
   const handleChapters = () => {
     chapter.map((chap) => {
       unitScore.map((unit) => unit.chapterId === chap._id && chapCount++);
+      console.log(chapters);
       chapCount > 0 && setChapters((prev) => [...prev, chap.chapterName]);
       chapCount = 0;
     });
   };
-  chapters.map((chap) => console.log(chap));
+  // chapters.map((chap) => console.log(chap));
+
   return (
     <div className="">
       <h1 className="py-4 result-head card ps-5">Chapter Report</h1>
@@ -101,19 +103,19 @@ const ChapterReport = () => {
         <div className="tab-content" id="v-pills-tabContent">
           {chapter.map((chap) =>
             chapters.map(
-              (chapter, index) =>
+              (chapter, indexi) =>
                 chapter === chap.chapterName && (
                   <div
-                    key={index}
+                    key={indexi}
                     className={
-                      index == navActive
+                      indexi == navActive
                         ? "tab-pane fade active show"
                         : "tab-pane fade"
                     }
-                    id={index}
+                    id={indexi}
                     role="tabpane"
-                    aria-labelledby={index}
-                    tabIndex={index}
+                    aria-labelledby={indexi}
+                    tabIndex={indexi}
                   >
                     <table className="table leaderboard-table">
                       <thead>
@@ -142,7 +144,7 @@ const ChapterReport = () => {
                                 (uniScore) =>
                                   uni.unitId === uniScore.unitId && (
                                     <tr
-                                      key={index}
+                                      key={indexi}
                                       className=" bg-info bg-opacity-10 leaderboard-tr fw-semibold"
                                     >
                                       <td className="leaderboard-td align-middle text-center">

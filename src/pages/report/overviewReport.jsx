@@ -28,7 +28,7 @@ const OverviewReport = () => {
   useEffect(() => {
     let empId = propsData?.empId;
     axios
-      .post(API_BASE + "/overview_report/" + empId)
+      .get(API_BASE + "/overviewReport/" + empId)
       .then((res) => setChapterScore(res.data))
       .catch((err) => console.log(err));
   }, []);
