@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useState, createContext, useEffect } from "react";
 import axios from "axios";
 import "../App.css";
-import jwt_decode from "jwt-decode";
 // Util Imports
 import RequireAuth from "../utils/RequireAuth";
 import RedirectIfLoggedIn from "../utils/RedirectIfLoggedIn";
