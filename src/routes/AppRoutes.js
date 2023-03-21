@@ -63,9 +63,20 @@ import QuizReport from "../pages/report/quizReport";
 import Ratings from "../pages/report/Ratings";
 import Home from "../pages/home_pages/Home";
 import MainDashBoard from "../pages/home_pages/MainDashBoard";
+
+import ArticleContent from '../pages/article page/ArticleContent';
+import Content from '../pages/Chapter page/Content';
+import UnitContent from '../pages/Unit page/UnitContent';
+import ViewKT from '../pages/KT view/ViewKT';
+import ViewContent from '../pages/article view/ViewContent';
+import EditTask from '../pages/Chapter page/EditTask';
+import QuizEntry from '../pages/Quiz/QuizEntry';
+ 
+import Quizpage from '../pages/Quiz/Quizpage';
 const API_BASE = "http://localhost:1337";
 
 export const AppContext = createContext();
+
 
 const AppRoutes = () => {
   const [employee, setEmployee] = useState([]);
@@ -162,6 +173,68 @@ const AppRoutes = () => {
             <Route path="/quizreportfront" element={<QuizReportFront />} />
             <Route path="/quizreport" element={<QuizReport />} />
             <Route path="/ratings" element={<Ratings />} />
+            <Route exact path="/department/" element={<RequireAuth><Department /></RequireAuth>} />
+                <Route exact path="/jobtitle/" element={<RequireAuth><Jobtitle /></RequireAuth>} />
+                <Route exact path="/chapter/" element={<RequireAuth><Chapter /></RequireAuth>} />
+                <Route exact path="/viewchapter/" element={<RequireAuth><ViewChapter /></RequireAuth>} />
+                <Route exact path="/allocatechapter/" element={<RequireAuth><AllocateChapter /></RequireAuth>} />
+                <Route exact path="/editallocatechapter/:id/:name" element={<RequireAuth><EditAllocate /></RequireAuth>} />
+                <Route exact path="/profile/" element={<RequireAuth><ProfileOverview /></RequireAuth>} />
+                <Route exact path="/sample/" element={<RequireAuth><Sample /></RequireAuth>} />
+                <Route exact path="/permanentdeletechapter/" element={<RequireAuth><PermanentDeleteChapter /></RequireAuth>} />
+                <Route exact path="/enrollrequestsupervisor/" element={<RequireAuth><EnrollRequestSupervisor /></RequireAuth>} />
+                <Route exact path="/enrollrequestemployee/" element={<RequireAuth><EnrollRequestEmployee /></RequireAuth>} />
+                <Route exact path="/newdep/" element={<RequireAuth><AddDepartment /></RequireAuth>} />
+                <Route exact path="/editdep/:id/:name" element={<RequireAuth><EditDepartment /></RequireAuth>} />
+                <Route exact path="/deletedep/:id" element={<RequireAuth><DeleteDepartment /></RequireAuth>} />
+                <Route exact path="/newjob/" element={<RequireAuth><AddJobtitle /></RequireAuth>} />
+                <Route exact path="/editjob/:id/:name" element={<RequireAuth><EditJobtitle /></RequireAuth>} />
+                <Route exact path="/deletejob/:id" element={<RequireAuth><DeleteJobtitle /></RequireAuth>} />
+                <Route exact path="/newchap/" element={<RequireAuth><AddChapter /></RequireAuth>} />
+                <Route exact path="/editchap/:id/:name" element={<RequireAuth><EditChapter /></RequireAuth>} />
+                <Route exact path="/deletechap/:id" element={<RequireAuth><DeleteChapter /></RequireAuth>} />
+                <Route exact path="/comments" element={<CommentSection />} />
+          <Route exact path="/forums" element={<Forums />} />
+          <Route exact path="/view-forum/:forumId" element={<ViewForum />} />
+          <Route exact path="/create-forum" element={<CreateForum />} />
+          <Route exact path="/edit-forum/:forumId" element={<EditForum />} />
+          <Route exact path="/create-post/:forumId" element={<CreatePost />} />
+          <Route
+            exact
+            path="/add-reply/:forumId/:commentId"
+            element={<AddReply />}
+          />
+          <Route
+            exact
+            path="/request-guidance-ticket"
+            element={<RequestGuidanceTickets />}
+          />
+          <Route
+            exact
+            path="/direct-guidance-ticket"
+            element={<DirectGuidanceTickets />}
+          />
+          <Route
+            exact
+            path="/complete-guidance-ticket"
+            element={<CompleteGuidanceTickets />}
+          />
+          <Route exact path="/chapterPage" element={<Content/>} />
+
+                    <Route exact path="/Unit" element={<UnitContent/>} />
+                    <Route exact path="/Unit/:id" element={<UnitContent/>} />
+
+                    <Route exact path="/article" element={<ArticleContent/>} />
+                    <Route exact path="/article/View" element={<ViewContent/>} />
+                    <Route exact path="/Unit/View" element={<ViewKT/>} />
+                    <Route exact path="/edit/:id" element={<EditTask/>} />
+                    
+                    <Route exact path="/quiz/view" element={<QuizEntry/>}/>
+                    <Route exact path="/quiz/view/:id" element={<QuizEntry/>}/>
+                     
+                     
+                    <Route exact path="/quiz" element={<Quizpage/>} />
+                    <Route exact path="/quiz/:id" element={<Quizpage/>} />
           </Routes>
         </BrowserRouter>
       </AppContext.Provider>
