@@ -1,6 +1,6 @@
 import image1 from "../../images/2.svg";
 import swal from "sweetalert";
-// import "../../App.css";
+import "../../App.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
@@ -84,7 +84,7 @@ const EditJobtitle = () => {
           </div>
 
           <div>
-            <img src={image1} draggable={false} alt="this is image" />
+            <img src={image1} className="picside" draggable={false} alt="this is image" />
           </div>
           <div className="field"></div>
         </form>

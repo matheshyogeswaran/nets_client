@@ -1,0 +1,41 @@
+{
+  "userData": {
+    "_id": "641813448e86d7555a5a5c31",
+    "empId": "001A",
+    "firstName": "Raguraj",
+    "lastName": "Sivanantham",
+    "gender": "Male",
+    "dob": "2000-12-20T00:00:00.000Z",
+    "phoneNumber": 772116778,
+    "emailAddress": "ragurajsivanantham@gmail.com",
+    "verified": "false",
+    "userStatus": "active",
+    "SubmittedOn": "1679299396261",
+    "badges": [],
+    "__v": 0,
+    "userRoleId": {
+      "_id": "641813ff8e86d7555a5a5c49",
+      "userRoleValue": "Super Admin",
+      "userRolePermissions": [
+        "P001",
+        "P002",
+        "P003",
+        "P004",
+        "P005",
+        "P006",
+        "P007",
+        "P009",
+        "P010",
+        "P020",
+        "P021",
+        "P022",
+        "P023",
+        "P024"
+      ],
+      "availableUsers": [],
+      "__v": 0
+    }
+  },
+  "iat": 1679299593,
+  "exp": 1679303193
+}

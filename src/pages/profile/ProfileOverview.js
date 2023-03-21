@@ -1,10 +1,11 @@
 // import addtowishlist from "../images/addtowishlist.png";
 // import { SocialIcon } from "react-social-icons";
-// import "../../App.css";
+import "../../App.css";
 import image5 from "../../images/12.png";
-import Employee from "../../data/Employee.json";
+import jwt_decode from "jwt-decode";
 
 function ProfileOverview(props) {
+  const data = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
   return (
     <div className="row justify-content-center ">
       <div
@@ -39,14 +40,14 @@ function ProfileOverview(props) {
               <div className="row justify-content-center">
                 <div className="col-md-2"></div>
                 <div className="form-group col-md-3">
-                  <label htmlFor="inputFirst name">Name</label>
+                  <label for="inputFirst name">Name</label>
                 </div>
                 <div className="form-group col-md-5">
                   <input
                     type="email"
                     className="form-control a2"
                     id="inputEmail4"
-                    value={Employee[0].name}
+                    value={data.firstName}
                     disabled={true}
                   />
                 </div>
@@ -55,14 +56,14 @@ function ProfileOverview(props) {
               <div className="row mt-2 justify-content-center">
                 <div className="col-md-2"></div>
                 <div className="form-group col-md-3">
-                  <label htmlFor="inputLastName">Jobtitle</label>
+                  <label for="inputLastName">Jobtitle</label>
                 </div>
                 <div className="form-group col-md-5">
                   <input
                     type="lastname"
                     className="form-control a2"
                     id="inputLastname"
-                    value={Employee[0].jobtitle}
+                    value={data.jobPosition}
                     disabled={true}
                   />
                 </div>
@@ -70,14 +71,14 @@ function ProfileOverview(props) {
               <div className="row mt-2 justify-content-center">
                 <div className="col-md-2"></div>
                 <div className="form-group col-md-3">
-                  <label htmlFor="inputEmail4">Department</label>
+                  <label for="inputEmail4">Department</label>
                 </div>
                 <div className="form-group col-md-5">
                   <input
                     type="email"
                     className="form-control a2"
                     id="inputEmail4"
-                    value={Employee[0].department}
+                    value={data.department}
                     disabled={true}
                   />
                 </div>
@@ -85,14 +86,14 @@ function ProfileOverview(props) {
               <div className="row mt-2 justify-content-center">
                 <div className="col-md-2"></div>
                 <div className="form-group col-md-3">
-                  <label htmlFor="inputEmail4">User Role</label>
+                  <label for="inputEmail4">User Role</label>
                 </div>
                 <div className="form-group col-md-5">
                   <input
                     type="email"
                     className="form-control a2"
                     id="inputEmail4"
-                    value={Employee[0].userrole}
+                    value={data.userRole}
                     disabled={true}
                   />
                 </div>
@@ -100,14 +101,14 @@ function ProfileOverview(props) {
               <div className="row mt-2 justify-content-center">
                 <div className="col-md-2"></div>
                 <div className="form-group col-md-3">
-                  <label htmlFor="inputEmail4">Email </label>
+                  <label for="inputEmail4">Email </label>
                 </div>
                 <div className="form-group col-md-5">
                   <input
                     type="email"
                     className="form-control a2"
                     id="inputEmail4"
-                    value={Employee[0].email}
+                    value={data.emailAddress}
                     disabled={true}
                   />
                 </div>
@@ -115,14 +116,14 @@ function ProfileOverview(props) {
               <div className="row mt-2 justify-content-center">
                 <div className="col-md-2"></div>
                 <div className="form-group col-md-3">
-                  <label htmlFor="inputEmail4">Phone No</label>
+                  <label for="inputEmail4">Phone No</label>
                 </div>
                 <div className="form-group col-md-5">
                   <input
                     type="email"
                     className="form-control a2"
                     id="inputEmail4"
-                    value={Employee[0].phone}
+                    value={data.phoneNumber}
                     disabled={true}
                   />
                 </div>
@@ -130,14 +131,14 @@ function ProfileOverview(props) {
               <div className="row mt-2 justify-content-center">
                 <div className="col-md-2"></div>
                 <div className="form-group col-md-3">
-                  <label htmlFor="inputEmail4">Date Of Birth </label>
+                  <label for="inputEmail4">Date Of Birth </label>
                 </div>
                 <div className="form-group col-md-5">
                   <input
                     type="email"
                     className="form-control a2"
                     id="inputEmail4"
-                    value={Employee[0].dob}
+                    value={data.dob}
                     disabled={true}
                   />
                 </div>

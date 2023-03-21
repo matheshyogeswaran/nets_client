@@ -39,7 +39,7 @@ const AllocateChapter = () => {
                     <td>{item.jobTitlename}</td>
 
                     <td>
-                      <button className="button">
+                      <button className="button-result">
                         <Link
                           to={"/editallocatechapter/" + item._id + "/" + item.jobTitlename}
                           className="showAns text-decoration-none"
