@@ -33,6 +33,7 @@ import EditDepartment from "../pages/department/EditDepartment";
 import DeleteDepartment from "../pages/department/DeleteDepartment";
 import ProfileOverview from "../pages/profile/ProfileOverview";
 import PermanentDeleteChapter from "../pages/chapter/PermanentDeleteChapter";
+import DeleteChapterPermanent from "../pages/chapter/DeleteChapterPermanent"
 import AddJobtitle from "../pages/jobtitle/AddJobtitle";
 import EditJobtitle from "../pages/jobtitle/EditJobtitle";
 import DeleteJobtitle from "../pages/department/DeleteJobtitle";
@@ -66,6 +67,7 @@ import QuizReportFront from "../pages/report/quizReportFront";
 import QuizReport from "../pages/report/quizReport";
 import Ratings from "../pages/report/Ratings";
 import Home from "../pages/home_pages/Home";
+import { FaBuromobelexperte } from "react-icons/fa";
 const API_BASE = "http://localhost:1337";
 export const AppContext = createContext();
 
@@ -379,6 +381,15 @@ const AppRoutes = () => {
               element={
                 <RequireAuth>
                   <DeleteChapter />
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/deletechapper/:id"
+              element={
+                <RequireAuth>
+                  <DeleteChapterPermanent />
                 </RequireAuth>
               }
             />

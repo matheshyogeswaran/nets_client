@@ -31,7 +31,7 @@ const DepartmentAddChapter = () => {
             .post("http://localhost:1337/chapters/addChapter", {
                 chapterName: chaptername,
                 depID: selectedDepartment,
-                userID: jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.emailAddress
+                userID: jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData._id
             })
             .then((res) => {
                 if (res.data.status === true) {

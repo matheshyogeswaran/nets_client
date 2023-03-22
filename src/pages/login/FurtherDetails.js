@@ -75,8 +75,8 @@ const FurtherDetails = (props) => {
     return (
         <React.Fragment>
             <div className="container mt-3">
-                {(availableDepartments.length===0 && availableJobTitles.length===0)&&<div className="alert alert-warning">
-                    <b><i className="bi bi-info-circle-fill"></i> Attention:</b> You are the very first user of 
+                {(availableDepartments.length === 0 && availableJobTitles.length === 0) && <div className="alert alert-warning">
+                    <b><i className="bi bi-info-circle-fill"></i> Attention:</b> You are the very first user of
                     this application, which means
                     <b> you have been automatically assigned the role of Super Admin</b>. Any updates
                     you make to your personal details will affect your account accordingly.
@@ -187,7 +187,7 @@ const FurtherDetails = (props) => {
                                 </div>
                             </div>
                             {
-                                (availableDepartments.length!==0 && availableJobTitles.length!==0) && <div className="row m-2">
+                                (availableDepartments.length !== 0 && availableJobTitles.length !== 0) && <div className="row m-2">
                                     <div className="col-md-6">
                                         <div className="form-floating mb-3">
                                             <select id="dep" required className="form-control" onChange={e => setDepartment(e.target.value)}>
