@@ -4,6 +4,7 @@ import users from "../../data/Users.json";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import RedirectIfUserDontHavePermission from "../../utils/RedirectIfUserDontHavePermission";
 const Chapter = () => {
   const [chapters, setChapter] = useState([]);
 
@@ -16,28 +17,29 @@ const Chapter = () => {
   }, []);
 
   return (
-    <React.Fragment>
-      <NavBar></NavBar>
-      <div className="container">
-        <div className="form-control mt-3 heading">Chapters</div>
-        <br></br>
-        <div className="row ">
-          <div className="col-md-12">
-            <Link
-              to="/newchap"
-              className="btn btn-outline-success form-control"
-            >
-              Add New Chapter
-            </Link>
+    <RedirectIfUserDontHavePermission permissionID="P005">
+      <React.Fragment>
+        <NavBar></NavBar>
+        <div className="container">
+          <div className="form-control mt-3 heading">Chapters</div>
+          <br></br>
+          <div className="row ">
+            <div className="col-md-12">
+              <Link
+                to="/newchap"
+                className="btn btn-outline-success form-control"
+              >
+                Add New Chapter
+              </Link>
+            </div>
           </div>
-        </div>
-        <br></br> <br></br>
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
+          <br></br> <br></br>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
 
-              <th scope="col">Chapter name</th>
+                <th scope="col">Chapter name</th>
 
               <th scope="col">
                 <center>Actions</center>
@@ -53,31 +55,32 @@ const Chapter = () => {
                 <tr className="align-middle" key={item._id}>
                   <th scope="row">{item._id}</th>
 
-                  <td>{item.chapterName}</td>
+                    <td>{item.chapterName}</td>
 
-                  <td>
-                    <Link
-                      to={"/editchap/" + item._id + "/" + item.chapterName}
-                      className="btn btn-outline-primary form-control"
-                    >
-                      Edit
-                    </Link>
-                  </td>
-                  <td>
-                    <Link
-                      to={"/deletechap/" + item._id}
-                      className="btn btn-outline-danger form-control"
-                    >
-                      Delete
-                    </Link>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </React.Fragment>
+                    <td>
+                      <Link
+                        to={"/editchap/" + item._id + "/" + item.chapterName}
+                        className="btn btn-outline-primary form-control"
+                      >
+                        Edit
+                      </Link>
+                    </td>
+                    <td>
+                      <Link
+                        to={"/deletechap/" + item._id}
+                        className="btn btn-outline-danger form-control"
+                      >
+                        Delete
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </React.Fragment>
+    </RedirectIfUserDontHavePermission>
   );
 };
 export default Chapter;

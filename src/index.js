@@ -8,7 +8,8 @@ import NoInternet from './pages/NoInternet';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <NoInternet><App /></NoInternet>
+    <App />
+    {/* <NoInternet><App /></NoInternet> */}
   </React.StrictMode>
 );
 reportWebVitals();

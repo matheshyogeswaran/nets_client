@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../routes/AppRoutes";
 import axios from "axios";
 import Search from "./../../subComponents/search";
+
 const QuizReportFront = () => {
   const API_BASE = "http://localhost:1337";
   const { chapter } = useContext(AppContext);
@@ -119,5 +120,4 @@ const QuizReportFront = () => {
     </div>
   );
 };
-
 export default QuizReportFront;

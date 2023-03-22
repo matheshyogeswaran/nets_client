@@ -14,11 +14,11 @@ const Ratings = () => {
   useEffect(() => {
     let empId = propsData?.empId;
     axios
-      .post(API_BASE + "/ktsessionRatings/" + empId)
+      .get(API_BASE + "/ktsessionRatings/" + empId)
       .then((res) => setKtSessionRating(res.data))
       .catch((err) => console.log(err));
     axios
-      .post(API_BASE + "/articleRatings/" + empId)
+      .get(API_BASE + "/articleRatings/" + empId)
       .then((res) => setArticleRating(res.data))
       .catch((err) => console.log(err));
   }, []);

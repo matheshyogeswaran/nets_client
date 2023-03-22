@@ -34,7 +34,7 @@
             },
             {
                 "permissionID": "P012",
-                "permissionValue": "View Chapters From particular Department",
+                "permissionValue": "View Chapters From User's Department",
                 "permissionStatus": true,
                 "permissionDescription": "  "
             },

@@ -125,7 +125,6 @@ input[type="text"] {
   box-shadow: 4px 5px 17px -4px #268391;
 }
 
-
 .button-result::before {
   content: "";
   position: absolute;
@@ -138,7 +137,6 @@ input[type="text"] {
   z-index: -1;
   transition: width 1000ms;
 }
-
 
 .button-result:hover::before {
   width: 250%;
@@ -202,7 +200,9 @@ input[type="text"] {
 }
 
 /* Submission */
-
+.td-download-icon {
+  width: 400px;
+}
 .btn-submission {
   width: 80px;
 }
@@ -282,90 +282,72 @@ input[type="text"] {
  leaderboard 
  */
 
+.rank-badge {
+  width: 200px;
+  height: 200px;
+}
 .leaderboard-card {
   height: 300px;
   /* width: auto; */
   margin: 0 auto;
 }
-
 .leaderboard-header {
   height: 150px;
-  background-color: #dde3f2;
-  color: rgb(96, 93, 93);
+  background-color: #4b248f;
+  color: rgb(255, 248, 248);
 }
-
 .leaderboard-avatar {
   width: 90px;
   height: 90px;
 }
-
 .leaderboard-avatar-wrapper {
   position: relative;
   top: -40px;
 }
-
 .leaderboard-title {
   margin-top: -40px;
-  font-size: 2rem;
 }
-
 .leaderboard-desc {
   font-size: 1rem;
-  color: #a8a8a8;
+  color: #71678d;
+}
+.leaderboard-empId {
+  padding-left: 8rem !important;
 }
 
 .leaderboard-table-wrapper {
   margin-top: 20px;
 }
-
 .leaderboard-table {
   border-collapse: separate;
   border-spacing: 0 15px;
 }
-
 .leaderboard-tr {
   position: relative;
   height: 80px;
   background-color: rgb(255, 255, 255);
   border-radius: 10px;
   box-shadow: 0px 5px 8px -2px rgb(218, 218, 218);
+  font-weight: 500;
 }
-
 .leaderboard-td,
 .leaderboard-th {
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
-
 .leaderboard-table-avatar {
   height: 50px;
   width: 50px;
-}
-
-.leaderboard-table-name {
-  font-weight: bold;
 }
 
 .leaderboard-table-username {
   font-size: 1rem;
   color: #a8a8a8;
 }
-
 .score-alert {
   margin: 5rem 0rem 5rem 0rem;
   text-align: center;
 }
-
-.img-fluid {
-  width: 200px;
-  float: right;
-}
-
-.picside {
-  width: 240px;
-  float: right;
-}
-
 /* feedback submission */
 .feedback {
   background-color: #e6f0f5;
@@ -528,4 +510,5 @@ Ratings
 
 /* For small devices */
 
-@media screen and (max-width: 350px) {}
+@media screen and (max-width: 350px) {
+}

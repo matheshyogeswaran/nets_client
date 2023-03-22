@@ -7,7 +7,6 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@hookform/resolvers": "^2.9.10",
     "@iconscout/react-unicons": "^1.1.6",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -31,8 +30,7 @@
     "react-table": "^7.8.0",
     "reactjs-popup": "^2.0.5",
     "sweetalert": "^2.1.2",
-    "web-vitals": "^2.1.4",
-    "yup": "^0.32.11"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",

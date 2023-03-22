@@ -1,27 +1,54 @@
 import { useLocation } from "react-router-dom";
 import Avatar from "react-avatar";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useState, useEffect } from "react";
+import swal from "sweetalert";
+import axios from "axios";
 
 const Evaluate = (props) => {
+  const API_BASE = "http://localhost:1337";
   const location = useLocation();
   const propsData = location.state;
-  const schema = yup.object().shape({
-    score: yup.number().min(0).max(100).required(),
-    feedback: yup.string(),
-    show: yup.boolean(),
-  });
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const [score, setScore] = useState(null);
+  const [feedback, setFeedback] = useState("");
+  const [show, setShow] = useState();
+
+  useEffect(() => {
+    let empId = propsData?.empId;
+    axios
+      .get(API_BASE + "/getEvaluatedFeedback/" + empId)
+      .then((res) => {
+        setScore(res.data.projectScore);
+        setFeedback(res.data.feedback);
+        setShow(res.data.show);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (score !== null) {
+      let empId = propsData?.empId;
+      try {
+        await axios
+          .post(API_BASE + "/toEvaluateSubmission", {
+            empId,
+            score,
+            feedback,
+            show,
+          })
+          .then((res) => {
+            res.data === true && propsData?.update === true
+              ? swal("Updated!", "Updated successfully", "success")
+              : swal("Evaluated!", "Evaluated successfully", "success");
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+  console.log();
+
   return (
     <div className="">
       <h1 className="py-4 result-head card ps-5">
@@ -29,45 +56,53 @@ const Evaluate = (props) => {
       </h1>
       <div className="container-md evaluate ">
         <div className="d-flex  py-4">
-          <Avatar name={`${propsData?.name}`} round />
+          <Avatar name={`${propsData?.firstName}`} round />
           <div className="d-flex flex-column ps-4">
-            <h2 className="text-dark">{propsData?.name}</h2>
-            <h5 className="text-secondary">{propsData?.id}</h5>
+            <h2 className="text-dark">
+              {propsData?.firstName} {propsData?.lastName}
+            </h2>
+            <h5 className="text-secondary">{propsData?.empId}</h5>
           </div>
         </div>
-        <div className="shadow">
-          <form onSubmit={handleSubmit(onSubmit)} className="form-control">
+
+        <div className="">
+          <form className="w-50" onSubmit={handleSubmit}>
             <>
-              <label className="form-label fs-3">Score</label>
+              <label className="form-label fs-4">Score</label>
               <input
-                type="text"
+                type="number"
+                max={"100"}
+                min={"0"}
                 className="form-control"
-                {...register("score")}
-                placeholder={propsData?.status ? `${propsData?.subScore}` : ""}
+                placeholder="Enter score"
+                Value={score}
+                onChange={(e) => setScore(e.target.value)}
+                required={score === null ? true : false}
               />
-              <p className="text-danger">{errors.score?.message}</p>
+
+              <p className="text-danger"></p>
             </>
+
             <>
-              <label className="form-label fs-3">Feedback</label>
-              <textarea className="form-control" {...register("feedback")}>
-                {propsData?.status
-                  ? `${propsData?.feedback}`
-                  : "Type Your Feedback"}
-              </textarea>
-              <p>{errors?.feedback?.message}</p>
+              <label className="form-label fs-4">Feedback</label>
+              <textarea
+                className="form-control"
+                placeholder="Your feedback"
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
+              ></textarea>
+              <p></p>
             </>
             <div className="form-check form-switch pe-3 checkbox-lg">
               <input
                 className="form-check-input"
                 type="checkbox"
-                {...register("show")}
+                checked={show}
+                onChange={(e) => setShow(e.target.checked)}
               />
-              <label className="form-check-label fs-4 ps-3">Show grade</label>
+              <label className="form-check-label fs-5 ps-3">Show grade</label>
             </div>
-            <button
-              className="btn btn-outline-primary mt-2 px-4"
-              onClick={() => (propsData?.score !== null ? "" : "")}
-            >
+            <button type="submit" className="btn btn-outline-primary mt-2 px-4">
               Save
             </button>
           </form>
