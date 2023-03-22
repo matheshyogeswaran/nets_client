@@ -14,7 +14,6 @@ const FurtherDetails = (props) => {
     const [jobTitle, setJobTitle] = useState();
 
     const [availableDepartments, setAvailableDepartments] = useState([]);
-    const [availableJobTitles, setAvailableJobTitles] = useState([]);
     const [noUser, setNoUser] = useState(true);
 
     const currentYear = new Date().getFullYear();
@@ -27,11 +26,6 @@ const FurtherDetails = (props) => {
             .get("http://localhost:1337/departments/showAllDepartments")
             .then(function (response) {
                 setAvailableDepartments(response.data);
-            });
-        axios
-            .get("http://localhost:1337/jobtitles/showAllJobtitles")
-            .then(function (response) {
-                setAvailableJobTitles(response.data);
             });
         axios
             .get("http://localhost:1337/users/isUserCollectionEmpty")
@@ -80,19 +74,23 @@ const FurtherDetails = (props) => {
     return (
         <React.Fragment>
             {
-                ((availableDepartments.length === 0 && availableJobTitles.length === 0) && !(noUser))
+                // ((availableDepartments.length === 0 && availableJobTitles.length === 0) && !(noUser))
+                ((availableDepartments.length === 0) && !(noUser))
                     ?
                     <h1>Sorry, Setup in Progress. Try again Later !</h1>
                     :
                     <div className="container mt-3">
 
-                        {(availableDepartments.length === 0 && availableJobTitles.length === 0) && <div className="alert alert-warning">
-                            <b><i className="bi bi-info-circle-fill"></i> Attention:</b> You are the very first user of
-                            this application, which means
-                            <b> you have been automatically assigned the role of Super Admin</b>. Any updates
-                            you make to your personal details will affect your account accordingly.
-                            Please proceed with caution !
-                        </div>}
+                        {
+                            // (availableDepartments.length === 0 && availableJobTitles.length === 0) &&
+                            (availableDepartments.length === 0) &&
+                            <div className="alert alert-warning">
+                                <b><i className="bi bi-info-circle-fill"></i> Attention:</b> You are the very first user of
+                                this application, which means
+                                <b> you have been automatically assigned the role of Super Admin</b>. Any updates
+                                you make to your personal details will affect your account accordingly.
+                                Please proceed with caution !
+                            </div>}
                         <div className="card shadow shadow-lg" >
                             <div className="card-header bg-dark ">
                                 <center>
@@ -198,7 +196,9 @@ const FurtherDetails = (props) => {
                                         </div>
                                     </div>
                                     {
-                                        (availableDepartments.length !== 0 && availableJobTitles.length !== 0) && <div className="row m-2">
+                                        (availableDepartments.length !== 0)
+                                        &&
+                                        <div className="row m-2">
                                             <div className="col-md-6">
                                                 <div className="form-floating mb-3">
                                                     <select id="dep" required className="form-control" onChange={e => setDepartment(e.target.value)}>
@@ -213,24 +213,26 @@ const FurtherDetails = (props) => {
                                                     </select>
                                                     <label htmlFor="dep">Select your department</label>
                                                 </div>
-
                                             </div>
-                                            <div className="col-md-6">
-                                                <div className="form-floating mb-3">
-                                                    <select id="jt" required className="form-control" onChange={e => setJobTitle(e.target.value)}>
-                                                        <option selected value="" disabled>Select Job Title</option>
-                                                        {
-                                                            availableJobTitles.map((e) => {
-                                                                return (
-                                                                    <option value={e._id}>{e.jobTitlename}</option>
-                                                                )
-                                                            })
-                                                        }
-                                                    </select>
-                                                    <label htmlFor="jt">Select your job title</label>
-                                                </div>
-
-                                            </div>
+                                            {
+                                                
+                                                 <div className="col-md-6">
+                                                    <div className="form-floating mb-3">
+                                                        <select id="jt" required className="form-control" onChange={e => setJobTitle(e.target.value)}>
+                                                            <option selected value="" disabled>Select Job Title</option>
+                                                            {
+                                                                availableDepartments.find(jobTitle => jobTitle._id === department)?.Jobtitle.map((e)=>{
+                                                                    return(
+                                                                        <option value={e?._id}>{e.jobTitlename}</option>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </select>
+                                                        <label htmlFor="jt">Select your job title</label>
+                                                    </div>
+    
+                                                </div> 
+                                            }
                                         </div>
                                     }
 
