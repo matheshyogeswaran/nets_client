@@ -11,7 +11,7 @@ const ViewChapter = () => {
     axios
       .get("http://localhost:1337/chapters/showAllChapters")
       .then(function (response) {
-        const filteredChapters = response.data.filter(chapter => chapter.depID !== null);
+        const filteredChapters = response.data.filter(chapter => chapter.depID !== null && chapter.status === "active");
         setChapters(filteredChapters);
       });
   }, []);

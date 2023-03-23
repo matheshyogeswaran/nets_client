@@ -1,7 +1,5 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "axios";
 import "../App.css";
 // Util Imports
 import RequireAuth from "../utils/RequireAuth";
@@ -28,6 +26,7 @@ import EditDepartment from "../pages/department/EditDepartment";
 import DeleteDepartment from "../pages/department/DeleteDepartment";
 import ProfileOverview from "../pages/profile/ProfileOverview";
 import PermanentDeleteChapter from "../pages/chapter/PermanentDeleteChapter";
+import DeleteChapterPermanent from "../pages/chapter/DeleteChapterPermanent";
 import AddJobtitle from "../pages/jobtitle/AddJobtitle";
 import EditJobtitle from "../pages/jobtitle/EditJobtitle";
 import DeleteJobtitle from "../pages/department/DeleteJobtitle";
@@ -61,8 +60,8 @@ import QuizReportFront from "../pages/report/quizReportFront";
 import QuizReport from "../pages/report/quizReport";
 import Ratings from "../pages/report/Ratings";
 import Home from "../pages/home_pages/Home";
+import { FaBuromobelexperte } from "react-icons/fa";
 import MainDashBoard from "../pages/home_pages/MainDashBoard";
-
 import ArticleContent from "../pages/article page/ArticleContent";
 import Content from "../pages/Chapter page/Content";
 import UnitContent from "../pages/Unit page/UnitContent";
@@ -70,11 +69,7 @@ import ViewKT from "../pages/KT view/ViewKT";
 import ViewContent from "../pages/article view/ViewContent";
 import EditTask from "../pages/Chapter page/EditTask";
 import QuizEntry from "../pages/quiz/QuizEntry";
-
 import Quizpage from "../pages/quiz/Quizpage";
-const API_BASE = "http://localhost:1337";
-
-export const AppContext = createContext();
 
 const AppRoutes = () => {
   return (

@@ -41,16 +41,19 @@ const Chapter = () => {
 
                 <th scope="col">Chapter name</th>
 
-                <th scope="col">
-                  <center>Actions</center>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {chapters.map((item) => {
-                return (
-                  <tr className="align-middle" key={item._id}>
-                    <th scope="row">{item._id}</th>
+              <th scope="col">
+                <center>Actions</center>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {chapters.map((item) => {
+              if (item.status === "notactive") {
+                return null; // If the status is not active, don't render the row
+              }
+              return (
+                <tr className="align-middle" key={item._id}>
+                  <th scope="row">{item._id}</th>
 
                     <td>{item.chapterName}</td>
 

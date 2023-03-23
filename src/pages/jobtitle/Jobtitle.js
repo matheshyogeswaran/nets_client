@@ -5,13 +5,13 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 const Jobtitle = () => {
-  const [jobtitles, setJobtitle] = useState([]);
+  const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
     axios
       .get("http://localhost:1337/jobtitles/showAllJobtitles")
       .then(function (response) {
-        setJobtitle(response.data);
+        setDepartments(response.data);
       });
   }, []);
 
@@ -32,8 +32,8 @@ const Jobtitle = () => {
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">#</th>
-
+              <th scope="col">Department name</th>
+              <th scope="col">Jobtitle_ID</th>
               <th scope="col">Jobtitle name</th>
 
               <th scope="col">
@@ -42,31 +42,34 @@ const Jobtitle = () => {
             </tr>
           </thead>
           <tbody>
-            {jobtitles.map((item) => {
-              return (
-                <tr className="align-middle" key={item._id}>
-                  <th scope="row">{item._id}</th>
-
-                  <td>{item.jobTitlename}</td>
-
-                  <td>
-                    <Link
-                      to={"/editjob/" + item._id + "/" + item.jobTitlename}
-                      className="btn btn-outline-primary form-control"
-                    >
-                      Edit
-                    </Link>
-                  </td>
-                  <td>
-                    <Link
-                      to={"/deletejob/" + item._id}
-                      className="btn btn-outline-danger form-control"
-                    >
-                      Delete
-                    </Link>
-                  </td>
-                </tr>
-              );
+            {departments.map((department, index) => {
+              return department.Jobtitle.map((jobtitle, j) => {
+                return (
+                  <tr className="align-middle" key={jobtitle._id}>
+                    {/* {j === 0 ? <th scope="row">{index + 1}</th> : <td></td>} */}
+                    {j === 0 ? <td>{department.depName}</td> : <td></td>}
+                    <td>{jobtitle._id}</td>
+                    <td>{jobtitle.jobTitlename}</td>
+                    <td></td>
+                    <td>
+                      <Link
+                        to={"/editjob/" + jobtitle._id + "/" + jobtitle.jobTitlename}
+                        className="btn btn-outline-primary form-control"
+                      >
+                        Edit
+                      </Link>
+                    </td>
+                    <td>
+                      <Link
+                        to={"/deletejob/" + jobtitle._id}
+                        className="btn btn-outline-danger form-control"
+                      >
+                        Delete
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })
             })}
           </tbody>
         </table>
