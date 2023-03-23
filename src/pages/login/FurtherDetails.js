@@ -12,6 +12,7 @@ const FurtherDetails = (props) => {
     const [email] = useState(props.userData.email);
     const [department, setDepartment] = useState();
     const [jobTitle, setJobTitle] = useState();
+    const [userImage] = useState(props.userData.picture);
 
     const [availableDepartments, setAvailableDepartments] = useState([]);
     const [noUser, setNoUser] = useState(true);
@@ -44,7 +45,8 @@ const FurtherDetails = (props) => {
             phone: phone,
             email: email,
             department: department,
-            jobTitle: jobTitle
+            jobTitle: jobTitle,
+            userImage: userImage
         }
 
         axios.post('http://localhost:1337/authentication/addFurtherDetails', postData)

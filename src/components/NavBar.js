@@ -101,7 +101,7 @@ const NavBar = () => {
                       <hr className=" dropdown-divider" />
                     </li>
                     <li>
-                      <Link className=" dropdown-item" to="#">
+                      <Link className=" dropdown-item" to="/profile">
                         <i className="bi bi-person-lines-fill me-2"></i>
                         Account
                       </Link>

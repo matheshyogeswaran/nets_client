@@ -118,5 +118,10 @@
         "buttonText": "Create Common Chapters",
         "buttonLink": "",
         "permissionID": "P024"
+    },
+    {
+        "buttonText": "Create Chapters for your Department" ,
+        "buttonLink": "/newdepchap",
+        "permissionID": "P025"
     }
 ]
