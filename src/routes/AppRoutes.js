@@ -15,6 +15,7 @@ import PromoteDemote from "../pages/user_role/PromoteDemote";
 import ShowUsersUnderRole from "../pages/user_role/SHowUsersUnderRole";
 import Jobtitle from "../pages/jobtitle/Jobtitle";
 import Chapter from "../pages/chapter/Chapter";
+import DepartmentChapter from "../pages/chapter/DepartmentChapter";
 import ViewChapter from "../pages/chapter/ViewChapter";
 import AllocateChapter from "../pages/chapter/AllocateChapter";
 import EditAllocate from "../pages/chapter/EditAllocate";
@@ -219,6 +220,15 @@ const AppRoutes = () => {
               <RequireAuth>
                 {" "}
                 <Chapter />
+              </RequireAuth>
+            }
+          />
+          <Route
+            exact
+            path="/depchapter/"
+            element={
+              <RequireAuth>
+                <DepartmentChapter />
               </RequireAuth>
             }
           />
@@ -669,6 +679,15 @@ const AppRoutes = () => {
             element={
               <RequireAuth>
                 <DeleteChapter />
+              </RequireAuth>
+            }
+          />
+          <Route
+            exact
+            path="/deletechapper/:id"
+            element={
+              <RequireAuth>
+                <DeleteChapterPermanent />
               </RequireAuth>
             }
           />
