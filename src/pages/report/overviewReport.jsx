@@ -1,13 +1,11 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Avatar from "react-avatar";
-import { useState, useContext, useEffect } from "react";
-import { AppContext } from "../../routes/AppRoutes";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 const OverviewReport = () => {
   const API_BASE = "http://localhost:1337";
 
-  const { chapter } = useContext(AppContext);
   const [chapterScore, setChapterScore] = useState([]);
   const [selectedOption, setSelectedOption] = useState("Overview Report");
   const location = useLocation();
@@ -78,17 +76,9 @@ const OverviewReport = () => {
           </thead>
 
           <tbody>
-            {chapter.map((chap, index) => {
-              let score = 0;
-              let unitCount = 0;
-              {
-                chapterScore.map((quiz) => {
-                  quiz.chapterId === chap._id && (score += quiz.score);
-                  chap._id === quiz.chapterId && unitCount++;
-                });
-              }
+            {chapterScore.map((chap, index) => {
               return (
-                unitCount !== 0 && (
+                chap.unitCount !== 0 && (
                   <tr
                     key={index}
                     className=" bg-primary bg-opacity-10 leaderboard-tr fw-semibold"
@@ -97,14 +87,14 @@ const OverviewReport = () => {
                       {chap.chapterName}
                     </td>
                     <td className="leaderboard-td align-middle text-center">
-                      {unitCount}
+                      {chap.unitCount}
                     </td>
 
                     <td className="leaderboard-td align-middle text-center">
-                      {score}
+                      {chap.score}
                     </td>
                     <td className="leaderboard-td align-middle text-center">
-                      {score / unitCount}
+                      {chap.average}
                     </td>
                   </tr>
                 )

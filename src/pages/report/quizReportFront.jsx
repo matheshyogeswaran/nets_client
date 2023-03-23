@@ -1,14 +1,12 @@
 import React from "react";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AppContext } from "../../routes/AppRoutes";
 import axios from "axios";
 import Search from "./../../subComponents/search";
-
 const QuizReportFront = () => {
   const API_BASE = "http://localhost:1337";
-  const { chapter } = useContext(AppContext);
-  const { unit } = useContext(AppContext);
+  const [chapter, setChapter] = useState([]);
+  const [unit, setUnit] = useState([]);
   const [quizSubmissions, setQuizSubmissions] = useState([]);
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState();
@@ -28,6 +26,14 @@ const QuizReportFront = () => {
     axios
       .get(API_BASE + "/quizSubmission")
       .then((res) => setQuizSubmissions(res.data))
+      .catch((err) => console.log(err));
+    axios
+      .get(API_BASE + "/chapter")
+      .then((res) => setChapter(res.data))
+      .catch((err) => console.log(err));
+    axios
+      .get(API_BASE + "/unit")
+      .then((res) => setUnit(res.data))
       .catch((err) => console.log(err));
   }, []);
 
@@ -120,4 +126,5 @@ const QuizReportFront = () => {
     </div>
   );
 };
+
 export default QuizReportFront;

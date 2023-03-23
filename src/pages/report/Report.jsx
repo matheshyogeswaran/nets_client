@@ -1,11 +1,13 @@
-import { useContext, useState } from "react";
-import { AppContext } from "../../routes/AppRoutes";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Search from "../../subComponents/search";
 import TabReport from "../../component/tabReport";
+import axios from "axios";
 
 const Report = () => {
-  const { employee } = useContext(AppContext);
+  const API_BASE = "http://localhost:1337";
+
+  const [reportDetails, setReportDetails] = useState([]);
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState();
   const [show, setShow] = useState(true);
@@ -29,6 +31,13 @@ const Report = () => {
     setSearch(search);
     setShowSearch(showSearch);
   };
+  useEffect(() => {
+    axios
+      .get(API_BASE + "/report")
+      .then((res) => setReportDetails(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <>
       <h1 className="py-4 result-head card ps-5">Employee Report</h1>
@@ -49,7 +58,7 @@ const Report = () => {
           </tr>
         </thead>
         <tbody>
-          {employee
+          {reportDetails
             .filter((emp) => {
               let name = emp.firstName + " " + emp.lastName;
               if (showSearch) {

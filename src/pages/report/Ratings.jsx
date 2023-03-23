@@ -3,7 +3,6 @@ import Avatar from "react-avatar";
 import { FaStar } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
 const Ratings = () => {
   const API_BASE = "http://localhost:1337";
   const location = useLocation();
