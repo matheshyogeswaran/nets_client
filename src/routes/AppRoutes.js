@@ -71,6 +71,7 @@ import ViewContent from "../pages/article view/ViewContent";
 import EditTask from "../pages/Chapter page/EditTask";
 import QuizEntry from "../pages/quiz/QuizEntry";
 import Quizpage from "../pages/quiz/Quizpage";
+import Editlog from "./pages/ProjSubmission/editLog";
 
 const AppRoutes = () => {
   return (
@@ -502,6 +503,8 @@ const AppRoutes = () => {
           <Route path="/quizreportfront" element={<QuizReportFront />} />
           <Route path="/quizreport" element={<QuizReport />} />
           <Route path="/ratings" element={<Ratings />} />
+          <Route path="/editlog" element={<Editlog />} />
+
           <Route
             exact
             path="/department/"

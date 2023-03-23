@@ -39,7 +39,7 @@ const Evaluate = (props) => {
           })
           .then((res) => {
             res.data === true && propsData?.update === true
-              ? swal("Updated!", "Updated successfully", "success")
+              ? swal("Updated!", "Upgraded successfully", "success")
               : swal("Evaluated!", "Evaluated successfully", "success");
           });
       } catch (err) {
@@ -47,8 +47,27 @@ const Evaluate = (props) => {
       }
     }
   }
-  console.log();
-
+  const handleStoreScore = () => {
+    let empId = propsData?.empId;
+    let projectName = propsData?.projectName;
+    propsData?.update
+      ? axios
+          .post(API_BASE + "/updateScore", {
+            score: score,
+            projectName: projectName,
+            empId: empId,
+          })
+          .then((res) => console.log(res.data))
+          .catch((err) => console.log(err))
+      : axios
+          .post(API_BASE + "/storeScore", {
+            score: score,
+            projectName: projectName,
+            empId: empId,
+          })
+          .then((res) => console.log(res.data))
+          .catch((err) => console.log(err));
+  };
   return (
     <div className="">
       <h1 className="py-4 result-head card ps-5">
@@ -102,7 +121,11 @@ const Evaluate = (props) => {
               />
               <label className="form-check-label fs-5 ps-3">Show grade</label>
             </div>
-            <button type="submit" className="btn btn-outline-primary mt-2 px-4">
+            <button
+              type="submit"
+              className="btn btn-outline-primary mt-2 px-4"
+              onClick={handleStoreScore}
+            >
               Save
             </button>
           </form>
