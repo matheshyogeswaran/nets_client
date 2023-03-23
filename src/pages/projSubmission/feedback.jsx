@@ -1,9 +1,19 @@
-import { useContext } from "react";
-import { AppContext } from "../../routes/AppRoutes";
+import { useState, useEffect } from "react";
 import Avatar from "react-avatar";
+import axios from "axios";
 
 const Feedback = () => {
-  const { employee } = useContext(AppContext);
+  const API_BASE = "http://localhost:1337";
+
+  const [employee, setEmployee] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(API_BASE + "/user")
+      .then((res) => setEmployee(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div>
       <h1 className="py-4 result-head card ps-5">Project Submission</h1>
