@@ -76,7 +76,6 @@ const ChapterReport = () => {
               aria-controls={index}
               aria-selected={index == navActive ? "true" : "false"}
             >
-              {console.log("chapUnitsLength", chap)}
               {chap.chapterName}
             </button>
           ))}
