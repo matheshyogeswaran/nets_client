@@ -1,10 +1,8 @@
 //Futur work: should to displayed per supervisor
-//downloas file using link
 
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { UilFolderDownload } from "@iconscout/react-unicons";
-import { generateZip } from "./generateZip";
 import axios from "axios";
 
 const Submission = () => {
@@ -17,20 +15,31 @@ const Submission = () => {
       .get(API_BASE + "/getSubmissionTable")
       .then((res) => setSubmissionData(res.data))
       .catch((err) => console.log(err));
-    // axios
-    //   .get("http://example.com/file.pdf", { responseType: "blob" })
-    //   .then((response) => {
-    //     const file = new Blob([response.data], { type: "application/pdf" });
-    //     const fileURL = URL.createObjectURL(file);
-
-    //     const link = document.createElement("a");
-    //     link.href = fileURL;
-    //     link.setAttribute("download", "file.pdf");
-    //     document.body.appendChild(link);
-    //     link.click();
-    //   });
   }, []);
 
+  const handleGetZipFile = (empId) => {
+    axios
+      .get(API_BASE + "/getZipFile/" + empId)
+      .then((res) => downloadFile(res.data))
+      .catch((err) => console.log(err));
+  };
+  const downloadFile = async (fileURL) => {
+    try {
+      const response = await fetch(fileURL);
+      let fileNameIndex = fileURL.lastIndexOf("/");
+      let fileName = fileURL.slice(fileNameIndex + 1);
+      const blob = await response.blob(); //to convert the response into a Blob object.
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <>
       <h1 className=" py-4 result-head card ps-5 ">Final Project Submission</h1>
@@ -65,7 +74,7 @@ const Submission = () => {
                     <UilFolderDownload
                       color="#0198E1"
                       className="download-icon"
-                      onClick={generateZip}
+                      onClick={() => handleGetZipFile(emp.empId)}
                     />
                   )}
                 </td>

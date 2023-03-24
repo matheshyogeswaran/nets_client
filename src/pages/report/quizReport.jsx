@@ -1,15 +1,14 @@
 import React from "react";
 import { useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { AppContext } from "../../routes/AppRoutes";
 import Search from "./../../subComponents/search";
 import axios from "axios";
 const QuizReport = () => {
   const API_BASE = "http://localhost:1337";
 
-  const { employee } = useContext(AppContext);
   const location = useLocation();
   const propsData = location.state;
+  const [users, setUsers] = useState([]);
   const [quizSubmission, setQuizSubmission] = useState([]);
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState();
@@ -18,6 +17,10 @@ const QuizReport = () => {
     setShowSearch(showSearch);
   };
   useEffect(() => {
+    axios
+      .get(API_BASE + "/report")
+      .then((res) => setUsers(res.data))
+      .catch((err) => console.log(err));
     axios
       .get(API_BASE + "/quizSubmission")
       .then((res) => setQuizSubmission(res.data))
@@ -44,7 +47,7 @@ const QuizReport = () => {
             </tr>
           </thead>
           <tbody>
-            {employee
+            {users
               .filter((emp) => {
                 let name = emp.firstName + " " + emp.lastName;
                 if (showSearch) {

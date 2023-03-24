@@ -3,8 +3,10 @@ import { useParams } from "react-router-dom";
 import users from "../../data/Users.json";
 import NavBar from "../../components/NavBar";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 const EditAllocate = () => {
+  const department = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.department;
   const [chaptername, setChapter] = useState([]);
   const [checked, setChecked] = useState({});
 
@@ -12,7 +14,8 @@ const EditAllocate = () => {
     axios
       .get("http://localhost:1337/chapters/showAllChapters")
       .then(function (response) {
-        const filteredChapters = response.data.filter(chapter => chapter.depID !== null);
+        const filteredChapters = response.data.filter(chapter => chapter.depID._id === department && chapter.status === "active");
+        // const filteredChapters = response.data.filter(chapter => chapter.depID !== null);
         setChapter(filteredChapters);
       });
   }, []);

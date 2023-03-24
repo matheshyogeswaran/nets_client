@@ -12,7 +12,7 @@ const MainDashBoard = () => {
     const navigate = useNavigate();
     const [depIsEmpty, setDepIsEmpty] = useState(false);
     const userData = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
-    console.log(userData)
+    // console.log(userData)
     useEffect(() => {
         axios.get("http://localhost:1337/general/depisempty")
             .then(function (response) {
