@@ -10,7 +10,7 @@ const Tasks = ({ todo }) => {
           <div class='col-lg-12'> 
          
         <h3 style={{ font: '25px', color: '#000000' }}>
-        <Link to={"/Unit/"+todo._id} style={{textDecoration:"none",color: "#000000"}}> {todo.unit_name}</Link>
+        <Link to={"/Unit/"+todo._id} style={{textDecoration:"none",color: "#000000"}}> {todo.unitName}</Link>
             </h3>
              <div>
               
@@ -18,7 +18,7 @@ const Tasks = ({ todo }) => {
              
              </div>
               
-            <p>{todo.unit_intro} </p>
+            <p>{todo.unitDesc} </p>
             <div>
               
               <Delete key={todo._id} todo={todo} />

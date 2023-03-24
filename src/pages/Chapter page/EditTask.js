@@ -18,7 +18,7 @@ const Edit = ({ todo }) => {
 
   const onUpdate = (e) => {
     e.preventDefault();
-    axios.post(`http://localhost:4000/units/update/${todo._id}`, updatedTodo)
+    axios.post(`http://localhost:1337/units/update/${todo._id}`, updatedTodo)
       .then(() => {
         setModal(null);
         swal({
@@ -33,6 +33,7 @@ const Edit = ({ todo }) => {
           text: "Error",
         });
       });
+       
   };  
 
   return (
@@ -57,12 +58,12 @@ const Edit = ({ todo }) => {
               <div className="modal-body">
                 <form onSubmit={onUpdate}>
                   <div className="mb-3">
-                    <label htmlFor="unit_name" className="form-label">Unit Name</label>
-                    <input type="text" className="form-control" id="unit_name" name="unit_name" value={updatedTodo.unit_name} onChange={onChange} />
+                    <label htmlFor="unitName" className="form-label">Unit Name</label>
+                    <input type="text" className="form-control" id="unitName" name="unitName" value={updatedTodo.unitName} onChange={onChange} />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="unit_intro" className="form-label">Unit Introduction</label>
-                    <input type="text" className="form-control" id="unit_intro" name="unit_intro" value={updatedTodo.unit_intro} onChange={onChange} />
+                    <label htmlFor="unitDesc" className="form-label">Unit Introduction</label>
+                    <input type="text" className="form-control" id="unitDesc" name="unitDesc" value={updatedTodo.unitDesc} onChange={onChange} />
                   </div>
                   <div class="modal-footer">
                         <input type="submit" value="Update Unit" className="btn btn-primary" />

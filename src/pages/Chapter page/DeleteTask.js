@@ -8,7 +8,7 @@ const Delete = ({ todo }) => {
     const navigate = useNavigate();  
 
   const onDelete = () => {
-    axios.delete(`http://localhost:4000/units/delete/${todo._id}`)
+    axios.delete(`http://localhost:1337/units/delete/${todo._id}`)
     .then((res) => {
       console.log(res.data);
           swal({
@@ -25,8 +25,8 @@ const Delete = ({ todo }) => {
           text: "Error",
         });
       });
-    navigate('/chapterPage');
-    
+    navigate('/');
+     
   }
 
   return (
@@ -66,6 +66,7 @@ const Delete = ({ todo }) => {
 };
 
 export default Delete;
+
 
 
  

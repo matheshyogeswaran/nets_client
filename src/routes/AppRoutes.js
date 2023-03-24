@@ -73,6 +73,10 @@ import QuizEntry from "../pages/quiz/QuizEntry";
 import Quizpage from "../pages/quiz/Quizpage";
 import Editlog from "./pages/ProjSubmission/editLog";
 
+ 
+ 
+ 
+
 const AppRoutes = () => {
   return (
     <>
