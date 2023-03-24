@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../Shared/Header";
+import swal from "sweetalert";
 
 const CreateForum = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,12 @@ const CreateForum = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Submitted form data:", formData);
+    swal({
+      title: "Thank you!",
+      text: "You have successfully created a new Discussion Forum Topic!",
+      icon: "success",
+      button: "Close",
+    });
     setFormData({ forumTopic: "", desc: "", attachment: "no" });
     return false;
   };

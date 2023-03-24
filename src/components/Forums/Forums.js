@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Header from "../Shared/Header";
-import Modal from "../Shared/Modal";
-import LockForum from "./LockForum";
+import swal from "sweetalert";
 
 const forums = [
   {
@@ -36,7 +35,23 @@ const forums = [
 ];
 
 const Forums = () => {
-  const [forum, setForum] = useState(0);
+  const LockForum = (id) => {
+    swal({
+      title: "Do you want to lock this forum?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        swal("Forum has been locked!", {
+          icon: "success",
+        });
+        console.log("Submitted form data:", id);
+      }
+    });
+
+    return false;
+  };
   return (
     <div className="container my-5">
       <Header title="NETS: Discussion Forums" />
@@ -97,56 +112,10 @@ const Forums = () => {
                   <button
                     type="button"
                     className="btn btn-outline-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
+                    onClick={() => LockForum(f.id)}
                   >
                     Lock
                   </button>
-                  <div
-                    className="modal fade"
-                    id="exampleModal"
-                    tabindex="-1"
-                    aria-labelledby="exampleModalLabel"
-                    aria-hidden="true"
-                  >
-                    <div className="modal-dialog">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h1
-                            className="modal-title fs-5"
-                            id="exampleModalLabel"
-                          >
-                            Lock Discussion Form
-                          </h1>
-                          <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div className="modal-body">
-                          Do you want to lock the Discussion Forum - {forum}?
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                          >
-                            No
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-primary"
-                            onClick={() => setForum(f.id)}
-                          >
-                            Yes
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             ) : null}

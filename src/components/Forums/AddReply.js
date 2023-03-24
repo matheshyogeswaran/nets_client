@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import Header from "../Shared/Header";
+import swal from "sweetalert";
 
 const AddReply = () => {
   const params = useParams();
@@ -12,6 +13,12 @@ const AddReply = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Submitted form data:", formData);
+    swal({
+      title: "Thank you!",
+      text: "Your reply was successfully saved!",
+      icon: "success",
+      button: "Close",
+    });
     setFormData({ desc: "", attachment: "" });
     return false;
   };

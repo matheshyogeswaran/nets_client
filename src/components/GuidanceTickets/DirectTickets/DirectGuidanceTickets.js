@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../../Shared/Header";
 import LargeModal from "../../Shared/LargeModal";
 import DirectForm from "./DirectForm";
+import swal from "sweetalert";
 
 const DirectGuidanceTickets = () => {
   const tickets = [
@@ -32,6 +33,12 @@ const DirectGuidanceTickets = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Submitted form data:", formData);
+    swal({
+      title: "Thank you!",
+      text: "The ticket was successfully directed!",
+      icon: "success",
+      button: "Close",
+    });
     setFormData({
       directedTo: "",
     });
