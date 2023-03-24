@@ -52,7 +52,7 @@ const DeleteJobtitle = () => {
         <form name="myForm" onSubmit={deletemsg}>
           <div className="field">
             <div className="form-group">
-              <label htmlFor="reasonfield">Reason</label>
+              <label for="reasonfield">Reason</label>
               <textarea
                 className="form-control"
                 id="exampleFormControlTextarea3"
@@ -77,7 +77,7 @@ const DeleteJobtitle = () => {
           </div>
 
           <div>
-            <img src={image3} draggable={false} alt="this is image" />
+            <img src={image3} className="picside" draggable={false} alt="this is image" />
           </div>
           <div className="field"></div>
         </form>

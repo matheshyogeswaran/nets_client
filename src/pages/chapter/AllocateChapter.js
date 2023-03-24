@@ -3,16 +3,21 @@ import NavBar from "../../components/NavBar";
 import users from "../../data/Users.json";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 const AllocateChapter = () => {
-  const [jobTitlename, setJobName] = useState([]);
+  const department = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.department;
+  const [departments, setDepartments] = useState([]);
   useEffect(() => {
     axios
       .get("http://localhost:1337/jobtitles/showAllJobtitles")
       .then(function (response) {
-        setJobName(response.data);
+        setDepartments(response.data);
       });
   }, []);
+
+  // filter departments based on departmentID
+  const filteredDepartments = departments.filter((dep) => dep._id === department);
 
   return (
     <React.Fragment>
@@ -21,48 +26,35 @@ const AllocateChapter = () => {
         <div className="form-control mt-3 heading">Allocate Chapters</div>
         <br></br> <br></br>
         <table className="table">
-          {/* <thead>
-            <tr>
-              <th scope="col">Job title</th>
 
-              <th scope="col">
-                <center>Actions</center>
-              </th>
-            </tr>
-          </thead> */}
           <tbody>
-            {jobTitlename.map((item) => {
-              return (
-                <>
-                  <tr className="align-middle">
-                    <td>{item._id}</td>
-                    <td>{item.jobTitlename}</td>
+            {filteredDepartments.map((department, index) => {
+              return department.Jobtitle.map((jobtitle, j) => {
+                return (
+                  <tr className="align-middle" key={jobtitle._id}>
+                    <td>{jobtitle._id}</td>
+                    <td>{jobtitle.jobTitlename}</td>
 
                     <td>
-                      <button className="button">
+                      <button className="button-result">
                         <Link
-                          to={"/editallocatechapter/" + item._id + "/" + item.jobTitlename}
+                          to={"/editallocatechapter/" + jobtitle._id + "/" + jobtitle.jobTitlename}
                           className="showAns text-decoration-none"
                         >
                           Add chapters
                         </Link>
                       </button>
-
-                      {/* <Link
-                        to="/editallocatechapter"
-                        className="btn btn-primary mr-1"
-                      >
-                        Add Chapters
-                      </Link> */}
                     </td>
                   </tr>
-                </>
-              );
+
+                );
+
+              })
             })}
           </tbody>
         </table>
       </div>
-    </React.Fragment>
+    </React.Fragment >
   );
 };
 export default AllocateChapter;

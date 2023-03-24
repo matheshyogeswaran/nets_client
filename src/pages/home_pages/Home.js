@@ -30,7 +30,19 @@ const Home = () => {
               <td>
                 <Link to="/chapter">Chapter</Link>
               </td>
-              <td>System Admin,Super Admin</td>
+              <td>Super Admin</td>
+            </tr>
+            <tr>
+              <td>
+                <Link to="/depchapter">Department wise Chapter</Link>
+              </td>
+              <td>System Admin</td>
+            </tr>
+            <tr>
+              <td>
+                <Link to="/newdepchap">Department wise add Chapter</Link>
+              </td>
+              <td>System Admin</td>
             </tr>
             <tr>
               <td>

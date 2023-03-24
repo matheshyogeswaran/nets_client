@@ -102,7 +102,7 @@ const Forums = () => {
                 <Link to={`/edit-forum/${f.id}`}>
                   <button
                     type="button"
-                    class="btn btn-outline-primary mx-2"
+                    className="btn btn-outline-primary mx-2"
                     style={{ borderColor: "#1D9EEC" }}
                   >
                     Edit

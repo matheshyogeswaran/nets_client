@@ -10,7 +10,7 @@ const RequestForm = (props) => {
           </label>
           <div className="col-sm-10 mt-2">
             <select
-              class="form-control"
+              className="form-control"
               style={{
                 backgroundColor: "#F8F8F8",
                 borderColor: "#1D9EEC",

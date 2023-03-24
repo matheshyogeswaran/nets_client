@@ -24,10 +24,10 @@ const CompleteForm = (props) => {
           <p className="col-sm-6">Contact Number : 011 1111 111</p>
           <p className="col-sm-6">Email : xxxx@xxx.xxx</p>
         </div>
-        <div class="form-check form-switch my-2">
+        <div className="form-check form-switch my-2">
           {props.formData ? (
             <input
-              class="form-check-input"
+              className="form-check-input"
               type="checkbox"
               id="iscompleted"
               name="iscompleted"
@@ -35,7 +35,7 @@ const CompleteForm = (props) => {
             />
           ) : (
             <input
-              class="form-check-input"
+              className="form-check-input"
               type="checkbox"
               id="iscompleted"
               name="iscompleted"
@@ -45,7 +45,7 @@ const CompleteForm = (props) => {
               required
             />
           )}
-          <label class="form-check-label" for="iscompleted">
+          <label className="form-check-label" for="iscompleted">
             Completed
           </label>
         </div>

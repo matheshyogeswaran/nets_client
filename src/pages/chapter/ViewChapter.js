@@ -1,62 +1,84 @@
 import React from "react";
 import NavBar from "../../components/NavBar";
-import users from "../../data/Users.json";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+
 const ViewChapter = () => {
-  const [chapters, setChapter] = useState([]);
+  const [chapters, setChapters] = useState([]);
+  const [selectedDepartment, setSelectedDepartment] = useState("");
 
   useEffect(() => {
     axios
       .get("http://localhost:1337/chapters/showAllChapters")
       .then(function (response) {
-        setChapter(response.data);
+        const filteredChapters = response.data.filter(chapter => chapter.depID !== null && chapter.status === "active");
+        setChapters(filteredChapters);
       });
   }, []);
 
+  const handleDepartmentChange = (event) => {
+    setSelectedDepartment(event.target.value);
+  };
+
+  const departmentNames = chapters.reduce((acc, chapter) => {
+    if (!acc.includes(chapter.depID?.depName)) {
+      acc.push(chapter.depID?.depName);
+    }
+    return acc;
+  }, []);
+
+  const filteredChapters = selectedDepartment
+    ? chapters.filter((chapter) => chapter.depID?.depName === selectedDepartment)
+    : chapters;
+
   return (
     <React.Fragment>
-      <NavBar></NavBar>
+      <NavBar />
       <div className="container">
         <div className="form-control mt-3 heading">View Chapters</div>
-        <br></br>
-        <br></br> <br></br>
+        <br />
+        <br />
+        <div className="mb-3">
+          <label htmlFor="department-select" className="form-label">
+            Filter by department:
+          </label>
+          <select
+            id="department-select"
+            className="form-select"
+            value={selectedDepartment}
+            onChange={handleDepartmentChange}
+          >
+            <option value="">All departments</option>
+            {departmentNames.map((name) => (
+              <option key={name} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
         <table className="table">
           <thead>
-            <form className="d-flex">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search Chapter ID"
-              />
-            </form>
-
             <tr>
               <th scope="col">#</th>
-
               <th scope="col">Chapter name</th>
               <th scope="col">Related department</th>
               <th scope="col">Created by</th>
             </tr>
           </thead>
           <tbody>
-            {chapters.map((item) => {
-              return (
-                <tr className="align-middle" key={item._id}>
-                  <th scope="row">{item._id}</th>
-
-                  <td>{item.chaptername}</td>
-                  <td>{item.depID}</td>
-                  <td>{item.createdBy}</td>
-                  <td>{item.offeredInJobTitles}</td>
-                </tr>
-              );
-            })}
+            {filteredChapters.map((chapter) => (
+              <tr className="align-middle" key={chapter._id}>
+                <th scope="row">{chapter._id}</th>
+                <td>{chapter.chapterName}</td>
+                <td>{chapter.depID?.depName}</td>
+                <td>{chapter.createdBy?.firstName}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
     </React.Fragment>
   );
 };
+
 export default ViewChapter;
