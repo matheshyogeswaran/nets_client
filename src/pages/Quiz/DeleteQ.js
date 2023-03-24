@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 import swal from "sweetalert";
 
-const Delete = ({ todo }) => {
+const Delete = ({ todo ,id}) => {
     const navigate = useNavigate();  
 
   const onDelete = () => {
-    axios.delete(`http://localhost:4000/units/delete/${todo._id}`)
+    axios.delete(`http://localhost:1337/units/${id}/delete/${todo._id}`)  
     .then((res) => {
       console.log(res.data);
           swal({
@@ -27,7 +27,7 @@ const Delete = ({ todo }) => {
           text: "Error",
         });
       });
-    navigate('/quiz');
+    navigate(`/quiz/${id}`);
      
   }
 

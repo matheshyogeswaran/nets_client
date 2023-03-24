@@ -48,8 +48,11 @@ import DirectGuidanceTickets from "../components/GuidanceTickets/DirectTickets/D
 import RequestGuidanceTickets from "../components/GuidanceTickets/RequestTickets/RequestGuidanceTickets";
 import CommentSection from "../components/Comments/CommentSection"
 import AssignFinalAssignment from '../pages/final_project_assignment/AssignFinalAssignment';
-import Result from "../pages/quiz/result";
-import Review from "../pages/quiz/review";
+//import Result from "../pages/quiz/result";
+//import Review from "../pages/quiz/review";
+import Result from "../pages/Quiz/result.jsx";
+import Review from "../pages/Quiz/review.jsx";
+
 import Submission from "../pages/projSubmission/submission";
 import Evaluate from "../pages/projSubmission/Evaluate";
 import Feedback from "../pages/projSubmission/feedback";

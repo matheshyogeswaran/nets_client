@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import swal from "sweetalert";
 
 export default function AddTask() {
-    const [unit_name, setUnitName] = useState('');
-    const [unit_intro, setUnitIntro] = useState('');
+    const [UnitName, setUnitName] = useState('');
+    const [UnitIntro, setUnitIntro] = useState('');
 
     const onChangeunitname = (e) => {
         setUnitName(e.target.value);
@@ -18,51 +18,56 @@ export default function AddTask() {
         e.preventDefault();
          
         console.log(`Form submitted:`);
-        console.log(`Unit Name: ${unit_name}`);
-        console.log(`Unit Introduction: ${unit_intro}`);
+        console.log(`Unit Name: ${UnitName}`);
+        console.log(`Unit Introduction: ${UnitIntro}`);
 
         const newTodo = {
-            unit_name: unit_name,
-            unit_intro: unit_intro,
+            unitName: UnitName,
+            unitDesc: UnitIntro,
         };
 
-        axios.post('http://localhost:4000/units/add', newTodo)
-            .then((res) => {
-                console.log(res.data);
-                    swal({
-                      icon: "success",
-                      text: "Successfully created",
-                    });
-                    setUnitName('');
-                    setUnitIntro('');
-                   
-                })
-                .catch((error) => {
-                  console.log(error);
-                  swal({
-                    icon: "warning",
-                    text: "Error",
-                  });
+        axios.post('http://localhost:1337/units/add', newTodo)
+        .then((res) => {
+            console.log(res.data);
+                swal({
+                  icon: "success",
+                  text: "Successfully created",
                 });
+                setUnitName('');
+                setUnitIntro('');
+               
+            })
+            .catch((error) => {
+              console.log(error);
+              swal({
+                icon: "warning",
+                text: "Error",
+              });
+            });
 
+        
+
+         
     }
 
     return (
         <div style={{marginTop: 20}}>
             <form onSubmit={onSubmit}>
                 <div className="form-control">
-                    <label>Unit </label>
+                    <label htmlFor="unitName">Unit </label>
                     <input  type="text"
+                            id="unitName"
                             className="form-control"
-                            value={unit_name}
+                            value={UnitName}
                             required
                             onChange={onChangeunitname}
                     />
                     <br></br>
-                    <label>Introduction </label>
+                    <label htmlFor="unitIntro">Introduction </label>
                     <input  type="text"
+                            id="unitIntro"
                             className="form-control"
-                            value={unit_intro}
+                            value={UnitIntro}
                             onChange={onChangeunitintro}
                     />
                     <br></br>

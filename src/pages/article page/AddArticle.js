@@ -21,11 +21,13 @@ function AddArticle() {
       console.log(`Article Introduction: ${artIntro}`);
   
       const newArticle = {
-        art_name: artName,
-        art_intro: artIntro,
+        articleName: artName,
+        articleDesc: artIntro,
       };
   
-      axios.post('http://localhost:4000/arts/add', newArticle)
+       
+
+      axios.post('http://localhost:1337/arts/add', newArticle)
             .then((res) => {
                 console.log(res.data);
                     swal({

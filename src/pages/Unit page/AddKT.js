@@ -21,11 +21,13 @@ const AddKT = () => {
     console.log(`KT Introduction: ${ktIntro}`);
 
     const newKT = {
-      kt_name: ktName,
-      kt_intro: ktIntro,
+      sessionName: ktName,
+      sessionDesc: ktIntro,
     };
 
-    axios.post('http://localhost:4000/kts/add', newKT)
+     
+
+    axios.post('http://localhost:1337/kts/add', newKT)
             .then((res) => {
                 console.log(res.data);
                     swal({

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { FaPencilAlt } from 'react-icons/fa';
 import swal from "sweetalert";
-
-const Edit = ({ todo }) => {
-     
+ 
+const Edit = ({todo,id}) => {
+     const ii = id;
     const [modal, setModal] = useState(null);
    
   const [updatedTodo, setUpdatedTodo] = useState(todo);
@@ -19,7 +19,8 @@ const Edit = ({ todo }) => {
   const onUpdate = (e) => {
     e.preventDefault();
     console.log(todo._id);
-    axios.post(`http://localhost:4000/units/q/update/${todo._id}`, updatedTodo)
+    console.log(ii);
+    axios.post(`http://localhost:1337/units/${ii}/update/${todo._id}`, updatedTodo)   
       .then(() => {
         setModal(null);
         swal({
@@ -34,6 +35,7 @@ const Edit = ({ todo }) => {
           text: "Error",
         });
       });
+       
   };  
 
      

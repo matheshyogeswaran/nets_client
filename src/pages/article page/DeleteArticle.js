@@ -7,7 +7,7 @@ const Delete = ({ todo }) => {
     const navigate = useNavigate();
    
   const onDelete = () => {
-    axios.delete(`http://localhost:4000/arts/delete/${todo._id}`)
+    axios.delete(`http://localhost:1337/arts/delete/${todo._id}`)
     .then((res) => {
       console.log(res.data);
           swal({
@@ -63,5 +63,4 @@ const Delete = ({ todo }) => {
 };
 
 export default Delete;
-
  

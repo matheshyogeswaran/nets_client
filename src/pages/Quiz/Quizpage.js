@@ -68,7 +68,7 @@ function Quizpage(props) {
 <br></br>
 <div className="container-fluid d-grid gap-2 d-md-flex justify-content-md-end">
 <FaPencilAlt type="button" data-bs-toggle="modal" data-bs-target="#editkt" className="editIcon" class="rounded float-end" style={{color:"blue",justifyContent:"end"}}/>
-    {/* <EditQ/>  */}
+     
 <p><FaTimes type="button" className="delIcon" class="rounded float-end" style={{color:"red"}} data-bs-toggle="modal" data-bs-target="#del"/></p>
     <Del/>
                      </div>
