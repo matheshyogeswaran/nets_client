@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../../Shared/Header";
 import LargeModal from "../../Shared/LargeModal";
 import RequestForm from "./RequestForm";
+import swal from "sweetalert";
 
 const RequestGuidanceTickets = () => {
   const tickets = [
@@ -33,6 +34,12 @@ const RequestGuidanceTickets = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Submitted form data:", formData);
+    swal({
+      title: "Thank you!",
+      text: "The ticket was successfully created!",
+      icon: "success",
+      button: "Close",
+    });
     setFormData({
       department: "",
       requestTiltle: "",

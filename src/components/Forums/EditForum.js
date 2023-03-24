@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../Shared/Header";
+import swal from "sweetalert";
 
 const EditForum = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,12 @@ const EditForum = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Submitted form data:", formData);
+    swal({
+      title: "Thank you!",
+      text: "Your changes was successfully saved!",
+      icon: "success",
+      button: "Close",
+    });
     return false;
   };
 
