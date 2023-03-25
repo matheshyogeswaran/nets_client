@@ -26,32 +26,27 @@ const AddComments = () => {
   };
   return (
     <form
-      className="row g-2 mt-2 align-items-center justify-content-center"
+      className="d-flex flex-row g-1 my-4 align-items-center justify-content-center"
+      style={{ display: "flex", justifyContent: "flex-end" }}
       onSubmit={handleSubmit}
     >
-      <div className="col-auto">
-        <Avatar />
-      </div>
-      <div className="col-6 mt-auto">
-        <input
-          type="text"
-          className="form-control"
-          style={{
-            backgroundColor: "#F8F8F8",
-            borderColor: "#1D9EEC",
-          }}
-          id="comment"
-          name="comment"
-          placeholder="Add your Comment"
-          value={formData.comment}
-          onChange={handleInputChange}
-          required
-        />
-        {/* <Inputs type="text" id="addComment" placeholder="Add your Comment" /> */}
-      </div>
-      <div className="col-auto mt-auto">
-        <Button label="Post" type="submit" />
-      </div>
+      <Avatar />
+
+      <input
+        type="text"
+        className="form-control mx-4"
+        style={{
+          backgroundColor: "#F8F8F8",
+          borderColor: "#1D9EEC",
+        }}
+        id="comment"
+        name="comment"
+        placeholder="Add your Comment"
+        value={formData.comment}
+        onChange={handleInputChange}
+        required
+      />
+      <Button label="Post" type="submit" />
     </form>
   );
 };

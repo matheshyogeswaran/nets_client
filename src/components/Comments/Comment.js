@@ -5,7 +5,7 @@ const Com = (props) => {
   return (
     <>
       <div key={props.id} className="d-flex flex-row user p-2 mt-2 border-top">
-        <Avatar />
+        <Avatar user={props.user} />
         <div className="d-flex flex-column mx-2 my-auto">
           <span className="font-weight-bold" style={{ fontSize: "20px" }}>
             {props.user}

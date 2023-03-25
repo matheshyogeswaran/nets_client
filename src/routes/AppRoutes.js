@@ -47,8 +47,8 @@ import DirectGuidanceTickets from "../components/GuidanceTickets/DirectTickets/D
 import RequestGuidanceTickets from "../components/GuidanceTickets/RequestTickets/RequestGuidanceTickets";
 import CommentSection from "../components/Comments/CommentSection";
 import AssignFinalAssignment from "../pages/final_project_assignment/AssignFinalAssignment";
-import Result from "../pages/quiz/result";
-import Review from "../pages/quiz/review";
+// import Result from "../pages/quiz/result";
+// import Review from "../pages/quiz/review";
 import Submission from "../pages/projSubmission/submission";
 import Evaluate from "../pages/projSubmission/Evaluate";
 import Feedback from "../pages/projSubmission/feedback";
@@ -69,8 +69,8 @@ import UnitContent from "../pages/Unit page/UnitContent";
 import ViewKT from "../pages/KT view/ViewKT";
 import ViewContent from "../pages/article view/ViewContent";
 import EditTask from "../pages/Chapter page/EditTask";
-import QuizEntry from "../pages/quiz/QuizEntry";
-import Quizpage from "../pages/quiz/Quizpage";
+// import QuizEntry from "../pages/quiz/QuizEntry";
+// import Quizpage from "../pages/quiz/Quizpage";
 
 const AppRoutes = () => {
   return (
@@ -396,101 +396,108 @@ const AppRoutes = () => {
             exact
             path="/comments"
             element={
-              <RequireAuth>
-                <CommentSection />
-              </RequireAuth>
+              // <RequireAuth>
+              <CommentSection />
+              // </RequireAuth>
             }
           />
           <Route
             exact
             path="/forums"
             element={
-              <RequireAuth>
-                <Forums />
-              </RequireAuth>
+              // <RequireAuth>
+              <Forums />
+              // </RequireAuth>
             }
           />
           <Route
             exact
             path="/view-forum/:forumId"
             element={
-              <RequireAuth>
-                <ViewForum />{" "}
-              </RequireAuth>
+              // <RequireAuth>
+              <ViewForum />
+              //   {" "}
+              // </RequireAuth>
             }
           />
           <Route
             exact
             path="/create-forum"
             element={
-              <RequireAuth>
-                {" "}
-                <CreateForum />{" "}
-              </RequireAuth>
+              // <RequireAuth>
+
+              <CreateForum />
+              // </RequireAuth>
             }
           />
           <Route
             exact
             path="/edit-forum/:forumId"
             element={
-              <RequireAuth>
-                {" "}
-                <EditForum />{" "}
-              </RequireAuth>
+              // <RequireAuth>
+              //   {" "}
+              <EditForum />
+              //   {" "}
+              // </RequireAuth>
             }
           />
           <Route
             exact
             path="/create-post/:forumId"
             element={
-              <RequireAuth>
-                {" "}
-                <CreatePost />{" "}
-              </RequireAuth>
+              // <RequireAuth>
+              //   {" "}
+              <CreatePost />
+              //   {" "}
+              // </RequireAuth>
             }
           />
           <Route
             exact
             path="/add-reply/:forumId/:commentId"
             element={
-              <RequireAuth>
-                {" "}
-                <AddReply />{" "}
-              </RequireAuth>
+              // <RequireAuth>
+              //   {" "}
+              <AddReply />
+              //   {" "}
+              // </RequireAuth>
             }
           />
           <Route
             exactpath="/request-guidance-ticket"
             element={
-              <RequireAuth>
-                {" "}
-                <RequestGuidanceTickets />{" "}
-              </RequireAuth>
+              // <RequireAuth>
+              //   {" "}
+              <RequestGuidanceTickets />
+              //   {" "}
+              // </RequireAuth>
             }
           />
           <Route
             exact
             path="/direct-guidance-ticket"
             element={
-              <RequireAuth>
-                {" "}
-                <DirectGuidanceTickets />{" "}
-              </RequireAuth>
+              // <RequireAuth>
+              //   {" "}
+              <DirectGuidanceTickets />
+              //   {" "}
+              // </RequireAuth>
             }
           />
           <Route
             exact
             path="/complete-guidance-ticket"
             element={
-              <RequireAuth>
-                {" "}
-                <CompleteGuidanceTickets />{" "}
-              </RequireAuth>
+              // <RequireAuth>
+              //   {" "}
+              <CompleteGuidanceTickets />
+              //   {" "}
+              // </RequireAuth>
             }
           />
           <Route path="/" element={<Home />} />
-          <Route path="/result" element={<Result />} />
-          <Route path="/review" element={<Review />} />
+          {/* <Route path="/result" element={<Result />} /> */}
+          {/* <Route path="/review" element={<Review />} /> */}
           <Route path="/submission" element={<Submission />} />
           <Route path="/evaluate" element={<Evaluate />} />
           <Route path="/leaderboard" element={<LeaderBoard />} />
@@ -524,18 +531,18 @@ const AppRoutes = () => {
             exact
             path="/chapter/"
             element={
-              <RequireAuth>
-                <Chapter />
-              </RequireAuth>
+              // <RequireAuth>
+              <Chapter />
+              // </RequireAuth>
             }
           />
           <Route
             exact
             path="/viewchapter/"
             element={
-              <RequireAuth>
-                <ViewChapter />
-              </RequireAuth>
+              // <RequireAuth>
+              <ViewChapter />
+              // </RequireAuth>
             }
           />
           <Route
@@ -727,11 +734,11 @@ const AppRoutes = () => {
           <Route exact path="/Unit/View" element={<ViewKT />} />
           <Route exact path="/edit/:id" element={<EditTask />} />
 
-          <Route exact path="/quiz/view" element={<QuizEntry />} />
-          <Route exact path="/quiz/view/:id" element={<QuizEntry />} />
+          {/* <Route exact path="/quiz/view" element={<QuizEntry />} /> */}
+          {/* <Route exact path="/quiz/view/:id" element={<QuizEntry />} /> */}
 
-          <Route exact path="/quiz" element={<Quizpage />} />
-          <Route exact path="/quiz/:id" element={<Quizpage />} />
+          {/* <Route exact path="/quiz" element={<Quizpage />} /> */}
+          {/* <Route exact path="/quiz/:id" element={<Quizpage />} /> */}
         </Routes>
       </BrowserRouter>
     </>

@@ -3,23 +3,44 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import Header from "../Shared/Header";
 import swal from "sweetalert";
+import axios from "axios";
 
 const AddReply = () => {
   const params = useParams();
   const [formData, setFormData] = useState({
-    desc: "",
+    description: "",
     attachment: "",
   });
   const handleSubmit = (event) => {
+    const data = {
+      ...formData,
+      createdBy: "641db06699bb728ad6649957",
+    };
     event.preventDefault();
-    console.log("Submitted form data:", formData);
-    swal({
-      title: "Thank you!",
-      text: "Your reply was successfully saved!",
-      icon: "success",
-      button: "Close",
-    });
-    setFormData({ desc: "", attachment: "" });
+    axios
+      .post(
+        `http://localhost:1337/add-replies/${params.forumId}/${params.commentId}`,
+        data
+      )
+      .then((res) => {
+        console.log(res.data);
+        swal({
+          title: "Thank you!",
+          text: "Your reply was successfully saved!",
+          icon: "success",
+          button: "Close",
+        });
+        setFormData({ description: "", attachment: "" });
+      })
+      .catch((error) => {
+        console.log(error);
+        swal({
+          title: "Opzz!",
+          text: "Something went wrong, Please try again!",
+          icon: "warning",
+        });
+      });
+    console.log("Submitted form data:", data);
     return false;
   };
 
@@ -35,7 +56,7 @@ const AddReply = () => {
       <div className="p-4">
         <form onSubmit={handleSubmit}>
           <div className="form-group mt-2">
-            <label for="desc" className="font-weight-bold">
+            <label for="description" className="font-weight-bold">
               Description:
             </label>
             <div className="col-sm-8 mt-2">
@@ -46,9 +67,9 @@ const AddReply = () => {
                   backgroundColor: "#F8F8F8",
                   borderColor: "#1D9EEC",
                 }}
-                id="desc"
-                name="desc"
-                value={formData.desc}
+                id="description"
+                name="description"
+                value={formData.description}
                 onChange={handleInputChange}
                 required
               ></textarea>

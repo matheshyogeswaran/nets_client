@@ -2,23 +2,44 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../Shared/Header";
 import swal from "sweetalert";
+import axios from "axios";
 
 const CreateForum = () => {
   const [formData, setFormData] = useState({
-    forumTopic: "",
-    desc: "",
-    attachment: "no",
+    topic: "",
+    description: "",
+    attachmentAllowed: false,
   });
   const handleSubmit = (event) => {
+    const data = {
+      ...formData,
+      createdBy: "641db06699bb728ad6649957",
+      belongsToChapter: "6419e53e4d27e2edbce99300",
+    };
+    console.log(data);
     event.preventDefault();
-    console.log("Submitted form data:", formData);
-    swal({
-      title: "Thank you!",
-      text: "You have successfully created a new Discussion Forum Topic!",
-      icon: "success",
-      button: "Close",
-    });
-    setFormData({ forumTopic: "", desc: "", attachment: "no" });
+    axios
+      .post("http://localhost:1337/create-forum", data)
+      .then((res) => {
+        console.log(res.data);
+        swal({
+          title: "Thank you!",
+          text: "You have successfully created a new Discussion Forum Topic!",
+          icon: "success",
+          button: "Close",
+        });
+        setFormData({ topic: "", description: "", attachmentAllowed: false });
+      })
+      .catch((error) => {
+        console.log(error);
+        swal({
+          title: "Opzz!",
+          text: "Something went wrong, Please try again!",
+          icon: "warning",
+        });
+      });
+    console.log("Submitted form data:", data);
+
     return false;
   };
 
@@ -34,7 +55,7 @@ const CreateForum = () => {
       <div className="p-4">
         <form onSubmit={handleSubmit}>
           <div className="form-group mt-2">
-            <label for="forumTopic" className="font-weight-bold">
+            <label for="topic" className="font-weight-bold">
               Discussion Forum Topic:
             </label>
             <div className="col-sm-8 mt-2">
@@ -45,16 +66,16 @@ const CreateForum = () => {
                   backgroundColor: "#F8F8F8",
                   borderColor: "#1D9EEC",
                 }}
-                id="forumTopic"
-                name="forumTopic"
-                value={formData.forumTopic}
+                id="topic"
+                name="topic"
+                value={formData.topic}
                 onChange={handleInputChange}
                 required
               />
             </div>
           </div>
           <div className="form-group mt-4">
-            <label for="desc" className="font-weight-bold">
+            <label for="description" className="font-weight-bold">
               Description:
             </label>
             <div className="col-sm-8 mt-2">
@@ -65,16 +86,16 @@ const CreateForum = () => {
                   backgroundColor: "#F8F8F8",
                   borderColor: "#1D9EEC",
                 }}
-                id="desc"
-                name="desc"
-                value={formData.desc}
+                id="description"
+                name="description"
+                value={formData.description}
                 onChange={handleInputChange}
                 required
               ></textarea>
             </div>
           </div>
           <div className="form-group mt-4">
-            <label for="attachment" className="font-weight-bold">
+            <label for="attachmentAllowed" className="font-weight-bold">
               Attachments Allowed:
             </label>
             <div className="form-check mt-2">
@@ -84,7 +105,7 @@ const CreateForum = () => {
                   borderColor: "#1D9EEC",
                 }}
                 type="radio"
-                name="attachment"
+                name="attachmentAllowed"
                 id="attachmentAllowed"
                 value="yes"
                 onChange={handleInputChange}
@@ -101,7 +122,7 @@ const CreateForum = () => {
                   borderColor: "#1D9EEC",
                 }}
                 type="radio"
-                name="attachment"
+                name="attachmentAllowed"
                 id="attachmentNotAllowed"
                 value="no"
                 onChange={handleInputChange}

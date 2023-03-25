@@ -1,15 +1,10 @@
 import React from "react";
+import AvatarRound from "react-avatar";
 
-const Avatar = () => {
+const Avatar = (props) => {
   return (
     <div className="d-flex align-items-center">
-      <img
-        src="https://via.placeholder.com/150"
-        className="rounded-circle mr-2"
-        alt="avatar"
-        width="40"
-        height="40"
-      />
+      <AvatarRound name={`${props.user}`} round size={60} />
     </div>
   );
 };
