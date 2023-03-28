@@ -18,7 +18,7 @@ const QuizReport = () => {
   };
   useEffect(() => {
     axios
-      .get(API_BASE + "/report")
+      .get(API_BASE + "/showAllUsers")
       .then((res) => setUsers(res.data))
       .catch((err) => console.log(err));
     axios

@@ -9,7 +9,7 @@ const Feedback = () => {
 
   useEffect(() => {
     axios
-      .get(API_BASE + "/user")
+      .get(API_BASE + "/showAllUsers")
       .then((res) => setEmployee(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -21,7 +21,7 @@ const Feedback = () => {
         <h3 className="pb-5 pt-3">Feedback</h3>
         <div className="pb-4 d-flex">
           <span className="pe-5">Score</span>
-          <span className="ps-4 ms-2">{employee[0].subScore}/100</span>
+          <span className="ps-4 ms-2">{employee[0].score}/100</span>
         </div>
         <div className="pb-5 d-flex">
           <span className="pe-5 me-1">Feedback</span>

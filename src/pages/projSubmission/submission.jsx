@@ -87,12 +87,13 @@ const Submission = () => {
                         empId: emp.empId,
                         firstName: emp.firstName,
                         lastName: emp.lastName,
+                        projectName: emp.projectName,
                         update: true,
                       }}
                       className="text-decoration-none text-white"
                     >
                       <button className="btn btn-submission btn-sm btn-primary">
-                        Edit
+                        Upgrade
                       </button>
                     </Link>
                   ) : (
@@ -101,7 +102,9 @@ const Submission = () => {
                       state={{
                         empId: emp.empId,
                         firstName: emp.firstName,
+                        projectName: emp.projectName,
                         lastName: emp.lastName,
+                        update: false,
                       }}
                       className="text-decoration-none text-white"
                     >

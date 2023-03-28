@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../../Shared/Header";
 import LargeModal from "../../Shared/LargeModal";
 import CompleteForm from "./CompleteForm";
+import swal from "sweetalert";
 
 const CompleteGuidanceTickets = () => {
   const tickets = [
@@ -30,6 +31,12 @@ const CompleteGuidanceTickets = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("isCompleted:", formData);
+    swal({
+      title: "Thank you!",
+      text: "The ticket was successfully completed!",
+      icon: "success",
+      button: "Close",
+    });
     return false;
   };
   return (

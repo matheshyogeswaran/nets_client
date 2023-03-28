@@ -36,10 +36,7 @@ export default function AddQuiz() {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        swal({
-            icon: "success",
-            text: "Successfully created",
-          });
+         
         console.log(`Form submitted:`);
         console.log(`question: ${question}`);
         console.log(`op1: ${op1}`);
@@ -55,7 +52,9 @@ export default function AddQuiz() {
             op4: op4,
         };
 
-        axios.post(`http://localhost:4000/units/${id}/quiz`, newTodo)
+         
+
+            axios.post(`http://localhost:1337/units/${id}/quiz`, newTodo)
             .then((res) => {
                 console.log(res.data.quiz);
                     swal({
@@ -177,7 +176,6 @@ export default function AddQuiz() {
             </div>
         )
     }
-
 
  
      

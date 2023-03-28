@@ -3,8 +3,9 @@ import Avatar from "react-avatar";
 import { useState, useEffect } from "react";
 import swal from "sweetalert";
 import axios from "axios";
+import { MdEditNote, MdCheckCircleOutline } from "react-icons/md";
 
-const Evaluate = (props) => {
+const Evaluate = () => {
   const API_BASE = "http://localhost:1337";
   const location = useLocation();
   const propsData = location.state;
@@ -24,31 +25,72 @@ const Evaluate = (props) => {
       .catch((err) => console.log(err));
   }, []);
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
 
     if (score !== null) {
       let empId = propsData?.empId;
       try {
-        await axios
-          .post(API_BASE + "/toEvaluateSubmission", {
-            empId,
-            score,
-            feedback,
-            show,
-          })
-          .then((res) => {
-            res.data === true && propsData?.update === true
-              ? swal("Updated!", "Updated successfully", "success")
-              : swal("Evaluated!", "Evaluated successfully", "success");
-          });
+        propsData?.update
+          ? swal({
+              title: "Are you sure?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            }).then((willDelete) => {
+              if (willDelete) {
+                axios
+                  .post(API_BASE + "/toEvaluateSubmission", {
+                    empId,
+                    score,
+                    feedback,
+                    show,
+                    // upgraded by
+                  })
+                  .then(() => {
+                    swal("Updated!", "Upgraded successfully", "success");
+                  });
+              }
+            })
+          : axios
+              .post(API_BASE + "/toEvaluateSubmission", {
+                empId,
+                score,
+                feedback,
+                show,
+                // evaluated By
+              })
+              .then(() => {
+                swal("Evaluated!", "Evaluated successfully", "success");
+              });
       } catch (err) {
         console.log(err);
       }
     }
   }
-  console.log();
-
+  const handleStoreScore = () => {
+    let empId = propsData?.empId;
+    let projectName = propsData?.projectName;
+    propsData?.update
+      ? axios
+          .post(API_BASE + "/updateScore", {
+            score: score,
+            projectName: projectName,
+            empId: empId,
+            // upgraded By
+          })
+          .then((res) => console.log(res.data))
+          .catch((err) => console.log(err))
+      : axios
+          .post(API_BASE + "/storeScore", {
+            score: score,
+            projectName: projectName,
+            empId: empId,
+            // evaluated By
+          })
+          .then((res) => console.log(res.data))
+          .catch((err) => console.log(err));
+  };
   return (
     <div className="">
       <h1 className="py-4 result-head card ps-5">
@@ -67,7 +109,7 @@ const Evaluate = (props) => {
 
         <div className="">
           <form className="w-50" onSubmit={handleSubmit}>
-            <>
+            <div className=" mb-4">
               <label className="form-label fs-4">Score</label>
               <input
                 type="number"
@@ -79,11 +121,9 @@ const Evaluate = (props) => {
                 onChange={(e) => setScore(e.target.value)}
                 required={score === null ? true : false}
               />
+            </div>
 
-              <p className="text-danger"></p>
-            </>
-
-            <>
+            <div className=" mb-3">
               <label className="form-label fs-4">Feedback</label>
               <textarea
                 className="form-control"
@@ -91,19 +131,37 @@ const Evaluate = (props) => {
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
               ></textarea>
-              <p></p>
-            </>
-            <div className="form-check form-switch pe-3 checkbox-lg">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                checked={show}
-                onChange={(e) => setShow(e.target.checked)}
-              />
-              <label className="form-check-label fs-5 ps-3">Show grade</label>
             </div>
-            <button type="submit" className="btn btn-outline-primary mt-2 px-4">
-              Save
+
+            <div className=" mb-3">
+              <label className="form-check-label fs-4">
+                Show result to employee
+              </label>
+              <div className="form-check checkbox-lg form-switch mt-3">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  checked={show}
+                  onChange={(e) => setShow(e.target.checked)}
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="btn btn-outline-primary mt-2 px-4"
+              onClick={handleStoreScore}
+            >
+              {propsData?.update ? (
+                <span className="fs-5">
+                  Upgrade{"  "}
+                  <MdEditNote size={25} />
+                </span>
+              ) : (
+                <span className="fs-5">
+                  Save <MdCheckCircleOutline size={23} />
+                </span>
+              )}
             </button>
           </form>
         </div>

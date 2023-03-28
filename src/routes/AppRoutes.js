@@ -73,6 +73,7 @@ import QuizEntry from "../pages/quiz/QuizEntry";
 import Quizpage from "../pages/quiz/Quizpage";
 import HiredEmployeeNew from "../pages/dashboard/HiredEmployee";
 import ListAllChapters from "../pages/chapter/ListAllChapters";
+// import Editlog from "./pages/ProjSubmission/editLog";
 
 
 const AppRoutes = () => {
@@ -524,6 +525,8 @@ const AppRoutes = () => {
           <Route path="/quizreportfront" element={<QuizReportFront />} />
           <Route path="/quizreport" element={<QuizReport />} />
           <Route path="/ratings" element={<Ratings />} />
+          {/* <Route path="/editlog" element={<Editlog />} /> */}
+
           <Route
             exact
             path="/department/"

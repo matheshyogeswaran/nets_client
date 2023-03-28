@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Avatar from "../Shared/Avatar";
 import Button from "../Shared/Button";
+import swal from "sweetalert";
 
 const AddComments = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,12 @@ const AddComments = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Submitted form data:", formData);
+    swal({
+      title: "Thank you!",
+      text: "Your comment was successfully saved!",
+      icon: "success",
+      button: "Close",
+    });
     setFormData({ comment: "" });
     return false;
   };

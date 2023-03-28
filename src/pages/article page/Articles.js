@@ -1,6 +1,7 @@
 import Edit from "./EditArticle";
 import Delete from "./DeleteArticle";
- 
+import { Link } from "react-router-dom";
+import pdf from "../../images/pdf.png";
 
 const Articles = ({ todo }) => {
     return(
@@ -10,7 +11,7 @@ const Articles = ({ todo }) => {
           <div class='col-lg-12'> 
          
         <h3 style={{ font: '25px', color: '#000000' }}>
-              {todo.art_name}
+              {todo.articleName}
             </h3>
              <div>
               
@@ -18,13 +19,15 @@ const Articles = ({ todo }) => {
              
              </div>
               
-            <p>{todo.art_intro} </p>
+            <p>{todo.articleDesc} </p>
             <div>
               
               <Delete key={todo._id} todo={todo} />
              
              </div>
+              
             </div>
+            <p> <Link to='/article/View'><img src={pdf} height='20px' width='20px' alt='pdf'></img></Link> </p>
             </div>
             </div>
             </div>

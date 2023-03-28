@@ -16,7 +16,7 @@ const EditEntry = (props) => {
 });
 
 useEffect(() => {
-  axios.get(`http://localhost:4000/units/${id}`)
+  axios.get(`http://localhost:1337/units/${id}`)
     .then(response => {
        
       const { quizName, quizDesc } = response.data.quiz;
@@ -38,7 +38,7 @@ useEffect(() => {
   const onUpdate = (e) => {
     e.preventDefault();
     console.log({id});
-    axios.post(`http://localhost:4000/units/quizentry/update/${id}`, updatedTodo)
+    axios.post(`http://localhost:1337/units/quizentry/update/${id}`, updatedTodo)
       .then(() => {
         setModal(null);
         swal({
