@@ -1,10 +1,8 @@
 import React from "react";
 import NavBar from "../../components/NavBar";
-import users from "../../data/Users.json";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import RedirectIfUserDontHavePermission from "../../utils/RedirectIfUserDontHavePermission";
 const Chapter = () => {
   const [chapters, setChapter] = useState([]);
 
