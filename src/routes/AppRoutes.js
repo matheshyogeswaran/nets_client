@@ -61,8 +61,8 @@ import QuizReportFront from "../pages/report/quizReportFront";
 import QuizReport from "../pages/report/quizReport";
 import Ratings from "../pages/report/Ratings";
 import Home from "../pages/home_pages/Home";
-import { FaBuromobelexperte } from "react-icons/fa";
-import MainDashBoard from "../pages/home_pages/MainDashBoard";
+// import { FaBuromobelexperte } from "react-icons/fa";
+import MainDashBoard from "../pages/dashboard/MainDashBoard";
 import ArticleContent from "../pages/article page/ArticleContent";
 import Content from "../pages/Chapter page/Content";
 import UnitContent from "../pages/Unit page/UnitContent";
@@ -71,6 +71,9 @@ import ViewContent from "../pages/article view/ViewContent";
 import EditTask from "../pages/Chapter page/EditTask";
 import QuizEntry from "../pages/quiz/QuizEntry";
 import Quizpage from "../pages/quiz/Quizpage";
+import HiredEmployeeNew from "../pages/dashboard/HiredEmployee";
+import ListAllChapters from "../pages/chapter/ListAllChapters";
+
 
 const AppRoutes = () => {
   return (
@@ -96,13 +99,32 @@ const AppRoutes = () => {
               </RedirectIfLoggedIn>
             }
           />
+          
           <Route
             exact
-            path="/ishvini"
+            path="/ishvini/view"
             element={
-              <RequireAuth>
+              <RequireAuth allowedUserRoles={[""]}>
                 {" "}
                 <Home />{" "}
+              </RequireAuth>
+            }
+          />
+          <Route
+            exact
+            path="/learnchapter"
+            element={
+              <RequireAuth>
+                <ListAllChapters></ListAllChapters>
+              </RequireAuth>
+            }
+          />
+          <Route
+            exact
+            path="/hired"
+            element={
+              <RequireAuth>
+                <HiredEmployeeNew></HiredEmployeeNew>
               </RequireAuth>
             }
           />
