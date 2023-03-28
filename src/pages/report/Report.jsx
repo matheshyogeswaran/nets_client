@@ -33,7 +33,7 @@ const Report = () => {
   };
   useEffect(() => {
     axios
-      .get(API_BASE + "/report")
+      .get(API_BASE + "/showAllUsers")
       .then((res) => setReportDetails(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -50,7 +50,7 @@ const Report = () => {
       </div>
       <table className=" empTable table table-striped table-hover mt-sm-5 mt-lg-5 ">
         <thead>
-          <tr className="table-head">
+          <tr className="table-head table-dark">
             <th>ID</th>
             <th>Name</th>
             <th>Department</th>
@@ -84,7 +84,7 @@ const Report = () => {
                       <td>
                         {emp.firstName} {emp.lastName}
                       </td>
-                      <td>{emp.department}</td>
+                      <td>{emp.depName}</td>
                       <td>{emp.jobTitle}</td>
                     </tr>
                   )
@@ -103,7 +103,7 @@ const Report = () => {
                       <td>
                         {emp.firstName} {emp.lastName}
                       </td>
-                      <td>{emp.department}</td>
+                      <td>{emp.depName}</td>
                       <td>{emp.jobTitle}</td>
                     </tr>
                   )

@@ -104,6 +104,7 @@ const Submission = () => {
                         firstName: emp.firstName,
                         projectName: emp.projectName,
                         lastName: emp.lastName,
+                        update: false,
                       }}
                       className="text-decoration-none text-white"
                     >

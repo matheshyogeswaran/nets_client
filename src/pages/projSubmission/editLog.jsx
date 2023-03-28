@@ -67,7 +67,7 @@ const Editlog = () => {
                           <td>{log.submittedBy}</td>
                           <td>{log.score[indexi - 1]}</td>
                           <td>{score}</td>
-                          <td>Piruthuviraj Ravichandran</td>
+                          <td>Dhansh kraja</td>
                           <td>{date}</td>
                         </tr>
                       )
