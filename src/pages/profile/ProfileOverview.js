@@ -88,7 +88,7 @@ function ProfileOverview(props) {
                       type="email"
                       className="form-control a2"
                       id="inputEmail4"
-                      value={data.userRoleId._id}
+                      value={data.userRole}
                       disabled={true}
                     />
                   </div>

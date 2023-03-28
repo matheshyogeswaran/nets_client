@@ -13,6 +13,7 @@ const FurtherDetails = (props) => {
     const [department, setDepartment] = useState();
     const [jobTitle, setJobTitle] = useState();
     const [userImage] = useState(props.userData.picture);
+    const [employeeID, setEmployeeID] = useState();
 
     const [availableDepartments, setAvailableDepartments] = useState([]);
     const [noUser, setNoUser] = useState(true);
@@ -46,7 +47,8 @@ const FurtherDetails = (props) => {
             email: email,
             department: department,
             jobTitle: jobTitle,
-            userImage: userImage
+            userImage: userImage, 
+            employeeID:employeeID
         }
 
         axios.post('http://localhost:1337/authentication/addFurtherDetails', postData)
@@ -136,15 +138,34 @@ const FurtherDetails = (props) => {
                                     <div className="row m-2">
                                         {/* Gender */}
                                         <div className="col-md-6">
-                                            <div className="form-floating mb-3">
-                                                <select id="gender" required className="form-control" onChange={e => setGender(e.target.value)}>
-                                                    <option selected value="" disabled>Select Gender</option>
-                                                    <option value="Male">Male</option>
-                                                    <option value="Female">Female</option>
-                                                    <option value="N/A">Prefer not to say</option>
-                                                </select>
-                                                <label htmlFor="gender">Select your gender</label>
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <div className="form-floating mb-3">
+                                                        <input type="text"
+                                                            className="form-control"
+                                                            placeholder="First Name"
+                                                            value={employeeID}
+                                                            onChange={e => setEmployeeID(e.target.value)}
+                                                            required
+                                                            id="employeeid"
+                                                        >
+                                                        </input>
+                                                        <label htmlFor="fname">Employee ID</label>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="form-floating mb-3">
+                                                        <select id="gender" required className="form-control" onChange={e => setGender(e.target.value)}>
+                                                            <option selected value="" disabled>Select Gender</option>
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                            <option value="N/A">Prefer not to say</option>
+                                                        </select>
+                                                        <label htmlFor="gender">Select your gender</label>
+                                                    </div>
+                                                </div>
                                             </div>
+
                                         </div>
                                         {/* Date of Birth */}
                                         <div className="col-md-6">
@@ -217,14 +238,14 @@ const FurtherDetails = (props) => {
                                                 </div>
                                             </div>
                                             {
-                                                
-                                                 <div className="col-md-6">
+
+                                                <div className="col-md-6">
                                                     <div className="form-floating mb-3">
                                                         <select id="jt" required className="form-control" onChange={e => setJobTitle(e.target.value)}>
                                                             <option selected value="" disabled>Select Job Title</option>
                                                             {
-                                                                availableDepartments.find(jobTitle => jobTitle._id === department)?.Jobtitle.map((e)=>{
-                                                                    return(
+                                                                availableDepartments.find(jobTitle => jobTitle._id === department)?.Jobtitle.map((e) => {
+                                                                    return (
                                                                         <option value={e?._id}>{e.jobTitlename}</option>
                                                                     )
                                                                 })
@@ -232,8 +253,8 @@ const FurtherDetails = (props) => {
                                                         </select>
                                                         <label htmlFor="jt">Select your job title</label>
                                                     </div>
-    
-                                                </div> 
+
+                                                </div>
                                             }
                                         </div>
                                     }

@@ -17,7 +17,7 @@ const Chapter = () => {
   }, []);
 
   return (
-    <RedirectIfUserDontHavePermission permissionID="P005">
+
       <React.Fragment>
         <NavBar></NavBar>
         <div className="container">
@@ -80,7 +80,7 @@ const Chapter = () => {
           </table>
         </div>
       </React.Fragment>
-    </RedirectIfUserDontHavePermission>
+
   );
 };
 export default Chapter;

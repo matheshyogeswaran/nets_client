@@ -19,9 +19,9 @@ const GoogleLogin = () => {
     // it is not implemented to signup yet
     const location = useLocation();
     const redirectPath = location.state?.path || "/home"
-    
+
     const navigate = useNavigate();
-    
+
     //state to store login response data from backend
     //should be saved in local storage
     const [loginData, setLoginData] = useState();
@@ -42,7 +42,7 @@ const GoogleLogin = () => {
         }).then((data) => {
             // console.log("From Line 42" + JSON.stringify(data))
             setLoginData(data);
-            if(data.status===false){
+            if (data.status === false) {
                 swal("Welcome to NETS !", data.message, "info")
             }
         }).catch((error) => {
@@ -63,6 +63,8 @@ const GoogleLogin = () => {
                     if (res.data.status === true) {
                         localStorage.setItem("user", JSON.stringify(loginData?.user));
                         navigate(redirectPath, { replace: true });
+                    } else if (res.data.status === "pending") {
+                        swal(`Welcome Back ${res.data.name} ❤ !`, res.data.message, "info")
                     } else {
                         setIsUserAvailable(res.data.status);
                         document.getElementById("infoSection").hidden = true;
@@ -76,23 +78,27 @@ const GoogleLogin = () => {
 
     //render google login button
     useEffect(() => {
-        google.accounts.id.initialize({
-            client_id: "707797281139-4aqd3htq7bnut6nsp76ufc448svl64r9.apps.googleusercontent.com",
-            callback: handleGoogle,
-        });
-        google.accounts.id.renderButton(document.getElementById("loginDiv"), {
-            type: "standard",
-            theme: "outline",
-            size: "large",
-            text: "continue_with",
-            shape: "square",
-        });
-        google.accounts.id.prompt();
+        if (google) {
+            google.accounts.id.initialize({
+                client_id: "707797281139-4aqd3htq7bnut6nsp76ufc448svl64r9.apps.googleusercontent.com",
+                callback: handleGoogle,
+            });
+            google.accounts.id.renderButton(document.getElementById("loginDiv"), {
+                type: "standard",
+                theme: "outline",
+                size: "large",
+                text: "continue_with",
+                shape: "square",
+            });
+            google.accounts.id.prompt();
+        } else {
+            alert("Internet Issue. Refresh the Page.")
+        }
     }, []);
 
     return (
         <React.Fragment>
-            <div id="infoSection" style={{"userSelect":"none"}}>
+            <div id="infoSection" style={{ "userSelect": "none" }}>
                 <div className="px-4 py-5 my-5 text-center" >
                     <img className="d-block mx-auto mb-4" draggable={false} src={image1} alt="hello world" width="200" height="200" />
                     <h6 className="display-6 fw-bold">New Employee Training System</h6>
