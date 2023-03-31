@@ -61,7 +61,6 @@ import QuizReportFront from "../pages/report/quizReportFront";
 import QuizReport from "../pages/report/quizReport";
 import Ratings from "../pages/report/Ratings";
 import Home from "../pages/home_pages/Home";
-import { FaBuromobelexperte } from "react-icons/fa";
 import MainDashBoard from "../pages/home_pages/MainDashBoard";
 import ArticleContent from "../pages/article page/ArticleContent";
 import Content from "../pages/Chapter page/Content";
@@ -71,11 +70,7 @@ import ViewContent from "../pages/article view/ViewContent";
 import EditTask from "../pages/Chapter page/EditTask";
 import QuizEntry from "../pages/quiz/QuizEntry";
 import Quizpage from "../pages/quiz/Quizpage";
-import Editlog from "./pages/ProjSubmission/editLog";
-
- 
- 
- 
+import Editlog from "../pages/projSubmission/editLog";
 
 const AppRoutes = () => {
   return (
