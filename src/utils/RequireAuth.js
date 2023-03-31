@@ -24,7 +24,7 @@ const RequireAuth = ({ children }) => {
     }, [navigate, userData])
 
     //state={{path:location.pathname}} in else part will pass requested url to the component
-    if (userData?.email) {
+    if (userData?.token) {
         return children
     } else {
         return <Navigate to="/login" state={{ path: location.pathname }} />

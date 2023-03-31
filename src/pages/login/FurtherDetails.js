@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import swal from 'sweetalert'
+import Swal from 'sweetalert2'
 const FurtherDetails = (props) => {
     console.log("Component Rendered")
-    // console.log("object")
     const [firstName, setFirstName] = useState(props.userData.given_name);
     const [lastName, setLastName] = useState(props.userData.family_name);
     const [gender, setGender] = useState();
@@ -47,26 +47,24 @@ const FurtherDetails = (props) => {
             email: email,
             department: department,
             jobTitle: jobTitle,
-            userImage: userImage, 
-            employeeID:employeeID
+            userImage: userImage,
+            employeeID: employeeID
         }
 
         axios.post('http://localhost:1337/authentication/addFurtherDetails', postData)
             .then((res) => {
                 if (res.data.status === "success") {
-                    swal({
-                        title: "Success ! Please Login to NETS",
-                        text: res.data.message,
-                        icon: "success",
-                        buttons: true,
-                        dangerMode: false,
+                    Swal.fire({
+                        title: 'Further Details Added Successfully !',
+                        text: "You will be notified via email soon after verification process is complete, See You Soon !",
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Continue'
+                    }).then((result) => {
+                        window.location.reload();
                     })
-                        .then((willDelete) => {
-                            window.location.reload();
-                        });
-                    // localStorage.setItem("user", JSON.stringify(props.loginData?.user));
-                    // navigate("/")
-                    // window.location.reload();
                 } else if (res.data.status === "duplicate") {
                     swal("Warning", res.data.message, "warning")
                 }

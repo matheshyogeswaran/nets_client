@@ -1,5 +1,5 @@
 const RenderIfLoggedIn = ({children})=>{
-    if(! JSON.parse(localStorage.getItem("user"))?.email){
+    if(! JSON.parse(localStorage.getItem("user"))?.token){
         return null;
     }
     return children;
