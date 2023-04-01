@@ -5,7 +5,6 @@
 // const PermanentDeleteChapter = () => {
 //   return (
 //     <React.Fragment>
-//       <NavBar></NavBar>
 //       <div className="container">
 //         <div className="form-control mt-3 heading">
 //           Permanent Delete Chapters
@@ -75,7 +74,6 @@
 
 //   return (
 //     <React.Fragment>
-//       <NavBar></NavBar>
 //       <div className="container">
 //         <div className="form-control mt-3 heading">Chapters</div>
 //         <br></br>
@@ -154,7 +152,6 @@ const PermanentDeleteChapter = () => {
 
   return (
     <React.Fragment>
-      <NavBar></NavBar>
       <div className="container">
         <div className="form-control mt-3 heading">Chapters</div>
         <br></br>

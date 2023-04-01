@@ -7,7 +7,6 @@ const ShowUsersUnderRole = () => {
     const { userRole } = useParams();
     return (
         <React.Fragment>
-            <NavBar></NavBar>
             <div className="container mt-4">
                 <div className="alert alert-success">
                     <h4>{userRole} Details</h4>

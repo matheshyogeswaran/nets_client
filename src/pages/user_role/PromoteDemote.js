@@ -73,7 +73,6 @@ const PromoteDemote = () => {
     // const selectedDepartmentName = departments.find(department => department._id === deptID)?.depName;
     return (
         <React.Fragment>
-            <NavBar></NavBar>
             <div className="container mt-5">
                 <div className="alert shadow alert-success"><h4>Promote or Demote User</h4></div>
                 <select className="form-control" onChange={(e) => setSelectedRole(e.target.value)}>

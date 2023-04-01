@@ -5,7 +5,12 @@ import swal from "sweetalert";
 import RenderIfLoggedIn from "../utils/RenderIfLoggedIn";
 import jwt_decode from "jwt-decode";
 const NavBar = () => {
-  const userData = jwt_decode(JSON.parse(localStorage.getItem("user")).token)?.userData;
+  console.log("Nav Rendered")
+  const localData = JSON.parse(localStorage.getItem("user"))
+  let userData;
+  if (localData) {
+    userData = jwt_decode(localData?.token)?.userData;
+  }
   const navigate = useNavigate();
   const logout = () => {
     localStorage.removeItem("user");
@@ -43,18 +48,17 @@ const NavBar = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-md-auto gap-2">
-              <li className="nav-item rounded">
-                <Link
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/home"
-                >
-                  <i className="bi bi-house-fill me-2"></i>Home
-                </Link>
-              </li>
-              {/* <li className="nav-item rounded">
-                                <Link className="nav-link active" to="#"><i className="bi bi-people-fill me-2"></i>About</Link>
-                            </li> */}
+              <RenderIfLoggedIn>
+                <li className="nav-item rounded">
+                  <Link
+                    className="nav-link active"
+                    aria-current="page"
+                    to="/home"
+                  >
+                    <i className="bi bi-house-fill me-2"></i>Home
+                  </Link>
+                </li>
+              </RenderIfLoggedIn>
               <li className="nav-item rounded">
                 <a className="nav-link active" href="tel:0772116778">
                   <i className="bi bi-telephone-fill me-2"></i>Contact
@@ -93,7 +97,7 @@ const NavBar = () => {
                         <i className="bi bi-person-check me-2"></i>
                         <i>Logged in as: </i>
                         <b>
-                          {(userData?.userRole)?userData?.userRole:"Guest"}
+                          {(userData?.userRole) ? userData?.userRole : "Guest"}
                         </b>
                       </button>
                     </li>

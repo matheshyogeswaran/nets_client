@@ -51,7 +51,6 @@ const EditUserRole = () => {
 
     return (
         <React.Fragment>
-            <NavBar></NavBar>
             <div className="container mt-3">
                 <form onSubmit={submitForm}>
                     <input

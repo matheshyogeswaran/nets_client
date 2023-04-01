@@ -17,7 +17,6 @@ const Chapter = () => {
   return (
 
       <React.Fragment>
-        <NavBar></NavBar>
         <div className="container">
           <div className="form-control mt-3 heading">Chapters</div>
           <br></br>

@@ -7,8 +7,7 @@ import Pdf from './Pdf';
 const ViewContent = () => {
     return (
         <React.Fragment>
-            <div style={{backgroundColor: "#fefefe"}}> 
-             <NavBar></NavBar>
+            <div style={{backgroundColor: "#fefefe"}}> >
              <div className="container p-4"> 
               <div className="card" style={{ backgroundColor: "#70B9E6" }}>
               <div className="card-body">
