@@ -36,7 +36,6 @@ const CreateUserRole = () => {
 
     return (
         <React.Fragment>
-            <NavBar></NavBar>
             <div className="container mt-3">
                 <form onSubmit={submitData}>
                     <div className="card">

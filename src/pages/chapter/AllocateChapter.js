@@ -21,7 +21,6 @@ const AllocateChapter = () => {
 
   return (
     <React.Fragment>
-      <NavBar></NavBar>
       <div className="container">
         <div className="form-control mt-3 heading">Allocate Chapters</div>
         <br></br> <br></br>

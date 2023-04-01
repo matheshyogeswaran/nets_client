@@ -74,7 +74,6 @@ const EnrollRequestEmployee = () => {
 
   return (
     <React.Fragment>
-      <NavBar></NavBar>
       <div className="container">
         <div className="form-control mt-3 heading">
           Other department Chapters
@@ -132,7 +131,6 @@ export default EnrollRequestEmployee;
 // const EnrollRequestEmployee = () => {
 //   return (
 //     <React.Fragment>
-//       <NavBar></NavBar>
 //       <div className="container">
 //         <div className="form-control mt-3 heading">
 //           Other department Chapters

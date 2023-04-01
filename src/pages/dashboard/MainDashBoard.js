@@ -14,7 +14,6 @@ const MainDashBoard = () => {
 
     return (
         <div>
-            <NavBar></NavBar>
             <div className="container mt-4">
                 {(!userRole)
                     ?

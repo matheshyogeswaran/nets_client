@@ -4,7 +4,6 @@ import Chapters from "../../data/Chapters.json"
 const ListAllChapters = () => {
     return (
         <div>
-            <NavBar></NavBar>
             <div className="container mt-3">
                 <Link className="disabled form-control btn btn-outline-dark btn-lg shadow-lg">Get Your Final Project Assignment !</Link>
                 <div class="row">

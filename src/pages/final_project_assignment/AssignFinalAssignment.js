@@ -3,7 +3,6 @@ import NavBar from "../../components/NavBar";
 const AssignFinalAssignment = () => {
     return (
         <React.Fragment>
-            <NavBar></NavBar>
             <div className="mt-4 container">
                 <div className="bg-dark text-white p-3 rounded">
                     Assign Final Project Assignment

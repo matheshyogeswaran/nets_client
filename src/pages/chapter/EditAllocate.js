@@ -29,7 +29,6 @@ const EditAllocate = () => {
 
   return (
     <React.Fragment>
-      <NavBar></NavBar>
       <div className="container">
         <div className="form-control mt-3 heading   ">
           Edit Allocate Chapters

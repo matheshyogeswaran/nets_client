@@ -14,7 +14,6 @@ const AvailableUserRoles = () => {
     }, [])
     return (
         <React.Fragment>
-            <NavBar></NavBar>
             <div className="container mt-4">
                 <div className="alert alert-info">
                     <h5>Available User Roles</h5>
