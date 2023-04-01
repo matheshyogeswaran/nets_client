@@ -7,17 +7,9 @@ import jwt_decode from "jwt-decode";
 const Review = () => {
   const API_BASE = "http://localhost:1337";
   const [review, setReview] = useState({});
-  const currentUser =
-    // jwt_decode(JSON.parse(localStorage.getItem("user")).token)
-    //   .userData._id;
-    // jey kumar =
-    // "64160c4a7fb077053a2042e9";
-    // piruthuviraj
-    "6415ebd87fb077053a2042d3";
-  // lakshmi
-  // "63e492dafcd770ee87359ed8";
-  //sagini
-  // "63e492acfcd770ee87359ed6";
+  const currentUser = jwt_decode(JSON.parse(localStorage.getItem("user")).token)
+    .userData._id;
+
   const location = useLocation();
   const propsData = location.state;
   const unitId = propsData?.unitId;

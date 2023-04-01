@@ -11,7 +11,6 @@ const QuizReport = () => {
   const [quizReportData, setQuizReportData] = useState([]);
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState();
-  let count = 0;
   const getSearchValue = (search, showSearch) => {
     setSearch(search);
     setShowSearch(showSearch);

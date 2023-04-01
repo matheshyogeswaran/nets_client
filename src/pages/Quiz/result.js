@@ -12,8 +12,7 @@ const Result = () => {
 
   const location = useLocation();
   const propsData = location.state;
-  const unitId = "63fc55e18e916980faa55606";
-  // propsData?.unitId;
+  const unitId = propsData?.unitId;
 
   const [result, setResult] = useState({});
   const [percentage, setPercentage] = useState(0); //circular process percentage
