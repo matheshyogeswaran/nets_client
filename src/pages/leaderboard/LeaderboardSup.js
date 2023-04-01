@@ -42,9 +42,15 @@ const LeaderboardSup = () => {
                 <h5 className="card-title leaderboard-title">
                   {score?.[0]?.firstName} {score?.[0]?.lastName}
                 </h5>
-                <h5 className="card-title leaderboard-desc">
-                  {score?.[0]?.empId}
-                </h5>
+                <hr />
+                <div className="d-flex justify-content-around fw-semibold">
+                  <span className="card-title leaderboard-desc">
+                    {score?.[0]?.empId}
+                  </span>
+                  <span className="card-title leaderboard-desc">
+                    {score?.[0]?.averageScore}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -64,9 +70,15 @@ const LeaderboardSup = () => {
                 <h5 className="card-title leaderboard-title">
                   {score?.[1]?.firstName} {score?.[1]?.lastName}
                 </h5>
-                <h5 className="card-title leaderboard-desc">
-                  {score?.[1]?.empId}
-                </h5>
+                <hr />
+                <div className="d-flex justify-content-around fw-semibold">
+                  <span className="card-title leaderboard-desc">
+                    {score?.[1]?.empId}
+                  </span>
+                  <span className="card-title leaderboard-desc">
+                    {score?.[1]?.averageScore}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -85,9 +97,15 @@ const LeaderboardSup = () => {
                 <h5 className="card-title leaderboard-title">
                   {score?.[2]?.firstName} {score?.[2]?.lastName}
                 </h5>
-                <h5 className="card-title leaderboard-desc">
-                  {score?.[2]?.empId}
-                </h5>
+                <hr />
+                <div className="d-flex justify-content-around fw-semibold">
+                  <span className="card-title leaderboard-desc">
+                    {score?.[2]?.empId}
+                  </span>
+                  <span className="card-title leaderboard-desc">
+                    {score?.[2]?.averageScore}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -111,7 +129,10 @@ const LeaderboardSup = () => {
                   Name
                 </th>
                 <th className="leaderboard-th align-middle text-center">
-                  score
+                  Total score
+                </th>
+                <th className="leaderboard-th align-middle text-center">
+                  Average score
                 </th>
                 <th className="leaderboard-th align-middle text-center">
                   Rank
@@ -123,13 +144,13 @@ const LeaderboardSup = () => {
                 .filter((emp1) => {
                   let name = emp1.firstName + " " + emp1.lastName;
                   if (showSearch) {
-                    console.log("emp1....", emp1); // works at normal stage and click search
+                    // works at normal stage and click search
                     return emp1;
                   } else if (
                     name.toLowerCase().includes(search.toLowerCase())
                   ) {
+                    // works when filtering
                     filtering = 0;
-                    console.log(emp1); // works when filtering
                     return emp1;
                   }
                 })
@@ -153,6 +174,9 @@ const LeaderboardSup = () => {
                       </td>
                       <td className="leaderboard-td align-middle text-center">
                         {emp.totalScore}
+                      </td>
+                      <td className="leaderboard-td align-middle text-center">
+                        {emp.averageScore.toFixed(2)}
                       </td>
                       <td className="leaderboard-td align-middle text-center">
                         {score.indexOf(emp) + 1}

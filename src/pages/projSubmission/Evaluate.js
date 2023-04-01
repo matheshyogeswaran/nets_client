@@ -3,10 +3,15 @@ import Avatar from "react-avatar";
 import { useState, useEffect } from "react";
 import swal from "sweetalert";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 import { MdEditNote, MdCheckCircleOutline } from "react-icons/md";
 
 const Evaluate = () => {
   const API_BASE = "http://localhost:1337";
+
+  const gradedBy = jwt_decode(JSON.parse(localStorage.getItem("user")).token)
+    .userData._id;
+
   const location = useLocation();
   const propsData = location.state;
   const [score, setScore] = useState(null);
@@ -45,7 +50,11 @@ const Evaluate = () => {
                     score,
                     feedback,
                     show,
+<<<<<<< HEAD:src/pages/projSubmission/Evaluate.jsx
                     // upgraded by
+=======
+                    gradedBy,
+>>>>>>> SaginiUpdateClient:src/pages/projSubmission/Evaluate.js
                   })
                   .then(() => {
                     swal("Updated!", "Upgraded successfully", "success");
@@ -58,7 +67,11 @@ const Evaluate = () => {
                 score,
                 feedback,
                 show,
+<<<<<<< HEAD:src/pages/projSubmission/Evaluate.jsx
                 // evaluated By
+=======
+                gradedBy,
+>>>>>>> SaginiUpdateClient:src/pages/projSubmission/Evaluate.js
               })
               .then(() => {
                 swal("Evaluated!", "Evaluated successfully", "success");
@@ -77,7 +90,11 @@ const Evaluate = () => {
             score: score,
             projectName: projectName,
             empId: empId,
+<<<<<<< HEAD:src/pages/projSubmission/Evaluate.jsx
             // upgraded By
+=======
+            gradedBy,
+>>>>>>> SaginiUpdateClient:src/pages/projSubmission/Evaluate.js
           })
           .then((res) => console.log(res.data))
           .catch((err) => console.log(err))
@@ -86,7 +103,11 @@ const Evaluate = () => {
             score: score,
             projectName: projectName,
             empId: empId,
+<<<<<<< HEAD:src/pages/projSubmission/Evaluate.jsx
             // evaluated By
+=======
+            gradedBy,
+>>>>>>> SaginiUpdateClient:src/pages/projSubmission/Evaluate.js
           })
           .then((res) => console.log(res.data))
           .catch((err) => console.log(err));
@@ -97,7 +118,7 @@ const Evaluate = () => {
         Grading Final Project Assignment Submission
       </h1>
       <div className="container-md evaluate ">
-        <div className="d-flex  py-4">
+        <div className="d-flex  py-2">
           <Avatar name={`${propsData?.firstName}`} round />
           <div className="d-flex flex-column ps-4">
             <h2 className="text-dark">
