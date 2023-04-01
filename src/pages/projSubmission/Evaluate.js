@@ -50,11 +50,7 @@ const Evaluate = () => {
                     score,
                     feedback,
                     show,
-<<<<<<< HEAD:src/pages/projSubmission/Evaluate.jsx
-                    // upgraded by
-=======
                     gradedBy,
->>>>>>> SaginiUpdateClient:src/pages/projSubmission/Evaluate.js
                   })
                   .then(() => {
                     swal("Updated!", "Upgraded successfully", "success");
@@ -67,11 +63,7 @@ const Evaluate = () => {
                 score,
                 feedback,
                 show,
-<<<<<<< HEAD:src/pages/projSubmission/Evaluate.jsx
-                // evaluated By
-=======
                 gradedBy,
->>>>>>> SaginiUpdateClient:src/pages/projSubmission/Evaluate.js
               })
               .then(() => {
                 swal("Evaluated!", "Evaluated successfully", "success");
@@ -90,11 +82,7 @@ const Evaluate = () => {
             score: score,
             projectName: projectName,
             empId: empId,
-<<<<<<< HEAD:src/pages/projSubmission/Evaluate.jsx
-            // upgraded By
-=======
             gradedBy,
->>>>>>> SaginiUpdateClient:src/pages/projSubmission/Evaluate.js
           })
           .then((res) => console.log(res.data))
           .catch((err) => console.log(err))
@@ -103,11 +91,7 @@ const Evaluate = () => {
             score: score,
             projectName: projectName,
             empId: empId,
-<<<<<<< HEAD:src/pages/projSubmission/Evaluate.jsx
-            // evaluated By
-=======
             gradedBy,
->>>>>>> SaginiUpdateClient:src/pages/projSubmission/Evaluate.js
           })
           .then((res) => console.log(res.data))
           .catch((err) => console.log(err));
