@@ -1,8 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
-import rank1 from "../../images/gold.png";
+import jwt_decode from "jwt-decode"; //To decode JSON web tokens
+import swal from "sweetalert"; //SweetAlert library for displaying alerts
+import rank1 from "../../images/gold.png"; // Import images for leaderboard ranks
 import rank2 from "../../images/silver.png";
 import rank3 from "../../images/bronze.png";
 
@@ -17,33 +18,47 @@ const LeaderBoard = () => {
     axios
       .get(API_BASE + "/getLeaderboardData/" + currentUser)
       .then((res) => setScore(res.data))
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        // Handle errors
+        swal({
+          title: error.message,
+          icon: "warning",
+          dangerMode: true,
+        });
+      });
   }, []);
 
   return (
     <div>
+      {/* Leaderboard header */}
       <h1 className="py-4 result-head card ps-5"> Leaderboard</h1>
+      {/* Top gainers section */}
       <div className="container-md bg-light my-lg-3 p-md-4">
         <h2 className="top-gainers">Top Gainers</h2>
         <div className="row m-0 justify-content-center gy-3">
+          {/* Top gainer 1 */}
           <div className="col col-12 col-md-12 col-lg-3">
             <div className="card leaderboard-card text-center">
+              {/* Top gainer 1 total score in the header */}
               <div className={`card-header leaderboard-header `}>
                 <h2 className="w-100">
                   {score?.lbData?.[0]?.totalScore.toFixed(2)}
                 </h2>
               </div>
+              {/* Top gainer 1 avatar */}
               <div className="leaderboard-avatar-wrapper">
                 <img
                   className="img-fluid rounded-circle leaderboard-avatar"
                   src="https://wallpapers.com/images/featured/4co57dtwk64fb7lv.jpg"
                 />
               </div>
+              {/* Top gainer 1 body */}
               <div className="card-body">
                 <h5 className="card-title leaderboard-title">
                   {score?.lbData?.[0]?.firstName} {score?.lbData?.[0]?.lastName}
                 </h5>
                 <hr />
+                {/* Top gainer 1 employee ID and average score  */}
                 <div className="d-flex justify-content-around fw-semibold">
                   <span className="card-title leaderboard-desc">
                     {score?.lbData?.[0]?.empId}
@@ -115,7 +130,7 @@ const LeaderBoard = () => {
             </div>
           </div>
         </div>
-
+        {/* Only show the badge for the employees who are below the rank 4 */}
         <div className="d-flex justify-content-center mt-5">
           {score?.rank < 3 && (
             <img
@@ -132,7 +147,8 @@ const LeaderBoard = () => {
               draggable="false"
             />
           )}
-          {score?.lbData?.[0]?.totalScore !== score?.currentUserScore && (
+          {/* if the current User is rank 1 system will not display this beat message */}
+          {score?.lbData?.[0]?.averageScore !== score?.currentUserScore && (
             <div className=" d-flex justify-content-center ">
               <div class="score-alert alert alert-info ms-5" role="alert">
                 You Need
@@ -151,7 +167,7 @@ const LeaderBoard = () => {
             </div>
           )}
         </div>
-
+        {/* rank after 3 */}
         <img src={rank1} className="badge ms-5" draggable="false" />
         <div className="leaderboard-table-wrapper">
           <h4 className="top-gainers">All Employees</h4>
