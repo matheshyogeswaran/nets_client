@@ -13,7 +13,6 @@ const QuizReport = () => {
   const [quizReportData, setQuizReportData] = useState([]);
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState();
-
   // storing seach values
   const getSearchValue = (search, showSearch) => {
     setSearch(search);

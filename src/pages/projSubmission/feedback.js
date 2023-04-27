@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import jwt_decode from "jwt-decode";
 import Avatar from "react-avatar";
 import swal from "sweetalert";
 import axios from "axios";
