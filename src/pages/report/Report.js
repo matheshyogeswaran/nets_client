@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Search from "../../subComponents/search";
 import TabReport from "../../component/tabReport";
 import axios from "axios";
+import swal from "sweetalert";
 
 const Report = () => {
   const API_BASE = "http://localhost:1337";
@@ -14,19 +15,24 @@ const Report = () => {
 
   const navigate = useNavigate();
 
+  // navigate to chapter report page
   const routeToChapterReport = (empId, firstName, lastName) => {
     navigate("/chapterreport", {
       state: { empId: empId, firstName: firstName, lastName: lastName },
     });
   };
+  // navigate to ratings report page
   const routeToRatingsReport = (empId, firstName, lastName) => {
     navigate("/ratings", {
       state: { empId: empId, firstName: firstName, lastName: lastName },
     });
   };
+
+  // whether show the tab report or not
   const getTabReport = (show) => {
     setShow(show);
   };
+  //store search value, show search value into states
   const getSearchValue = (search, showSearch) => {
     setSearch(search);
     setShowSearch(showSearch);
@@ -35,13 +41,29 @@ const Report = () => {
     axios
       .get(API_BASE + "/showAllUsers")
       .then((res) => setReportDetails(res.data))
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        if (error.response && error.response.status === 404) {
+          // Handle "User not found" error
+          swal({
+            title: error.response.data.error,
+            icon: "warning",
+            dangerMode: true,
+          });
+        } else {
+          // Handle other errors
+          swal({
+            title: error.message,
+            icon: "warning",
+            dangerMode: true,
+          });
+        }
+      });
   }, []);
 
   return (
     <>
       <h1 className="py-4 result-head card ps-5">Employee Report</h1>
-      {reportDetails?.length > 0 ? (
+      {reportDetails?.length > 0 ? ( //checking whether system has data to show
         <>
           <TabReport handleGetTabReport={getTabReport} />
           <div className="mt-5">
@@ -60,6 +82,7 @@ const Report = () => {
               </tr>
             </thead>
             <tbody>
+              {/* filtering employees */}
               {reportDetails
                 .filter((emp) => {
                   let name = emp.firstName + " " + emp.lastName;
@@ -72,7 +95,7 @@ const Report = () => {
                   }
                 })
                 .map((emp, index) =>
-                  show
+                  show //allow only hired employees
                     ? emp.userRoleValue.toLowerCase() == "hired employee" && (
                         <tr
                           key={index}
@@ -92,7 +115,7 @@ const Report = () => {
                           <td>{emp.jobTitle}</td>
                         </tr>
                       )
-                    : emp.userRoleValue.toLowerCase() == "content creator" && (
+                    : emp.userRoleValue.toLowerCase() == "content creator" && ( //allow only content creators
                         <tr
                           key={index}
                           onClick={() =>

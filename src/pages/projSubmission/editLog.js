@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import swal from "sweetalert";
 import Search from "./../../subComponents/search";
 
 const Editlog = () => {
@@ -14,10 +15,26 @@ const Editlog = () => {
       .then((res) => {
         const sortedData = res.data.sort((a, b) =>
           a.projectName.localeCompare(b.projectName)
-        );
+        ); // Sorting the fetched data alphabetically by project name
         setEditlog(sortedData);
       })
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        if (error.response && error.response.status === 404) {
+          // Handle "User not found" error
+          swal({
+            title: error.response.data.error,
+            icon: "warning",
+            dangerMode: true,
+          });
+        } else {
+          // Handle other errors
+          swal({
+            title: error.message,
+            icon: "warning",
+            dangerMode: true,
+          });
+        }
+      });
   }, []);
 
   const getSearchValue = (search, showSearch) => {
@@ -27,13 +44,13 @@ const Editlog = () => {
   return (
     <>
       <h1 className="py-4 result-head card ps-5">Grade history</h1>
-      {editlog?.length !== 0 ? (
+      {editlog?.length !== 0 ? ( // Checking if there is data to show
         <>
+          {/* Rendering the search bar component */}
           <Search
             handleGetSearchValue={getSearchValue}
             width={{ width: "w-auto" }}
           />
-
           <div className="table-responsive m-md-5 mt-4">
             <table className="table table-hover ">
               <thead>
@@ -49,6 +66,7 @@ const Editlog = () => {
               <tbody>
                 {editlog
                   .filter((log) => {
+                    // Filtering the editlog data based on the search query
                     if (showSearch) {
                       return log;
                     } else if (
@@ -60,17 +78,20 @@ const Editlog = () => {
                     }
                   })
                   .map((log, index) =>
+                    //Map score array
                     log.score.map((score, indexi) =>
+                      //Map upgraded array
                       log.upgradedOn.map(
                         (date, indexx) =>
                           indexi === indexx &&
-                          indexi > 0 && (
+                          indexi > 0 && ( // Rendering table rows for each editlog entry
                             <tr>
                               <td>{log.projectName}</td>
                               <td>{log.submittedBy}</td>
                               <td>{log.score[indexi - 1]}</td>
                               <td>{score}</td>
                               <td>{log.upgradedBy}</td>
+                              {/* to insert HTML content into the table cell. */}
                               <td
                                 dangerouslySetInnerHTML={{ __html: date }}
                               ></td>
