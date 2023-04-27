@@ -1,6 +1,7 @@
 import Ratings from "../components/Ratings/Ratings";
 import MainDashBoard from "../pages/dashboard/MainDashBoard";
 import ProfileOverview from "../pages/profile/ProfileOverview";
+import PendingUserApproval from "../pages/login/PendingUserApproval";
 export const general_routes = [
     {
         path: "/home",
@@ -8,7 +9,7 @@ export const general_routes = [
     },
     {
         path: "/pendingrequests",
-        ele: <MainDashBoard />
+        ele: <PendingUserApproval />
     },
     {
         path: "/profile",

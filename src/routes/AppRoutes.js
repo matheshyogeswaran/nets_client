@@ -4,6 +4,7 @@ import "../App.css";
 import RequireAuth from "../utils/RequireAuth";
 import RedirectIfLoggedIn from "../utils/RedirectIfLoggedIn";
 import NavBar from "../components/NavBar";
+
 // unprotectedRoutes
 import { auth_routes } from "./AuthRoutes";
 // protectedRoutes
@@ -22,23 +23,12 @@ import { user_role_routes } from "./UserRoleRoutes";
 
 const AppRoutes = () => {
   const protectedRoutes = [
-    ...chapter_routes,
-    ...comment_routes,
-    ...department_routes,
-    ...discussion_forum_routes,
-    ...final_project_assignment_routes,
-    ...general_routes,
-    ...guidance_request_routes,
-    ...leader_board_routes,
-    ...quiz_routes,
-    ...report_routes,
-    ...unit_article_routes,
-    ...user_role_routes
+    ...chapter_routes, ...comment_routes, ...department_routes, ...discussion_forum_routes, ...final_project_assignment_routes,
+    ...general_routes, ...guidance_request_routes, ...leader_board_routes, ...quiz_routes, ...report_routes,
+    ...unit_article_routes, ...user_role_routes
   ]
+  const unprotectedRoutes = [...auth_routes]
 
-  const unprotectedRoutes = [
-    ...auth_routes
-  ]
   return (
     <BrowserRouter>
       <NavBar></NavBar>
@@ -63,7 +53,7 @@ const AppRoutes = () => {
                 key={e.path}
                 exact
                 path={e.path}
-                element={<RequireAuth>{e.ele}</RequireAuth>}
+                element={<RequireAuth userroles={e?.availability}>{e.ele}</RequireAuth>}
               />
             )
           })

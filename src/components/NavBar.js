@@ -4,6 +4,11 @@ import "../css/Nav.css";
 import swal from "sweetalert";
 import RenderIfLoggedIn from "../utils/RenderIfLoggedIn";
 import jwt_decode from "jwt-decode";
+import { BsPersonFillGear, BsSendPlusFill, BsFillTelephoneFill } from 'react-icons/bs';
+import { GiTrophy } from 'react-icons/gi';
+import { FaTicketAlt, FaUserCheck } from 'react-icons/fa';
+import { AiFillHome } from 'react-icons/ai';
+import { FiLogOut } from 'react-icons/fi';
 const NavBar = () => {
   console.log("Nav Rendered")
   const localData = JSON.parse(localStorage.getItem("user"))
@@ -28,7 +33,6 @@ const NavBar = () => {
       );
     }
   });
-
   return (
     <React.Fragment>
       {/* hgbhb */}
@@ -55,15 +59,16 @@ const NavBar = () => {
                     aria-current="page"
                     to="/home"
                   >
-                    <i className="bi bi-house-fill me-2"></i>Home
+                    <AiFillHome className="me-2" /> Home
                   </Link>
                 </li>
               </RenderIfLoggedIn>
               <li className="nav-item rounded">
                 <a className="nav-link active" href="tel:0772116778">
-                  <i className="bi bi-telephone-fill me-2"></i>Contact
+                  <BsFillTelephoneFill className="me-2" />Contact
                 </a>
               </li>
+
               <RenderIfLoggedIn>
                 <li className="nav-item dropdown rounded">
                   <Link
@@ -90,33 +95,62 @@ const NavBar = () => {
                     aria-labelledby="navbarDropdown"
                   >
                     <li>
-                      <button
-                        className="disabled dropdown-item "
-                        onClick={logout}
-                      >
-                        <i className="bi bi-person-check me-2"></i>
-                        <i>Logged in as: </i>
+                      <div className="disabled dropdown-item ">
+                        <FaUserCheck className="me-2" />
+                        <i>You are, </i>
                         <b>
                           {(userData?.userRole) ? userData?.userRole : "Guest"}
                         </b>
-                      </button>
+                      </div>
                     </li>
                     <li>
                       <hr className=" dropdown-divider" />
                     </li>
                     <li>
                       <Link className=" dropdown-item" to="/profile">
-                        <i className="bi bi-person-lines-fill me-2"></i>
-                        Account
+                        <BsPersonFillGear className="me-2" />
+                        Profile
                       </Link>
                     </li>
-                    {/* <li><Link className="dropdown-item" to="#">Another action</Link></li> */}
-                    <li>
-                      <hr className=" dropdown-divider" />
-                    </li>
+
+                    <li><hr className=" dropdown-divider" /></li>
+
+                    {
+                      //  Render if User Role is Hired Employee
+                      userData?.userRole === "Hired Employee" &&
+                      <div>
+                        <li >
+                          <Link className=" dropdown-item" to="/leaderboard">
+                            <GiTrophy className="me-2" />
+                            Show Leader Board
+                          </Link>
+                        </li>
+
+                        <li><hr className=" dropdown-divider" /></li>
+
+                        <li >
+                          <Link className=" dropdown-item" to="/request-guidance-ticket">
+                            <FaTicketAlt className="me-2" />
+                            Guidance Request Ticket
+                          </Link>
+                        </li>
+
+                        <li><hr className=" dropdown-divider" /></li>
+
+                        <li >
+                          <Link className=" dropdown-item" to="/enrollrequestemployee">
+                            <BsSendPlusFill className="me-2" />
+                            Enroll Additional Chapter
+                          </Link>
+                        </li>
+                        <li>
+                          <hr className=" dropdown-divider" />
+                        </li>
+                      </div>
+                    }
                     <li>
                       <button className="dropdown-item " onClick={logout}>
-                        <i className="bi bi-box-arrow-right me-2"></i> Logout
+                        <FiLogOut className="me-2" /> Logout
                       </button>
                     </li>
                   </ul>
@@ -126,7 +160,7 @@ const NavBar = () => {
           </div>
         </div>
       </nav>
-    </React.Fragment>
+    </React.Fragment >
   );
 };
 

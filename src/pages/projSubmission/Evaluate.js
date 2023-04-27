@@ -28,7 +28,7 @@ const Evaluate = () => {
         setShow(res.data.show);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [propsData?.empId]);
 
   function handleSubmit(e) {
     e.preventDefault();

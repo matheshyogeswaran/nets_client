@@ -12,7 +12,12 @@ const PromoteDemote = () => {
 
     useEffect(() => {
         // /userRoles/groupbyuserrole
-        axios.get('http://localhost:1337/users/showAllUsers')
+        axios.get('http://localhost:1337/users/showAllUsers', {
+            headers: {
+                'token': JSON.parse(localStorage.getItem("user")).token,
+                'Content-Type': 'application/json'
+            }
+        })
             .then(response => {
                 setUsers(response.data);
             })
@@ -113,12 +118,12 @@ const PromoteDemote = () => {
                                                         <td>{item?.department?.depName}</td>
                                                         <td>{item?.userRole}</td>
                                                         <td>
-                                                            <select className="form-control" onChange={(e) => doUpdate(item?._id, e.target.value,item?.firstName,item?.userRole)}>
+                                                            <select className="form-control" onChange={(e) => doUpdate(item?._id, e.target.value, item?.firstName, item?.userRole)}>
                                                                 <option selected value="" disabled>Select User Role</option>
-                                                                {(selectedRole==="Hired Employee")?null:<option value={"Hired Employee"} >Hired Employee</option>}
-                                                                {(selectedRole==="Content Creator")?null:<option value={"Content Creator"} >Content Creator</option>}
-                                                                {(selectedRole==="Supervisor")?null:<option value={"Supervisor"} >Supervisor</option>}
-                                                                {(selectedRole==="System Admin")?null:<option value={"System Admin"} >System Admin</option>}
+                                                                {(selectedRole === "Hired Employee") ? null : <option value={"Hired Employee"} >Hired Employee</option>}
+                                                                {(selectedRole === "Content Creator") ? null : <option value={"Content Creator"} >Content Creator</option>}
+                                                                {(selectedRole === "Supervisor") ? null : <option value={"Supervisor"} >Supervisor</option>}
+                                                                {(selectedRole === "System Admin") ? null : <option value={"System Admin"} >System Admin</option>}
                                                             </select>
                                                         </td>
                                                     </tr>
