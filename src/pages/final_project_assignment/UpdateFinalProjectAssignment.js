@@ -1,17 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Swal from "sweetalert2"
 import axios from "axios"
 import jwt_decode from "jwt-decode";
-import { useParams } from "react-router-dom";
-const AssignFinalAssignment = () => {
+import { Link, useNavigate, useParams } from "react-router-dom";
+
+const UpdateFinalProjectAssignment = () => {
+    const userData = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData._id
     const { id } = useParams();
+    // to store data from api
+    const [fetchData, setFetchData] = useState({})
+    // form data
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
     const [deadline, setDeadline] = useState();
-    const [files, setFiles] = useState([]);
+    // file upload states
     const [showUploadFileInput, setShowUploadFileInput] = useState(false);
+    const [deleteUploadedFile, setDeleteUploadedFile] = useState(false);
+    const [newFile, setNewFile] = useState([]);
+    const navigate = useNavigate();
+    useEffect(() => {
+        axios.get(`http://localhost:1337/finalprojectassignment/getOneAssignmentByProjectID/${id}`)
+            .then(response => {
+                setFetchData(response.data[0]);
+                if (response.data.status === false) {
+                    Swal.fire("Error", response.data.message, "error");
+                    navigate("/editAssignedProjectAssignment")
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, [])
+
+    useEffect(() => {
+        setTitle(fetchData?.projectName)
+        setDescription(fetchData?.projectDescription)
+        const date = new Date(fetchData?.projectDeadLine)
+        const year = date.getFullYear().toString().padStart(4, '0');
+        const hour = date.getHours().toString().padStart(2, '0');
+        const min = date.getMinutes().toString().padStart(2, '0');
+        const month = (date.getMonth()+1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const fullDate = `${year}-${month}-${day}T${hour}:${min}`
+        console.log(fullDate)
+        setDeadline(fullDate)
+    }, [fetchData])
+
     const handleShowUpload = () => {
         if (showUploadFileInput === false) {
             setShowUploadFileInput(true);
@@ -19,6 +55,17 @@ const AssignFinalAssignment = () => {
             setShowUploadFileInput(false);
         }
     }
+
+    const handleDeleteOption = () => {
+        if (deleteUploadedFile === false) {
+            Swal.fire("", "Attached file will be deleted when you click Submit button", "info");
+            setDeleteUploadedFile(true);
+        } else {
+            Swal.fire("", "Your file is safe", "info");
+            setDeleteUploadedFile(false);
+        }
+    }
+
     const modules = {
         toolbar: [
             [{ font: [] }],
@@ -33,66 +80,57 @@ const AssignFinalAssignment = () => {
         ],
     };
 
-    const [progress, setProgress] = useState(0);
-    const [loading, setLoading] = useState(false);
-    const userData = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData._id
+    // handle submit
     const handleSubmit = (e) => {
         e.preventDefault();
-        setLoading(true);
         const formData = new FormData();
         formData.append("title", title);
         formData.append("finalprojectassignmentid", id);
         formData.append("description", description);
         formData.append("deadline", deadline);
-        if (showUploadFileInput) {
-            formData.append("ufile", files[0])
-        }
         formData.append("supervisor", userData)
+        formData.append("needtoDeleteAttachment", deleteUploadedFile)
+        if (showUploadFileInput) {
+            formData.append("newFile", newFile[0])
+        }
         try {
-            axios.post("http://localhost:1337/addFinalAssignment", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-                onUploadProgress: (progressEvent) => {
-                    const percentCompleted = Math.round(
-                        (progressEvent.loaded * 100) / progressEvent.total
-                    );
-                    setProgress(percentCompleted)
+            axios.post(
+                "http://localhost:1337/finalprojectassignment/updateFinalProjectAssignment",
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    }
                 }
-            }).then(res => {
+            ).then(res => {
                 if (res.data.status === true) {
-                    Swal.fire("", "Assignment Submitted Successfully", "success");
+                    Swal.fire("", res.data.message, "success");
+                    navigate("/editAssignedProjectAssignment")
                 } else {
                     Swal.fire("Error", res.data.message, "error");
                 }
-                setLoading(false);
 
             }).catch(err => {
                 console.log(err)
             })
         } catch (err) {
-            setLoading(false);
             console.log(err);
         }
 
     }
-    const date = new Date();
-    // "2023-04-18T00:00"
-    const minDate = `${date.getFullYear().toString().padStart(4,"0")}-${(date.getMonth()+1).toString().padStart(2,"0")}-${date.getDate().toString().padStart(2,"0")}T${date.getHours().toString().padStart(2,"0")}:${date.getMinutes().toString().padStart(2,"0")}`
-    // const minDate = `${date.getFullYear().toString().padStart(4,"0")}-${(date.getMonth()+1).toString().padStart(2,"0")}-${date.getDate().toString().padStart(2,"0")}T11:10`
-    const maxDate = `${date.getFullYear().toString().padStart(4,"0")}-${(date.getMonth()+1+6).toString().padStart(2,"0")}-${date.getDate().toString().padStart(2,"0")}T${date.getHours().toString().padStart(2,"0")}:${date.getMinutes().toString().padStart(2,"0")}`
-    console.log(minDate)
-    console.log(maxDate)
     return (
         <React.Fragment>
-            <div className="mt-4 container">
+            <div className="mt-4 container mb-5">
+
                 <div className="bg-dark text-white p-3 rounded">
-                    <b>Assign Final Project Assignment</b>
+                    <b>Update Final Project Assignment</b>
                 </div>
+
+
+
                 <form className="mt-4" onSubmit={handleSubmit} method="POST" encType="multipart/form-data">
                     <div className="form-floating mb-3">
                         <input
-
                             type="text"
                             className="form-control"
                             placeholder="Final Project Assignment Title"
@@ -113,18 +151,38 @@ const AssignFinalAssignment = () => {
                     />
                     <div className="form-floating mb-3">
                         <input
-
-                            type="text"
+                            type="datetime-local"
+                            value={deadline}
                             className="form-control"
                             placeholder="Deadline"
-                            onFocus={(e) => (e.target.type = "datetime-local")}
-                            min={minDate}
-                            max={maxDate}
                             onChange={(e) => { setDeadline(e.target.value) }}
-                            id="dl"></input>
-                        <label htmlFor="dl">Select Deadline</label>
+                            id="dl"
+                        ></input>
+                        <label htmlFor="dl">Select Deadline [MM/DD/YYYY]</label>
                     </div>
+                    <div className="form-control mb-3">
+                        <b>Uploaded File: </b>
+                        {
+                            (fetchData?.uploadedFileBySupervisor)
+                                ?
+                                <span>
 
+                                    <a href={fetchData?.uploadedFileBySupervisor}>{fetchData?.supAttachOriginalName}</a>
+                                    {"    "}
+                                    <input
+                                        type="checkbox"
+                                        class="btn-check"
+                                        id="btn-check-outlined"
+                                        autocomplete="off"
+                                        onChange={handleDeleteOption}
+                                    />
+                                    <label class="btn btn-sm btn-outline-danger" for="btn-check-outlined">Delete Uploaded File</label><br></br>
+                                </span>
+                                :
+                                <strong> No Attachment Available </strong>
+                        }
+
+                    </div>
                     <div className="form-control mb-3">
                         <input
                             type="checkbox"
@@ -142,7 +200,7 @@ const AssignFinalAssignment = () => {
                                     className="form-control"
                                     accept=".zip, .rar"
                                     type="file"
-                                    onChange={(e) => { setFiles(e.target.files) }}
+                                    onChange={(e) => { setNewFile(e.target.files) }}
                                 />
                                 <font size="2">
                                     <strong>
@@ -152,40 +210,15 @@ const AssignFinalAssignment = () => {
                                 </font>
                             </div>
                         }
-                    </div>
 
-                    {/* <div className="mb-3">
-                        <input
-                            className="form-control"
-                            accept=".zip, .rar"
-                            type="file"
-                            onChange={(e) => { setFiles(e.target.files) }}
-                        />
-                        <font size="2">
-                            <strong>
-                                <span className="me-3"></span>
-                                * Only <i>.zip .rar .7zip </i> Files are allowed, File should be less than 50 MB
-                            </strong>
-                        </font>
-                    </div> */}
+                    </div>
                     <div className="row">
                         <div className="col-md-6">
-                            {
-                                (loading === true)
-                                    ?
-                                    <button
-                                        type="button"
-                                        className="disabled form-control btn btn-outline-info">
-                                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                        Uploading File {progress} %
-                                    </button>
-                                    :
-                                    <button
-                                        type="submit"
-                                        className="form-control btn btn-outline-primary">
-                                        Submit
-                                    </button>
-                            }
+                            <button
+                                type="submit"
+                                className="form-control btn btn-outline-primary">
+                                Submit
+                            </button>
                         </div>
                         <div className="col-md-6">
                             <button
@@ -197,7 +230,7 @@ const AssignFinalAssignment = () => {
                     </div>
                 </form>
             </div>
-        </React.Fragment>
+        </React.Fragment >
     );
 };
-export default AssignFinalAssignment;
+export default UpdateFinalProjectAssignment;

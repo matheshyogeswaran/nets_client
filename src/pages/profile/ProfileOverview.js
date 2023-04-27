@@ -8,7 +8,6 @@ function ProfileOverview(props) {
 
   return (
     <>
-      <NavBar/>
       <div className="row justify-content-center ">
         <div className="card ">
           <div className="card-body">

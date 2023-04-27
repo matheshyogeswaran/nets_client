@@ -21,7 +21,7 @@ const SuperAdmin = () => {
                     <Link to={"/jobtitle"} className="btn btn-danger btn-sm me-2">Create JobTitle</Link>
                 </div>
             }
-            
+
             <div className="row">
                 <div className="col-md-4">
                     <table class="shadow text-center table border rounded align-items-center">
@@ -101,18 +101,6 @@ const SuperAdmin = () => {
                                 View Chapters
                             </button>
                         </div>
-                    </div>
-                    <div className="row mt-3">
-                        <div className="col-md-6">
-                            <button className="btn btn-outline-danger form-control shadow">
-                                Show User Violations
-                            </button>
-                        </div>
-                        {/* <div className="col-md-6">
-                            <button className="btn btn-outline-primary form-control shadow">
-                                View Chapters
-                            </button>
-                        </div> */}
                     </div>
                 </div>
             </div>
