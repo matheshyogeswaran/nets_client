@@ -71,9 +71,9 @@ const Submission = () => {
       {/* checking whether there is error or not */}
       {errorHandling === "" ? (
         <>
-          <h1 className=" py-4 result-head card ps-5 ">
-            Final Project Submission
-          </h1>
+          <div className="mx-5 mt-5">
+            <h2 className="text-secondary">Project Assignment Submission</h2>
+          </div>
           <div className="submission table-responsive container-lg">
             <table className="table table-striped table-hover mt-sm-5 mt-lg-5">
               <thead>
@@ -156,9 +156,14 @@ const Submission = () => {
           </div>
         </>
       ) : (
-        <h3 className="text-center text-danger" style={{ margin: "200px" }}>
-          {errorHandling}
-        </h3>
+        <div
+          className="shadow text-center bg-dark text-light"
+          width="90px"
+          height="90px"
+          style={{ margin: "300px", padding: "20px" }}
+        >
+          <h4>{errorHandling}</h4>
+        </div>
       )}
     </>
   );
