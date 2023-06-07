@@ -1,8 +1,10 @@
 import React from "react";
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Search from "./../../subComponents/search";
 import axios from "axios";
+import swal from "sweetalert";
+
 const QuizReport = () => {
   const API_BASE = "http://localhost:1337";
 
@@ -11,7 +13,7 @@ const QuizReport = () => {
   const [quizReportData, setQuizReportData] = useState([]);
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState();
-  let count = 0;
+  // storing seach values
   const getSearchValue = (search, showSearch) => {
     setSearch(search);
     setShowSearch(showSearch);
@@ -21,7 +23,23 @@ const QuizReport = () => {
     axios
       .get(API_BASE + "/quizReport/" + unitId)
       .then((res) => setQuizReportData(res.data))
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        if (error.response && error.response.status === 404) {
+          // Handle "User not found" error
+          swal({
+            title: error.response.data.error,
+            icon: "warning",
+            dangerMode: true,
+          });
+        } else {
+          // Handle other errors
+          swal({
+            title: error.message,
+            icon: "warning",
+            dangerMode: true,
+          });
+        }
+      });
   }, []);
   console.log("unit data", quizReportData);
 
@@ -47,6 +65,7 @@ const QuizReport = () => {
             </tr>
           </thead>
           <tbody>
+            {/* filter data of quiz report */}
             {quizReportData
               .filter((emp) => {
                 if (showSearch) {
@@ -58,6 +77,7 @@ const QuizReport = () => {
                 }
               })
               .map((emp, index) => (
+                //displaying data
                 <tr key={index}>
                   <td>{emp.empId}</td>
                   <td>{emp.name}</td>

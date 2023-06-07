@@ -1,8 +1,10 @@
 import React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Search from "./../../subComponents/search";
+import swal from "sweetalert";
+
 const QuizReportFront = () => {
   const API_BASE = "http://localhost:1337";
   const [quizReport, setQuizReport] = useState([]);
@@ -11,10 +13,12 @@ const QuizReportFront = () => {
 
   const navigate = useNavigate();
 
+  //navigate to quiz report page
   const routeToQuizReport = (unitName, unitId) => {
     navigate("/quizreport", { state: { unitName: unitName, unitId: unitId } });
   };
 
+  //store search value using getSearchValue method
   const getSearchValue = (search, showSearch) => {
     setSearch(search);
     setShowSearch(showSearch);
@@ -24,14 +28,31 @@ const QuizReportFront = () => {
     axios
       .get(API_BASE + "/quizFront")
       .then((res) => setQuizReport(res.data))
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        if (error.response && error.response.status === 404) {
+          // Handle "User not found" error
+          swal({
+            title: error.response.data.error,
+            icon: "warning",
+            dangerMode: true,
+          });
+        } else {
+          // Handle other errors
+          swal({
+            title: error.message,
+            icon: "warning",
+            dangerMode: true,
+          });
+        }
+      });
   }, []);
 
   return (
     <div className="pb-5">
       <h1 className="py-4 result-head card ps-5">Quiz Report</h1>
-      {quizReport.length > 0 ? (
-        <div className="accordion container" id="accordionExample">
+      {quizReport.length > 0 ? ( //check whether quizReport state has values
+        <div className="accordion container" id="quiz-report">
+          {/* display chapter name */}
           {quizReport.map((chap, index) => {
             return (
               <div key={index} className="accordion-item ">
@@ -55,7 +76,7 @@ const QuizReportFront = () => {
                       : "accordion-collapse collapse"
                   }`}
                   aria-labelledby={"heading" + index}
-                  data-bs-parent="#accordionExample"
+                  data-bs-parent="#quiz-report"
                 >
                   <div className="accordion-body ">
                     <div className="mt-2 mb-4">
@@ -65,6 +86,7 @@ const QuizReportFront = () => {
                       />
                     </div>
                     <ul className="list-group list-group-flush ">
+                      {/* display units details */}
                       {chap.units
                         .filter((unit) => {
                           if (showSearch) {

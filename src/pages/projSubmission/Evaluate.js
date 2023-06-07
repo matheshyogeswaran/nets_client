@@ -9,6 +9,7 @@ import { MdEditNote, MdCheckCircleOutline } from "react-icons/md";
 const Evaluate = () => {
   const API_BASE = "http://localhost:1337";
 
+  // get the evaluator's ID from the JWT
   const gradedBy = jwt_decode(JSON.parse(localStorage.getItem("user")).token)
     .userData._id;
 
@@ -27,15 +28,33 @@ const Evaluate = () => {
         setFeedback(res.data.feedback);
         setShow(res.data.show);
       })
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        if (error.response && error.response.status === 404) {
+          // Handle "User not found" error
+          swal({
+            title: error.response.data.error,
+            icon: "warning",
+            dangerMode: true,
+          });
+        } else {
+          // Handle other errors
+          swal({
+            title: error.message,
+            icon: "warning",
+            dangerMode: true,
+          });
+        }
+      });
   }, []);
 
   function handleSubmit(e) {
     e.preventDefault();
 
+    // if score is a valid number continue the procedure
     if (score !== null) {
       let empId = propsData?.empId;
       try {
+        //if it is a updating score, not first time
         propsData?.update
           ? swal({
               title: "Are you sure?",
@@ -57,7 +76,8 @@ const Evaluate = () => {
                   });
               }
             })
-          : axios
+          : // if it is first time evaluating
+            axios
               .post(API_BASE + "/toEvaluateSubmission", {
                 empId,
                 score,
@@ -66,10 +86,16 @@ const Evaluate = () => {
                 gradedBy,
               })
               .then(() => {
+                //if evaluated successfully
                 swal("Evaluated!", "Evaluated successfully", "success");
               });
       } catch (err) {
-        console.log(err);
+        // if evaluation is failure
+        swal({
+          title: err.message,
+          icon: "warning",
+          dangerMode: true,
+        });
       }
     }
   }
@@ -77,7 +103,8 @@ const Evaluate = () => {
     let empId = propsData?.empId;
     let projectName = propsData?.projectName;
     propsData?.update
-      ? axios
+      ? // if score is already exist (evaluated already)
+        axios
           .post(API_BASE + "/updateScore", {
             score: score,
             projectName: projectName,
@@ -86,7 +113,8 @@ const Evaluate = () => {
           })
           .then((res) => console.log(res.data))
           .catch((err) => console.log(err))
-      : axios
+      : //first time evaluating
+        axios
           .post(API_BASE + "/storeScore", {
             score: score,
             projectName: projectName,
@@ -134,6 +162,7 @@ const Evaluate = () => {
                 className="form-control"
                 placeholder="Your feedback"
                 value={feedback}
+                rows={3}
                 onChange={(e) => setFeedback(e.target.value)}
               ></textarea>
             </div>
@@ -157,6 +186,7 @@ const Evaluate = () => {
               className="btn btn-outline-primary mt-2 px-4"
               onClick={handleStoreScore}
             >
+              {/* icon selection for evaluating and updating */}
               {propsData?.update ? (
                 <span className="fs-5">
                   Upgrade{"  "}
