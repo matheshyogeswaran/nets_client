@@ -44,8 +44,8 @@ const AddJobtitle = () => {
   }
   return (
     <div className="container">
-      <div className="form-control mt-3 bg-dark text-white">Create Chapter</div>
-      <div className="columns mt-5">
+      <div className="alert mt-3 heading text-white"><h5>Create Jobtitle</h5></div>
+      <div className="columns mt-4">
         <form name="myForm" onSubmit={submitJobtitle}>
           <div className="field">
             <label className="ml-5 createchap">Jobtitle Name</label>

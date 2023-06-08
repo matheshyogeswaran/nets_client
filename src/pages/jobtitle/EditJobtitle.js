@@ -35,10 +35,9 @@ const EditJobtitle = () => {
         console.log(error);
       });
   }
-
   return (
     <div className="container">
-      <div className="form-control mt-3 bg-dark text-white">Edit Jobtitle</div>
+      <div className="alert mt-3 heading"><h5>Edit Jobtitles</h5></div>
       <div className="columns mt-5">
         <form name="myForm" onSubmit={submitEdit}>
           <div className="field">
@@ -73,7 +72,6 @@ const EditJobtitle = () => {
               />
             </div>
           </div>
-
           <div className="control">
             <button
               type="submit"
@@ -82,7 +80,6 @@ const EditJobtitle = () => {
               Save
             </button>
           </div>
-
           <div>
             <img src={image1} className="picside" draggable={false} alt="this is image" />
           </div>
