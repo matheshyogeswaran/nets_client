@@ -2,24 +2,23 @@ import { FaPencilAlt } from 'react-icons/fa';
 import React, { useState } from 'react';
 import axios from 'axios';
 import swal from 'sweetalert';
-const Edit = ({ todo }) => {
+const Edit = ({ article }) => {
      
   const [modal, setModal] = useState(null);
-   
-  const [updatedTodo, setUpdatedTodo] = useState(todo);
+  const [updatedarticle, setUpdatedarticle] = useState(article);
 
   const onChange = (e) => {
     console.log('onChange', e.target.name, e.target.value);
-    setUpdatedTodo({
-      ...updatedTodo,
+    setUpdatedarticle({
+      ...updatedarticle,
       [e.target.name]: e.target.value
     });
   };
 
   const onUpdate = (e) => {
     e.preventDefault();
-    console.log('onUpdate', updatedTodo);
-    axios.post(`http://localhost:1337/arts/update/${todo._id}`, updatedTodo)
+    console.log('onUpdate', updatedarticle);
+    axios.post(`http://localhost:1337/arts/update/${article._id}`, updatedarticle)
       .then(() => {
         setModal(null);
         swal({
@@ -34,6 +33,23 @@ const Edit = ({ todo }) => {
           text: "Error",
         });
       });
+
+      const editData = {
+        articleName: updatedarticle.articleName,
+        articleDesc: updatedarticle.articleDesc,
+        old_data: {   
+          articleName: article.articleName,
+          articleDesc: article.articleDesc,
+        },
+      };
+    
+      axios.post("http://localhost:1337/editarticles/add", editData)
+        .then(() => {
+          console.log("Edit history data saved successfully");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
        
   };
    
@@ -46,10 +62,10 @@ const Edit = ({ todo }) => {
           class='rounded float-end'
           style={{ color: 'blue' }}
           data-bs-toggle='modal'
-          data-bs-target={`#edit-modal-${todo._id}`}
+          data-bs-target={`#edit-modal-${article._id}`}
         />
       </p>
-      <div className="modal fade" id={`edit-modal-${todo._id}`} tabIndex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
+      <div className="modal fade" id={`edit-modal-${article._id}`} tabIndex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -60,11 +76,11 @@ const Edit = ({ todo }) => {
               <form onSubmit={onUpdate}>
                 <div className="mb-3">
                   <label htmlFor="articleName" className="form-label">Article Name</label>
-                  <input type="text" className="form-control" id="articleName" name="articleName" value={updatedTodo.articleName} onChange={onChange} />
+                  <input type="text" className="form-control" id="articleName" name="articleName" value={updatedarticle.articleName} onChange={onChange} />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="articleDesc" className="form-label">Article Introduction</label>
-                  <input type="text" className="form-control" id="articleDesc" name="articleDesc" value={updatedTodo.articleDesc} onChange={onChange} />
+                  <input type="text" className="form-control" id="articleDesc" name="articleDesc" value={updatedarticle.articleDesc} onChange={onChange} />
                 </div>
                 <div class="modal-footer">
                   <input type="submit" value="Update Unit" className="btn btn-primary" />

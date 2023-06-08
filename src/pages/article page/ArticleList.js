@@ -1,36 +1,29 @@
 import Articles from './Articles';
- 
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
- 
 
 const ArticleList = () => {
-  const [todos, setTodos] = useState([]);
+  const [articles, setarticles] = useState([]);
 
   useEffect(() => {
     axios.get('http://localhost:1337/arts/')
       .then(response => {
-        setTodos(response.data);
+        setarticles(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
-
-   
+  }, []); 
 
   return (
     <div>
-       
             <div> 
-          {todos.map(todo => {
+          {articles.map(article => {
             return (
-              <Articles key={todo._id} todo={todo} />
+              <Articles key={article._id} article={article} />
             )
           })}
-          </div>
-           
+          </div>       
           </div>
          
     

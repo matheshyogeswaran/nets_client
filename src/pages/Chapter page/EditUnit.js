@@ -3,22 +3,21 @@ import axios from 'axios';
 import { FaPencilAlt } from 'react-icons/fa';
 import swal from "sweetalert";
 
-const Edit = ({ todo }) => {
+const Edit = ({ unit }) => {
      
-  const [modal, setModal] = useState(null);
-   
-  const [updatedTodo, setUpdatedTodo] = useState(todo);
+  const [modal, setModal] = useState(null);  
+  const [updatedunit, setUpdatedunit] = useState(unit);
 
   const onChange = (e) => {
-    setUpdatedTodo({
-      ...updatedTodo,
+    setUpdatedunit({
+      ...updatedunit,
       [e.target.name]: e.target.value
     });
   };
 
   const onUpdate = (e) => {
     e.preventDefault();
-    axios.post(`http://localhost:1337/units/update/${todo._id}`, updatedTodo)
+    axios.post(`http://localhost:1337/units/update/${unit._id}`, updatedunit)
       .then(() => {
         setModal(null);
         swal({
@@ -33,6 +32,23 @@ const Edit = ({ todo }) => {
           text: "Error",
         });
       });
+
+      const editData = {
+        unitName: updatedunit.unitName,
+        unitDesc: updatedunit.unitDesc,
+        old_data: {   
+          unitName: unit.unitName,
+          unitDesc: unit.unitDesc,
+        },
+      };
+    
+      axios.post("http://localhost:1337/editunits/add", editData)
+        .then(() => {
+          console.log("Edit history data saved successfully");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
        
   };  
 
@@ -45,10 +61,10 @@ const Edit = ({ todo }) => {
                   class='rounded float-end'
                   style={{ color: 'blue' }}
                   data-bs-toggle='modal'
-                  data-bs-target={`#edit-modal-${todo._id}`}
+                  data-bs-target={`#edit-modal-${unit._id}`}
                 />
               </p>
-              <div className="modal fade" id={`edit-modal-${todo._id}`} tabIndex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
+              <div className="modal fade" id={`edit-modal-${unit._id}`} tabIndex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
@@ -59,11 +75,11 @@ const Edit = ({ todo }) => {
                 <form onSubmit={onUpdate}>
                   <div className="mb-3">
                     <label htmlFor="unitName" className="form-label">Unit Name</label>
-                    <input type="text" className="form-control" id="unitName" name="unitName" value={updatedTodo.unitName} onChange={onChange} />
+                    <input type="text" className="form-control" id="unitName" name="unitName" value={updatedunit.unitName} onChange={onChange} />
                   </div>
                   <div className="mb-3">
                     <label htmlFor="unitDesc" className="form-label">Unit Introduction</label>
-                    <input type="text" className="form-control" id="unitDesc" name="unitDesc" value={updatedTodo.unitDesc} onChange={onChange} />
+                    <input type="text" className="form-control" id="unitDesc" name="unitDesc" value={updatedunit.unitDesc} onChange={onChange} />
                   </div>
                   <div class="modal-footer">
                         <input type="submit" value="Update Unit" className="btn btn-primary" />

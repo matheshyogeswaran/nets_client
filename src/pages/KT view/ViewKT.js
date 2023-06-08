@@ -1,13 +1,30 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from "react-router-dom";
+ 
+import axios from 'axios';
 
-import NavBar from "../../components/NavBar";
+import NavBar from "../NavBar";
 import KT from "./KT";
 
 const ViewKT = () => {
+    const KTid = useParams();
+    const [kts, setkts] = useState([]);
+    useEffect(() => {
+        console.log(KTid.id);
+        axios.get(`http://localhost:1337/kts/${KTid.id}`)
+          .then(response => {
+            setkts(response.data);
+            console.log(response.data)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }, [KTid.id]);
+    
     return (
         <React.Fragment>
             <div style={{backgroundColor: "#fefefe"}}> 
+             <NavBar></NavBar>
              <div className="container p-4"> 
               <div className="card" style={{ backgroundColor: "#70B9E6" }}>
               <div className="card-body">
@@ -24,7 +41,7 @@ const ViewKT = () => {
                     <ul className="navbar-nav me-auto mb-5 mb-lg-0">
                         <li className="nav-item"  style={{fontWeight:"bold"}}>
                             
-                            <Link to="/chapterPage" className="nav-link active">Units</Link>
+                            <Link to="/" className="nav-link active">Units</Link>
                         </li>
                         <li className="nav-item"  style={{fontWeight:"bold"}}>
                             
@@ -32,7 +49,7 @@ const ViewKT = () => {
                         </li>
                         <li className="nav-item"  style={{fontWeight:"bold"}}>
                             
-                            <Link to="/chapterPage" className="nav-link">Discussion Forums</Link>
+                            <Link to="/" className="nav-link">Discussion Forums</Link>
                         </li>
     
                     </ul>
@@ -44,7 +61,7 @@ const ViewKT = () => {
                         <div className="container p-3">
                         <h4 style={{ font: "25px" , color: "#000000" }}>KT Session 01</h4>
                         <br></br>
-                            <KT/>
+                            <KT url={kts}/>
                         </div>     
                     </div>
                      
@@ -56,5 +73,3 @@ const ViewKT = () => {
     );
 }
 export default ViewKT;
-
- 

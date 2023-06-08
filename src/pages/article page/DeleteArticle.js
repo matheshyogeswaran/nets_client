@@ -3,11 +3,11 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 import swal from 'sweetalert';
-const Delete = ({ todo }) => {
+const Delete = ({ article }) => {
     const navigate = useNavigate();
    
   const onDelete = () => {
-    axios.delete(`http://localhost:1337/arts/delete/${todo._id}`)
+    axios.delete(`http://localhost:1337/arts/delete/${article._id}`)
     .then((res) => {
       console.log(res.data);
           swal({
@@ -37,10 +37,10 @@ const Delete = ({ todo }) => {
                   type='button'
                   style={{ color: 'red' }}
                   data-bs-toggle='modal'
-                  data-bs-target={`#delete-modal-${todo._id}`}
+                  data-bs-target={`#delete-modal-${article._id}`}
                 />
               </p>
-              <div className="modal fade" id={`delete-modal-${todo._id}`} tabIndex="-1" aria-labelledby="delete-modal-label" aria-hidden="true">
+              <div className="modal fade" id={`delete-modal-${article._id}`} tabIndex="-1" aria-labelledby="delete-modal-label" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">

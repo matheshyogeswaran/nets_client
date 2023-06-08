@@ -1,50 +1,87 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import swal from 'sweetalert';
-const AddKT = () => {
-  const [ktName, setKtName] = useState('');
-  const [ktIntro, setKtIntro] = useState('');
+import swal from 'sweetalert'; 
+import * as Yup from "yup";
 
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
+import { storage } from "../../Firebase config/firebase";
+import { v4 } from "uuid";
+
+const AddKT = () => {
+  const [KTUpload, setKTUpload] = useState(null);
+
+  const validationSchema = Yup.object().shape({
+    sessionName: Yup.string().required('KT Session name is required'),
+    sessionDesc: Yup.string().required('Description is required'),
+  });
+
+  const [sessionName, setsessionName] = useState('');
+  const [sessionDesc, setsessionDesc] = useState('');
+  const [errors, setErrors] = useState({});
+
+   
   const onChangeKtName = (e) => {
-    setKtName(e.target.value);
+    setsessionName(e.target.value);
   };
 
   const onChangeKtIntro = (e) => {
-    setKtIntro(e.target.value);
+    setsessionDesc(e.target.value);
   };
 
-  const onSubmit = (e) => {
+  async function onSubmit(e) {
     e.preventDefault();
+
+    try {
+      await validationSchema.validate({ sessionName: sessionName, sessionDesc: sessionDesc }, { abortEarly: false });
      
     console.log(`Form submitted:`);
-    console.log(`KT Name: ${ktName}`);
-    console.log(`KT Introduction: ${ktIntro}`);
+    console.log(`KT Name: ${sessionName}`);
+    console.log(`KT Introduction: ${sessionDesc}`);    
 
-    const newKT = {
-      sessionName: ktName,
-      sessionDesc: ktIntro,
+    var newKT = {
+      sessionName: sessionName,
+      sessionDesc: sessionDesc,
     };
 
-     
-
-    axios.post('http://localhost:1337/kts/add', newKT)
+    if (KTUpload == null) return;
+    const KTRef = ref(storage, `KTsessions/${KTUpload.name + v4()}`);
+ 
+    uploadBytes(KTRef, KTUpload).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        console.log(url);
+        newKT = {...newKT,sessionUrl:url}
+        axios.post('http://localhost:1337/kts/add', newKT)
             .then((res) => {
                 console.log(res.data);
                     swal({
                       icon: "success",
                       text: "Successfully created",
                     });
-                    setKtName('');
-                    setKtIntro('');
-                   
+                    setsessionName('');
+                    setsessionDesc('');
+                    setErrors({});
                 })
-                .catch((error) => {
-                  console.log(error);
+        
+      });
+    });      
+
+     
+              }catch(err) {
+                console.error(err);
+                const validationErrors = {};
+                err.inner.forEach((e) => {
+                  validationErrors[e.path] = e.message;
+                });
+                setErrors(validationErrors);
                   swal({
                     icon: "warning",
                     text: "Error",
                   });
-                });
+                };
   };
 
   return (
@@ -52,12 +89,16 @@ const AddKT = () => {
       <form onSubmit={onSubmit}>
         <div className="form-control">
           <label>KT </label>
-          <input type="text" className="form-control" value={ktName} required onChange={onChangeKtName} />
+          <input type="text" className="form-control" value={sessionName} onChange={onChangeKtName} />
+          {errors.sessionName && <div className="error">{errors.sessionName}</div>}
           <br></br>
           <label>Introduction </label>
-          <input type="text" className="form-control" value={ktIntro} onChange={onChangeKtIntro} />
+          <input type="text" className="form-control" value={sessionDesc} onChange={onChangeKtIntro} />
+          {errors.sessionDesc && <div className="error">{errors.sessionDesc}</div>}
           <br></br>
-          <input type="file" class="form-control" aria-label="file example" required />
+          <input type="file" accept="video/mp4,video/mpeg,video/quicktime,video/x-msvideo" class="form-control" aria-label="file example"  onChange={(event) => {
+          setKTUpload(event.target.files[0]);
+        }} />
           <br></br>
           <input type="submit" value="Save KT Session" className="btn btn-primary" />
         </div>

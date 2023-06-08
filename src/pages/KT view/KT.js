@@ -1,17 +1,18 @@
 import React from 'react'
  
-function KT() {
- 
+function KT(props) {
+  
   return (
-    <div className="container" style={{textAlign:"center",height:"900px"}}>
-        <iframe title="myframe" style={{height:"700px",width:"850px"}}
-        src="https://drive.google.com/file/d/1monJUQ6sftdmkXBrDXtxSix9ZLc3JbE2/preview"
-        width="500"
-        height="375"
-      >
-      </iframe>
-    </div>
-  )
+    props.url.map((kt)=>(
+      <div style={{textAlign:"center",height:"900px"}}>
+      {/* <p>{kt.sessionUrl}</p> */}
+   <video controls="controls" controlsList="nodownload" onContextMenu={(event) => event.preventDefault()} width="640" height="360">
+ <source src={kt.sessionUrl} type="video/mp4"/></video>
+     
+ </div>
+    )))
+     
+  
 }
 
 export default KT

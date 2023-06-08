@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
-import NavBar from "../../components/NavBar";
+import NavBar from "../NavBar";
 import Unit from './Unit';
 
 const UnitContent = (props) => {
@@ -12,6 +12,7 @@ const UnitContent = (props) => {
     return (
         <React.Fragment>
             <div style={{backgroundColor: "#fefefe"}}> 
+             <NavBar></NavBar>
              <div className="container p-4"> 
               <div className="card" style={{ backgroundColor: "#70B9E6" }}>
               <div className="card-body">
@@ -28,7 +29,7 @@ const UnitContent = (props) => {
                     <ul className="navbar-nav me-auto mb-5 mb-lg-0">
                         <li className="nav-item"  style={{fontWeight:"bold"}}>
                              
-                            <Link to="/chapterPage" className="nav-link active">Units</Link>
+                            <Link to="/" className="nav-link active">Units</Link>
                         </li>
                         <li className="nav-item"  style={{fontWeight:"bold"}}>
                              
@@ -36,7 +37,7 @@ const UnitContent = (props) => {
                         </li>
                         <li className="nav-item"  style={{fontWeight:"bold"}}>
                              
-                            <Link to="/chapterPage" className="nav-link">Discussion Forums</Link>
+                            <Link to="/" className="nav-link">Discussion Forums</Link>
                         </li>
     
                     </ul>

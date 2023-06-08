@@ -19,6 +19,7 @@ import { quiz_routes } from "./QuizRoutes";
 import { report_routes } from "./ReportRoutes";
 import { unit_article_routes } from "./UnitArticleRoutes";
 import { user_role_routes } from "./UserRoleRoutes";
+import { editlogs_routes } from "./Editlogs";
 
 const AppRoutes = () => {
   const protectedRoutes = [
@@ -33,7 +34,8 @@ const AppRoutes = () => {
     ...quiz_routes,
     ...report_routes,
     ...unit_article_routes,
-    ...user_role_routes
+    ...user_role_routes,
+    ...editlogs_routes
   ]
 
   const unprotectedRoutes = [

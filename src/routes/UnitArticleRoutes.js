@@ -2,6 +2,7 @@ import ViewKT from "../pages/KT view/ViewKT";
 import UnitContent from "../pages/Unit page/UnitContent";
 import ArticleContent from "../pages/article page/ArticleContent";
 import ViewContent from "../pages/article view/ViewContent";
+import Edit from "../pages/Chapter page/EditUnit";
 
 export const unit_article_routes = [
     {
@@ -13,7 +14,7 @@ export const unit_article_routes = [
         ele: <UnitContent/>
     },
     {
-        path: "/Unit/View",
+        path: "/Unit/View/:id",
         ele: <ViewKT/>
     },
     {
@@ -21,7 +22,11 @@ export const unit_article_routes = [
         ele: <ArticleContent/>
     },
     {
-        path: "/article/View",
+        path: "/article/View/:id",
         ele: <ViewContent/>
     },
+    {
+        path: "/edit/:id",
+        ele: <Edit/>
+    }
 ]

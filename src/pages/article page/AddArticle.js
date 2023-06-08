@@ -1,50 +1,86 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import swal from 'sweetalert';
+import * as Yup from "yup";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  listAll,
+  list,
+} from "firebase/storage";
+import { storage } from "../../Firebase config/firebase";
+import { v4 } from "uuid";
+
 function AddArticle() {
-    const [artName, setArtName] = useState('');
-    const [artIntro, setArtIntro] = useState('');
+  const [articleUpload, setArticleUpload] = useState(null)
+
+  const validationSchema = Yup.object().shape({
+    articleName: Yup.string().required('Article name is required'),
+    articleDesc: Yup.string().required('Description is required'),
+  });
+
+    const [articleName, setarticleName] = useState('');
+    const [articleDesc, setarticleDesc] = useState('');
+    const [errors, setErrors] = useState({});
   
     const onChangeArtName = (e) => {
-      setArtName(e.target.value);
+      setarticleName(e.target.value);
     };
   
     const onChangeArtIntro = (e) => {
-      setArtIntro(e.target.value);
+      setarticleDesc(e.target.value);
     };
   
-    const onSubmit = (e) => {
+    async function onSubmit (e)  {
       e.preventDefault();
-       
+      try {
+        await validationSchema.validate({ articleName: articleName, articleDesc: articleDesc }, { abortEarly: false });
+
       console.log(`Form submitted:`);
-      console.log(`Article Name: ${artName}`);
-      console.log(`Article Introduction: ${artIntro}`);
+      console.log(`Article Name: ${articleName}`);
+      console.log(`Article Introduction: ${articleDesc}`);
   
-      const newArticle = {
-        articleName: artName,
-        articleDesc: artIntro,
+      var newArticle = {
+        articleName: articleName,
+        articleDesc: articleDesc,
       };
   
+      if (articleUpload == null) return;
+      const articleRef = ref(storage, `Articles/${articleUpload.name + v4()}`);
        
 
-      axios.post('http://localhost:1337/arts/add', newArticle)
-            .then((res) => {
-                console.log(res.data);
-                    swal({
-                      icon: "success",
-                      text: "Successfully created",
-                    });
-                    setArtName('');
-                    setArtIntro('');
-                   
-                })
-                .catch((error) => {
-                  console.log(error);
+      uploadBytes(articleRef, articleUpload).then((article) => {
+        getDownloadURL(article.ref).then((url) => {
+          console.log(url);
+          newArticle = {...newArticle,articleUrl:url}
+          axios.post('http://localhost:1337/arts/add', newArticle)
+          .then((res) => {
+              console.log(res.data);
+                  swal({
+                    icon: "success",
+                    text: "Successfully created",
+                  });
+                  setarticleName('');
+                  setarticleDesc('');
+                  setErrors({});
+              })
+          
+        });
+      }); 
+     
+                }catch(err) {
+                console.error(err);
+                const validationErrors = {};
+                err.inner.forEach((e) => {
+                  validationErrors[e.path] = e.message;
+                });
+                setErrors(validationErrors);
                   swal({
                     icon: "warning",
                     text: "Error",
                   });
-                });
+                };
     };
   
     return (
@@ -54,21 +90,27 @@ function AddArticle() {
             <label>Article</label>
             <input  type="text"
                     className="form-control"
-                    value={artName}
-                    required
+                    value={articleName}
+                     
                     onChange={onChangeArtName}
             />
+            {errors.articleName && <div className="error">{errors.articleName}</div>}
             <br></br>
             <label>Introduction </label>
             <input  type="text"
                     className="form-control"
-                    value={artIntro}
+                    value={articleDesc}
                     onChange={onChangeArtIntro}
             />
+            {errors.articleDesc && <div className="error">{errors.articleDesc}</div>}
             <br></br>
-            <input type="file" className="form-control" aria-label="file example" required/>
+            <input type="file" accept=".pdf,.doc,.docx" className="form-control" aria-label="file example"  
+             onChange={(event) => {
+              setArticleUpload(event.target.files[0]);
+            }}/>
             <br></br>
-            <input type="submit" value="Save Article" className="btn btn-primary" />
+            <input type="submit" value="Save Article" className="btn btn-primary"
+             />
           </div>
         </form>
       </div>

@@ -3,12 +3,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
  
 const UnitList = () => {
-  const [todos, setTodos] = useState([]);
+  const [KTsessions, setKTsessions] = useState([]);
 
   useEffect(() => {
     axios.get('http://localhost:1337/kts/')
       .then(response => {
-        setTodos(response.data);
+        setKTsessions(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -21,9 +21,9 @@ const UnitList = () => {
     <div>
        
             <div> 
-          {todos.map(todo => {
+          {KTsessions.map(KTsession => {
             return (
-              <KTs key={todo._id} todo={todo} />
+              <KTs key={KTsession._id} KTsession={KTsession} />
             )
           })}
           </div>

@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 import swal from "sweetalert";
 
-const Delete = ({ todo }) => {
+const Delete = ({ unit }) => {
     const navigate = useNavigate();  
 
   const onDelete = () => {
-    axios.delete(`http://localhost:1337/units/delete/${todo._id}`)
+    axios.delete(`http://localhost:1337/units/delete/${unit._id}`)
     .then((res) => {
       console.log(res.data);
           swal({
@@ -38,10 +38,10 @@ const Delete = ({ todo }) => {
                   type='button'
                   style={{ color: 'red' }}
                   data-bs-toggle='modal'
-                  data-bs-target={`#delete-modal-${todo._id}`}
+                  data-bs-target={`#delete-modal-${unit._id}`}
                 />
               </p>
-              <div className="modal fade" id={`delete-modal-${todo._id}`} tabIndex="-1" aria-labelledby="delete-modal-label" aria-hidden="true">
+              <div className="modal fade" id={`delete-modal-${unit._id}`} tabIndex="-1" aria-labelledby="delete-modal-label" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -49,7 +49,7 @@ const Delete = ({ todo }) => {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"  ></button>
             </div>
             <div className="modal-body">
-              Are you sure you want to delete this todo?
+              Are you sure you want to delete this?
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -66,7 +66,6 @@ const Delete = ({ todo }) => {
 };
 
 export default Delete;
-
 
 
  
