@@ -2,7 +2,6 @@ import { useLocation } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import swal from "sweetalert";
 import jwt_decode from "jwt-decode";
 
 const RatingsReport = () => {
@@ -443,12 +442,14 @@ const RatingsReport = () => {
           </div>
         </>
       ) : (
-        swal({
-          title: "Error!",
-          text: "No KT session or article has been uploaded yet.",
-          icon: "warning",
-          dangerMode: true,
-        })
+        <div
+          className="shadow text-center bg-dark text-light"
+          width="90px"
+          height="90px"
+          style={{ margin: "15%", padding: "20px" }}
+        >
+          <h4>No KT session or article has been uploaded yet.</h4>
+        </div>
       )}
     </>
   );

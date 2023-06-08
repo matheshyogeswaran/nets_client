@@ -2,7 +2,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import swal from "sweetalert";
 import gold from "../../images/gold.png";
 import silver from "../../images/silver.png";
 import bronze from "../../images/bronze.png";
@@ -198,12 +197,14 @@ const OverviewReport = () => {
           )}
         </>
       ) : (
-        swal({
-          title: "Error!",
-          text: "No quizzes have been completed yet.",
-          icon: "warning",
-          dangerMode: true,
-        })
+        <div
+          className="shadow text-center bg-dark text-light"
+          width="90px"
+          height="90px"
+          style={{ margin: "15%", padding: "20px" }}
+        >
+          <h4>No quizzes have been completed yet.</h4>
+        </div>
       )}
     </>
   );
