@@ -23,7 +23,7 @@ const AllocateChapter = () => {
     <React.Fragment>
       <NavBar></NavBar>
       <div className="container">
-        <div className="form-control mt-3 heading">Allocate Chapters</div>
+        <div className="alert mt-3 heading"><h5>Allocate Chapters</h5></div>
         <br></br> <br></br>
         <table className="table">
 
@@ -39,7 +39,7 @@ const AllocateChapter = () => {
                       <button className="button-result">
                         <Link
                           to={"/editallocatechapter/" + jobtitle._id + "/" + jobtitle.jobTitlename}
-                          className="showAns text-decoration-none"
+                          className="showBut text-decoration-none"
                         >
                           Add chapters
                         </Link>

@@ -4,14 +4,16 @@ import "../../App.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+
 const EditDepartment = () => {
-  const { id, name } = useParams();
-  const [newDepName, setNewDepName] = useState(name);
-  const [reason, setReason] = useState("");
-  function submitEdit(e) {
+  const { id, name } = useParams(); //Destructures the id and name parameters from the URL using the useParams() hook
+  const [newDepName, setNewDepName] = useState(name); //Initializes a state variable named newDepName with the initial value of name, and a function named setNewDepName to update the state variable.
+  const [reason, setReason] = useState(""); //Initializes a state variable named reason with an empty string value, and a function named setReason to update the state variable.
+
+  function submitEdit(e) { // this function is used to handle the form submission
     e.preventDefault();
     axios
-      .post("http://localhost:1337/departments/editDepartment", {
+      .post("http://localhost:1337/departments/editDepartment", { //Sends a POST request to the backend server to update the department name with the new name, reason and id.
         fromName: name,
         newName: newDepName,
         reason: reason,
@@ -37,8 +39,8 @@ const EditDepartment = () => {
 
   return (
     <div className="container">
-      <div className="form-control mt-3 bg-dark text-white">
-        Edit Department
+      <div className="alert mt-3 heading">
+        <h5>Edit Department</h5>
       </div>
       <div className="columns mt-5">
         <form name="myForm" onSubmit={submitEdit}>

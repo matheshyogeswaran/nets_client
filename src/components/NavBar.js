@@ -93,7 +93,7 @@ const NavBar = () => {
                         <i className="bi bi-person-check me-2"></i>
                         <i>Logged in as: </i>
                         <b>
-                          {(userData?.userRoleId?.userRoleValue)?userData?.userRoleId?.userRoleValue:"Guest"}
+                          {(userData?.userRoleId?.userRoleValue) ? userData?.userRoleId?.userRoleValue : "Guest"}
                         </b>
                       </button>
                     </li>

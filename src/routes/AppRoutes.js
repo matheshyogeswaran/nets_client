@@ -5,6 +5,8 @@ import "../App.css";
 import RequireAuth from "../utils/RequireAuth";
 import RedirectIfLoggedIn from "../utils/RedirectIfLoggedIn";
 // Page Imports
+
+//ragu
 import AvailableUserRoles from "../pages/user_role/AvailableUserRoles";
 import CreateUserRole from "../pages/user_role/CreateUserRole";
 import HiredEmployee from "../pages/home_pages/HiredEmployee";
@@ -13,28 +15,35 @@ import GoogleLogin from "../pages/login/GoogleLogin";
 import PendingUserApproval from "../pages/login/PendingUserApproval";
 import PromoteDemote from "../pages/user_role/PromoteDemote";
 import ShowUsersUnderRole from "../pages/user_role/SHowUsersUnderRole";
+
+//ishvini
+import Department from "../pages/department/Department";
 import Jobtitle from "../pages/jobtitle/Jobtitle";
 import Chapter from "../pages/chapter/Chapter";
 import DepartmentChapter from "../pages/chapter/DepartmentChapter";
 import ViewChapter from "../pages/chapter/ViewChapter";
 import AllocateChapter from "../pages/chapter/AllocateChapter";
 import EditAllocate from "../pages/chapter/EditAllocate";
-import Department from "../pages/department/Department";
 import EnrollRequestSupervisor from "../pages/chapter/EnrollRequestSupervisor";
 import EnrollRequestEmployee from "../pages/chapter/EnrollRequestEmployee";
-import AddDepartment from "../pages/department/AddDepartment";
-import EditDepartment from "../pages/department/EditDepartment";
-import DeleteDepartment from "../pages/department/DeleteDepartment";
 import ProfileOverview from "../pages/profile/ProfileOverview";
 import PermanentDeleteChapter from "../pages/chapter/PermanentDeleteChapter";
-import DeleteChapterPermanent from "../pages/chapter/DeleteChapterPermanent";
+
+import AddDepartment from "../pages/department/AddDepartment";
+import EditDepartment from "../pages/department/EditDepartment";
+// import DeleteDepartment from "../pages/department/DeleteDepartment";
+
 import AddJobtitle from "../pages/jobtitle/AddJobtitle";
 import EditJobtitle from "../pages/jobtitle/EditJobtitle";
-import DeleteJobtitle from "../pages/department/DeleteJobtitle";
+// import DeleteJobtitle from "../pages/department/DeleteJobtitle";
+
 import AddChapter from "../pages/chapter/AddChapter";
-import EditChapter from "../pages/chapter/EditChapter";
-import DeleteChapter from "../pages/chapter/DeleteChapter";
 import DepartmentAddChapter from "../pages/chapter/DepartmentAddChapter";
+import EditChapter from "../pages/chapter/EditChapter";
+// import DeleteChapter from "../pages/chapter/DeleteChapter";
+// import DeleteChapterPermanent from "../pages/chapter/DeleteChapterPermanent";
+
+
 import Sample from "../pages/Sample";
 import AddReply from "../components/Forums/AddReply";
 import CreateForum from "../components/Forums/CreateForum";
@@ -330,7 +339,7 @@ const AppRoutes = () => {
               </RequireAuth>
             }
           />
-          <Route
+          {/* <Route
             exact
             path="/deletedep/:id"
             element={
@@ -338,8 +347,8 @@ const AppRoutes = () => {
                 {" "}
                 <DeleteDepartment />
               </RequireAuth>
-            }
-          />
+            } */}
+          {/* /> */}
           <Route exact path="/newjob/" element={<AddJobtitle />} />
           <Route
             exact
@@ -351,7 +360,7 @@ const AppRoutes = () => {
               </RequireAuth>
             }
           />
-          <Route
+          {/* <Route
             exact
             path="/deletejob/:id"
             element={
@@ -360,7 +369,7 @@ const AppRoutes = () => {
                 <DeleteJobtitle />{" "}
               </RequireAuth>
             }
-          />
+          /> */}
           <Route
             exact
             path="/newchap/"
@@ -381,7 +390,7 @@ const AppRoutes = () => {
               </RequireAuth>
             }
           />
-          <Route
+          {/* <Route
             exact
             path="/deletechap/:id"
             element={
@@ -390,7 +399,7 @@ const AppRoutes = () => {
                 <DeleteChapter />{" "}
               </RequireAuth>
             }
-          />
+          /> */}
           <Route exact path="/newdepchap/" element={<DepartmentAddChapter />} />
           <Route
             exact
@@ -488,6 +497,7 @@ const AppRoutes = () => {
               </RequireAuth>
             }
           />
+
           <Route path="/" element={<Home />} />
           <Route path="/result" element={<Result />} />
           <Route path="/review" element={<Review />} />
@@ -619,7 +629,7 @@ const AppRoutes = () => {
               </RequireAuth>
             }
           />
-          <Route
+          {/* <Route
             exact
             path="/deletedep/:id"
             element={
@@ -627,7 +637,7 @@ const AppRoutes = () => {
                 <DeleteDepartment />
               </RequireAuth>
             }
-          />
+          /> */}
           <Route
             exact
             path="/newjob/"
@@ -646,7 +656,7 @@ const AppRoutes = () => {
               </RequireAuth>
             }
           />
-          <Route
+          {/* <Route
             exact
             path="/deletejob/:id"
             element={
@@ -654,7 +664,7 @@ const AppRoutes = () => {
                 <DeleteJobtitle />
               </RequireAuth>
             }
-          />
+          /> */}
           <Route
             exact
             path="/newchap/"
@@ -673,7 +683,7 @@ const AppRoutes = () => {
               </RequireAuth>
             }
           />
-          <Route
+          {/* <Route
             exact
             path="/deletechap/:id"
             element={
@@ -681,8 +691,8 @@ const AppRoutes = () => {
                 <DeleteChapter />
               </RequireAuth>
             }
-          />
-          <Route
+          /> */}
+          {/* <Route
             exact
             path="/deletechapper/:id"
             element={
@@ -690,7 +700,7 @@ const AppRoutes = () => {
                 <DeleteChapterPermanent />
               </RequireAuth>
             }
-          />
+          /> */}
           <Route exact path="/comments" element={<CommentSection />} />
           <Route exact path="/forums" element={<Forums />} />
           <Route exact path="/view-forum/:forumId" element={<ViewForum />} />

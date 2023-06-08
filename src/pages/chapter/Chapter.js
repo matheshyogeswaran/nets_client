@@ -2,11 +2,50 @@ import React from "react";
 import NavBar from "../../components/NavBar";
 import users from "../../data/Users.json";
 import axios from "axios";
+import swal from "sweetalert";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import RedirectIfUserDontHavePermission from "../../utils/RedirectIfUserDontHavePermission";
+
 const Chapter = () => {
   const [chapters, setChapter] = useState([]);
+
+  function deletechapter(id) {
+    swal({
+      title: "Confirm",
+      text: "Are you absolutely sure you want to permanently delete this Chapter and all the data it contains?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        axios
+          .post("http://localhost:1337/chapters/deleteChapter", {
+            id: id,
+
+          })
+          .then((res) => {
+            if (res.data.status === true) {
+              swal(res.data.message, {
+                icon: "success",
+              });
+            } else {
+              swal(res.data.message, {
+                icon: "warning",
+              });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        swal("Your Chapter is safe!", {
+          icon: "success",
+        });
+      }
+    });
+  }
+
 
   useEffect(() => {
     axios.get("http://localhost:1337/chapters/showAllChapters")
@@ -21,29 +60,25 @@ const Chapter = () => {
       <React.Fragment>
         <NavBar></NavBar>
         <div className="container">
-          <div className="form-control mt-3 heading">Chapters</div>
-          <br></br>
+          <div className="alert mt-3 heading"><h5>Chapters</h5></div>
           <div className="row ">
             <div className="col-md-12">
               <Link
                 to="/newchap"
                 className="btn btn-outline-success form-control"
               >
-                Add New Chapter
+                + Add New Chapter
               </Link>
+              <hr className="mt-3"></hr>
             </div>
           </div>
-          <br></br> <br></br>
           <table className="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
-
                 <th scope="col">Chapter name</th>
-
-                <th scope="col">
-                  <center>Actions</center>
-                </th>
+                <th scope="col">Edit chapter</th>
+                <th scope="col">Delete chapter</th>
               </tr>
             </thead>
             <tbody>
@@ -66,12 +101,11 @@ const Chapter = () => {
                       </Link>
                     </td>
                     <td>
-                      <Link
-                        to={"/deletechapper/" + item._id}
+                      <button type="submit" onClick={() => deletechapter(item._id)}
                         className="btn btn-outline-danger form-control"
                       >
                         Delete
-                      </Link>
+                      </button>
                     </td>
                   </tr>
                 );

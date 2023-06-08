@@ -3,11 +3,49 @@ import NavBar from "../../components/NavBar";
 import users from "../../data/Users.json";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import swal from "sweetalert";
 import { Link } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+
 const DepartmentChapter = () => {
     const userdepartment = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.department;
     const [chapters, setChapter] = useState([]);
+
+    function deleteChapter(id) {
+        swal({
+            title: "Confirm",
+            text: "Are you absolutely sure you want to delete this Chapter?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                axios
+                    .put(`http://localhost:1337/chapters/${id}`, {
+                        status: "notactive",
+                    })
+                    .then((res) => {
+                        if (res.data.status === true) {
+                            swal(res.data.message, {
+                                icon: "success",
+                            });
+
+                        } else {
+                            swal(res.data.message, {
+                                icon: "success",
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } else {
+                swal("Your Chapter is safe!", {
+                    icon: "success",
+                });
+            }
+        });
+    }
 
     useEffect(() => {
         axios.get("http://localhost:1337/chapters/showAllChapters")
@@ -21,29 +59,25 @@ const DepartmentChapter = () => {
         <React.Fragment>
             <NavBar></NavBar>
             <div className="container">
-                <div className="form-control mt-3 heading">Chapters</div>
-                <br></br>
+                <div className="alert mt-3 heading"><h5>Chapters</h5></div>
                 <div className="row ">
                     <div className="col-md-12">
                         <Link
                             to="/newdepchap"
                             className="btn btn-outline-success form-control"
                         >
-                            Add New Chapter
+                            + Add New Chapter
                         </Link>
+                        <hr className="mt-3"></hr>
                     </div>
                 </div>
-                <br></br> <br></br>
                 <table className="table">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-
                             <th scope="col">Chapter name</th>
-
-                            <th scope="col">
-                                <center>Actions</center>
-                            </th>
+                            <th scope="col">Edit chapter</th>
+                            <th scope="col">Delete chapter</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,12 +100,11 @@ const DepartmentChapter = () => {
                                         </Link>
                                     </td>
                                     <td>
-                                        <Link
-                                            to={"/deletechap/" + item._id}
+                                        <button type="submit" onClick={() => deleteChapter(item._id)}
                                             className="btn btn-outline-danger form-control"
                                         >
                                             Delete
-                                        </Link>
+                                        </button>
                                     </td>
                                 </tr>
                             );

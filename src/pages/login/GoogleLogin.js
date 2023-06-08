@@ -19,9 +19,9 @@ const GoogleLogin = () => {
     // it is not implemented to signup yet
     const location = useLocation();
     const redirectPath = location.state?.path || "/home"
-    
+
     const navigate = useNavigate();
-    
+
     //state to store login response data from backend
     //should be saved in local storage
     const [loginData, setLoginData] = useState();
@@ -42,7 +42,7 @@ const GoogleLogin = () => {
         }).then((data) => {
             // console.log("From Line 42" + JSON.stringify(data))
             setLoginData(data);
-            if(data.status===false){
+            if (data.status === false) {
                 swal("Welcome to NETS !", data.message, "info")
             }
         }).catch((error) => {
@@ -92,7 +92,7 @@ const GoogleLogin = () => {
 
     return (
         <React.Fragment>
-            <div id="infoSection" style={{"userSelect":"none"}}>
+            <div id="infoSection" style={{ "userSelect": "none" }}>
                 <div className="px-4 py-5 my-5 text-center" >
                     <img className="d-block mx-auto mb-4" draggable={false} src={image1} alt="hello world" width="200" height="200" />
                     <h6 className="display-6 fw-bold">New Employee Training System</h6>

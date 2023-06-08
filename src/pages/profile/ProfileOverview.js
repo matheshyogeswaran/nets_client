@@ -1,26 +1,23 @@
-// import addtowishlist from "../images/addtowishlist.png";
-// import { SocialIcon } from "react-social-icons";
 import "../../App.css";
 import jwt_decode from "jwt-decode";
 import NavBar from "../../components/NavBar";
+
 function ProfileOverview(props) {
   const data = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
-
   return (
     <>
-      <NavBar/>
+      <NavBar />
       <div className="row justify-content-center ">
         <div className="card ">
-          <div className="card-body">
+          <div className="alert mt-3 heading">
             <h3 className="text-center">
-            Profile overview
-          </h3>
+              Profile overview
+            </h3>
           </div>
         </div>
         <div className="col-md-8">
           <div
             className="card mt-5 crud shadow-lg p-3 mb-5 mt-5 bg-body rounded "
-          // style={{ backgroundColor: "rgb(199,227,244)" }}
           >
             <div className="col d-flex justify-content-center mt-3">
               <img
@@ -43,6 +40,23 @@ function ProfileOverview(props) {
                       className="form-control a2"
                       id="inputEmail4"
                       value={data.firstName}
+                      disabled={true}
+                    />
+                  </div>
+                </div>
+
+
+                <div className="row mt-2 justify-content-center">
+                  <div className="col-md-2"></div>
+                  <div className="form-group col-md-3">
+                    <label for="inputLastName">Emp ID No</label>
+                  </div>
+                  <div className="form-group col-md-5">
+                    <input
+                      type="lastname"
+                      className="form-control a2"
+                      id="inputLastname"
+                      value={data._id}
                       disabled={true}
                     />
                   </div>
@@ -88,7 +102,7 @@ function ProfileOverview(props) {
                       type="email"
                       className="form-control a2"
                       id="inputEmail4"
-                      value={data.userRoleId._id}
+                      value={data.userRoleId.userRoleValue}
                       disabled={true}
                     />
                   </div>
@@ -140,16 +154,6 @@ function ProfileOverview(props) {
                 </div>
                 <div className="row mt-2 ">
                   <div className="col-md-2"></div>
-                  {/* <div className="col-md-3 mt-3">
-                  <button
-                    type="submit"
-                    className="btn form-control  border border-secondary "
-                    style={{ background: "#ass" }}
-                  >
-                    <i className="bi bi-heart" style={{ height: "50px" }}></i>
-                    <h6>Add to wishlist</h6>
-                  </button>
-                </div> */}
                 </div>
               </form>
             </div>
