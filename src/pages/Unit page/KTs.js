@@ -1,5 +1,7 @@
 import Edit from './EditKT';
 import Delete from './DeleteKT';
+import { Link } from "react-router-dom";
+import video from "../../images/video.png";
 
 const KTs = ({ todo }) => {
     return(
@@ -9,7 +11,7 @@ const KTs = ({ todo }) => {
           <div class='col-lg-12'> 
          
         <h3 style={{ font: '25px', color: '#000000' }}>
-              {todo.kt_name}
+              {todo.sessionName}
             </h3>
              <div>
               
@@ -17,13 +19,15 @@ const KTs = ({ todo }) => {
              
              </div>
               
-            <p>{todo.kt_intro} </p>
+            <p>{todo.sessionDesc} </p>
             <div>
               
               <Delete key={todo._id} todo={todo} />
              
              </div>
+              
             </div>
+            <p> <Link to='/Unit/View'><img src={video} height='20px' width='20px' alt='pdf'></img></Link> </p>
             </div>
             </div>
             </div>

@@ -60,7 +60,6 @@ const EditAllocate = () => {
 
   return (
     <React.Fragment>
-      <NavBar></NavBar>
       <div className="container">
         <div className="alert mt-3 heading">
           <h5>Edit Allocate Chapters</h5>

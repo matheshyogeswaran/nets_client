@@ -57,7 +57,6 @@ const DepartmentChapter = () => {
 
     return (
         <React.Fragment>
-            <NavBar></NavBar>
             <div className="container">
                 <div className="alert mt-3 heading"><h5>Chapters</h5></div>
                 <div className="row ">

@@ -1,149 +1,125 @@
-/* global google */
-
-// I think the google variable is already available when you 
-// import google map from script in html. This error caused by Eslint, 
-// you can try and add the below line to the top of your file to disable ESlint
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import FurtherDetails from "./FurtherDetails";
 import jwt_decode from "jwt-decode";
 import { useLocation, useNavigate } from "react-router-dom";
-import image1 from "../../images/employee.png"
-import image2 from "../../images/employeegroup.webp"
-import swal from 'sweetalert'
+import Swal from 'sweetalert2'
+// Component Imports
+import AboutNETS from "./AboutNETS";
+import InfoSection from "./InfoSection";
+import FurtherDetails from "./FurtherDetails";
+// we didnt install google as module. we connected javascript to index.html
+// so when in compiling google will not be available
+// so, when in compiling it will get empty object
+// otherwise it will take from window.google
+const google = window.google = window.google ? window.google : {}
+
 const GoogleLogin = () => {
-    // purpose of this code is to navigate user to entered required URL before login
-    // After successful login, the user will be redirected to the required page
-    // if they entered the login URL directly, user will be redirected to home page
-    // it is not implemented to signup yet
+    // To get access to the current location object of the router. 
+    // The location object contains information about the current URL 
+    // and can be used to extract query parameters, route parameters, or 
+    // any other data associated with the current location.
+    // will re render with url changes
     const location = useLocation();
-    const redirectPath = location.state?.path || "/home"
-
+    // The navigate function can be used to programmatically navigate to a 
+    // new URL in the application, either by pushing a new URL to the 
+    // history stack or by replacing the current URL.
     const navigate = useNavigate();
-
-    //state to store login response data from backend
-    //should be saved in local storage
-    const [loginData, setLoginData] = useState();
-    //if user is available in database then set this state to true else false
-    const [isUserAvailable, setIsUserAvailable] = useState(true);
-    //state to store decoded values of google login response
+    // if user enter any url to another page without logging in user will be navigated  to
+    // login automatically. after signin, user will be redirected to correct page
+    const redirectPath = location.state?.path || "/home"
+    // this state is used to determine whether user is new to system o rnot
+    // if new user it will be true else false
+    const [isThisNewUser, setIsThisNewUser] = useState(false);
     const [googleLoginDecodedValues, setGoogleLoginDecodedValues] = useState();
-    //function to handle google login response
+    // we have handleGoogle function to handle google login, after click the login page, 
+    // handleGoogle function has parameter response
+    // response in object format
+    // object contains, image, token, fname, lname, email, iat, eat etc...
     const handleGoogle = async (response) => {
-        // console.log(response)
+        // Response includes fname, lname, email, picture, credential(token), iat, eat and etc.
+        // from that we assign decoded token into googleLoginDecodedValues to send to further data
+        // if user is new
         setGoogleLoginDecodedValues(jwt_decode(response.credential));
-        fetch("http://localhost:1337/authentication/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json", },
-            body: JSON.stringify({ credential: response.credential }),
-        }).then((res) => {
-            return res.json();
-        }).then((data) => {
-            // console.log("From Line 42" + JSON.stringify(data))
-            setLoginData(data);
-            if (data.status === false) {
-                swal("Welcome to NETS !", data.message, "info")
-            }
-        }).catch((error) => {
-            console.log(error)
-            // console.log(error?.message);
-        });
-    };
-
-    //if loginData is not null then check if user is available in database
-    //if user is available in database then set isUserAvailable to true else false
-    //if user is not available in database, AddFurtherDetails component will be rendered
-    useEffect(() => {
-        if (loginData) {
-            // console.log(loginData);
-            axios.post('http://localhost:1337/users/isUserAvailable', { email: loginData?.user?.email })
-                .then((res) => {
-                    console.log("User Availability: " + JSON.stringify(res.data))
-                    if (res.data.status === true) {
-                        localStorage.setItem("user", JSON.stringify(loginData?.user));
+        // we send post request to following endpoint, it gets token as a body 
+        axios.post('http://localhost:1337/authentication/login', { credential: response.credential })
+            .then((res) => {
+                // if res.data.status is true, if there is no any un handled error in backend
+                if (res.data.status === true) {
+                    console.log(res.data)
+                    // This is the logic if user is available and verified
+                    if (res.data.verified === true && res.data.availability === true) {
+                        // user data will be stored in local storage
+                        localStorage.setItem("user", JSON.stringify(res.data.user));
+                        Swal.fire({
+                            title: 'Login Success',
+                            icon: "success",
+                            timer: 2000,
+                            timerProgressBar: true,
+                        })
+                        // and will be navigated to the page user entered before or home page
                         navigate(redirectPath, { replace: true });
-                    } else {
-                        setIsUserAvailable(res.data.status);
+                    } else if (res.data.verified === false && res.data.availability === true) {
+                        // means account is not verified, will show a alert modal
+                        Swal.fire(
+                            `Hello ${res?.data.user.firstName + " " + res.data.user.lastName} !`,
+                            "Your Account is not verified yet. Try again later. <br> After verification you will be notified via E-Mail",
+                            'info'
+                        )
+                    } else if (res.data.verified === false && res.data.availability === false) {
+                        // means user is new to the system, it will set 
+                        // isThisNewUser as true, if this variable set as true, then 
+                        // futher data form will be displayed, and infoSection will be hidden
+                        Swal.fire(`Hello ${res?.data.user.firstName + " " + res.data.user.lastName}`, "Welcome to New Employee Training System ! <br> Please fill this following form.", 'info')
+                        setIsThisNewUser(true);
                         document.getElementById("infoSection").hidden = true;
                     }
-                    // console.log(res.data)
-                }).catch((error) => {
-                    console.log(error)
-                });
-        }
-    }, [loginData, navigate, redirectPath])
+                } else {
+                    alert("BackEnd Error");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                alert("Network Error")
+            });
+    };
 
-    //render google login button
+    // This useEffect is used to render the Google Login Button within the loginDiv element
     useEffect(() => {
-        google.accounts.id.initialize({
+        // if google is available and account, id is available it will initialize
+        google?.accounts?.id?.initialize({
             client_id: "707797281139-4aqd3htq7bnut6nsp76ufc448svl64r9.apps.googleusercontent.com",
             callback: handleGoogle,
         });
-        google.accounts.id.renderButton(document.getElementById("loginDiv"), {
+        // if google is available and account, id is available it will render the button
+        google?.accounts?.id?.renderButton(document.getElementById("loginDiv"), {
             type: "standard",
             theme: "outline",
             size: "large",
             text: "continue_with",
             shape: "square",
         });
-        google.accounts.id.prompt();
+        // it will prompt the continue  as email
+        google?.accounts?.id?.prompt();
     }, []);
 
     return (
         <React.Fragment>
             <div id="infoSection" style={{ "userSelect": "none" }}>
-                <div className="px-4 py-5 my-5 text-center" >
-                    <img className="d-block mx-auto mb-4" draggable={false} src={image1} alt="hello world" width="200" height="200" />
-                    <h6 className="display-6 fw-bold">New Employee Training System</h6>
-                    <div className="col-lg-6 mx-auto">
-                        <p className="lead mb-4"  >
-                            New Employee Training System (NETS) is designed to provide knowledge
-                            about working environment, procedures, what exactly newly hired employees
-                            need to do in their particular job position in an efficient and interesting
-                            manner by organizing all essential learning materials in one central location.
-                        </p>
-                        <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                            {
-                                (isUserAvailable === false) ? null : <div id="loginDiv"></div>
-                            }
-                        </div>
-                    </div>
-                </div>
-
-                <div className="b-example-divider"></div>
-
-                <div className="container my-5">
-                    <div className="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
-                        <div className="col-lg-6 p-3 p-lg-5 pt-lg-3">
-                            <h1 className="display-6 fw-bold lh-1">About NETS...</h1>
-                            <p className="lead">
-                                Introducing our all-in-one website dedicated to managing your learning materials,
-                                from KT sessions to articles and quizzes. Our platform is designed to help
-                                you stay on top of your educational needs and connect with like-minded
-                                individuals through our discussion forums. We understand that even the
-                                best learning materials can leave you with questions or doubts, which
-                                is why we have a guidance request ticket system in place for personalized
-                                support and guidance from our expert team.
-                            </p>
-                            <div className="b-example-divider"></div>
-                            <p className="lead">
-                                Join our community today and let's embark on a journey of lifelong learning together!
-                            </p>
-                        </div>
-                        <div className="col-lg-5 offset-lg-1 p-0 overflow-hidden shadow-lg">
-                            <img className="rounded-lg-3" draggable={false} src={image2} alt="" width="720" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+                {/* info section contains loginDiv element to render the google login button */}
+                <InfoSection />
+                <AboutNETS />
+            </div >
             {
-                (isUserAvailable === false) ? <FurtherDetails id="furtherdata" loginData={loginData} userData={googleLoginDecodedValues} /> : null
+                // if new user found, further details form will appear
+                // otherwise it will just return null
+                // googleLoginDecodedValues values will be sent to further details form and
+                // some available data (ie: fname, lname, email, image) will be shown in the form 
+                (isThisNewUser === true)
+                    ? <FurtherDetails userData={googleLoginDecodedValues} />
+                    : null
             }
 
-
-        </React.Fragment>
+        </React.Fragment >
     );
 };
 

@@ -21,7 +21,6 @@ const AllocateChapter = () => {
 
   return (
     <React.Fragment>
-      <NavBar></NavBar>
       <div className="container">
         <div className="alert mt-3 heading"><h5>Allocate Chapters</h5></div>
         <br></br> <br></br>

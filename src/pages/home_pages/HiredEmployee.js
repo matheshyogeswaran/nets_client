@@ -5,7 +5,6 @@ import NavBar from "../../components/NavBar";
 const HiredEmployee = () => {
     return (
         <React.Fragment>
-            <NavBar></NavBar>
             <div className="container">
                 <div className="card mt-5">
                     <nav>

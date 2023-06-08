@@ -7,7 +7,7 @@ const TodosList = () => {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:4000/units/')
+    axios.get('http://localhost:1337/units/')
       .then(response => {
         setTodos(response.data);
       })

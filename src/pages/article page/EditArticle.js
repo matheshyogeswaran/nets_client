@@ -19,21 +19,22 @@ const Edit = ({ todo }) => {
   const onUpdate = (e) => {
     e.preventDefault();
     console.log('onUpdate', updatedTodo);
-    axios.post(`http://localhost:4000/arts/update/${todo._id}`, updatedTodo)
-    .then(() => {
-      setModal(null);
-      swal({
-        icon: "success",
-        text: "Successfully updated",
+    axios.post(`http://localhost:1337/arts/update/${todo._id}`, updatedTodo)
+      .then(() => {
+        setModal(null);
+        swal({
+          icon: "success",
+          text: "Successfully updated",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        swal({
+          icon: "warning",
+          text: "Error",
+        });
       });
-    })
-    .catch((err) => {
-      console.log(err);
-      swal({
-        icon: "warning",
-        text: "Error",
-      });
-    });
+       
   };
    
   return (
@@ -58,12 +59,12 @@ const Edit = ({ todo }) => {
             <div className="modal-body">
               <form onSubmit={onUpdate}>
                 <div className="mb-3">
-                  <label htmlFor="art_name" className="form-label">Article Name</label>
-                  <input type="text" className="form-control" id="art_name" name="art_name" value={updatedTodo.art_name} onChange={onChange} />
+                  <label htmlFor="articleName" className="form-label">Article Name</label>
+                  <input type="text" className="form-control" id="articleName" name="articleName" value={updatedTodo.articleName} onChange={onChange} />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="art_intro" className="form-label">Article Introduction</label>
-                  <input type="text" className="form-control" id="art_intro" name="art_intro" value={updatedTodo.art_intro} onChange={onChange} />
+                  <label htmlFor="articleDesc" className="form-label">Article Introduction</label>
+                  <input type="text" className="form-control" id="articleDesc" name="articleDesc" value={updatedTodo.articleDesc} onChange={onChange} />
                 </div>
                 <div class="modal-footer">
                   <input type="submit" value="Update Unit" className="btn btn-primary" />
