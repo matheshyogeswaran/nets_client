@@ -1,19 +1,21 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import swal from "sweetalert";
-import Search from "./../../subComponents/search";
+import Search from "../../subComponents/search";
+import { MdOutlineCheckCircle, MdOutlineCancel } from "react-icons/md";
 
 const Editlog = () => {
   const API_BASE = "http://localhost:1337";
   const [editlog, setEditlog] = useState([]);
   const [search, setSearch] = useState("");
+  const [showFeedback, setShowFeedback] = useState();
   const [showSearch, setShowSearch] = useState();
 
   useEffect(() => {
     axios
       .get(API_BASE + "/getScoreEditLog")
       .then((res) => {
-        const sortedData = res.data.sort((a, b) =>
+        const sortedData = res?.data?.sort((a, b) =>
           a.projectName.localeCompare(b.projectName)
         ); // Sorting the fetched data alphabetically by project name
         setEditlog(sortedData);
@@ -43,14 +45,20 @@ const Editlog = () => {
   };
   return (
     <>
-      <h1 className="py-4 result-head card ps-5">Grade history</h1>
       {editlog?.length !== 0 ? ( // Checking if there is data to show
         <>
           {/* Rendering the search bar component */}
-          <Search
-            handleGetSearchValue={getSearchValue}
-            width={{ width: "w-auto" }}
-          />
+          <div className="d-flex justify-content-between m-4">
+            <h3 className="text-secondary ">
+              Project Assignment Score Edit Log
+            </h3>
+            <div id="content-creator" className="mt-2">
+              <Search
+                handleGetSearchValue={getSearchValue}
+                width={{ width: "w-auto" }}
+              />
+            </div>
+          </div>
           <div className="table-responsive m-md-5 mt-4">
             <table className="table table-hover ">
               <thead>
@@ -58,45 +66,144 @@ const Editlog = () => {
                   <th>Project Name</th>
                   <th>Submitted by</th>
                   <th>Previous score</th>
-                  <th>Current sore</th>
+                  <th>Changed score</th>
+                  <th>Previous show</th>
+                  <th>Changed show</th>
                   <th>Updraded by</th>
                   <th>Upgraded time</th>
                 </tr>
               </thead>
               <tbody>
                 {editlog
-                  .filter((log) => {
+                  ?.filter((log) => {
                     // Filtering the editlog data based on the search query
                     if (showSearch) {
                       return log;
                     } else if (
-                      log.submittedBy
+                      log?.submittedBy
                         .toLowerCase()
                         .includes(search.toLowerCase())
                     ) {
                       return log;
                     }
                   })
-                  .map((log, index) =>
+                  ?.map((log, index) =>
                     //Map score array
-                    log.score.map((score, indexi) =>
-                      //Map upgraded array
-                      log.upgradedOn.map(
-                        (date, indexx) =>
-                          indexi === indexx &&
-                          indexi > 0 && ( // Rendering table rows for each editlog entry
-                            <tr>
-                              <td>{log.projectName}</td>
-                              <td>{log.submittedBy}</td>
-                              <td>{log.score[indexi - 1]}</td>
-                              <td>{score}</td>
-                              <td>{log.upgradedBy}</td>
-                              {/* to insert HTML content into the table cell. */}
-                              <td
-                                dangerouslySetInnerHTML={{ __html: date }}
-                              ></td>
-                            </tr>
+                    log?.score?.map((score, indexi) =>
+                      log?.show?.map((show, indexsh) =>
+                        //Map upgraded array
+                        log?.upgradedOn?.map((date, indexx) =>
+                          log?.upgradedBy?.map(
+                            (supervisor, indexs) =>
+                              indexi === indexsh &&
+                              indexsh === indexx &&
+                              indexx === indexs &&
+                              indexi > 0 && ( // Rendering table rows for each editlog entry
+                                <>
+                                  <tr
+                                    key={index}
+                                    className="score-editlog-pointer-event"
+                                    onClick={() =>
+                                      setShowFeedback(indexi + log?.userEmpId)
+                                    }
+                                  >
+                                    <td>{log?.projectName}</td>
+                                    <td>
+                                      <span className="ms-3">
+                                        <img
+                                          className="img-fluid rounded-circle supervisor-avatar"
+                                          src={log?.employeeUserImage}
+                                          alt={log?.submittedBy}
+                                        />
+                                        <br></br>
+                                        <span className="ms-3">
+                                          {log?.userEmpId}
+                                        </span>
+                                      </span>
+                                      <br></br>
+                                      {log?.submittedBy}
+                                    </td>
+                                    <td>{log?.score[indexi - 1]}</td>
+                                    <td>{score}</td>
+                                    <td className="pt-4 text-center">
+                                      {log?.show[indexsh - 1] ? (
+                                        <MdOutlineCheckCircle
+                                          color="green"
+                                          size={25}
+                                        />
+                                      ) : (
+                                        <MdOutlineCancel
+                                          color="red"
+                                          size={25}
+                                        />
+                                      )}
+                                    </td>
+                                    <td className="pt-4 text-center">
+                                      {show ? (
+                                        <MdOutlineCheckCircle
+                                          color="green"
+                                          size={25}
+                                        />
+                                      ) : (
+                                        <MdOutlineCancel
+                                          color="red"
+                                          size={25}
+                                        />
+                                      )}
+                                    </td>
+                                    <td>
+                                      <span className="ms-3">
+                                        <img
+                                          className="img-fluid rounded-circle supervisor-avatar"
+                                          src={supervisor?.supervisorUserImage}
+                                          alt={supervisor?.supName}
+                                        />
+                                        <br></br>
+                                        <span className="ms-3">
+                                          {supervisor?.supId}
+                                        </span>
+                                      </span>
+                                      <br></br>
+                                      {supervisor?.supName}
+                                    </td>
+                                    {/* to insert HTML content into the table cell. */}
+                                    <td
+                                      dangerouslySetInnerHTML={{ __html: date }}
+                                    ></td>
+                                  </tr>
+                                  {showFeedback === indexi + log?.userEmpId && (
+                                    <tr className="shadow score-edit-log-feedback ">
+                                      {log?.feedback?.map(
+                                        (feedbackData, indexf) =>
+                                          indexf > 0 &&
+                                          indexf === indexi && (
+                                            <td
+                                              key={indexf}
+                                              className=" score-edit-log-feedback-td fw-semibold p-4"
+                                              colSpan="8"
+                                            >
+                                              <div className="d-flex justify-content-between">
+                                                <span>
+                                                  <h4>Previous Feedback</h4>
+                                                  <span>
+                                                    {log?.feedback[indexf - 1]}
+                                                  </span>
+                                                </span>
+                                                <span className="border-end border-secondary border-2 mx-4"></span>
+                                                <span>
+                                                  <h4>Changed Feedback</h4>
+                                                  <span>{feedbackData}</span>
+                                                </span>
+                                              </div>
+                                            </td>
+                                          )
+                                      )}
+                                    </tr>
+                                  )}
+                                </>
+                              )
                           )
+                        )
                       )
                     )
                   )}
@@ -105,9 +212,14 @@ const Editlog = () => {
           </div>
         </>
       ) : (
-        <h3 className="text-center text-danger" style={{ margin: "200px" }}>
-          No data to show
-        </h3>
+        <div
+          className="shadow text-center bg-dark text-light"
+          width="90px"
+          height="90px"
+          style={{ margin: "300px", padding: "20px" }}
+        >
+          <h4>No data to show</h4>
+        </div>
       )}
     </>
   );

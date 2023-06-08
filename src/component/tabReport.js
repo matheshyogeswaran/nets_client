@@ -11,12 +11,14 @@ const TabReport = ({ handleGetTabReport }) => {
   }, [show]);
 
   return (
-    <ul className="nav nav-tabs mx-md-3">
-      <li className="nav-item">
+    <ul className="nav mx-md-3">
+      <li className="nav-item report-tab">
         {/* Apply "active" class if show is true 
         and set show to true when Hired Employee tab is clicked*/}
         <a
-          className={`nav-link ${show ? "active" : ""}`}
+          className={`nav-link btn btn-outline-primary  ${
+            show ? "active" : ""
+          }`}
           aria-current="page"
           href="#hired-employee"
           onClick={() => setShow(true)}
@@ -24,11 +26,13 @@ const TabReport = ({ handleGetTabReport }) => {
           Hired Employees
         </a>
       </li>
-      <li className="nav-item">
+      <li className="nav-item report-tab">
         {/* Apply "active" class if show is false 
         and set show to false when Content Creators tab is clicked*/}
         <a
-          className={`nav-link ${show ? "" : "active"}`}
+          className={`btn btn-outline-primary nav-link  ${
+            show ? "" : "active"
+          }`}
           href="#content-creator"
           onClick={() => setShow(false)}
         >

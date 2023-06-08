@@ -1,12 +1,15 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import Avatar from "react-avatar";
 import { useState, useEffect } from "react";
+import jwt_decode from "jwt-decode";
 import axios from "axios";
 
 const ChapterReport = () => {
   const API_BASE = "http://localhost:1337";
+  const localhostEmpId = jwt_decode(
+    JSON.parse(localStorage.getItem("user")).token
+  )?.userData?.empId;
 
-  const [chapterReportDetails, setChapterReportDetails] = useState([]);
+  const [chapterReportDetails, setChapterReportDetails] = useState({});
   const [navActive, setNavActive] = useState(0);
   const [selectedOption, setSelectedOption] = useState("Chapter Report");
   //get props
@@ -19,44 +22,46 @@ const ChapterReport = () => {
     setSelectedOption(event.target.value);
     navigate(event.target.value, {
       state: {
-        empId: propsData?.empId,
-        firstName: propsData?.firstName,
-        lastName: propsData?.lastName,
+        empId: chapterReportDetails?.userData?.empId,
+        empName: chapterReportDetails?.userData?.empName,
       },
     });
   };
   const [errorHandling, setErrorHandling] = useState("");
 
   useEffect(() => {
-    let empId = propsData?.empId;
+    let empId = propsData?.empId || localhostEmpId;
     axios
       .get(API_BASE + "/chapterReport/" + empId)
       .then((res) => setChapterReportDetails(res.data))
       .catch((error) => {
-        if (error.response && error.response.status === 404) {
+        if (error?.response && error?.response.status === 404) {
           // Handle "User not found" error
-          setErrorHandling(error.response.data.error);
+          setErrorHandling(error?.response.data.error);
         } else {
           // Handle other errors
-          setErrorHandling(error.message);
+          setErrorHandling(error?.message);
         }
       });
   }, []);
+
   return (
     <div className="">
       {errorHandling === "" ? (
         <>
-          <h1 className="py-4 result-head card ps-5">Chapter Report</h1>
-
-          <div className="chap-name-select">
+          <div className="chap-name-select mt-3">
             <div className=" d-flex ps-4">
-              <Avatar name={`${propsData?.firstName}`} round />
+              <img
+                className="img-fluid rounded-circle supervisor-avatar"
+                src={chapterReportDetails?.userData?.userImage}
+                alt={chapterReportDetails?.userData?.empName}
+              />
               <div className="d-flex flex-column ps-4">
-                <h3>
-                  {propsData?.firstName} {propsData?.lastName}
-                </h3>
+                <h3>{chapterReportDetails?.userData?.empName}</h3>
 
-                <h5 className="text-secondary ms-2">{propsData?.empId}</h5>
+                <h5 className="text-secondary ms-2">
+                  {chapterReportDetails?.userData?.empId}
+                </h5>
               </div>
             </div>
             <select
@@ -78,30 +83,30 @@ const ChapterReport = () => {
               aria-orientation="vertical"
             >
               {/* displaying chapter details */}
-              {chapterReportDetails?.map((chap, index) => (
+              {chapterReportDetails?.chapterReportData?.map((chap, index) => (
                 <button
                   key={index}
                   onClick={() => setNavActive(index)}
                   className={
-                    index == navActive ? "nav-link active" : "nav-link"
+                    index === navActive ? "nav-link active" : "nav-link"
                   }
                   data-bs-toggle="pill"
                   data-bs-target={`#${index}`}
                   type="button"
                   role="tab"
                   aria-controls={index}
-                  aria-selected={index == navActive ? "true" : "false"}
+                  aria-selected={index === navActive ? "true" : "false"}
                 >
-                  {chap.chapterName}
+                  {chap?.chapterName}
                 </button>
               ))}
             </div>
             <div className="tab-content" id="v-pills-tabContent">
-              {chapterReportDetails?.map((chap, indexi) => (
+              {chapterReportDetails?.chapterReportData?.map((chap, indexi) => (
                 <div
                   key={indexi}
                   className={
-                    indexi == navActive
+                    indexi === navActive
                       ? "tab-pane fade active show"
                       : "tab-pane fade"
                   }
@@ -135,24 +140,24 @@ const ChapterReport = () => {
                           className=" bg-info bg-opacity-10 leaderboard-tr fw-semibold"
                         >
                           <td className="leaderboard-td align-middle text-center">
-                            {unit.unitName}
+                            {unit?.unitName}
                           </td>
                           <td className="leaderboard-td align-middle text-center">
-                            {unit.score}
+                            {unit?.score}
                           </td>
                           <td className="leaderboard-td align-middle text-center">
-                            {unit.score >= 75
+                            {unit?.score >= 75
                               ? "A"
-                              : unit.score < 75 && unit.score >= 65
+                              : unit?.score < 75 && unit?.score >= 65
                               ? "B"
-                              : unit.score < 65 && unit.score >= 55
+                              : unit?.score < 65 && unit?.score >= 55
                               ? "C"
-                              : unit.score < 55 && unit.score >= 40
+                              : unit?.score < 55 && unit?.score >= 40
                               ? "S"
                               : "F"}
                           </td>
                           <td className="leaderboard-td align-middle text-center">
-                            {unit.score}%
+                            {unit?.score}%
                           </td>
                         </tr>
                       ))}
@@ -164,9 +169,14 @@ const ChapterReport = () => {
           </div>
         </>
       ) : (
-        <h3 className="text-center text-danger" style={{ margin: "200px" }}>
-          {errorHandling}
-        </h3>
+        <div
+          className="shadow text-center bg-dark text-light"
+          width="90px"
+          height="90px"
+          style={{ margin: "300px", padding: "20px" }}
+        >
+          <h4>{errorHandling} </h4>
+        </div>
       )}
     </div>
   );
