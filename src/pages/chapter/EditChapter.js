@@ -38,7 +38,7 @@ const EditChapter = () => {
 
   return (
     <div className="container">
-      <div className="form-control mt-3 bg-dark text-white">Edit Chapter</div>
+      <div className="alert mt-3 heading"><h5>Edit Chapter</h5></div>
       <div className="columns mt-5">
         <form name="myForm" onSubmit={submitEdit}>
           <div className="field">

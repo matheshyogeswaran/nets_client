@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Search from "../../subComponents/search";
 import TabReport from "../../component/tabReport";
 import axios from "axios";
+import swal from "sweetalert";
 
 const Report = () => {
   const API_BASE = "http://localhost:1337";
@@ -14,19 +15,22 @@ const Report = () => {
 
   const navigate = useNavigate();
 
-  const routeToChapterReport = (empId, firstName, lastName) => {
-    navigate("/chapterreport", {
-      state: { empId: empId, firstName: firstName, lastName: lastName },
-    });
+  // navigate to chapter report page
+  const routeToChapterReport = (empId) => {
+    navigate("/chapterreport", { state: { empId } });
   };
-  const routeToRatingsReport = (empId, firstName, lastName) => {
+  // navigate to ratings report page
+  const routeToRatingsReport = (empId) => {
     navigate("/ratings", {
-      state: { empId: empId, firstName: firstName, lastName: lastName },
+      state: { empId: empId },
     });
   };
+
+  // whether show the tab report or not
   const getTabReport = (show) => {
     setShow(show);
   };
+  //store search value, show search value into states
   const getSearchValue = (search, showSearch) => {
     setSearch(search);
     setShowSearch(showSearch);
@@ -35,16 +39,33 @@ const Report = () => {
     axios
       .get(API_BASE + "/showAllUsers")
       .then((res) => setReportDetails(res.data))
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        if (error.response && error.response.status === 404) {
+          // Handle "User not found" error
+          swal({
+            title: "Error",
+            text: error.response.data.error,
+            icon: "warning",
+            dangerMode: true,
+          });
+        } else {
+          // Handle other errors
+          swal({
+            title: "Error",
+            text: error.message,
+            icon: "warning",
+            dangerMode: true,
+          });
+        }
+      });
   }, []);
 
   return (
     <>
-      <h1 className="py-4 result-head card ps-5">Employee Report</h1>
-      {reportDetails?.length > 0 ? (
-        <>
+      {reportDetails?.length > 0 ? ( //checking whether system has data to show
+        <div className="mt-3">
           <TabReport handleGetTabReport={getTabReport} />
-          <div className="mt-5">
+          <div className="">
             <Search
               handleGetSearchValue={getSearchValue}
               width={{ width: "w-auto" }}
@@ -60,9 +81,10 @@ const Report = () => {
               </tr>
             </thead>
             <tbody>
+              {/* filtering employees */}
               {reportDetails
-                .filter((emp) => {
-                  let name = emp.firstName + " " + emp.lastName;
+                ?.filter((emp) => {
+                  let name = emp?.firstName + " " + emp?.lastName;
                   if (showSearch) {
                     return emp;
                   } else if (
@@ -71,54 +93,62 @@ const Report = () => {
                     return emp;
                   }
                 })
-                .map((emp, index) =>
-                  show
-                    ? emp.userRoleValue.toLowerCase() == "hired employee" && (
+                ?.map((emp, index) =>
+                  show //allow only hired employees
+                    ? emp?.userRoleValue.toLowerCase() === "hired employee" && (
                         <tr
                           key={index}
-                          onClick={() =>
-                            routeToChapterReport(
-                              emp.empId,
-                              emp.firstName,
-                              emp.lastName
-                            )
-                          }
+                          onClick={() => routeToChapterReport(emp?.empId)}
                         >
-                          <td>{emp.empId}</td>
                           <td>
-                            {emp.firstName} {emp.lastName}
+                            <img
+                              className="img-fluid rounded-circle supervisor-avatar"
+                              src={emp?.userImage}
+                              alt={emp?.firstName}
+                            />{" "}
+                            {emp?.empId}
                           </td>
-                          <td>{emp.depName}</td>
-                          <td>{emp.jobTitle}</td>
+                          <td>
+                            {emp?.firstName} {emp?.lastName}
+                          </td>
+                          <td>{emp?.depName}</td>
+                          <td>{emp?.jobTitle}</td>
                         </tr>
                       )
-                    : emp.userRoleValue.toLowerCase() == "content creator" && (
+                    : emp?.userRoleValue.toLowerCase() ===
+                        "content creator" && ( //allow only content creators
                         <tr
                           key={index}
-                          onClick={() =>
-                            routeToRatingsReport(
-                              emp.empId,
-                              emp.firstName,
-                              emp.lastName
-                            )
-                          }
+                          onClick={() => routeToRatingsReport(emp?.empId)}
                         >
-                          <td>{emp.empId}</td>
                           <td>
-                            {emp.firstName} {emp.lastName}
+                            <img
+                              className="img-fluid rounded-circle supervisor-avatar"
+                              src={emp?.userImage}
+                              alt={emp?.firstName}
+                            />
+                            {emp?.empId}
                           </td>
-                          <td>{emp.depName}</td>
-                          <td>{emp.jobTitle}</td>
+                          <td>
+                            {emp?.firstName} {emp?.lastName}
+                          </td>
+                          <td>{emp?.depName}</td>
+                          <td>{emp?.jobTitle}</td>
                         </tr>
                       )
                 )}
             </tbody>
           </table>
-        </>
+        </div>
       ) : (
-        <h3 className="text-center text-danger" style={{ margin: "200px" }}>
-          No data to show
-        </h3>
+        <div
+          className="shadow text-center bg-dark text-light"
+          width="90px"
+          height="90px"
+          style={{ margin: "300px", padding: "20px" }}
+        >
+          <h4>No Data To Show</h4>
+        </div>
       )}
     </>
   );

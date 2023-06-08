@@ -1,6 +1,63 @@
-/* .btn-success{
-  background-color: brown!important;
-} */
+.heading {
+  background-color: #55a3cae3 !important;
+  color: rgb(255, 255, 255) !important;
+  border-color: #8eabc0 !important;
+}
+
+.picside {
+  width: 240px;
+  float: right;
+}
+
+input[type="text"] {
+  width: 67.5%;
+  padding: 5px 16px;
+  border-radius: 4px;
+  border: 2px solid #53ade4;
+
+  box-sizing: border-box;
+  font-size: 15px;
+  height: 44px;
+  line-height: 40px;
+  font-family: inherit;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.showBut {
+  color: #1c87c9;
+}
+
+.showBut:hover {
+  color: rgb(79, 82, 84);
+}
+
+.error {
+  color: rgb(164, 119, 23);
+}
+
+/*---------------------------------------------*/
+
+.button-result {
+  padding: 1em 1em;
+  border: none;
+  border-radius: 1rem;
+  font-weight: bold;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  transition: all 1000ms;
+  font-size: 12px;
+  position: relative;
+  overflow: hidden;
+  outline: 2px solid #1c87c9;
+}
+
 .button {
   background-color: #1c87c9;
   -webkit-border-radius: 60px;
@@ -74,17 +131,41 @@
 }
 
 /* Result page */
-
-.result {
-  background-color: #fefefe;
+.result-greater-than-75 {
+  background-image: url("../src/images/resultGT75.png");
+  background-size: contain;
 }
 
-.result-head {
-  margin: 2rem 2rem;
-  background-color: #70b9e6;
-  color: white;
-  border-radius: 1rem;
-  border-color: #3157d1;
+.result-greater-than-50 {
+  background-image: url("../src/images/resultGT50.png");
+  background-size: contain;
+}
+
+.result-greater-than-30 {
+  background-image: url("../src/images/resultGT30.png");
+  background-size: contain;
+}
+
+.result {
+  background-image: url("../src/images/result.png");
+  background-size: contain;
+}
+
+.muted-text {
+  color: rgba(7, 7, 185, 0.63);
+}
+
+.result-header {
+  padding: 1rem 4rem;
+  text-align: start;
+  align-self: self-start;
+  color: #0b5ed7;
+  border-bottom: 2px solid #093b85;
+}
+
+.result-body {
+  padding: 0rem 5rem 1rem 5rem;
+  background-color: #e1e0ef;
 }
 
 .score-header {
@@ -96,14 +177,7 @@
   color: #2c51af;
 }
 
-.showAns {
-  color: #2c7382;
-}
-
-.showAns:hover {
-  color: white;
-}
-
+/* End result page */
 .button-result {
   padding: 1em 1em;
   border: none;
@@ -125,7 +199,8 @@
   box-shadow: 4px 5px 17px -4px #268391;
 }
 
-.button-result::before {
+*/
+/* .button-result::before {
   content: "";
   position: absolute;
   left: -50px;
@@ -136,79 +211,77 @@
   transform: skewX(45deg);
   z-index: -1;
   transition: width 1000ms;
-}
+} */
 
-.button-result:hover::before {
+/* .button-result:hover::before {
   width: 250%;
-}
+} */
 
 /* Review Page */
-
 .question {
   margin: 0.2rem 1rem 2rem 0.5rem;
   padding: 1rem;
 }
 
 .quesno {
-  background-color: rgb(213, 217, 217);
+  background-color: rgb(217, 218, 247);
+  color: rgb(51, 14, 116);
   border-radius: 0.3rem;
   padding: 0.5rem 1rem;
 }
 
 .que {
-  background-color: #f9f9f9;
+  background-color: #f4f7fa9c;
   padding: 1rem 0rem 1rem 1rem;
   border-radius: 0.3rem;
   font-size: 1.2rem;
+  font-weight: 500;
 }
 
 .que p {
-  font-weight: 400;
+  font-weight: 500;
+  padding: 1.5rem 1rem;
+  border-radius: 20px;
+  margin-right: 0.5rem;
 }
 
 .ans-badge {
-  display: flex !important;
-  justify-content: center;
+  display: flex;
   align-items: center;
-  height: 50px;
-  width: 35%;
+  min-height: 50px;
   opacity: 0.9;
-  font-size: 19px !important;
-  font-weight: 400 !important;
-}
-
-@media screen and (max-width: 900px) {
-  .ans-badge {
-    width: 75%;
-  }
-
-  .result-head {
-    margin: 2rem 0rem;
-  }
+  font-size: 19px;
+  font-weight: 400;
+  padding: 0rem 2rem;
 }
 
 .wrong-ans {
-  background-color: #ff6b6b;
+  background-color: #fab3b3c3;
+  border-radius: 15px;
 }
 
 .other-ans {
-  background-color: #a7a7a7;
+  background-color: rgba(213, 217, 217, 0.354);
+  border-radius: 15px;
 }
 
 .corr-ans {
-  background-color: #4fdc6e;
+  background-color: #4fdc6e53;
+  border-radius: 15px;
 }
 
+/* End of review page */
 /* Submission */
 .td-download-icon {
   width: 400px;
 }
+
 .btn-submission {
   width: 80px;
 }
 
 .emp-id {
-  background-color: #13447cb1 !important;
+  background-color: #452f94d3 !important;
   color: white;
   border-radius: 0.3rem;
   text-align: center;
@@ -217,7 +290,7 @@
 }
 
 .emp-name {
-  background-color: #5b137cba !important;
+  background-color: #170f8fba !important;
   color: white;
   border-radius: 0.3rem;
   text-align: center;
@@ -226,7 +299,7 @@
 }
 
 .emp-sub {
-  background-color: #7c134ba6 !important;
+  background-color: #1616c7a6 !important;
   color: white;
   border-radius: 0.3rem;
   text-align: center;
@@ -235,7 +308,7 @@
 }
 
 .emp-proName {
-  background-color: #efbd48d4 !important;
+  background-color: #2f22e9d4 !important;
   color: white;
   border-radius: 0.3rem;
   text-align: center;
@@ -244,7 +317,7 @@
 }
 
 .emp-status {
-  background-color: #e33ed8 !important;
+  background-color: #764bc5 !important;
   color: white;
   border-radius: 0.4rem;
   text-align: center;
@@ -253,17 +326,25 @@
   border-width: 10px;
 }
 
-.submission td {
-  text-align: center;
-}
-
 .download-icon {
   cursor: pointer;
 }
 
-/* evaluate */
+/* End of submission table page */
+/* Evaluate Page */
 .evaluate {
-  width: 82%;
+  padding: 0rem 2rem 2rem;
+}
+
+.evaluate-grid {
+  display: grid;
+  grid-template-columns: 0.8fr 1fr 0.8fr;
+}
+
+.evaluate-header {
+  padding: 1rem;
+  border-bottom: 1px solid #d5d3da;
+  color: #071d68;
 }
 
 .checkbox-lg .form-check-input {
@@ -278,39 +359,43 @@
   background-color: #eff7fb;
 }
 
-/*
- leaderboard 
- */
-
+/* End of Evaluate Page */
+/* Leaderboard */
 .rank-badge {
   width: 200px;
   height: 200px;
 }
+
 .leaderboard-card {
   height: 300px;
-  /* width: auto; */
   margin: 0 auto;
 }
+
 .leaderboard-header {
   height: 150px;
   background-color: #4b248f;
   color: rgb(255, 248, 248);
 }
+
 .leaderboard-avatar {
   width: 90px;
   height: 90px;
 }
+
 .leaderboard-avatar-wrapper {
   position: relative;
   top: -40px;
 }
+
 .leaderboard-title {
   margin-top: -40px;
 }
+
 .leaderboard-desc {
   font-size: 1rem;
   color: #71678d;
 }
+
 .leaderboard-empId {
   padding-left: 8rem !important;
 }
@@ -318,10 +403,12 @@
 .leaderboard-table-wrapper {
   margin-top: 20px;
 }
+
 .leaderboard-table {
   border-collapse: separate;
   border-spacing: 0 15px;
 }
+
 .leaderboard-tr {
   position: relative;
   height: 80px;
@@ -330,11 +417,13 @@
   box-shadow: 0px 5px 8px -2px rgb(218, 218, 218);
   font-weight: 500;
 }
+
 .leaderboard-td,
 .leaderboard-th {
   border: none;
   font-size: 1.1rem;
 }
+
 .leaderboard-table-avatar {
   height: 50px;
   width: 50px;
@@ -344,26 +433,57 @@
   font-size: 1rem;
   color: #a8a8a8;
 }
+
 .score-alert {
-  margin: 5rem 0rem 5rem 0rem;
+  margin: 5rem 0rem 4rem 0rem;
   text-align: center;
 }
-/* feedback submission */
+
+/* End of Leaderboard Page */
+/* Feedback of submission */
 .feedback {
-  background-color: #e6f0f5;
+  background-color: #a2b7ce95;
   border-radius: 1rem;
   padding: 1rem;
   font-size: large;
   font-weight: 500;
 }
 
-/* Report  */
+.supervisor-avatar {
+  width: 70px;
+  height: 70px;
+}
 
+.feedback-title {
+  background-color: #080335;
+  color: #f9f9f9;
+  padding-left: 2rem;
+  border-radius: 1rem;
+}
+
+.feedback-body {
+  display: grid;
+  grid-template-columns: 0.5fr 2.5fr;
+  align-items: center;
+  color: rgb(70, 67, 67);
+  padding-bottom: 3rem;
+}
+
+.feedback-body span {
+  padding: 1rem;
+}
+
+/* End of Feedback Page */
+/* Report  */
 .report-head {
   background-color: #061f70;
   color: white;
   padding: 1rem 0rem;
   text-align: center;
+}
+
+.report-tab {
+  margin-right: 1rem;
 }
 
 .empTable {
@@ -379,8 +499,8 @@
   cursor: pointer;
 }
 
+/* End of Report Page */
 /* Chapter report */
-
 .chapter-content {
   display: grid;
   grid-template-columns: 15% 1fr;
@@ -392,16 +512,29 @@
 }
 
 .chap-name-select select {
-  /* margin-left: 2vw; */
   width: 17rem;
   height: 3rem;
   justify-self: center;
   align-self: center;
 }
 
-/* Overview Table */
+/* End of Chapter Report Page */
+/* Overview Report */
+.overview-grid {
+  display: grid;
+  grid-template-columns: 2fr 0.5fr;
+}
 
+/* End of Overview Page */
 /* Quiz report front */
+.quiz-report-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.quiz-report-img-section {
+  margin-top: 12rem;
+}
 
 .quiz-report-front {
   background-color: #f9f9f9;
@@ -412,26 +545,53 @@
   margin: 2rem;
 }
 
-/* Quiz report */
-#content-creator form {
-  width: 20%;
-  margin-left: 47rem;
+#quiz-report {
+  padding-inline-start: 7rem;
+  padding-inline-end: 3rem;
 }
 
-@media screen and (max-width: 900px) {
-  #content-creator form {
-    width: 34%;
-    margin-left: 24rem;
-  }
+/* End of quiz report front page */
+/* Ratings */
+.ratings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
-/* 
-Ratings
-*/
+.rating {
+  display: inline-block;
+  unicode-bidi: bidi-override;
+  color: #e4e2e2;
+  font-size: 25px;
+  height: 25px;
+  width: auto;
+  margin: 0;
+  position: relative;
+  padding: 0;
+}
 
-.overall-chapter {
-  background-color: #99ebc3b8;
-  border-radius: 2rem;
+.rating-upper {
+  color: #f9a51d;
+  padding: 0;
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.rating-lower {
+  padding: 0;
+  display: flex;
+  z-index: 0;
+}
+
+.kt-article-data {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: 20px;
+  padding: 15px;
 }
 
 .specific-chapter {
@@ -448,25 +608,118 @@ Ratings
   margin-bottom: 2.5rem;
 }
 
-@media screen and (max-width: 768px) {
-  .emp-name-and-id {
-    padding-left: 2rem;
+.progress-bar-rate {
+  display: flex;
+  margin-left: 2.6rem;
+  margin-top: 20px;
+}
+
+.kt-art-progress-bar {
+  margin-left: 2rem;
+}
+
+/* End of Ratings report Page */
+/* project score page */
+.score-table-feedback {
+  color: #3d414d;
+  background-color: #d9daff;
+}
+
+.score-table-feedback-td {
+  border: 2px solid #5d5fa3;
+  border-top: 0;
+}
+
+.score-table-header {
+  background-color: #fcfcfc;
+  color: #040507;
+}
+
+.score-table-body {
+  background-color: #f3f1f1;
+  cursor: pointer;
+  color: rgb(7, 2, 15);
+}
+
+/* End of Project score page */
+/*score edit log */
+.score-edit-log-feedback-td {
+  border: 2px solid #024a7d;
+  border-top: 0;
+}
+
+.score-edit-log-feedback {
+  background-color: #c8e4f9;
+}
+
+.score-editlog-pointer-event {
+  cursor: pointer;
+}
+
+/* End of score edit log */
+/* For large devices */
+@media screen and (max-width: 1220px) {
+  .specific-chapter {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .leaderboard-table-wrapper {
+    margin: 0rem;
   }
 
+  .result-header {
+    width: 100%;
+  }
+
+  .evaluate-grid {
+    display: grid;
+    grid-template-columns: 0.1fr 1fr 0.1fr;
+  }
+
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .badges {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .chap-name-select select {
+    width: 98%;
+  }
+
+  .ratings-grid {
+    display: grid;
+    grid-template-columns: 100%;
+  }
+
+  #quiz-report {
+    padding-inline-start: 2rem;
+  }
+
+  .quiz-report-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .quiz-report-grid .quiz-report-img-section {
+    display: none;
+  }
+}
+
+/* For medium devices */
+@media screen and (max-width: 768px) {
   .empTable {
     margin-left: 1.2rem;
   }
 
   .img-score {
-    /* height: 30vh; */
     display: flex;
     flex-direction: column;
-    /* margin-right: 5rem; */
-  }
-
-  img {
-    height: 20vh;
-    width: 30vw;
   }
 
   .chap-name-select {
@@ -475,40 +728,13 @@ Ratings
   }
 
   .chap-name-select select {
-    margin: 0rem 2rem 2rem 2rem;
-    width: 97vw;
+    margin: 0rem;
     height: 3rem;
   }
 }
 
-/* For large devices */
-@media screen and (max-width: 992px) {
-  .row svg {
-    display: none;
-  }
-
-  #content-creator form {
-    width: 32%;
-    margin-left: 24rem;
-  }
-}
-
-/* For medium devices */
-@media screen and (max-width: 768px) {
-  #content-creator form {
-    width: 97%;
-    margin-left: 2rem;
-  }
-}
-
 @media screen and (max-width: 576px) {
-  #content-creator form {
-    width: 60%;
-    margin-left: 8rem;
+  .specific-chapter {
+    width: 98% !important;
   }
-}
-
-/* For small devices */
-
-@media screen and (max-width: 350px) {
 }

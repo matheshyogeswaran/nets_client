@@ -37,10 +37,6 @@ export const chapter_routes = [
         ele: <PermanentDeleteChapter/>
     },
     {
-        path: "/learnchapter",
-        ele: <ListAllChapters />
-    },
-    {
         path: "/depchapter",
         ele: <DepartmentChapter />
     },

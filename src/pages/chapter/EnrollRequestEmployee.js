@@ -75,10 +75,9 @@ const EnrollRequestEmployee = () => {
   return (
     <React.Fragment>
       <div className="container">
-        <div className="form-control mt-3 heading">
-          Other department Chapters
+        <div className="alert mt-3 heading">
+          <h5>Other department Chapters</h5>
         </div>
-        <br></br> <br></br>
         <table className="table">
           <tbody>
             {
