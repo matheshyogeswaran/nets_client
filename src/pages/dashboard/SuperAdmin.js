@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import manageDepartment from "../../images/superAdmin/manageDep.png";
+import manageChapters from "../../images/superAdmin/manageChapter.png";
+import promote from "../../images/superAdmin/promote.png";
+import pending from "../../images/superAdmin/pendingUser.png";
+import viewChap from "../../images/superAdmin/viewChapter.png";
+import manageJob from "../../images/superAdmin/manageJob.png";
 const SuperAdmin = () => {
     const [depIsEmpty, setDepIsEmpty] = useState(false);
     useEffect(() => {
@@ -23,86 +29,79 @@ const SuperAdmin = () => {
             }
 
             <div className="row">
-                <div className="col-md-4">
-                    <table class="shadow text-center table border rounded align-items-center">
-                        <thead className="bg-dark text-white">
-                            <tr>
-                                <th scope="col">User Role</th>
-                                <th scope="col">User Count</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">Super Admin</th>
-                                <td colspan="2">
-                                    <span class="badge shadow text-bg-primary">1</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">System Admin</th>
-                                <td colspan="2">
-                                    <span class="badge shadow text-bg-primary">23</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Supervisor</th>
-                                <td colspan="2">
-                                    <span class="badge shadow text-bg-primary">43</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Content Creator</th>
-                                <td colspan="2">
-                                    <span class="badge shadow text-bg-primary">45</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Hired Employees</th>
-                                <td colspan="2">
-                                    <span class="badge shadow text-bg-primary">21</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div className="col-md-8">
-                    <div className="row">
-                        <div className="col-md-6">
-                            <Link to="/department" className="btn btn-outline-success form-control shadow">
-                                Manage Departments
-                            </Link>
-                        </div>
-                        <div className="col-md-6">
-                            <Link to="/jobtitle" className="btn btn-outline-success form-control shadow">
-                                Manage Job Title
-                            </Link>
-                        </div>
-                    </div>
-                    <div className="row mt-3">
-                        <div className="col-md-6">
-                            <Link to="/chapter" className="btn btn-outline-success form-control shadow">
-                                Manage Chapters
-                            </Link>
-                        </div>
-                        <div className="col-md-6">
-                            <Link to="/promoteDemoteUser" className="btn btn-outline-warning form-control shadow">
-                                Promote or Demote Employees
-                            </Link>
-                        </div>
-                    </div>
-                    <div className="row mt-3">
-                        <div className="col-md-6">
-                            <button className="btn btn-outline-primary form-control shadow">
-                                Show Users
-                            </button>
-                        </div>
-                        <div className="col-md-6">
-                            <button className="btn btn-outline-primary form-control shadow">
-                                View Chapters
-                            </button>
-                        </div>
+                <div className="col-md-4 mb-3">
+                    <div className="card shadow">
+                        <Link to="/department" className="btn btn-outline-dark">
+                            <center>
+                                <img src={manageDepartment} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                            </center>
+                            <div className="card-body">
+                                <h6>Manage Department</h6>
+                            </div>
+                        </Link>
                     </div>
                 </div>
+                <div className="col-md-4 mb-3">
+                    <div className="card shadow">
+                        <Link to="/jobtitle" className="btn btn-outline-dark">
+                            <center>
+                                <img src={manageJob} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                            </center>
+                            <div className="card-body">
+                                <h6>Manage Job Title </h6>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+                <div className="col-md-4 mb-3">
+                    <div className="card shadow">
+                        <Link to="/chapter" className="btn btn-outline-dark">
+                            <center>
+                                <img src={manageChapters} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                            </center>
+                            <div className="card-body">
+                                <h6>Manage Chapter</h6>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+                <div className="col-md-4 mb-3">
+                    <div className="card shadow">
+                        <Link to="/promoteDemoteUser" className="btn btn-outline-dark">
+                            <center>
+                                <img src={promote} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                            </center>
+                            <div className="card-body">
+                                <h6>Promote or Demote Employees</h6>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+                <div className="col-md-4 mb-3">
+                    <div className="card shadow">
+                        <Link to="/pendingrequests" className="btn btn-outline-dark">
+                            <center>
+                                <img src={pending} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                            </center>
+                            <div className="card-body">
+                                <h6>Pending User Approvals</h6>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+                <div className="col-md-4 mb-3">
+                    <div className="card shadow">
+                        <Link className="btn btn-outline-dark">
+                            <center>
+                                <img src={viewChap} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                            </center>
+                            <div className="card-body">
+                                <h6>View Chapters</h6>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+
             </div>
             <div className="mt-5">
                 <div className="card rounded-1 shadow">
