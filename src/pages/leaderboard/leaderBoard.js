@@ -31,9 +31,9 @@ const LeaderBoard = () => {
   console.log(score);
   return (
     <div>
-      {score?.lbData?.length > 3 ? (
+      {/* if num of employees are less than 2 no point in displaying leaderboard */}
+      {score?.lbData?.length > 1 ? (
         <div className="container-md bg-light my-lg-3 p-md-4">
-          {/* Top gainers section */}
           <h2 className="top-gainers">Top Gainers</h2>
           <div className="row m-0 justify-content-center gy-3">
             {/* Top gainer 1 */}
@@ -104,37 +104,41 @@ const LeaderBoard = () => {
                 </div>
               </div>
             </div>
-            <div className="col col-12 col-md-6 col-lg-3">
-              <div className="card leaderboard-card text-center">
-                <div className={`card-header leaderboard-header `}>
-                  <h2 className="w-100">
-                    {score?.lbData?.[2]?.totalScore.toFixed(2)}
-                  </h2>
-                </div>
-                <div className="leaderboard-avatar-wrapper">
-                  <img
-                    className="img-fluid rounded-circle leaderboard-avatar"
-                    src={score?.lbData?.[2]?.userImage}
-                    alt={score?.lbData?.[2]?.firstName}
-                  />{" "}
-                </div>
-                <div className="card-body">
-                  <h5 className="card-title leaderboard-title">
-                    {score?.lbData?.[2]?.firstName}{" "}
-                    {score?.lbData?.[2]?.lastName}
-                  </h5>
-                  <hr />
-                  <div className="d-flex justify-content-around fw-semibold">
-                    <span className="card-title leaderboard-desc">
-                      {score?.lbData?.[2]?.empId}
-                    </span>
-                    <span className="card-title leaderboard-desc">
-                      {score?.lbData?.[2]?.averageScore.toFixed(2)}
-                    </span>
+            {score?.lbData?.length > 2 ? (
+              <div className="col col-12 col-md-6 col-lg-3">
+                <div className="card leaderboard-card text-center">
+                  <div className={`card-header leaderboard-header `}>
+                    <h2 className="w-100">
+                      {score?.lbData?.[2]?.totalScore.toFixed(2)}
+                    </h2>
+                  </div>
+                  <div className="leaderboard-avatar-wrapper">
+                    <img
+                      className="img-fluid rounded-circle leaderboard-avatar"
+                      src={score?.lbData?.[2]?.userImage}
+                      alt={score?.lbData?.[2]?.firstName}
+                    />{" "}
+                  </div>
+                  <div className="card-body">
+                    <h5 className="card-title leaderboard-title">
+                      {score?.lbData?.[2]?.firstName}{" "}
+                      {score?.lbData?.[2]?.lastName}
+                    </h5>
+                    <hr />
+                    <div className="d-flex justify-content-around fw-semibold">
+                      <span className="card-title leaderboard-desc">
+                        {score?.lbData?.[2]?.empId}
+                      </span>
+                      <span className="card-title leaderboard-desc">
+                        {score?.lbData?.[2]?.averageScore.toFixed(2)}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <></>
+            )}
           </div>
           {/* Only show the badge for the employees who are below the rank 4 */}
           <div className="d-flex justify-content-center mt-5">
@@ -176,69 +180,67 @@ const LeaderBoard = () => {
             )}
           </div>
           {/* rank after 3 */}
-          <img
-            src={rank1}
-            className="badge ms-5"
-            alt="rank1"
-            draggable="false"
-          />
-          <div className="leaderboard-table-wrapper">
-            <h4 className="top-gainers">All Employees</h4>
-            <table className="table leaderboard-table">
-              <thead>
-                <tr className="table-head">
-                  <th className="leaderboard-empId leaderboard-th">ID</th>
-                  <th className="leaderboard-th align-middle text-center">
-                    Name
-                  </th>
-                  <th className="leaderboard-th align-middle text-center">
-                    Total score
-                  </th>
-                  <th className="leaderboard-th align-middle text-center">
-                    Average score
-                  </th>
-                  <th className="leaderboard-th align-middle text-center">
-                    Rank
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {score?.lbData?.map(
-                  (emp, index) =>
-                    index > 2 && (
-                      <tr className="leaderboard-tr" key={index}>
-                        <td className="leaderboard-td align-middle text-center">
-                          <div className="d-flex align-items-center h-100">
-                            <img
-                              className="img-fluid rounded-circle supervisor-avatar"
-                              src={emp?.userImage}
-                              alt={emp?.firstName}
-                            />
-                            <div className="d-flex flex-column px-3">
-                              <span className="text-start leaderboard-table-name">
-                                {emp.empId}
-                              </span>
+          {score?.lbData?.length > 3 ? (
+            <div className="leaderboard-table-wrapper">
+              <h4 className="top-gainers">All Employees</h4>
+              <table className="table leaderboard-table">
+                <thead>
+                  <tr className="table-head">
+                    <th className="leaderboard-empId leaderboard-th">ID</th>
+                    <th className="leaderboard-th align-middle text-center">
+                      Name
+                    </th>
+                    <th className="leaderboard-th align-middle text-center">
+                      Total score
+                    </th>
+                    <th className="leaderboard-th align-middle text-center">
+                      Average score
+                    </th>
+                    <th className="leaderboard-th align-middle text-center">
+                      Rank
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {score?.lbData?.map(
+                    (emp, index) =>
+                      index > 2 && (
+                        <tr className="leaderboard-tr" key={index}>
+                          <td className="leaderboard-td align-middle text-center">
+                            <div className="d-flex align-items-center h-100">
+                              <img
+                                className="img-fluid rounded-circle supervisor-avatar"
+                                src={emp?.userImage}
+                                alt={emp?.firstName}
+                              />
+                              <div className="d-flex flex-column px-3">
+                                <span className="text-start leaderboard-table-name">
+                                  {emp.empId}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                        <td className="leaderboard-td align-middle text-center">
-                          {emp.firstName} {emp.lastName}
-                        </td>
-                        <td className="leaderboard-td align-middle text-center">
-                          {emp.totalScore.toFixed(2)}
-                        </td>
-                        <td className="leaderboard-td align-middle text-center">
-                          {emp.averageScore.toFixed(2)}
-                        </td>
-                        <td className="leaderboard-td align-middle text-center">
-                          {score?.lbData?.indexOf(emp) + 1}
-                        </td>
-                      </tr>
-                    )
-                )}
-              </tbody>
-            </table>
-          </div>
+                          </td>
+                          <td className="leaderboard-td align-middle text-center">
+                            {emp.firstName} {emp.lastName}
+                          </td>
+                          <td className="leaderboard-td align-middle text-center">
+                            {emp.totalScore.toFixed(2)}
+                          </td>
+                          <td className="leaderboard-td align-middle text-center">
+                            {emp.averageScore.toFixed(2)}
+                          </td>
+                          <td className="leaderboard-td align-middle text-center">
+                            {score?.lbData?.indexOf(emp) + 1}
+                          </td>
+                        </tr>
+                      )
+                  )}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       ) : (
         <div
@@ -248,7 +250,7 @@ const LeaderBoard = () => {
           style={{ margin: "300px", padding: "20px" }}
         >
           <h4>
-            Leaderboard will be enabled when NETS reaches atleast 3 competitors
+            Leaderboard will be enabled when NETS reaches atleast 2 competitors
           </h4>
         </div>
       )}
