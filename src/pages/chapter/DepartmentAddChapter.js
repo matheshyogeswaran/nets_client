@@ -53,11 +53,11 @@ const DepartmentAddChapter = () => {
     }
     return (
         <div className="container">
-            <div className="form-control mt-3 bg-dark text-white">Create Chapter for your department</div>
-            <div className="columns mt-5">
+            <div className="alert mt-3 heading"><h5>Create Chapter for your department</h5></div>
+            <div className="columns mt-4">
                 <form name="myForm" onSubmit={submitChapter}>
                     <div className="field">
-                        <label className="ml-5 createchap">Chapter Name</label>
+                        <label className="ml-5">Chapter Name</label>
                         <div className="control">
                             <input
                                 type="text"

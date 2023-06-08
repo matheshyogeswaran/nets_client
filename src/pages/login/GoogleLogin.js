@@ -108,7 +108,7 @@ const GoogleLogin = () => {
                 {/* info section contains loginDiv element to render the google login button */}
                 <InfoSection />
                 <AboutNETS />
-            </div>
+            </div >
             {
                 // if new user found, further details form will appear
                 // otherwise it will just return null
@@ -119,7 +119,7 @@ const GoogleLogin = () => {
                     : null
             }
 
-        </React.Fragment>
+        </React.Fragment >
     );
 };
 
