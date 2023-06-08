@@ -62,7 +62,12 @@ const Submission = () => {
       a.click();
       a.remove();
     } catch (error) {
-      console.log(error);
+      swal({
+        title: "Not found",
+        text: error,
+        icon: "warning",
+        dangerMode: true,
+      });
     }
   };
 
@@ -160,7 +165,7 @@ const Submission = () => {
           className="shadow text-center bg-dark text-light"
           width="90px"
           height="90px"
-          style={{ margin: "300px", padding: "20px" }}
+          style={{ margin: "15%", padding: "20px" }}
         >
           <h4>{errorHandling}</h4>
         </div>

@@ -247,10 +247,11 @@ const LeaderBoard = () => {
           className="shadow text-center bg-dark text-light"
           width="90px"
           height="90px"
-          style={{ margin: "300px", padding: "20px" }}
+          style={{ margin: "15%", padding: "20px" }}
         >
           <h4>
-            Leaderboard will be enabled when NETS reaches atleast 2 competitors
+            NETS requires a minimum of 2 competitors to activate the leaderboard
+            feature.
           </h4>
         </div>
       )}
