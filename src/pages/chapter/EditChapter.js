@@ -3,6 +3,7 @@ import swal from "sweetalert";
 import "../../App.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import validator from "validator";
 import { useState } from "react";
 
 const EditChapter = () => {
@@ -11,6 +12,16 @@ const EditChapter = () => {
   const [reason, setReason] = useState("");
   function submitEdit(e) {
     e.preventDefault();
+
+    // Validate chapter name
+    if (!validator.isAlpha(newChapterName.replace(/[^A-Za-z]/g, ""))) {  //must contain atleast 1 alphabet
+      swal({
+        icon: "warning",
+        text: "Chapter name must contain at least one alphabet letter.",
+      });
+      return;
+    }
+
     axios
       .post("http://localhost:1337/chapters/editChapter", {
         fromName: name,
@@ -77,14 +88,14 @@ const EditChapter = () => {
           <div className="control">
             <button
               type="submit"
-              className="btn btn-primary mr-1 column is-half text-white"
+              className="btn btn-success mr-1 column is-half text-white"
             >
               Save
             </button>
           </div>
 
           <div>
-            <img src={image1} className="picside" draggable={false} alt="this is image" />
+            <img src={image1} className="picside2" draggable={false} alt="this is image" />
           </div>
           <div className="field"></div>
         </form>

@@ -16,8 +16,8 @@ const EnrollRequestSupervisor = () => {
 
   const handleAction = (empid, chapterid, action) => {
     Swal.fire({
-      title: 'Are you sure?',
-      text: "Do you want to accept the request ?",
+      title: 'Are you sure',
+      text: "in your decision?",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -28,7 +28,7 @@ const EnrollRequestSupervisor = () => {
         const bodytData = {
           empid: empid,
           chapid: chapterid,
-          action:action
+          action: action
         }
         axios.post('http://localhost:1337/chapters/acceptRequest', bodytData)
           .then((res) => {
@@ -38,7 +38,7 @@ const EnrollRequestSupervisor = () => {
                 res.data.message,
                 'success'
               )
-            }else{
+            } else {
               Swal.fire(
                 'Error !',
                 res.data.message,
@@ -63,53 +63,58 @@ const EnrollRequestSupervisor = () => {
         <hr className="mt-3"></hr>
         <div class="accordion accordion-flush" id="accordionFlushExample">
           {
-            chapters?.map((item) => {
-              return (
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id={"chapter1" + item._id}>
-                    <button style={{ "backgroundColor": "antiquewhite" }} class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target={"#open" + item._id} aria-expanded="false" aria-controls={"open" + item._id}>
-                      <b>{item.chapterName}</b>
-                    </button>
-                  </h2>
-                  <div id={"open" + item._id} class="accordion-collapse collapse" aria-labelledby={"chapter1" + item._id} data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th scope="col">Employee ID</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Department</th>
-                            <th scope="col">JobTitle</th>
-                            <th scope="col"><center>Action</center></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {
-                            item?.requested?.map((emps) => {
-                              return (
-                                <tr>
-                                  <th scope="col">{emps.empId}</th>
-                                  <th scope="col">{emps.firstName}</th>
-                                  <th scope="col">{emps.department}</th>
-                                  <th scope="col">{emps.jobPosition}</th>
-                                  <th scope="col">
-                                    <select className="form-control" onChange={(e) => { handleAction(emps._id, item._id,e.target.value) }}>
-                                      <option disabled selected>Select your action</option>
-                                      <option value={1}>Accept</option>
-                                      <option value={0}>Decline</option>
-                                    </select>
-                                  </th>
-                                </tr>
-                              )
-                            })
-                          }
-                        </tbody>
-                      </table>
+            (chapters.length === 0)
+              ?
+              <div className="alert alert-info mt-4"> <b>No requests Found !</b> </div>
+              :
+              chapters?.map((item) => {
+                return (
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id={"chapter1" + item._id}>
+                      <button style={{ "backgroundColor": "#c4dce0" }} class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target={"#open" + item._id} aria-expanded="false" aria-controls={"open" + item._id}>
+                        <b>{item.chapterName}</b>
+                      </button>
+                    </h2>
+                    <br></br>
+                    <div id={"open" + item._id} class="accordion-collapse collapse" aria-labelledby={"chapter1" + item._id} data-bs-parent="#accordionFlushExample">
+                      <div class="accordion-body">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Employee ID</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Department</th>
+                              <th scope="col">JobTitle</th>
+                              <th scope="col"><center>Action</center></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {
+                              item?.requested?.map((emps) => {
+                                return (
+                                  <tr>
+                                    <th scope="col">{emps.empId}</th>
+                                    <th scope="col">{emps.firstName}</th>
+                                    <th scope="col">{emps.department}</th>
+                                    <th scope="col">{emps.jobPosition}</th>
+                                    <th scope="col">
+                                      <select className="form-control" onChange={(e) => { handleAction(emps._id, item._id, e.target.value) }}>
+                                        <option disabled selected>Select your action</option>
+                                        <option value={1}>Accept</option>
+                                        <option value={0}>Decline</option>
+                                      </select>
+                                    </th>
+                                  </tr>
+                                )
+                              })
+                            }
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )
-            })
+                )
+              })
           }
         </div>
       </div>

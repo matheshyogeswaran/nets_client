@@ -4,6 +4,7 @@ import image4 from "../../images/1.svg";
 import "../../App.css";
 import swal from "sweetalert";
 import { Link } from "react-router-dom";
+import validator from "validator";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 
@@ -27,6 +28,16 @@ const DepartmentAddChapter = () => {
 
     function submitChapter(e) {
         e.preventDefault();
+
+        // Validate chapter name
+        if (!validator.isAlpha(chaptername.replace(/[^A-Za-z]/g, ""))) {  //must contain atleast 1 alphabet
+            swal({
+                icon: "warning",
+                text: "Chapter name must contain at least one alphabet letter.",
+            });
+            return;
+        }
+
         axios
             .post("http://localhost:1337/chapters/addChapter", {
                 chapterName: chaptername,
@@ -73,14 +84,14 @@ const DepartmentAddChapter = () => {
                     <label className="ml-5 createchap">Suitable Department</label>
                     <br></br>
                     <div className="col-md-2">
-                        <select
+                        <select style={{ "backgroundColor": "MintCream" }}
                             onChange={(e) => {
                                 setSelectedDepartment(e.target.value);
                             }}
                             className="form-select"
                             aria-label="Default select example"
                         >
-                            <option>Department</option>
+                            <option disabled selected>Department</option>
                             {
                                 <option value={deptID}>
                                     {selectedDepartmentName}
@@ -92,7 +103,7 @@ const DepartmentAddChapter = () => {
                     <div className="control">
                         <button
                             type="submit"
-                            className="btn btn-primary mr-1 column is-half text-white"
+                            className="btn btn-success mr-1 column is-half text-white"
                         >
                             Save
                         </button>
