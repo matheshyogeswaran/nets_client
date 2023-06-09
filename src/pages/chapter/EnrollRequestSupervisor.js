@@ -1,129 +1,119 @@
 import React, { useState, useEffect } from "react";
-import NavBar from "../../components/NavBar";
 import axios from "axios";
-import employees from "../../data/Employee.json";
-import { Link } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-
+import Swal from "sweetalert2"
 const EnrollRequestSupervisor = () => {
-  const depID = jwt_decode(JSON.parse(localStorage.getItem("user")).token)
-    .userData.department;
-  console.log(depID);
+  const depID = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.department;
   const [chapters, setChapter] = useState([]);
-
-
 
   useEffect(() => {
     axios
       .get(`http://localhost:1337/chapters/getEnrolledChapters/${depID}`)
       .then(function (response) {
-        const filteredChapters = response.data.filter(
-          (chapter) => chapter.depID !== null
-        );
-        setChapter(filteredChapters);
+        setChapter(response.data);
       });
   }, []);
 
-  const [disabledRows, setDisabledRows] = useState([]);
-  const [acceptedRows, setAcceptedRows] = useState([]);
-  const [declinedRows, setDeclinedRows] = useState([]);
+  const handleAction = (empid, chapterid, action) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Do you want to accept the request ?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Accept it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const bodytData = {
+          empid: empid,
+          chapid: chapterid,
+          action:action
+        }
+        axios.post('http://localhost:1337/chapters/acceptRequest', bodytData)
+          .then((res) => {
+            if (res.data.status === true) {
+              Swal.fire(
+                'Accepted !',
+                res.data.message,
+                'success'
+              )
+            }else{
+              Swal.fire(
+                'Error !',
+                res.data.message,
+                'danger'
+              )
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
 
-  const handleAccept = (chapterId, requestId) => {
-    // Perform the accept action here, e.g., send a request to the server
-
-    // Disable the button for the clicked row
-    const disabledRow = `${chapterId}-${requestId}`;
-    setDisabledRows((prevDisabledRows) => [...prevDisabledRows, disabledRow]);
-
-    // Add the row to the accepted rows
-    setAcceptedRows((prevAcceptedRows) => [...prevAcceptedRows, disabledRow]);
-
-
-  };
-
-  const handleDecline = (chapterId, requestId) => {
-
-    // Perform the decline action here, e.g., send a request to the server
-
-    // Disable the button for the clicked row
-    const disabledRow = `${chapterId}-${requestId}`;
-    setDisabledRows((prevDisabledRows) => [...prevDisabledRows, disabledRow]);
-
-    // Add the row to the declined rows
-    setDeclinedRows((prevDeclinedRows) => [...prevDeclinedRows, disabledRow]);
-
-    // Rest of your code
-    // ...
-  };
+      }
+    })
+  }
 
   return (
     <React.Fragment>
-      <NavBar />
       <div className="container">
         <div className="alert mt-3 heading">
           <h5>Enroll requests</h5>
         </div>
         <hr className="mt-3"></hr>
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">EmployeeID</th>
-              <th scope="col">Employeename</th>
-              <th scope="col">Jobtitle</th>
-              <th scope="col">Chapter</th>
-              <th scope="col">
-                <center> Actions</center>
-              </th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {chapters.map((item) => {
-              return item.requested.map((requested) => {
-                const rowId = `${item._id}-${requested._id}`;
-                const isAccepted = acceptedRows.includes(rowId);
-                const isDeclined = declinedRows.includes(rowId);
-
-                return (
-                  <tr key={requested._id}>
-                    <td>{requested._id}</td>
-                    <td>{requested.firstName}</td>
-                    <td>{requested.jobPosition}</td>
-                    <td>{item.chapterName}</td>
-                    <td>
-                      <button
-                        type="button"
-                        className={`btn ${isAccepted ? "btn-success" : "btn-secondary"
-                          } form-control`}
-                        disabled={
-                          disabledRows.includes(rowId) || isAccepted || isDeclined
-                        }
-                        onClick={() => handleAccept(item._id, requested._id)}
-                      >
-                        {isAccepted ? "Accepted" : "Accept"}
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        type="button"
-                        className={`btn ${isDeclined ? "btn-danger" : "btn-secondary"
-                          } form-control`}
-                        disabled={
-                          disabledRows.includes(rowId) || isAccepted || isDeclined
-                        }
-                        onClick={() => handleDecline(item._id, requested._id)}
-                      >
-                        {isDeclined ? "Declined" : "Decline"}
-                      </button>
-                    </td>
-                  </tr>
-                );
-              });
-            })}
-          </tbody>
-        </table>
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+          {
+            chapters?.map((item) => {
+              return (
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id={"chapter1" + item._id}>
+                    <button style={{ "backgroundColor": "antiquewhite" }} class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target={"#open" + item._id} aria-expanded="false" aria-controls={"open" + item._id}>
+                      <b>{item.chapterName}</b>
+                    </button>
+                  </h2>
+                  <div id={"open" + item._id} class="accordion-collapse collapse" aria-labelledby={"chapter1" + item._id} data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Employee ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">JobTitle</th>
+                            <th scope="col"><center>Action</center></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {
+                            item?.requested?.map((emps) => {
+                              return (
+                                <tr>
+                                  <th scope="col">{emps.empId}</th>
+                                  <th scope="col">{emps.firstName}</th>
+                                  <th scope="col">{emps.department}</th>
+                                  <th scope="col">{emps.jobPosition}</th>
+                                  <th scope="col">
+                                    <select className="form-control" onChange={(e) => { handleAction(emps._id, item._id,e.target.value) }}>
+                                      <option disabled selected>Select your action</option>
+                                      <option value={1}>Accept</option>
+                                      <option value={0}>Decline</option>
+                                    </select>
+                                  </th>
+                                </tr>
+                              )
+                            })
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )
+            })
+          }
+        </div>
       </div>
-    </React.Fragment>
+    </React.Fragment >
   );
 };
 

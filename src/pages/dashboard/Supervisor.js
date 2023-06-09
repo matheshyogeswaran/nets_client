@@ -8,8 +8,9 @@ const Supervisor = () => {
                     <Link to="/manageFinalProjectAssignment" className="btn btn-outline-primary form-control shadow">Manage Final Project Assignment</Link>
                     <button className="btn btn-outline-primary form-control mt-2 shadow">Direct Guidance request</button>
                     <button className="btn btn-outline-primary form-control mt-2 shadow">Show Leader Board</button>
-                    <button className="btn btn-outline-primary form-control mt-2 shadow">View Department Chapters</button>
+                    <Link to="/viewchapter" className="btn btn-outline-primary form-control mt-2 shadow">View All Chapters</Link>
                     <Link to="/manageFinalProjectAssignment" className="btn btn-outline-primary form-control mt-2 shadow">Manage Final Project Assignment</Link>
+                    <Link to="/enrollrequestsupervisor" className="btn btn-outline-primary form-control mt-2 shadow">Accept Additional Chapter Request</Link>
                 </div>
                 <div className="col-md-4 m-2">
                     <div className="border border-dark rounded shadow">

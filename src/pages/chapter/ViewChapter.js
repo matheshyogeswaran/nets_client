@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "../../components/NavBar";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
@@ -33,7 +32,6 @@ const ViewChapter = () => {
 
   return (
     <React.Fragment>
-      <NavBar />
       <div className="container">
         <div className="alert mt-3 heading"><h5>View Chapters</h5></div>
         <br></br>

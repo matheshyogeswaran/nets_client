@@ -1,12 +1,24 @@
 import "../../App.css";
 import jwt_decode from "jwt-decode";
-import NavBar from "../../components/NavBar";
-
+import { useEffect } from "react";
+import axios from "axios";
+import { useState } from "react";
 function ProfileOverview(props) {
-  const data = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
+  const userID = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData._id;
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios.get(`http://localhost:1337/users/getLoggedinUserData/${userID}`)
+      .then(response => {
+        console.log(response.data);
+        setData(response.data[0]);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  },[userID])
   return (
-    <>
-      <NavBar />
+    <div className="container">
       <div className="row justify-content-center ">
         <div className="card ">
           <div className="alert mt-3 heading">
@@ -21,7 +33,7 @@ function ProfileOverview(props) {
           >
             <div className="col d-flex justify-content-center mt-3">
               <img
-                src={data.userImage}
+                src={data.image}
                 className="rounded-circle"
                 alt="Cinque Terre"
                 style={{ height: "120px", width: "120px" }}
@@ -39,7 +51,7 @@ function ProfileOverview(props) {
                       type="email"
                       className="form-control a2"
                       id="inputEmail4"
-                      value={data.firstName}
+                      value={data.fname}
                       disabled={true}
                     />
                   </div>
@@ -49,49 +61,56 @@ function ProfileOverview(props) {
                 <div className="row mt-2 justify-content-center">
                   <div className="col-md-2"></div>
                   <div className="form-group col-md-3">
-                    <label for="inputLastName">Emp ID No</label>
+                    <label for="inputLastName">Employee ID</label>
                   </div>
                   <div className="form-group col-md-5">
                     <input
                       type="lastname"
                       className="form-control a2"
                       id="inputLastname"
-                      value={data._id}
+                      value={data.empId}
                       disabled={true}
                     />
                   </div>
                 </div>
 
-                <div className="row mt-2 justify-content-center">
-                  <div className="col-md-2"></div>
-                  <div className="form-group col-md-3">
-                    <label for="inputLastName">Jobtitle</label>
+                {data?.jobTitle &&
+                  <div className="row mt-2 justify-content-center">
+                    <div className="col-md-2"></div>
+                    <div className="form-group col-md-3">
+                      <label for="inputLastName">Jobtitle</label>
+                    </div>
+                    <div className="form-group col-md-5">
+                      <input
+                        type="lastname"
+                        className="form-control a2"
+                        id="inputLastname"
+                        value={data.jobTitle.jobTitle}
+                        disabled={true}
+                      />
+                    </div>
                   </div>
-                  <div className="form-group col-md-5">
-                    <input
-                      type="lastname"
-                      className="form-control a2"
-                      id="inputLastname"
-                      value={data.jobPosition}
-                      disabled={true}
-                    />
+                }
+
+                {
+                  data.department &&
+                  <div className="row mt-2 justify-content-center">
+                    <div className="col-md-2"></div>
+                    <div className="form-group col-md-3">
+                      <label for="inputEmail4">Department</label>
+                    </div>
+                    <div className="form-group col-md-5">
+                      <input
+                        type="email"
+                        className="form-control a2"
+                        id="inputEmail4"
+                        value={data.department.departmentName}
+                        disabled={true}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="row mt-2 justify-content-center">
-                  <div className="col-md-2"></div>
-                  <div className="form-group col-md-3">
-                    <label for="inputEmail4">Department</label>
-                  </div>
-                  <div className="form-group col-md-5">
-                    <input
-                      type="email"
-                      className="form-control a2"
-                      id="inputEmail4"
-                      value={data.department}
-                      disabled={true}
-                    />
-                  </div>
-                </div>
+                }
+
                 <div className="row mt-2 justify-content-center">
                   <div className="col-md-2"></div>
                   <div className="form-group col-md-3">
@@ -102,7 +121,7 @@ function ProfileOverview(props) {
                       type="email"
                       className="form-control a2"
                       id="inputEmail4"
-                      value={data.userRoleId.userRoleValue}
+                      value={data.userRole}
                       disabled={true}
                     />
                   </div>
@@ -117,7 +136,7 @@ function ProfileOverview(props) {
                       type="email"
                       className="form-control a2"
                       id="inputEmail4"
-                      value={data.emailAddress}
+                      value={data.email}
                       disabled={true}
                     />
                   </div>
@@ -132,7 +151,7 @@ function ProfileOverview(props) {
                       type="email"
                       className="form-control a2"
                       id="inputEmail4"
-                      value={data.phoneNumber}
+                      value={data.phone}
                       disabled={true}
                     />
                   </div>
@@ -160,7 +179,7 @@ function ProfileOverview(props) {
           </div>
         </div>
       </div>
-    </>
+    </div >
   );
 }
 
