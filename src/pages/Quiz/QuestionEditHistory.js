@@ -1,7 +1,7 @@
  
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import NavBar from '../NavBar';
+import NavBar from '../../components/NavBar';
 
 const Question = (props) => (
   <tr>

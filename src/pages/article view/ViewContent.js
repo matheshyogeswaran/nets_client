@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from 'axios';
-import NavBar from "../NavBar";
+import NavBar from "../../components/NavBar";
 import Pdf from './Pdf';
 
 const ViewContent = () => {

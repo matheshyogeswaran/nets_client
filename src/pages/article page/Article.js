@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 
 import AddArticle from './AddArticle';
-import Header from '../Header';
+import Header from '../../components/Header';
 import ArticleList from './ArticleList';
  
 function Article() {
