@@ -145,9 +145,9 @@ const Report = () => {
           className="shadow text-center bg-dark text-light"
           width="90px"
           height="90px"
-          style={{ margin: "300px", padding: "20px" }}
+          style={{ margin: "15%", padding: "20px" }}
         >
-          <h4>No Data To Show</h4>
+          <h4>No data available for display</h4>
         </div>
       )}
     </>

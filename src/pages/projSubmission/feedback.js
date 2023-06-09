@@ -76,7 +76,7 @@ const Feedback = () => {
           className="shadow text-center bg-dark text-light"
           width="90px"
           height="90px"
-          style={{ margin: "300px", padding: "20px" }}
+          style={{ margin: "15%", padding: "20px" }}
         >
           <h4>You are not allowed to view the results</h4>
         </div>
