@@ -146,6 +146,15 @@ const NavBar = () => {
                         <li>
                           <hr className=" dropdown-divider" />
                         </li>
+                        <li >
+                          <Link className=" dropdown-item" to="/chapterreport">
+                            <BsSendPlusFill className="me-2" />
+                            Chapter Report
+                          </Link>
+                        </li>
+                        <li>
+                          <hr className=" dropdown-divider" />
+                        </li>
                       </div>
                     }
                     <li>

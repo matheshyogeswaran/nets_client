@@ -156,6 +156,12 @@ const FinalAssignmentSubmission = () => {
                                 {"  " + assignment?.acceptedBy.firstName + "  " + assignment?.acceptedBy.lastName}
                             </button>
                         </h6>
+                        <h6>
+                            Feedback:{"   "}
+                            <Link to="/feedback" className="btn btn-outline-primary border border-dark btn-sm">
+                                View Feedback
+                            </Link>
+                        </h6>
                         <div className="modal fade" id={"openModal"} tabindex="-1" aria-labelledby={"exampleModal"} aria-hidden="true">
                             <div className="modal-dialog">
                                 <div className="modal-content">
