@@ -12,6 +12,12 @@ const ManageFinalProjectAssignment = () => {
             <Link to="/overduedAssignments" className="mt-3 btn btn-light border-dark border form-control">
                 Overdued Final Project Assignments
             </Link>
+            <Link to="/submission" className="mt-3 btn btn-light border-dark border form-control">
+                Submissions of Employees
+            </Link>
+            <Link to="/projectScore" className="mt-3 btn btn-light border-dark border form-control">
+                View Project Score
+            </Link>
         </div>
     );
 }

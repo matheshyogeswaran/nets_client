@@ -7,7 +7,7 @@ const Supervisor = () => {
                 <div className="col-md-4 m-2">
                     <Link to="/manageFinalProjectAssignment" className="btn btn-outline-primary form-control shadow">Manage Final Project Assignment</Link>
                     <button className="btn btn-outline-primary form-control mt-2 shadow">Direct Guidance request</button>
-                    <button className="btn btn-outline-primary form-control mt-2 shadow">Show Leader Board</button>
+                    <Link to="/leaderboardsup" className="btn btn-outline-primary form-control mt-2 shadow">Show Leader Board</Link>
                     <Link to="/viewchapter" className="btn btn-outline-primary form-control mt-2 shadow">View All Chapters</Link>
                     <Link to="/manageFinalProjectAssignment" className="btn btn-outline-primary form-control mt-2 shadow">Manage Final Project Assignment</Link>
                     <Link to="/enrollrequestsupervisor" className="btn btn-outline-primary form-control mt-2 shadow">Accept Additional Chapter Request</Link>
@@ -16,9 +16,8 @@ const Supervisor = () => {
                     <div className="border border-dark rounded shadow">
                         <div className="p-3">
                             <div className="text-center"><b>View Employee Reports</b></div><hr></hr>
-                            <button className="btn btn-outline-success form-control mt-1 shadow">Hired Employee</button>
-                            <button className="btn btn-outline-success form-control mt-2 shadow">Content Creator</button>
-                            <button className="btn btn-outline-success form-control mt-2 shadow">Quiz Report of Hired Employees</button>
+                            <Link to="/report" className="btn btn-outline-success form-control mt-1 shadow">View Employee Report</Link>
+                            <Link to="/quizreportfront"className="btn btn-outline-success form-control mt-2 shadow">Quiz Report of Hired Employees</Link>
                         </div>
                     </div>
                 </div>
