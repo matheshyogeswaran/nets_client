@@ -3,6 +3,7 @@ import swal from "sweetalert";
 import "../../App.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import validator from "validator";
 import { useState } from "react";
 
 const EditDepartment = () => {
@@ -12,6 +13,17 @@ const EditDepartment = () => {
 
   function submitEdit(e) { // this function is used to handle the form submission
     e.preventDefault();
+
+    // Validate department name
+    const regex = /^[A-Za-z\s]+$/; //contains alphabet,space
+    if (!validator.matches(newDepName, regex)) {
+      swal({
+        icon: "warning",
+        text: "Department name must contain only alphabet letters.",
+      });
+      return;
+    }
+
     axios
       .post("http://localhost:1337/departments/editDepartment", { //Sends a POST request to the backend server to update the department name with the new name, reason and id.
         fromName: name,
@@ -80,14 +92,14 @@ const EditDepartment = () => {
           <div className="control">
             <button
               type="submit"
-              className="btn btn-primary mr-1 column is-half text-white"
+              className="btn btn-success mr-1 column is-half text-white"
             >
               Save
             </button>
           </div>
 
           <div>
-            <img src={image1} className="picside" draggable={false} alt="this is image" />
+            <img src={image1} className="picside2" draggable={false} alt="this is image" />
           </div>
           <div className="field"></div>
         </form>

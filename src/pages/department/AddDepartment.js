@@ -2,22 +2,23 @@ import React, { useState } from "react";
 import image4 from "../../images/1.svg";
 import "../../App.css";
 import swal from "sweetalert";
+import validator from "validator";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 const AddDepartment = () => {
   const [depName, setDepName] = useState("");
-  const [depNameError, setDepNameError] = useState("");
-
-  function validateDepartmentName(name) {
-    const regex = /^[a-zA-Z\s]+$/;
-    return regex.test(name);
-  }
 
   function submitDepartment(e) {
     e.preventDefault();
-    if (!validateDepartmentName(depName)) {
-      setDepNameError("Department name must contain only alphabet letters.");
+
+    // Validate department name
+    const regex = /^[A-Za-z\s]+$/; //contains alphabet,space
+    if (!validator.matches(depName, regex)) {
+      swal({
+        icon: "warning",
+        text: "Department name must contain only alphabet letters.",
+      });
       return;
     }
 
@@ -32,7 +33,6 @@ const AddDepartment = () => {
             text: res.data.message,
           });
           setDepName("");
-          setDepNameError("");
         } else {
           swal({
             icon: "warning",
@@ -61,19 +61,15 @@ const AddDepartment = () => {
                 className="input my-3 ml-5"
                 placeholder="Name"
                 value={depName}
-                onChange={(e) => {
-                  setDepName(e.target.value);
-                  setDepNameError("");
-                }}
+                onChange={(e) => setDepName(e.target.value)}
                 required
               />
-              {depNameError && <p className="error">{depNameError}</p>}
             </div>
           </div>
           <div className="control">
             <button
               type="submit"
-              className="btn btn-primary mr-1 column is-half text-white"
+              className="btn btn-success mr-1 column is-half text-white"
             >
               Save
             </button>

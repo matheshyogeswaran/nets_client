@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "../../components/NavBar";
 import axios from "axios";  //Importing axios library for HTTP requests
 import swal from "sweetalert"; //Importing sweetalert library for displaying alert messages
 import { useState, useEffect } from "react";
@@ -54,7 +53,6 @@ const Department = () => {     //Defining Department component as a functional c
 
   return (
     <React.Fragment>
-      <NavBar></NavBar>
       <div className="container mt-4">
         <div className="alert mt-3 heading">
           <h5>Departments</h5>
