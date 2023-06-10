@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { UilFolderDownload } from "@iconscout/react-unicons";
 import axios from "axios";
 import swal from "sweetalert";
+import Search from "./../../subComponents/search";
 
 const Submission = () => {
   //  Base URL of the API
@@ -11,6 +12,9 @@ const Submission = () => {
   const [downloadIcon, setDownloadIcon] = useState("");
   const [submissionData, setSubmissionData] = useState([]);
   const [errorHandling, setErrorHandling] = useState("");
+  const [search, setSearch] = useState("");
+  const [showSearch, setShowSearch] = useState();
+
   // Fetch data on mount
   useEffect(() => {
     axios
@@ -62,103 +66,148 @@ const Submission = () => {
       a.click();
       a.remove();
     } catch (error) {
-      swal({
-        title: "Not found",
-        text: error,
-        icon: "warning",
-        dangerMode: true,
-      });
+      console.log(error);
     }
+  };
+  submissionData?.sort((a, b) => {
+    if (a.status === b.status) {
+      return 0; // Preserve the original order if both values are the same
+    } else if (a.status) {
+      return 1; // `a` is true and `b` is false, so `b` should come first
+    } else {
+      return -1; // `a` is false and `b` is true, so `a` should come first
+    }
+  });
+  const getSearchValue = (search, showSearch) => {
+    setSearch(search);
+    setShowSearch(showSearch);
   };
 
   return (
     <>
       {/* checking whether there is error or not */}
-      {errorHandling === "" ? (
+      {submissionData?.length > 0 ? (
         <>
-          <div className="mx-5 mt-5">
-            <h2 className="text-secondary">Project Assignment Submission</h2>
-          </div>
-          <div className="submission table-responsive container-lg">
-            <table className="table table-striped table-hover mt-sm-5 mt-lg-5">
-              <thead>
-                <tr className="table-head ">
-                  <th className="emp-id">ID</th>
-                  <th className="emp-name">Name</th>
-                  <th className="emp-sub">Submitted date</th>
-                  <th className="emp-proName">Project Name</th>
-                  <th className="emp-status">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {submissionData?.map((emp, index) => (
-                  // when mouse enter the tr set state downloadIcon as employee ID when leave the mouse cursor set it to empty string
-                  <tr
-                    key={index}
-                    onMouseEnter={() => setDownloadIcon(emp.empId)}
-                    onMouseLeave={() => setDownloadIcon("")}
-                  >
-                    <td>{emp.empId}</td>
-                    <td>
-                      {emp.firstName} {emp.lastName}
-                    </td>
-                    <td
-                      className="ps-4"
-                      dangerouslySetInnerHTML={{ __html: emp.submittedOn }}
-                    ></td>
-                    <td className="td-download-icon">
-                      {emp.projectName}{" "}
-                      {/* if downloadIcon is equal to current employeeID the download icon will appear */}
-                      {downloadIcon === emp.empId && (
-                        <UilFolderDownload
-                          color="#0198E1"
-                          className="download-icon"
-                          // click to download file and pass employeeId as argument
-                          onClick={() => handleGetZipFile(emp.empId)}
-                        />
-                      )}
-                    </td>
+          {errorHandling === "" ? (
+            <>
+              <div className="d-flex justify-content-between m-4">
+                <h3 className="text-secondary ">
+                  Project Assignment Submission
+                </h3>
+                <div id="content-creator" className="mt-2">
+                  <Search
+                    handleGetSearchValue={getSearchValue}
+                    width={{ width: "w-auto" }}
+                  />
+                </div>
+              </div>
+              <div className="submission table-responsive container-lg">
+                <table className="table table-striped table-hover mt-sm-5 mt-lg-5">
+                  <thead>
+                    <tr className="table-head ">
+                      <th className="emp-id">ID</th>
+                      <th className="emp-name">Name</th>
+                      <th className="emp-sub">Submitted date</th>
+                      <th className="emp-proName">Project Name</th>
+                      <th className="emp-status">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {submissionData
+                      ?.filter((emp) => {
+                        // Filtering the editlog data based on the search query
+                        const fullName = emp?.firstName + emp?.lastName;
+                        if (showSearch) {
+                          return emp;
+                        } else if (
+                          fullName
+                            ?.toLowerCase()
+                            ?.includes(search?.toLowerCase())
+                        ) {
+                          return emp;
+                        }
+                      })
+                      ?.map((emp, index) => (
+                        // when mouse enter the tr set state downloadIcon as employee ID when leave the mouse cursor set it to empty string
+                        <tr
+                          key={index}
+                          onMouseEnter={() => setDownloadIcon(emp.empId)}
+                          onMouseLeave={() => setDownloadIcon("")}
+                        >
+                          <td>{emp.empId}</td>
+                          <td>
+                            {emp.firstName} {emp.lastName}
+                          </td>
+                          <td
+                            className="ps-4"
+                            dangerouslySetInnerHTML={{
+                              __html: emp.submittedOn,
+                            }}
+                          ></td>
+                          <td className="td-download-icon">
+                            {emp.projectName}{" "}
+                            {/* if downloadIcon is equal to current employeeID the download icon will appear */}
+                            {downloadIcon === emp.empId && (
+                              <UilFolderDownload
+                                color="#0198E1"
+                                className="download-icon"
+                                // click to download file and pass employeeId as argument
+                                onClick={() => handleGetZipFile(emp.empId)}
+                              />
+                            )}
+                          </td>
 
-                    <td className="text-center">
-                      {emp.status ? (
-                        <Link
-                          to="/evaluate"
-                          state={{
-                            empId: emp.empId,
-                            firstName: emp.firstName,
-                            lastName: emp.lastName,
-                            projectName: emp.projectName,
-                            update: emp.status,
-                          }}
-                          className="text-decoration-none text-white"
-                        >
-                          <button className="btn btn-submission btn-sm btn-primary">
-                            Upgrade
-                          </button>
-                        </Link>
-                      ) : (
-                        <Link
-                          to="/evaluate"
-                          state={{
-                            empId: emp.empId,
-                            firstName: emp.firstName,
-                            projectName: emp.projectName,
-                            lastName: emp.lastName,
-                            update: emp.status,
-                          }}
-                          className="text-decoration-none text-white"
-                        >
-                          <button className="btn btn-submission btn-sm btn-danger">
-                            Evaluate
-                          </button>
-                        </Link>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                          <td className="text-center">
+                            {emp.status ? (
+                              <Link
+                                to="/evaluate"
+                                state={{
+                                  empId: emp.empId,
+                                  firstName: emp.firstName,
+                                  lastName: emp.lastName,
+                                  projectName: emp.projectName,
+                                  update: emp.status,
+                                }}
+                                className="text-decoration-none text-white"
+                              >
+                                <button className="btn btn-submission btn-sm btn-primary">
+                                  Upgrade
+                                </button>
+                              </Link>
+                            ) : (
+                              <Link
+                                to="/evaluate"
+                                state={{
+                                  empId: emp.empId,
+                                  firstName: emp.firstName,
+                                  projectName: emp.projectName,
+                                  lastName: emp.lastName,
+                                  update: emp.status,
+                                }}
+                                className="text-decoration-none text-white"
+                              >
+                                <button className="btn btn-submission btn-sm btn-danger">
+                                  Evaluate
+                                </button>
+                              </Link>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          ) : (
+            <div
+              className="shadow text-center bg-dark text-light"
+              width="90px"
+              height="90px"
+              style={{ margin: "15%", padding: "20px" }}
+            >
+              <h4>{errorHandling}</h4>
+            </div>
+          )}
         </>
       ) : (
         <div
@@ -167,7 +216,7 @@ const Submission = () => {
           height="90px"
           style={{ margin: "15%", padding: "20px" }}
         >
-          <h4>{errorHandling}</h4>
+          <h4>No submissions were submitted for evaluation. </h4>
         </div>
       )}
     </>
