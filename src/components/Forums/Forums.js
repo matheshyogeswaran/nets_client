@@ -1,57 +1,56 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "../Shared/Header";
 import swal from "sweetalert";
-
-const forums = [
-  {
-    id: 1,
-    topic: "Discussion Forum Topic 1",
-    by: "Genny Hinton",
-    posts: 3,
-    status: "active",
-  },
-  {
-    id: 2,
-    topic: "Discussion Forum Topic 2",
-    by: "Genny Hinton",
-    posts: 0,
-    status: "active",
-  },
-  {
-    id: 3,
-    topic: "Discussion Forum Topic 3",
-    by: "Genny Hinton",
-    posts: 4,
-    status: "active",
-  },
-  {
-    id: 4,
-    topic: "Discussion Forum Topic 4",
-    by: "Genny Hinton",
-    posts: 4,
-    status: "locked",
-  },
-];
+import axios from "axios";
 
 const Forums = () => {
+  const [forumTopics, setForumTopics] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(
+        "http://localhost:1337/get-forums-by-chapter/6419e53e4d27e2edbce99300"
+      )
+      .then((response) => {
+        setForumTopics(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
   const LockForum = (id) => {
-    swal({
-      title: "Do you want to lock this forum?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    }).then((willDelete) => {
-      if (willDelete) {
-        swal("Forum has been locked!", {
-          icon: "success",
+    axios
+      .put(`http://localhost:1337/edit-forum/${id}`, { status: "Locked" })
+      .then((res) => {
+        console.log(res.data);
+        swal({
+          title: "Do you want to lock this forum?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        }).then((willDelete) => {
+          if (willDelete) {
+            swal("Forum has been locked!", {
+              icon: "success",
+            });
+            console.log("Submitted form data:", id);
+          }
         });
-        console.log("Submitted form data:", id);
-      }
-    });
+      })
+      .catch((error) => {
+        console.log(error);
+        swal({
+          title: "Opzz!",
+          text: "Something went wrong, Please try again!",
+          icon: "warning",
+        });
+      });
 
     return false;
   };
+
   return (
     <div className="container my-5">
       <Header title="NETS: Discussion Forums" />
@@ -64,7 +63,7 @@ const Forums = () => {
       </div>
       <div className="mt-5">
         <div
-          className="row py-4 text-center"
+          className="row py-4 text-center d-none d-sm-flex"
           style={{ backgroundColor: "#D3D3D3" }}
         >
           <div className="col-sm-3">Forum Topic</div>
@@ -72,18 +71,18 @@ const Forums = () => {
           <div className="col-sm-2">Number of posts</div>
           <div className="col-sm-4">Actions</div>
         </div>
-        {forums.map((f) => (
+        {forumTopics?.map((f) => (
           <div
-            key={f.id}
+            key={f._id}
             className="row mt-3 py-4 text-center"
             style={{
-              backgroundColor: f.status === "active" ? "#ADD8E6" : "#D3D3D3",
+              backgroundColor: f.status === "Active" ? "#ADD8E6" : "#D3D3D3",
             }}
           >
             <div className="col-sm-3">
               {" "}
               <Link
-                to={`/view-forum/${f.id}`}
+                to={`/view-forum/${f._id}`}
                 className="text-decoration-none"
                 style={{ color: "black" }}
               >
@@ -91,15 +90,17 @@ const Forums = () => {
               </Link>
             </div>
 
-            <div className="col-sm-3">{f.by}</div>
-            <div className="col-sm-2">{f.posts}</div>
+            <div className="col-sm-3">
+              {f.createdBy.firstName + " " + f.createdBy.lastName}{" "}
+            </div>
+            <div className="col-sm-2">{f.posts.length}</div>
 
-            {f.status === "active" ? (
+            {f.status === "Active" ? (
               <div
                 className="d-flex flex-row mx-auto col-sm-4"
                 style={{ display: "flex", justifyContent: "center" }}
               >
-                <Link to={`/edit-forum/${f.id}`}>
+                <Link to={`/edit-forum/${f._id}`}>
                   <button
                     type="button"
                     className="btn btn-outline-primary mx-2"
@@ -112,7 +113,7 @@ const Forums = () => {
                   <button
                     type="button"
                     className="btn btn-outline-danger"
-                    onClick={() => LockForum(f.id)}
+                    onClick={() => LockForum(f._id)}
                   >
                     Lock
                   </button>

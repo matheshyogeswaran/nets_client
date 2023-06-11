@@ -1,40 +1,67 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import Header from "../Shared/Header";
 import swal from "sweetalert";
+import axios from "axios";
 
 const CreateForum = () => {
-  const [formData, setFormData] = useState({
-    forumTopic: "",
-    desc: "",
-    attachment: "no",
+  const formSchema = Yup.object().shape({
+    topic: Yup.string().required("* topic is required"),
+    description: Yup.string().required("* description is required"),
+    attachmentAllowed: Yup.string().required(
+      "* please select one of these options"
+    ),
   });
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("Submitted form data:", formData);
-    swal({
-      title: "Thank you!",
-      text: "You have successfully created a new Discussion Forum Topic!",
-      icon: "success",
-      button: "Close",
-    });
-    setFormData({ forumTopic: "", desc: "", attachment: "no" });
+
+  const validationOpt = { resolver: yupResolver(formSchema) };
+  const { register, handleSubmit, reset, formState } = useForm(validationOpt);
+  const { errors } = formState;
+
+  const onFormSubmit = (formData) => {
+    const data = {
+      ...formData,
+      createdBy: "641db06699bb728ad6649957",
+      belongsToChapter: "6419e53e4d27e2edbce99300",
+    };
+    console.log(data);
+
+    axios
+      .post("http://localhost:1337/create-forum", data)
+      .then((res) => {
+        console.log(res.data);
+        swal({
+          title: "Thank you!",
+          text: "You have successfully created a new Discussion Forum Topic!",
+          icon: "success",
+          button: "Close",
+        });
+        reset();
+      })
+      .catch((error) => {
+        console.log(error);
+        swal({
+          title: "Opzz!",
+          text: "Something went wrong, Please try again!",
+          icon: "warning",
+        });
+      });
+    console.log("Submitted form data:", data);
+
     return false;
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
   return (
     <div className="container bg-white mt-5">
       <div className="pt-5 px-4">
         <Header title="NETS: Create Discussion Forums" />
       </div>
       <div className="p-4">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onFormSubmit)}>
           <div className="form-group mt-2">
-            <label for="forumTopic" className="font-weight-bold">
+            <label for="topic" className="font-weight-bold">
               Discussion Forum Topic:
             </label>
             <div className="col-sm-8 mt-2">
@@ -45,16 +72,17 @@ const CreateForum = () => {
                   backgroundColor: "#F8F8F8",
                   borderColor: "#1D9EEC",
                 }}
-                id="forumTopic"
-                name="forumTopic"
-                value={formData.forumTopic}
-                onChange={handleInputChange}
-                required
+                id="topic"
+                name="topic"
+                {...register("topic")}
               />
             </div>
+            <p className="font-italic" style={{ color: "#E60000" }}>
+              {errors.topic?.message}
+            </p>
           </div>
           <div className="form-group mt-4">
-            <label for="desc" className="font-weight-bold">
+            <label for="description" className="font-weight-bold">
               Description:
             </label>
             <div className="col-sm-8 mt-2">
@@ -65,16 +93,17 @@ const CreateForum = () => {
                   backgroundColor: "#F8F8F8",
                   borderColor: "#1D9EEC",
                 }}
-                id="desc"
-                name="desc"
-                value={formData.desc}
-                onChange={handleInputChange}
-                required
+                id="description"
+                name="description"
+                {...register("description")}
               ></textarea>
             </div>
+            <p className="font-italic" style={{ color: "#E60000" }}>
+              {errors.description?.message}
+            </p>
           </div>
           <div className="form-group mt-4">
-            <label for="attachment" className="font-weight-bold">
+            <label for="attachmentAllowed" className="font-weight-bold">
               Attachments Allowed:
             </label>
             <div className="form-check mt-2">
@@ -84,11 +113,10 @@ const CreateForum = () => {
                   borderColor: "#1D9EEC",
                 }}
                 type="radio"
-                name="attachment"
+                name="attachmentAllowed"
                 id="attachmentAllowed"
                 value="yes"
-                onChange={handleInputChange}
-                required
+                {...register("attachmentAllowed")}
               />
               <label className="form-check-label" for="yes">
                 Yes
@@ -101,16 +129,18 @@ const CreateForum = () => {
                   borderColor: "#1D9EEC",
                 }}
                 type="radio"
-                name="attachment"
+                name="attachmentAllowed"
                 id="attachmentNotAllowed"
                 value="no"
-                onChange={handleInputChange}
-                required
+                {...register("attachmentAllowed")}
               />
               <label className="form-check-label" for="no">
                 No
               </label>
             </div>
+            <p className="font-italic" style={{ color: "#E60000" }}>
+              {errors.attachmentAllowed?.message}
+            </p>
           </div>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <button
