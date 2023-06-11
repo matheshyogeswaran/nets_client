@@ -23,8 +23,8 @@ const FinalAssignmentSubmission = () => {
     };
     const [assignment, setAssignment] = useState();
 
-    const [note, setNote] = useState();
-    const [file, setFiles] = useState();
+    const [note, setNote] = useState("");
+    const [file, setFiles] = useState([]);
     const [isAssignmentRequested, setIsAssignmentRequested] = useState(false);
     const [isAssignmentSubmitted, setIsAssignmentSubmitted] = useState(true);
     useEffect(() => {
@@ -36,6 +36,7 @@ const FinalAssignmentSubmission = () => {
                     Swal.fire("Info", "Request Assignment First", "info");
                 }
                 setAssignment(response.data[0]);
+                console.log(response.data[0]);
                 setIsAssignmentSubmitted((response?.data[0]?.submittedDate) ? true : false);
             })
             .catch(function (error) {
@@ -46,13 +47,20 @@ const FinalAssignmentSubmission = () => {
     const assignmentDeadline = new Date(assignment?.projectDeadLine);
     const now = new Date()
     const diffInMs = (assignmentDeadline.getTime() - now.getTime()) / 60000;
-
+    console.log(file.length);
+    
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (note.trim() === '' && file.length === 0) {
+            Swal.fire("Error In Submitting Assignment", "Note and File both can not be empty. Add note or upload file as assignment submission.", "error");
+            return;
+        }
         const formData = new FormData();
         formData.append("note", note);
-        formData.append("subid", assignment?._id);
-        formData.append("ufile", file[0]);
+        formData.append("finalProjectAssignmentID", assignment?._id);
+        if (file.length !== 0) {
+            formData.append("ufile", file[0]);
+        }
         try {
             axios.post("http://localhost:1337/addFinalProjectSubmission", formData, {
                 headers: {
@@ -62,12 +70,11 @@ const FinalAssignmentSubmission = () => {
                 .then(res => {
                     console.log(res.data);
                     if (res.data.status === true) {
-                        Swal.fire("Assignment Submitted Successfully", "", "success");
+                        Swal.fire(res.data.message, "", "success");
                         navigate("/home")
                     } else {
                         Swal.fire("Error In Submitting Assignment", res.data.message, "error");
                     }
-
                 }).catch(err => {
                     console.log(err);
                 })
@@ -115,23 +122,36 @@ const FinalAssignmentSubmission = () => {
                     </div>
                     <div className="border rounded p-3 mt-3">
                         <h6>Project Title: {assignment?.projectName}</h6>
-                        <h6>Deadline: {new Date(assignment?.projectDeadLine).toLocaleString('en-US', { timeZone: 'Asia/Colombo' })}</h6>
-                        <h6>
-                            Deadline Status:{" "}
-                            {
-                                (diffInMs <= 0)
-                                    ?
-                                    <span style={{ "color": "red" }}>
-                                        {"Assignment overdued by " + formatDuration(Math.abs(Math.floor(diffInMs)))}
-                                    </span>
-                                    :
-                                    <span style={{ "color": "green" }}>
-                                        {formatDuration(Math.floor(diffInMs)) + " Left"}
-                                    </span>
-                            }
-                        </h6>
                         {
-                            (assignment.supAttachFileSize)
+                            (assignment?.isProjectSubmitted)
+                                ?
+                                <h6>Submitted on: {new Date(assignment?.submittedDate).toLocaleString('en-US', { timeZone: 'Asia/Colombo' })}</h6>
+                                :
+                                <h6>Deadline: {new Date(assignment?.projectDeadLine).toLocaleString('en-US', { timeZone: 'Asia/Colombo' })}</h6>
+                        }
+                        {
+                            (assignment?.isProjectSubmitted)
+                                ?
+                                null
+                                :
+                                <h6>
+                                    Deadline Status:
+                                    {
+                                        (diffInMs <= 0)
+                                            ?
+                                            <span style={{ "color": "red" }}>
+                                                {"Assignment overdued by " + formatDuration(Math.abs(Math.floor(diffInMs)))}
+                                            </span>
+                                            :
+                                            <span style={{ "color": "green" }}>
+                                                {formatDuration(Math.floor(diffInMs)) + " Left"}
+                                            </span>
+                                    }
+                                </h6>
+                        }
+
+                        {
+                            (assignment?.supAttachFileSize)
                                 ?
                                 <h6>Attachment:{"  "}
                                     <span>
@@ -156,12 +176,17 @@ const FinalAssignmentSubmission = () => {
                                 {"  " + assignment?.acceptedBy.firstName + "  " + assignment?.acceptedBy.lastName}
                             </button>
                         </h6>
-                        <h6>
-                            Feedback:{"   "}
-                            <Link to="/feedback" className="btn btn-outline-primary border border-dark btn-sm">
-                                View Feedback
-                            </Link>
-                        </h6>
+                        {
+                            (assignment?.show === false)
+                                ? null
+                                :
+                                <h6>
+                                    Feedback:{"   "}
+                                    <Link to="/feedback" className="btn btn-outline-primary border border-dark btn-sm">
+                                        View Feedback
+                                    </Link>
+                                </h6>
+                        }
                         <div className="modal fade" id={"openModal"} tabindex="-1" aria-labelledby={"exampleModal"} aria-hidden="true">
                             <div className="modal-dialog">
                                 <div className="modal-content">
@@ -236,6 +261,7 @@ const FinalAssignmentSubmission = () => {
                                             onChange={setNote}
                                             modules={modules}
                                             placeholder="Enter Your Note Here..."
+                                            required
                                         />
                                         <div className="mb-3">
                                             <input
@@ -285,14 +311,21 @@ const FinalAssignmentSubmission = () => {
                                         className="border rounded p-3 mb-3"
                                         dangerouslySetInnerHTML={{ __html: assignment?.uploadedDescriptionByEmployee }}
                                     />
-                                    <h6>Attachment:{"  "}
-                                        <a href={assignment?.uploadedFileByEmployee}>
-                                            {
-                                                assignment?.empAttachOriginalName
-                                            }
-                                        </a> {"  "}
-                                        ({assignment?.empAttachFileSize} bytes)
-                                    </h6>
+                                    {
+                                        (assignment?.uploadedFileByEmployee)
+                                            ?
+                                            <h6>Attachment:{"  "}
+                                                <a href={assignment?.uploadedFileByEmployee}>
+                                                    {
+                                                        assignment?.empAttachOriginalName
+                                                    }
+                                                </a> {"  "}
+                                                ({assignment?.empAttachFileSize} bytes)
+                                            </h6>
+                                            :
+                                            null
+                                    }
+
                                 </div>
                             </div>
                         </div>

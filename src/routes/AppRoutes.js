@@ -29,6 +29,7 @@ const AppRoutes = () => {
   ]
   const unprotectedRoutes = [...auth_routes]
 
+  
   return (
     <BrowserRouter>
       <NavBar></NavBar>

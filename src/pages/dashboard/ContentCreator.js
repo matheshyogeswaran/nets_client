@@ -1,25 +1,61 @@
+import { Link } from "react-router-dom";
+import depChap from "../../images/systemAdmin/depChap.svg";
+import learning from "../../images/systemAdmin/learning.svg";
+import manageGuidance from "../../images/systemAdmin/manageGuidance.svg";
+import rating1 from "../../images/systemAdmin/rating1.svg";
+
 const ContentCreator = () => {
     return (
         <div>
             <div className="row">
-                <div className="col-md-4 m-2">
-                    <button className="btn btn-outline-primary form-control shadow">Complete Guidance request</button>
-                    <button className="btn btn-outline-primary form-control mt-2 shadow">View My Ratings and Review</button>
-                    <button className="btn btn-outline-primary form-control mt-2 shadow">Show My Learning Materials</button>
-                    <button className="btn btn-outline-primary form-control mt-2 shadow">Show Department Chapters</button>
-                    {/* <button className="btn btn-outline-primary form-control mt-2 shadow">View Department Chapters</button> */}
+                <div className="col-md-4 mb-3">
+                    <div className="card shadow">
+                        <Link to="/department" className="btn btn-outline-dark">
+                            <center>
+                                <img src={manageGuidance} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                            </center>
+                            <div className="card-body">
+                                <h6>Complete Guidance request</h6>
+                            </div>
+                        </Link>
+                    </div>
                 </div>
-                <div className="col-md-4 m-2">
-                    {/* <div className="border border-dark rounded shadow">
-                        <div className="p-3">
-                            <div className="text-center"><b>View Employee Reports</b></div><hr></hr>
-                            <button className="btn btn-outline-success form-control mt-1 shadow">Hired Employee</button>
-                            <button className="btn btn-outline-success form-control mt-2 shadow">Content Creator</button>
-                            <button className="btn btn-outline-success form-control mt-2 shadow">Quiz Report of Hired Employees</button>
-                        </div>
-                    </div> */}
+                <div className="col-md-4 mb-3">
+                    <div className="card shadow">
+                        <Link to="/department" className="btn btn-outline-dark">
+                            <center>
+                                <img src={rating1} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                            </center>
+                            <div className="card-body">
+                                <h6>View My Ratings and Review</h6>
+                            </div>
+                        </Link>
+                    </div>
                 </div>
-                <div className="col-md-4"></div>
+                <div className="col-md-4 mb-3">
+                    <div className="card shadow">
+                        <Link to="/department" className="btn btn-outline-dark">
+                            <center>
+                                <img src={learning} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                            </center>
+                            <div className="card-body">
+                                <h6>Show My Learning Materials</h6>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+                <div className="col-md-4 mb-3">
+                    <div className="card shadow">
+                        <Link to="/department" className="btn btn-outline-dark">
+                            <center>
+                                <img src={depChap} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                            </center>
+                            <div className="card-body">
+                                <h6>Show Department Chapters</h6>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
             </div>
         </div>
     );
