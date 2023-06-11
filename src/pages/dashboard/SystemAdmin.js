@@ -4,6 +4,7 @@ const SystemAdmin = () => {
     return (
         <div>
             <div className="row">
+                
                 <div className="col-md-4 m-2">
                     <Link to="/depchapter" className="btn btn-outline-primary form-control shadow">Manage Chapters</Link>
                     <Link to="/viewchapter" className="btn btn-outline-primary form-control mt-2 shadow">View Chapters</Link>
