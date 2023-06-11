@@ -16,6 +16,7 @@
     "bootstrap": "^5.2.3",
     "darkmode-js": "^1.5.7",
     "file-saver": "^2.0.5",
+    "firebase": "^9.22.2",
     "jszip": "^3.10.1",
     "jwt-decode": "^3.1.2",
     "quill-image-resize-module": "^3.0.0",
@@ -36,6 +37,7 @@
     "simple-react-validator": "^1.6.2",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.7.3",
+    "validator": "^13.9.0",
     "web-vitals": "^2.1.4",
     "yup": "^1.2.0"
   },

@@ -3,29 +3,39 @@ import React from "react";
 const CompleteForm = (props) => {
   return (
     <div className="container bg-white">
-      <form onSubmit={props.handleSubmit}>
+      <form onSubmit={props.onFormSubmit}>
         <div className="row">
-          <p className="col-sm-6">Request No. 1</p>
-          <p className="col-sm-6"> Request Title : xxxxxx xxxxxx</p>
+          <p className="col-sm-6">Request No. {props.ticket._id}</p>
+          <p className="col-sm-6"> Request Type : {props.ticket.requestType}</p>
         </div>
         <div className="row">
           <p className="col-sm-12">
-            Short Description : xxxx xxxx xxxxx xxxx xxxx xxxx xxxx xxxx xxx
-            xxxxxx xxxx xxx xxxxx
+            Short Description : {props.ticket.description}
           </p>
         </div>
         <div className="row">
-          <p className="col-sm-12">Attachment : </p>
+          <p className="col-sm-12">
+            Attachment :{/* {props.ticket.attachment} */}
+          </p>
         </div>
         <div className="row">
-          <p className="col-sm-12">Requested by : xxxxx xxxxx </p>
+          <p className="col-sm-12">
+            Requested by :{" "}
+            {props.ticket.requestedBy.firstName +
+              " " +
+              props.ticket.requestedBy.lastName}
+          </p>
         </div>
         <div className="row">
-          <p className="col-sm-6">Contact Number : 011 1111 111</p>
-          <p className="col-sm-6">Email : xxxx@xxx.xxx</p>
+          <p className="col-sm-6">
+            Contact Number : {props.ticket.requestedBy.phoneNumber}
+          </p>
+          <p className="col-sm-6">
+            Email : {props.ticket.requestedBy.emailAddress}
+          </p>
         </div>
         <div className="form-check form-switch my-2">
-          {props.formData ? (
+          {props.ticket.status === "completed" ? (
             <input
               className="form-check-input"
               type="checkbox"
@@ -40,7 +50,7 @@ const CompleteForm = (props) => {
               id="iscompleted"
               name="iscompleted"
               onChange={() => {
-                props.setFormData(true);
+                props.setTicketId(props.ticket._id);
               }}
               required
             />
