@@ -19,6 +19,7 @@ const Forums = () => {
         console.log(error);
       });
   }, []);
+
   const LockForum = (id) => {
     axios
       .put(`http://localhost:1337/edit-forum/${id}`, { status: "Locked" })
@@ -49,6 +50,7 @@ const Forums = () => {
 
     return false;
   };
+
   return (
     <div className="container my-5">
       <Header title="NETS: Discussion Forums" />
@@ -61,7 +63,7 @@ const Forums = () => {
       </div>
       <div className="mt-5">
         <div
-          className="row py-4 text-center"
+          className="row py-4 text-center d-none d-sm-flex"
           style={{ backgroundColor: "#D3D3D3" }}
         >
           <div className="col-sm-3">Forum Topic</div>

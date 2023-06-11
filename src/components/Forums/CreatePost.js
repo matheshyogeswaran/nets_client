@@ -1,57 +1,126 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import Header from "../Shared/Header";
 import swal from "sweetalert";
 import axios from "axios";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../Firebase config/firebase";
+import { v4 } from "uuid";
 
 const CreatePost = () => {
   const params = useParams();
-  const [formData, setFormData] = useState({
-    description: "",
-    attachment: "",
-  });
-  const handleSubmit = (event) => {
-    const data = {
-      ...formData,
-      createdBy: "641db06699bb728ad6649957",
-    };
-    event.preventDefault();
+  const [attachmentAllowed, setAttachmentAllowwed] = useState(false);
+  const [attachment, setAttachment] = useState(null);
+
+  useEffect(() => {
     axios
-      .post(`http://localhost:1337/add-posts/${params.forumId}`, data)
-      .then((res) => {
-        console.log(res.data);
-        swal({
-          title: "Thank you!",
-          text: "Your post was successfully saved!",
-          icon: "success",
-          button: "Close",
-        });
-        setFormData({ description: "", attachment: "" });
+      .get(
+        `http://localhost:1337/get-forum-details-by-forum-id/${params.forumId}`
+      )
+      .then((response) => {
+        setAttachmentAllowwed(response.data[0].attachmentAllowed);
       })
-      .catch((error) => {
+      .catch(function (error) {
         console.log(error);
-        swal({
-          title: "Opzz!",
-          text: "Something went wrong, Please try again!",
-          icon: "warning",
+      });
+  }, []);
+
+  const formSchema = Yup.object().shape({
+    description: Yup.string().required("* description is required"),
+  });
+
+  const validationOpt = { resolver: yupResolver(formSchema) };
+  const { register, handleSubmit, reset, formState } = useForm(validationOpt);
+  const { errors } = formState;
+
+  async function onFormSubmit(formData) {
+    console.log(attachment);
+    try {
+      var data = {
+        description: formData.description,
+        createdBy: "641db06699bb728ad6649957",
+      };
+      console.log(data);
+
+      if (attachment === null) {
+        axios
+          .post(`http://localhost:1337/add-posts/${params.forumId}`, data)
+          .then((res) => {
+            console.log(res.data);
+            swal({
+              title: "Thank you!",
+              text: "Your post was successfully saved!",
+              icon: "success",
+              button: "Close",
+            });
+            console.log("Submitted form data:", data);
+            reset();
+          })
+          .catch((error) => {
+            console.log(error);
+            swal({
+              title: "Opzz!",
+              text: "Something went wrong, Please try again!",
+              icon: "warning",
+            });
+          });
+        return;
+      }
+      console.log(attachment.name);
+      const AttachmentRef = ref(
+        storage,
+        `forums/postsAttachments/${attachment.name + v4()}`
+      );
+
+      uploadBytes(AttachmentRef, attachment).then((a) => {
+        getDownloadURL(a.ref).then((url) => {
+          console.log(url);
+          data = { ...data, attachment: url };
+          axios
+            .post(`http://localhost:1337/add-posts/${params.forumId}`, data)
+            .then((res) => {
+              console.log(res.data);
+              swal({
+                title: "Thank you!",
+                text: "Your post was successfully saved!",
+                icon: "success",
+                button: "Close",
+              });
+              console.log("Submitted form data:", data);
+              reset();
+            })
+            .catch((error) => {
+              console.log(error);
+              swal({
+                title: "Opzz!",
+                text: "Something went wrong, Please try again!",
+                icon: "warning",
+              });
+            });
         });
       });
-    console.log("Submitted form data:", data);
-    return false;
-  };
+    } catch (err) {
+      swal({
+        title: "Opzz!",
+        text: "Something went wrong, Please try again!",
+        icon: "warning",
+      });
+    }
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
+    return false;
+  }
+
   return (
     <div className="container bg-white mt-5">
       <div className="pt-5 px-4">
         <Header title="NETS: Create Post" />
       </div>
       <div className="p-4">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onFormSubmit)}>
           <div className="form-group mt-2">
             <label for="description" className="font-weight-bold">
               Description:
@@ -66,27 +135,36 @@ const CreatePost = () => {
                 }}
                 id="description"
                 name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                required
+                {...register("description")}
               ></textarea>
             </div>
+            <p className="font-italic" style={{ color: "#E60000" }}>
+              {errors.description?.message}
+            </p>
           </div>
-          <div className="form-group mt-4">
-            <label for="attachment" className="font-weight-bold">
-              Attachment:
-            </label>
-            <div className="form-group">
-              <input
-                type="file"
-                className="form-control-file mt-4"
-                id="attachment"
-                name="attachment"
-                value={formData.attachment}
-                onChange={handleInputChange}
-              />
+          {attachmentAllowed && (
+            <div className="form-group mt-4">
+              <label for="attachment" className="font-weight-bold">
+                Attachment:
+              </label>
+              <div className="form-group">
+                <input
+                  type="file"
+                  accept=".pdf,.jpg,.png,.jpeg"
+                  className="form-control-file my-4"
+                  id="attachment"
+                  name="attachment"
+                  onChange={(event) => {
+                    setAttachment(event.target.files[0]);
+                  }}
+                />
+                <p className="font-italic">
+                  allowed file types: .pdf,.jpg,.png,.jpeg
+                </p>
+              </div>
             </div>
-          </div>
+          )}
+
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <button
               type="submit"
@@ -100,7 +178,7 @@ const CreatePost = () => {
             </button>
             <Link to={`/view-forum/${params.forumId}`}>
               <button
-                type="button"
+                type="submit"
                 className="btn btn-primary mt-5 mx-3"
                 style={{
                   backgroundColor: "#778899",

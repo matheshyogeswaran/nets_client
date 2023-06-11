@@ -69,6 +69,7 @@ import UnitContent from "../pages/Unit page/UnitContent";
 import ViewKT from "../pages/KT view/ViewKT";
 import ViewContent from "../pages/article view/ViewContent";
 import EditTask from "../pages/Chapter page/EditTask";
+import ViewAttachment from "../components/Forums/ViewAttachment";
 // import QuizEntry from "../pages/quiz/QuizEntry";
 // import Quizpage from "../pages/quiz/Quizpage";
 
@@ -396,103 +397,113 @@ const AppRoutes = () => {
             exact
             path="/comments"
             element={
-              // <RequireAuth>
-              <CommentSection />
-              // </RequireAuth>
+              <RequireAuth>
+                <CommentSection />
+              </RequireAuth>
             }
           />
           <Route
             exact
             path="/forums"
             element={
-              // <RequireAuth>
-              <Forums />
-              // </RequireAuth>
+              <RequireAuth>
+                <Forums />
+              </RequireAuth>
             }
           />
           <Route
             exact
             path="/view-forum/:forumId"
             element={
-              // <RequireAuth>
-              <ViewForum />
-              //   {" "}
-              // </RequireAuth>
+              <RequireAuth>
+                <ViewForum />{" "}
+              </RequireAuth>
+            }
+          />
+          <Route
+            exact
+            path="/view-forum/:forumId/:postId"
+            element={
+              <RequireAuth>
+                <ViewAttachment type="posts" />{" "}
+              </RequireAuth>
+            }
+          />
+          <Route
+            exact
+            path="/view-forum/:forumId/:postId/:replyId"
+            element={
+              <RequireAuth>
+                <ViewAttachment type="replies" />{" "}
+              </RequireAuth>
             }
           />
           <Route
             exact
             path="/create-forum"
             element={
-              // <RequireAuth>
-
-              <CreateForum />
-              // </RequireAuth>
+              <RequireAuth>
+                <CreateForum />
+              </RequireAuth>
             }
           />
           <Route
             exact
             path="/edit-forum/:forumId"
             element={
-              // <RequireAuth>
-              //   {" "}
-              <EditForum />
-              //   {" "}
-              // </RequireAuth>
+              <RequireAuth>
+                {" "}
+                <EditForum />{" "}
+              </RequireAuth>
             }
           />
           <Route
             exact
             path="/create-post/:forumId"
             element={
-              // <RequireAuth>
-              //   {" "}
-              <CreatePost />
-              //   {" "}
-              // </RequireAuth>
+              <RequireAuth>
+                {" "}
+                <CreatePost />{" "}
+              </RequireAuth>
             }
           />
           <Route
             exact
             path="/add-reply/:forumId/:commentId"
             element={
-              // <RequireAuth>
-              //   {" "}
-              <AddReply />
-              //   {" "}
-              // </RequireAuth>
+              <RequireAuth>
+                {" "}
+                <AddReply />{" "}
+              </RequireAuth>
             }
           />
           <Route
             exactpath="/request-guidance-ticket"
             element={
-              // <RequireAuth>
-              //   {" "}
-              <RequestGuidanceTickets />
-              //   {" "}
-              // </RequireAuth>
+              <RequireAuth>
+                {" "}
+                <RequestGuidanceTickets />{" "}
+              </RequireAuth>
             }
           />
           <Route
             exact
             path="/direct-guidance-ticket"
             element={
-              // <RequireAuth>
-              //   {" "}
-              <DirectGuidanceTickets />
-              //   {" "}
-              // </RequireAuth>
+              <RequireAuth>
+                {" "}
+                <DirectGuidanceTickets />{" "}
+              </RequireAuth>
             }
           />
           <Route
             exact
             path="/complete-guidance-ticket"
             element={
-              // <RequireAuth>
-              //   {" "}
-              <CompleteGuidanceTickets />
-              //   {" "}
-              // </RequireAuth>
+              <RequireAuth>
+                {" "}
+                <CompleteGuidanceTickets />{" "}
+              </RequireAuth>
             }
           />
           <Route path="/" element={<Home />} />
@@ -531,18 +542,18 @@ const AppRoutes = () => {
             exact
             path="/chapter/"
             element={
-              // <RequireAuth>
-              <Chapter />
-              // </RequireAuth>
+              <RequireAuth>
+                <Chapter />
+              </RequireAuth>
             }
           />
           <Route
             exact
             path="/viewchapter/"
             element={
-              // <RequireAuth>
-              <ViewChapter />
-              // </RequireAuth>
+              <RequireAuth>
+                <ViewChapter />
+              </RequireAuth>
             }
           />
           <Route

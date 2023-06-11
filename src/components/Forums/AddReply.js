@@ -1,60 +1,129 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import Header from "../Shared/Header";
 import swal from "sweetalert";
 import axios from "axios";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../Firebase config/firebase";
+import { v4 } from "uuid";
 
 const AddReply = () => {
   const params = useParams();
-  const [formData, setFormData] = useState({
-    description: "",
-    attachment: "",
-  });
-  const handleSubmit = (event) => {
-    const data = {
-      ...formData,
-      createdBy: "641db06699bb728ad6649957",
-    };
-    event.preventDefault();
+  const [attachmentAllowed, setAttachmentAllowwed] = useState(false);
+  const [attachment, setAttachment] = useState(null);
+
+  useEffect(() => {
     axios
-      .post(
-        `http://localhost:1337/add-replies/${params.forumId}/${params.commentId}`,
-        data
+      .get(
+        `http://localhost:1337/get-forum-details-by-forum-id/${params.forumId}`
       )
-      .then((res) => {
-        console.log(res.data);
-        swal({
-          title: "Thank you!",
-          text: "Your reply was successfully saved!",
-          icon: "success",
-          button: "Close",
-        });
-        setFormData({ description: "", attachment: "" });
+      .then((response) => {
+        setAttachmentAllowwed(response.data[0].attachmentAllowed);
       })
-      .catch((error) => {
+      .catch(function (error) {
         console.log(error);
-        swal({
-          title: "Opzz!",
-          text: "Something went wrong, Please try again!",
-          icon: "warning",
+      });
+  }, []);
+
+  const formSchema = Yup.object().shape({
+    description: Yup.string().required("* description is required"),
+  });
+
+  const validationOpt = { resolver: yupResolver(formSchema) };
+  const { register, handleSubmit, reset, formState } = useForm(validationOpt);
+  const { errors } = formState;
+
+  async function onFormSubmit(formData) {
+    try {
+      var data = {
+        description: formData.description,
+        createdBy: "641db06699bb728ad6649957",
+      };
+      console.log(data);
+
+      if (attachment === null) {
+        axios
+          .post(
+            `http://localhost:1337/add-replies/${params.forumId}/${params.commentId}`,
+            data
+          )
+          .then((res) => {
+            console.log(res.data);
+            swal({
+              title: "Thank you!",
+              text: "Your reply was successfully saved!",
+              icon: "success",
+              button: "Close",
+            });
+            reset();
+          })
+          .catch((error) => {
+            console.log(error);
+            swal({
+              title: "Opzz!",
+              text: "Something went wrong, Please try again!",
+              icon: "warning",
+            });
+          });
+        return;
+      }
+      console.log(attachment.name);
+      const AttachmentRef = ref(
+        storage,
+        `forums/repliesAttachments/${attachment.name + v4()}`
+      );
+
+      uploadBytes(AttachmentRef, attachment).then((a) => {
+        getDownloadURL(a.ref).then((url) => {
+          console.log(url);
+          data = { ...data, attachment: url };
+          axios
+            .post(
+              `http://localhost:1337/add-replies/${params.forumId}/${params.commentId}`,
+              data
+            )
+            .then((res) => {
+              console.log(res.data);
+              swal({
+                title: "Thank you!",
+                text: "Your reply was successfully saved!",
+                icon: "success",
+                button: "Close",
+              });
+              reset();
+            })
+            .catch((error) => {
+              console.log(error);
+              swal({
+                title: "Opzz!",
+                text: "Something went wrong, Please try again!",
+                icon: "warning",
+              });
+            });
         });
       });
+    } catch (err) {
+      swal({
+        title: "Opzz!",
+        text: "Something went wrong, Please try again!",
+        icon: "warning",
+      });
+    }
     console.log("Submitted form data:", data);
     return false;
-  };
+  }
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
   return (
     <div className="container bg-white mt-5">
       <div className="pt-5 px-4">
         <Header title="NETS: Add Reply" />
       </div>
       <div className="p-4">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onFormSubmit)}>
           <div className="form-group mt-2">
             <label for="description" className="font-weight-bold">
               Description:
@@ -69,11 +138,12 @@ const AddReply = () => {
                 }}
                 id="description"
                 name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                required
+                {...register("description")}
               ></textarea>
             </div>
+            <p className="font-italic" style={{ color: "#E60000" }}>
+              {errors.description?.message}
+            </p>
           </div>
           <div className="form-group mt-4">
             <label for="attachment" className="font-weight-bold">
@@ -82,12 +152,17 @@ const AddReply = () => {
             <div className="form-group">
               <input
                 type="file"
+                accept=".pdf,.jpg,.png,.jpeg"
                 className="form-control-file mt-4"
                 id="attachment"
                 name="attachment"
-                value={formData.attachment}
-                onChange={handleInputChange}
+                onChange={(event) => {
+                  setAttachment(event.target.files[0]);
+                }}
               />
+              <p className="font-italic">
+                allowed file types: .pdf,.jpg,.png,.jpeg
+              </p>
             </div>
           </div>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>

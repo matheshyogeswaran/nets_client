@@ -1,16 +1,16 @@
 import React from "react";
 import Avatar from "../Shared/Avatar";
 
-const Com = (props) => {
+const Comment = (props) => {
   return (
     <>
       <div key={props.id} className="d-flex flex-row user p-2 mt-2 border-top">
         <Avatar user={props.user} />
         <div className="d-flex flex-column mx-2 my-auto">
-          <span className="font-weight-bold" style={{ fontSize: "20px" }}>
+          <span className="font-weight-bold" style={{ fontSize: "16px" }}>
             {props.user}
-            <span style={{ fontSize: "14px", marginLeft: "8px" }}>
-              {props.user}
+            <span style={{ fontSize: "12px", marginLeft: "8px" }}>
+              {props.role}
             </span>
             <span style={{ fontSize: "12px", marginLeft: "8px" }}>
               {props.time}
@@ -25,4 +25,4 @@ const Com = (props) => {
   );
 };
 
-export default Com;
+export default Comment;

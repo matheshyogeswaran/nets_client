@@ -1,58 +1,113 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../Shared/Header";
 import LargeModal from "../../Shared/LargeModal";
 import RequestForm from "./RequestForm";
 import swal from "sweetalert";
+import axios from "axios";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../../Firebase config/firebase";
+import { v4 } from "uuid";
 
 const RequestGuidanceTickets = () => {
-  const tickets = [
-    {
-      requestNo: 1,
-      title: "xxxxxx xxxxxx",
-      on: "11 / 11 / 1111",
-      to: "pending",
-      tel: "pending",
-      email: "pending",
-      status: 1,
-    },
-    {
-      requestNo: 2,
-      title: "xxxxxx xxxxxx",
-      on: "11 / 11 / 1111",
-      to: "xxx xxx",
-      tel: "011 1111 111",
-      email: "xxxx@xxx.xxx",
-      status: 2,
-    },
-  ];
-  const [formData, setFormData] = useState({
-    department: "",
-    requestTiltle: "",
-    desc: "",
-    attachment: "",
-  });
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("Submitted form data:", formData);
-    swal({
-      title: "Thank you!",
-      text: "The ticket was successfully created!",
-      icon: "success",
-      button: "Close",
-    });
-    setFormData({
-      department: "",
-      requestTiltle: "",
-      desc: "",
-      attachment: "",
-    });
-    return false;
-  };
+  const [tickets, setTickets] = useState([]);
+  const [attachment, setAttachment] = useState(null);
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  useEffect(() => {
+    axios
+      .get(
+        "http://localhost:1337/get-tickets-by-requested-user-id/641db06699bb728ad6649957"
+      )
+      .then((response) => {
+        setTickets(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
+  async function onFormSubmit(formData) {
+    try {
+      var data = {
+        ...formData,
+        createdBy: "641db06699bb728ad6649957",
+      };
+      console.log(data);
+
+      if (attachment === null) {
+        axios
+          .post("http://localhost:1337/save-ticket", data)
+          .then((res) => {
+            console.log(res.data);
+            swal({
+              title: "Thank you!",
+              text: "Your post was successfully saved!",
+              icon: "success",
+              button: "Close",
+              // onClose: window.location.reload(),
+            });
+            console.log("Submitted form data:", data);
+          })
+          .catch((error) => {
+            console.log(error);
+            swal({
+              title: "Opzz!",
+              text: "Something went wrong, Please try again!",
+              icon: "warning",
+            });
+          });
+
+        return;
+      }
+      console.log(attachment.name);
+      const AttachmentRef = ref(
+        storage,
+        `GuidanceTickets/Attachments/${attachment.name + v4()}`
+      );
+
+      uploadBytes(AttachmentRef, attachment).then((a) => {
+        getDownloadURL(a.ref).then((url) => {
+          console.log(url);
+          data = { ...data, attachment: url };
+          axios
+            .post("http://localhost:1337/save-ticket", data)
+            .then((res) => {
+              console.log(res.data);
+              swal({
+                title: "Thank you!",
+                text: "Your post was successfully saved!",
+                icon: "success",
+                button: "Close",
+              });
+              console.log("Submitted form data:", data);
+            })
+            .catch((error) => {
+              console.log(error);
+              swal({
+                title: "Opzz!",
+                text: "Something went wrong, Please try again!",
+                icon: "warning",
+              });
+            });
+        });
+      });
+    } catch (err) {
+      swal({
+        title: "Opzz!",
+        text: "Something went wrong, Please try again!",
+        icon: "warning",
+      });
+    }
+    console.log("Submitted form data:", data);
+
+    return false;
+  }
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleString();
+    return formattedDate;
+  }
+
   return (
     <div className="container">
       <div className="pt-5 px-4">
@@ -74,10 +129,8 @@ const RequestGuidanceTickets = () => {
           mainButton="Request Guidance"
           body={
             <RequestForm
-              formData={formData}
-              setFormData={setFormData}
-              handleSubmit={handleSubmit}
-              handleInputChange={handleInputChange}
+              onFormSubmit={onFormSubmit}
+              setAttachment={setAttachment}
             />
           }
         />
@@ -92,16 +145,28 @@ const RequestGuidanceTickets = () => {
           >
             <div className="card-body">
               <div className="row">
-                <p className="col-sm-6">Request No. {t.requestNo}</p>
-                <p className="col-sm-6"> Request Title : {t.title}</p>
+                <p className="col-sm-6">Request No. {t._id}</p>
+                <p className="col-sm-6"> Request Type : {t.requestType}</p>
               </div>
               <div className="row">
-                <p className="col-sm-6">Requested on: {t.on}</p>
-                <p className="col-sm-6">Directed to : {t.to}</p>
+                <p className="col-sm-6">
+                  Requested on: {formatDate(t.createdTime)}
+                </p>
+                <p className="col-sm-6">
+                  Assigned to :{" "}
+                  {t.assignedTo
+                    ? t.assignedTo.firstName + " " + t.assignedTo.lastName
+                    : "Pending"}{" "}
+                </p>
               </div>
               <div className="row">
-                <p className="col-sm-6">Contact number : {t.tel}</p>
-                <p className="col-sm-6">Email : {t.email}</p>
+                <p className="col-sm-6">
+                  Contact number :{" "}
+                  {t.assignedTo ? t.assignedTo.phoneNumber : "Pending"}
+                </p>
+                <p className="col-sm-6">
+                  Email : {t.assignedTo ? t.assignedTo.emailAddress : "Pending"}
+                </p>
               </div>
               <div className="row">
                 <div className="col-sm-10 mx-auto my-3">
@@ -111,21 +176,25 @@ const RequestGuidanceTickets = () => {
                       role="progressbar"
                       style={{
                         width:
-                          t.status === 1
+                          t.status === "requested"
                             ? "20%"
-                            : t.status === 2
+                            : t.status === "directed"
                             ? "60%"
                             : "100%",
                       }}
                       aria-valuenow={
-                        t.status === 1 ? "20" : t.status === 2 ? "60" : "100"
+                        t.status === "requested"
+                          ? "20"
+                          : t.status === "directed"
+                          ? "60"
+                          : "100"
                       }
                       aria-valuemin="0"
                       aria-valuemax="100"
                     >
-                      {t.status === 1
+                      {t.status === "requested"
                         ? "Requested"
-                        : t.status === 2
+                        : t.status === "directed"
                         ? "Directed"
                         : "Completed"}
                     </div>

@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import Header from "../Shared/Header";
 import swal from "sweetalert";
 import axios from "axios";
 
 const EditForum = () => {
+  const formSchema = Yup.object().shape({
+    topic: Yup.string().required("* topic is required"),
+    description: Yup.string().required("* description is required"),
+    attachmentAllowed: Yup.string().required(
+      "* please select one of these options"
+    ),
+  });
+
+  const validationOpt = { resolver: yupResolver(formSchema) };
+  const { register, handleSubmit, formState } = useForm(validationOpt);
+  const { errors } = formState;
+
   const params = useParams();
   const [forum, setForum] = useState([]);
-  const [formData, setFormData] = useState({});
+
   useEffect(() => {
     axios
       .get(
@@ -23,8 +38,7 @@ const EditForum = () => {
     console.log(forum);
   }, []);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const onFormSubmit = (formData) => {
     axios
       .put(`http://localhost:1337/edit-forum/${params.forumId}`, formData)
       .then((res) => {
@@ -35,7 +49,6 @@ const EditForum = () => {
           icon: "success",
           button: "Close",
         });
-        setFormData({});
       })
       .catch((error) => {
         console.log(error);
@@ -49,17 +62,13 @@ const EditForum = () => {
     return false;
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
   return (
     <div className="container bg-white mt-5">
       <div className="pt-5 px-4">
         <Header title="NETS: Edit Discussion Forums" />
       </div>
       <div className="p-4">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onFormSubmit)}>
           {forum?.map((f) => (
             <div key={f._id}>
               <div className="form-group mt-2">
@@ -77,10 +86,12 @@ const EditForum = () => {
                     id="topic"
                     name="topic"
                     defaultValue={f.topic}
-                    onChange={handleInputChange}
-                    required
+                    {...register("topic")}
                   />
                 </div>
+                <p className="font-italic" style={{ color: "#E60000" }}>
+                  {errors.topic?.message}
+                </p>
               </div>
               <div className="form-group mt-4">
                 <label for="description" className="font-weight-bold">
@@ -97,10 +108,12 @@ const EditForum = () => {
                     id="description"
                     name="description"
                     defaultValue={f.description}
-                    onChange={handleInputChange}
-                    required
+                    {...register("description")}
                   ></textarea>
                 </div>
+                <p className="font-italic" style={{ color: "#E60000" }}>
+                  {errors.description?.message}
+                </p>
               </div>
               <div className="form-group mt-4">
                 <label for="attachmentAllowed" className="font-weight-bold">
@@ -116,9 +129,8 @@ const EditForum = () => {
                     name="attachmentAllowed"
                     id="attachmentAllowed"
                     value="yes"
-                    onChange={handleInputChange}
                     defaultChecked={f.attachmentAllowed ? true : false}
-                    required
+                    {...register("attachmentAllowed")}
                   />
                   <label className="form-check-label" for="yes">
                     Yes
@@ -134,14 +146,16 @@ const EditForum = () => {
                     name="attachmentAllowed"
                     id="attachmentNotAllowed"
                     value="no"
-                    onChange={handleInputChange}
                     defaultChecked={f.attachmentAllowed ? false : true}
-                    required
+                    {...register("attachmentAllowed")}
                   />
                   <label className="form-check-label" for="no">
                     No
                   </label>
                 </div>
+                <p className="font-italic" style={{ color: "#E60000" }}>
+                  {errors.attachmentAllowed?.message}
+                </p>
               </div>
             </div>
           ))}

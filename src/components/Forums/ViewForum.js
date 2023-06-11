@@ -7,72 +7,12 @@ import axios from "axios";
 
 const ViewForum = () => {
   const params = useParams();
-  const data = [
-    {
-      cid: 1,
-      user: "Chris Hemsworth",
-      userRole: "Hired Employee",
-      time: "5 hours ago",
-      comment:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      replies: [
-        {
-          rid: 1,
-          user: "Chris Hemsworth",
-          userRole: "Hired Employee",
-          time: "3 hours ago",
-          reply:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        },
-        {
-          rid: 2,
-          user: "Chris Hemsworth",
-          userRole: "Hired Employee",
-          time: "1 hours ago",
-          reply:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        },
-      ],
-    },
-    {
-      cid: 2,
-      user: "Chris Hemsworth",
-      userRole: "Hired Employee",
-      time: "5 hours ago",
-      comment:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      replies: [],
-    },
-    {
-      cid: 3,
-      user: "Chris Hemsworth",
-      userRole: "Hired Employee",
-      time: "5 hours ago",
-      comment:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      replies: [
-        {
-          rid: 1,
-          user: "Chris Hemsworth",
-          userRole: "Hired Employee",
-          time: "3 hours ago",
-          reply:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        },
-        {
-          rid: 2,
-          user: "Chris Hemsworth",
-          userRole: "Hired Employee",
-          time: "1 hours ago",
-          reply:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        },
-      ],
-    },
-  ];
   const [forum, setForum] = useState([]);
   const [showReplies, setShowReplies] = useState(false);
   const [selectedComment, setSelectedComment] = useState(0);
+  const [status, setStatus] = useState("");
+  const [topic, setTopic] = useState("");
+
   useEffect(() => {
     axios
       .get(
@@ -80,49 +20,97 @@ const ViewForum = () => {
       )
       .then((response) => {
         setForum(response.data);
+        setStatus(response.data[0].status);
+        setTopic(response.data[0].topic);
       })
       .catch(function (error) {
         console.log(error);
       });
     console.log(forum);
   }, []);
+
+  function formatDate(dateString) {
+    const date = new Date(Date.parse(dateString));
+    const now = new Date();
+    const diffMs = now - date;
+
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffDays > 0) {
+      return `${diffDays} ${diffDays === 1 ? "day" : "days"} ago`;
+    } else if (diffHours > 0) {
+      return `${diffHours} ${diffHours === 1 ? "hour" : "hours"} ago`;
+    } else {
+      return `${diffMins} ${diffMins === 1 ? "minute" : "minutes"} ago`;
+    }
+  }
+
   return (
     <div className="container mt-3">
       <div className="pt-5 px-4">
-        <Header title="NETS: Discussion Forum Topic 1" />
+        <Header title={"NETS: " + topic} />
       </div>
       <div className="text-center mt-5">
-        <Link to={`/create-post/${params.forumId}`}>
-          <button type="button" className="btn btn-outline-success">
-            Add Post
-          </button>
-        </Link>
+        {status === "Active" ? (
+          <Link to={`/create-post/${params.forumId}`}>
+            <button type="button" className="btn btn-outline-success">
+              Add Post
+            </button>
+          </Link>
+        ) : null}
       </div>
-      <div className="d-flex justify-content-center row">
-        <div className="col-md-12">
-          {forum.map((f) => (
-            <div
-              className="bg-white"
-              style={{
-                display: "block",
-                borderRadius: "11px",
-                boxShadow: "black",
-                marginTop: "2%",
-                marginBottom: "2%",
-                maxWidth: "1000px",
-                marginLeft: "auto",
-                marginRight: "auto",
-              }}
-            >
-              {f.posts.map((p) => (
+
+      <div className="col-md-12">
+        {forum.map((f) => (
+          <div
+            className="bg-white"
+            style={{
+              display: "block",
+              borderRadius: "11px",
+              boxShadow: "black",
+              marginTop: "2%",
+              marginBottom: "2%",
+              maxWidth: "1000px",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            {f.posts.length === 0 ? (
+              <h3 className="text-center my-5">No Posts yet</h3>
+            ) : (
+              f.posts.map((p) => (
                 <>
                   <Comment
                     id={p._id}
                     user={p.createdBy.firstName + " " + p.createdBy.lastName}
                     role="Employee"
-                    time={p.createdOn}
+                    time={formatDate(p.createdOn)}
                     message={p.description}
                   />
+                  {p.attachment && (
+                    <Link
+                      to={`/view-forum/${params.forumId}/${p._id}`}
+                      className="text-decoration-none text-secondary"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        width={50}
+                        height={50}
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                        />
+                      </svg>
+                    </Link>
+                  )}
                   <div className="d-flex justify-content-between p-3">
                     <span
                       style={{ cursor: "pointer", color: "#1D9EEC" }}
@@ -175,21 +163,23 @@ const ViewForum = () => {
                     </span>
 
                     <div className="d-flex align-items-center border-left px-3">
-                      <Link
-                        to={`/add-reply/${params.forumId}/${p._id}`}
-                        className="text-decoration-none"
-                      >
-                        <i className="fa fa-comment"></i>
-                        <span
-                          className="ml-2"
-                          style={{
-                            cursor: "pointer",
-                            color: "#1D9EEC",
-                          }}
+                      {status === "Active" ? (
+                        <Link
+                          to={`/add-reply/${params.forumId}/${p._id}`}
+                          className="text-decoration-none"
                         >
-                          Reply
-                        </span>
-                      </Link>
+                          <i className="fa fa-comment"></i>
+                          <span
+                            className="ml-2"
+                            style={{
+                              cursor: "pointer",
+                              color: "#1D9EEC",
+                            }}
+                          >
+                            Reply
+                          </span>
+                        </Link>
+                      ) : null}
                     </div>
                   </div>
                   {showReplies
@@ -204,18 +194,40 @@ const ViewForum = () => {
                                 r.createdBy.lastName
                               }
                               role={"Employee"}
-                              time={r.createdOn}
+                              time={formatDate(r.createdOn)}
                               message={r.description}
                             />
+                            {r.attachment && (
+                              <Link
+                                to={`/view-forum/${params.forumId}/${p._id}/${r._id}`}
+                                className="text-decoration-none text-secondary"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  width={50}
+                                  height={50}
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                                  />
+                                </svg>
+                              </Link>
+                            )}
                           </div>
                         ))
                       : null
                     : null}
                 </>
-              ))}
-            </div>
-          ))}
-        </div>
+              ))
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
