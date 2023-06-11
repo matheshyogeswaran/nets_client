@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 
-import NavBar from '../../components/NavBar';
+import NavBar from "../../components/NavBar";
 import EditQuizEntry from './EditQuizEntry';
 
 const QuizEntry = (props) => {
@@ -15,7 +15,7 @@ const QuizEntry = (props) => {
     quizDesc: '',
 });
 useEffect(() => {
-  axios.get(`http://localhost:4000/units/${id}`)
+  axios.get(`http://localhost:1337/units/${id}`)
     .then(response => {
        
       const { quizName, quizDesc } = response.data.quiz;
@@ -33,7 +33,6 @@ useEffect(() => {
     return (
         <React.Fragment>
             <div style={{backgroundColor: "#ffffff"}}> 
-             <NavBar></NavBar>
              <div className="container p-4"> 
               <div className="card" style={{ backgroundColor: "#70B9E6" }}>
               <div className="card-body">

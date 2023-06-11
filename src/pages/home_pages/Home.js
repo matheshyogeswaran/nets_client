@@ -4,7 +4,6 @@ import NavBar from "../../components/NavBar";
 const Home = () => {
   return (
     <React.Fragment>
-      <NavBar></NavBar>
       <div className="container mt-5">
         <table className="table table-hover">
           <thead>

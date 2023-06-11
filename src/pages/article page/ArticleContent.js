@@ -8,7 +8,6 @@ const ArticleContent = () => {
     return (
         <React.Fragment>
             <div style={{backgroundColor: "#fefefe"}}> 
-             <NavBar></NavBar>
              <div className="container p-4"> 
               <div className="card" style={{ backgroundColor: "#70B9E6" }}>
               <div className="card-body">

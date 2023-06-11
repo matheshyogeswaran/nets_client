@@ -17,7 +17,7 @@ const Edit = ({ todo }) => {
 
   const onUpdate = (e) => {
     e.preventDefault();
-    axios.post(`http://localhost:4000/kts/update/${todo._id}`, updatedTodo)
+    axios.post(`http://localhost:1337/kts/update/${todo._id}`, updatedTodo)
       .then(() => {
         setModal(null);
         swal({
@@ -32,6 +32,7 @@ const Edit = ({ todo }) => {
           text: "Error",
         });
       });
+       
   };  
 
   return (
@@ -56,12 +57,12 @@ const Edit = ({ todo }) => {
               <div className="modal-body">
                 <form onSubmit={onUpdate}>
                   <div className="mb-3">
-                    <label htmlFor="kt_name" className="form-label">KT Name</label>
-                    <input type="text" className="form-control" id="kt_name" name="kt_name" value={updatedTodo.kt_name} onChange={onChange} />
+                    <label htmlFor="sessionName" className="form-label">KT Name</label>
+                    <input type="text" className="form-control" id="sessionName" name="sessionName" value={updatedTodo.sessionName} onChange={onChange} />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="kt_intro" className="form-label">KT Introduction</label>
-                    <input type="text" className="form-control" id="kt_intro" name="kt_intro" value={updatedTodo.kt_intro} onChange={onChange} />
+                    <label htmlFor="sessionDesc" className="form-label">KT Introduction</label>
+                    <input type="text" className="form-control" id="sessionDesc" name="sessionDesc" value={updatedTodo.sessionDesc} onChange={onChange} />
                   </div>
                   <div class="modal-footer">
                         <input type="submit" value="Update KT Session" className="btn btn-primary" />

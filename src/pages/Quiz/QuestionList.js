@@ -9,7 +9,7 @@ const TodosList = (props) => {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/units/${id}`)
+    axios.get(`http://localhost:1337/units/${id}`)
       .then(response => {
         setTodos(response.data.quiz.questions);
       })
@@ -26,7 +26,7 @@ const TodosList = (props) => {
             <div> 
           {todos.map(todo => {
             return (
-              <Questions key={todo._id} todo={todo} />
+              <Questions key={todo._id} todo={todo} id={id}/>
             )
           })}
           </div>

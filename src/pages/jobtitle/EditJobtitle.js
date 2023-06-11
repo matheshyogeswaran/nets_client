@@ -3,6 +3,7 @@ import swal from "sweetalert";
 import "../../App.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import validator from "validator";
 import { useState } from "react";
 
 const EditJobtitle = () => {
@@ -11,6 +12,17 @@ const EditJobtitle = () => {
   const [reason, setReason] = useState("");
   function submitEdit(e) {
     e.preventDefault();
+
+    // Validate jobtitle name
+    const regex = /^[A-Za-z\s-]+$/;  //contains alphabet,space,-
+    if (!validator.matches(newJobtitleName, regex)) {
+      swal({
+        icon: "warning",
+        text: "Jobtitle name must contain only alphabet letters.",
+      });
+      return;
+    }
+
     axios
       .post("http://localhost:1337/jobtitles/editJobtitle", {
         fromName: name,
@@ -35,10 +47,9 @@ const EditJobtitle = () => {
         console.log(error);
       });
   }
-
   return (
     <div className="container">
-      <div className="form-control mt-3 bg-dark text-white">Edit Jobtitle</div>
+      <div className="alert mt-3 heading"><h5>Edit Jobtitles</h5></div>
       <div className="columns mt-5">
         <form name="myForm" onSubmit={submitEdit}>
           <div className="field">
@@ -73,18 +84,16 @@ const EditJobtitle = () => {
               />
             </div>
           </div>
-
           <div className="control">
             <button
               type="submit"
-              className="btn btn-primary mr-1 column is-half text-white"
+              className="btn btn-success mr-1 column is-half text-white"
             >
               Save
             </button>
           </div>
-
           <div>
-            <img src={image1} className="picside" draggable={false} alt="this is image" />
+            <img src={image1} className="picside2" draggable={false} alt="this is image" />
           </div>
           <div className="field"></div>
         </form>

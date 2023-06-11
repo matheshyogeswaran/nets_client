@@ -3,6 +3,7 @@ import image4 from "../../images/1.svg";
 import "../../App.css";
 import swal from "sweetalert";
 import { Link } from "react-router-dom";
+import validator from "validator";
 import axios from "axios";
 
 const AddJobtitle = () => {
@@ -19,6 +20,17 @@ const AddJobtitle = () => {
   function submitJobtitle(e) {
     e.preventDefault();
     console.log(selectedDepartment);
+
+    // Validate jobtitle name
+    const regex = /^[A-Za-z\s-]+$/;  //contains alphabet,space,-
+    if (!validator.matches(jobTitlename, regex)) {
+      swal({
+        icon: "warning",
+        text: "Jobtitle name must contain only alphabet letters.",
+      });
+      return;
+    }
+
     axios
       .post("http://localhost:1337/jobtitles/addJobtitle", {
         jobtitleName: jobTitlename,
@@ -44,8 +56,8 @@ const AddJobtitle = () => {
   }
   return (
     <div className="container">
-      <div className="form-control mt-3 bg-dark text-white">Create Chapter</div>
-      <div className="columns mt-5">
+      <div className="alert mt-3 heading text-white"><h5>Create Jobtitle</h5></div>
+      <div className="columns mt-4">
         <form name="myForm" onSubmit={submitJobtitle}>
           <div className="field">
             <label className="ml-5 createchap">Jobtitle Name</label>
@@ -64,14 +76,14 @@ const AddJobtitle = () => {
           <label className="ml-5 createchap">Suitable Department</label>
           <br></br>
           <div className="col-md-2">
-            <select
+            <select style={{ "backgroundColor": "MintCream" }}
               onChange={(e) => {
                 setSelectedDepartment(e.target.value);
               }}
               className="form-select"
               aria-label="Default select example"
             >
-              <option selected>Department</option>
+              <option disabled selected>Department</option>
               {departments.map((item) => {
                 return <option value={item._id}>{item.depName}</option>;
               })}
@@ -81,7 +93,7 @@ const AddJobtitle = () => {
           <div className="control">
             <button
               type="submit"
-              className="btn btn-primary mr-1 column is-half text-white"
+              className="btn btn-success mr-1 column is-half text-white"
             >
               Save
             </button>

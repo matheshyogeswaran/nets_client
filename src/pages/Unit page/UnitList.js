@@ -6,7 +6,7 @@ const UnitList = () => {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:4000/kts/')
+    axios.get('http://localhost:1337/kts/')
       .then(response => {
         setTodos(response.data);
       })

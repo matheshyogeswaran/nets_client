@@ -74,12 +74,10 @@ const EnrollRequestEmployee = () => {
 
   return (
     <React.Fragment>
-      <NavBar></NavBar>
       <div className="container">
-        <div className="form-control mt-3 heading">
-          Other department Chapters
+        <div className="alert mt-3 heading">
+          <h5>Other department Chapters</h5>
         </div>
-        <br></br> <br></br>
         <table className="table">
           <tbody>
             {
@@ -98,7 +96,7 @@ const EnrollRequestEmployee = () => {
                       </div>
                       <div className="col-md-2">
                         <button
-                          className="btn btn-outline-primary form-control"
+                          className="btn btn-outline-success form-control"
                           onClick={() => { requestChapter(value?._id) }}
                           disabled={true && (value?.requested).includes(userID)}
                         >
@@ -132,7 +130,6 @@ export default EnrollRequestEmployee;
 // const EnrollRequestEmployee = () => {
 //   return (
 //     <React.Fragment>
-//       <NavBar></NavBar>
 //       <div className="container">
 //         <div className="form-control mt-3 heading">
 //           Other department Chapters
