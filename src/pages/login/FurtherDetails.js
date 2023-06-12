@@ -7,6 +7,10 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import "../../App.css";
 const FurtherDetails = (props) => {
+
+    // To store department data, it contains, department data and job titles data
+    const [availableDepartments, setAvailableDepartments] = useState([]);
+
     const schema = yup.object().shape({
         firstName: yup.string().required('First Name is required'),
         lastName: yup.string().required('Last Name is required'),
@@ -18,17 +22,14 @@ const FurtherDetails = (props) => {
         dateOfBirth: yup.date("Invalid Date").required('Date of Birth is required').typeError('Date of Birth must be a valid date'),
         phoneNumber: yup.string().matches(/^\d{10}$/, 'Phone Number must be a 10-digit number without spaces or dashes').required('Phone Number is required'),
         email: yup.string().email('Invalid email').required('Email is required'),
-        department: yup.string().required('Department is required'),
-        jobTitle: yup.string().required('Job Title is required'),
+        department: (availableDepartments.length !== 0)?yup.string().required('Department is required'): yup.string(),
+        jobTitle: (availableDepartments.length !== 0)?yup.string().required('Job Title is required'): yup.string(),
     });
 
     const { register, handleSubmit, formState: { errors }, } = useForm({ resolver: yupResolver(schema), });
 
     const [department, setDepartment] = useState();
     const [userImage] = useState(props.userData.picture);
-
-    // To store department data, it contains, department data and job titles data
-    const [availableDepartments, setAvailableDepartments] = useState([]);
 
     // State to store, whether department is available or not
     // if department is available it will be set to true
@@ -82,7 +83,7 @@ const FurtherDetails = (props) => {
                 if (res.data.status === "success") {
                     Swal.fire({
                         title: 'Further Details Added Successfully !',
-                        text: "You will be notified via email soon after verification process is complete, See You Soon !",
+                        text: res.data.message,
                         icon: 'success',
                         showCancelButton: false,
                         confirmButtonColor: '#3085d6',
