@@ -1,6 +1,8 @@
 import AddChapter from "../pages/chapter/AddChapter";
 import AllocateChapter from "../pages/chapter/AllocateChapter";
 import Chapter from "../pages/chapter/Chapter";
+import CommonChapter from "../pages/chapter/CommonChapter";
+import EditCommonChapter from "../pages/chapter/EditCommonChapter";
 import DeleteChapter from "../pages/chapter/DeleteChapter";
 import DepartmentAddChapter from "../pages/chapter/DepartmentAddChapter";
 import DepartmentChapter from "../pages/chapter/DepartmentChapter";
@@ -21,6 +23,14 @@ export const chapter_routes = [
         ele: <Chapter />
     },
     {
+        path: "/commonchapter",
+        ele: <CommonChapter />
+    },
+    {
+        path: "/editcommonchapter/:id/:name",
+        ele: <EditCommonChapter />
+    },
+    {
         path: "/newchap",
         ele: <AddChapter />
     },
@@ -34,7 +44,7 @@ export const chapter_routes = [
     },
     {
         path: "/permanentdeletechapter",
-        ele: <PermanentDeleteChapter/>
+        ele: <PermanentDeleteChapter />
     },
     {
         path: "/depchapter",
@@ -50,30 +60,30 @@ export const chapter_routes = [
     },
     {
         path: "/editallocatechapter/:id/:name",
-        ele: <EditAllocate/>
+        ele: <EditAllocate />
     },
     {
         path: "/enrollrequestsupervisor",
-        ele: <EnrollRequestSupervisor/>
+        ele: <EnrollRequestSupervisor />
     },
     {
         path: "/enrollrequestemployee",
-        ele: <EnrollRequestEmployee/>
+        ele: <EnrollRequestEmployee />
     },
     {
         path: "/newdepchap",
-        ele: <DepartmentAddChapter/>
+        ele: <DepartmentAddChapter />
     },
     {
         path: "/deletechapper/:id",
-        ele: <DeleteChapterPermanent/>
+        ele: <DeleteChapterPermanent />
     },
     {
         path: "/chapterPage",
-        ele: <Content/>
+        ele: <Content />
     },
     {
         path: "/edit/:id",
-        ele: <EditTask/>
+        ele: <EditTask />
     },
 ]

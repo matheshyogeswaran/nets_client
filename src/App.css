@@ -11,9 +11,15 @@
 }
 
 .picside2 {
-  width: 280px;
+  width: 180px;
   float: right;
 }
+
+.picside3 {
+  width: 240px;
+  float: left;
+}
+
 
 input[type="text"] {
   width: 67.5%;

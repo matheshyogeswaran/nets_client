@@ -70,46 +70,51 @@ const DepartmentChapter = () => {
                         <hr className="mt-3"></hr>
                     </div>
                 </div>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Chapter name</th>
-                            <th scope="col">Edit chapter</th>
-                            <th scope="col">Delete chapter</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {chapters.map((item) => {
-                            if (item.status === "notactive") {
-                                return null; // If the status is notactive, don't render the row
-                            }
-                            return (
-                                <tr className="align-middle" key={item._id}>
-                                    <th scope="row">{item._id}</th>
+                {(chapters.length === 0)
+                    ?
+                    <div className="alert alert-info mt-4"> <b>No chapters Found !</b> </div>
+                    :
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Chapter name</th>
+                                <th scope="col">Edit chapter</th>
+                                <th scope="col">Delete chapter</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                chapters.map((item) => {
+                                    if (item.status === "notactive") {
+                                        return null; // If the status is notactive, don't render the row
+                                    }
+                                    return (
+                                        <tr className="align-middle" key={item._id}>
+                                            <th scope="row">{item._id}</th>
 
-                                    <td>{item.chapterName}</td>
+                                            <td>{item.chapterName}</td>
 
-                                    <td>
-                                        <Link
-                                            to={"/editchap/" + item._id + "/" + item.chapterName}
-                                            className="btn btn-outline-primary form-control"
-                                        >
-                                            Edit
-                                        </Link>
-                                    </td>
-                                    <td>
-                                        <button type="submit" onClick={() => deleteChapter(item._id)}
-                                            className="btn btn-outline-danger form-control"
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                                            <td>
+                                                <Link
+                                                    to={"/editchap/" + item._id + "/" + item.chapterName}
+                                                    className="btn btn-outline-primary form-control"
+                                                >
+                                                    Edit
+                                                </Link>
+                                            </td>
+                                            <td>
+                                                <button type="submit" onClick={() => deleteChapter(item._id)}
+                                                    className="btn btn-outline-danger form-control"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                        </tbody>
+                    </table>}
             </div>
         </React.Fragment>
     );

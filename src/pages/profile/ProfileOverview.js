@@ -16,7 +16,7 @@ function ProfileOverview(props) {
       .catch(function (error) {
         console.log(error);
       });
-  },[userID])
+  }, [userID])
   return (
     <div className="container">
       <div className="row justify-content-center ">

@@ -63,46 +63,50 @@ const Jobtitle = () => {
             </Link>
             <hr className="mt-3"></hr>
           </div>
-        </div>
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">Department name</th>
-              <th scope="col">Jobtitle_ID</th>
-              <th scope="col">Jobtitle name</th>
-              <th scope="col">Edit jobtitle </th>
-              <th scope="col">Delete jobtitle </th>
-            </tr>
-          </thead>
-          <tbody>
-            {departments.map((department, index) => {
-              return department.Jobtitle.map((jobtitle, j) => {
-                return (
-                  <tr className="align-middle" key={jobtitle._id}>
-                    {j === 0 ? <td>{department.depName}</td> : <td></td>}
-                    <td>{jobtitle._id}</td>
-                    <td>{jobtitle.jobTitlename}</td>
-                    <td>
-                      <Link
-                        to={"/editjob/" + jobtitle._id + "/" + jobtitle.jobTitlename}
-                        className="btn btn-outline-primary form-control"
-                      >
-                        Edit
-                      </Link>
-                    </td>
-                    <td>
-                      <button type="submit" onClick={() => deletemsg(jobtitle._id)}
-                        className="btn btn-outline-danger form-control"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })
-            })}
-          </tbody>
-        </table>
+        </div>{
+          (departments.length === 0)
+            ?
+            <div className="alert alert-danger mt-4"> <b>Department Creation Required !</b> </div>
+            :
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">Department name</th>
+                  <th scope="col">Jobtitle_ID</th>
+                  <th scope="col">Jobtitle name</th>
+                  <th scope="col">Edit jobtitle </th>
+                  <th scope="col">Delete jobtitle </th>
+                </tr>
+              </thead>
+              <tbody>
+                {departments.map((department, index) => {
+                  return department.Jobtitle.map((jobtitle, j) => {
+                    return (
+                      <tr className="align-middle" key={jobtitle._id}>
+                        {j === 0 ? <td>{department.depName}</td> : <td></td>}
+                        <td>{jobtitle._id}</td>
+                        <td>{jobtitle.jobTitlename}</td>
+                        <td>
+                          <Link
+                            to={"/editjob/" + jobtitle._id + "/" + jobtitle.jobTitlename}
+                            className="btn btn-outline-primary form-control"
+                          >
+                            Edit
+                          </Link>
+                        </td>
+                        <td>
+                          <button type="submit" onClick={() => deletemsg(jobtitle._id)}
+                            className="btn btn-outline-danger form-control"
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                })}
+              </tbody>
+            </table>}
       </div>
     </React.Fragment>
   );
