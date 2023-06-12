@@ -4,6 +4,10 @@
   border-color: #8eabc0 !important;
 }
 
+.errorMessageAddFurtherDetails{
+  color: red;
+}
+
 .picside {
   width: 280px;
   height: 193px;

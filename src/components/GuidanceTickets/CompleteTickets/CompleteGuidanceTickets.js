@@ -1,48 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../Shared/Header";
 import LargeModal from "../../Shared/LargeModal";
 import CompleteForm from "./CompleteForm";
 import swal from "sweetalert";
+import axios from "axios";
 
 const CompleteGuidanceTickets = () => {
-  const tickets = [
-    {
-      requestNo: 1,
-      title: "xxxxxx xxxxxx",
-      on: "11 / 11 / 1111",
-      desc: "xxxx xxxx xxxxx xxxx xxxx xxxx xxxx xxxx xxx xxxxxx xxxx xxx xxxxx ",
-      attachment:
-        "https://www.egrovesys.com/blog/wp-content/uploads/sites/2/2010/07/Software-Bugs-740x343.jpeg",
-      to: "xxxxxx xxxxx",
-      status: 2,
-    },
-    {
-      requestNo: 2,
-      title: "xxxxxx xxxxxx",
-      on: "11 / 11 / 1111",
-      desc: "xxxx xxxx xxxxx xxxx xxxx xxxx xxxx xxxx xxx xxxxxx xxxx xxx xxxxx ",
-      attachment:
-        "https://www.egrovesys.com/blog/wp-content/uploads/sites/2/2010/07/Software-Bugs-740x343.jpeg",
-      to: "xxx xxx",
-      status: 3,
-    },
-  ];
-  const [formData, setFormData] = useState(false);
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("isCompleted:", formData);
-    swal({
-      title: "Thank you!",
-      text: "The ticket was successfully completed!",
-      icon: "success",
-      button: "Close",
-    });
+  const [tickets, setTickets] = useState([]);
+  const [ticketId, setTicketId] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(
+        "http://localhost:1337/get-tickets-by-assigned-user-id/642460786b0919c07966a2f3"
+      )
+      .then((response) => {
+        setTickets(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
+  const onFormSubmit = () => {
+    const data = {
+      status: "completed",
+    };
+
+    axios
+      .put(
+        `http://localhost:1337/complete-ticket-by-ticket-id/${ticketId}`,
+        data
+      )
+      .then((res) => {
+        console.log(res.data);
+        swal({
+          title: "Thank you!",
+          text: "The ticket was successfully completed!",
+          icon: "success",
+          button: "Close",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        swal({
+          title: "Opzz!",
+          text: "Something went wrong, Please try again!",
+          icon: "warning",
+        });
+      });
+
     return false;
   };
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleString();
+    return formattedDate;
+  }
+
   return (
     <div className="container">
       <div className="pt-5 px-4">
-        <Header title="NETS: Add Reply" />
+        <Header title="NETS: Guidance Ticket" />
       </div>
       <div
         style={{
@@ -62,12 +82,17 @@ const CompleteGuidanceTickets = () => {
           >
             <div className="card-body">
               <div className="row">
-                <p className="col-sm-6">Request No. {t.requestNo}</p>
-                <p className="col-sm-6"> Request Title : {t.title}</p>
+                <p className="col-sm-6">Request No. {t._id}</p>
+                <p className="col-sm-6"> Request Type : {t.requestType}</p>
               </div>
               <div className="row">
-                <p className="col-sm-6">Requested by: {t.to}</p>
-                <p className="col-sm-6">Requested on: {t.on}</p>
+                <p className="col-sm-6">
+                  Requested by:{" "}
+                  {t.requestedBy.firstName + " " + t.requestedBy.lastName}
+                </p>
+                <p className="col-sm-6">
+                  Requested on: {formatDate(t.createdTime)}
+                </p>
               </div>
               <div className="row">
                 <div className="col-sm-10 mx-auto my-3">
@@ -77,21 +102,25 @@ const CompleteGuidanceTickets = () => {
                       role="progressbar"
                       style={{
                         width:
-                          t.status === 1
+                          t.status === "requested"
                             ? "20%"
-                            : t.status === 2
+                            : t.status === "directed"
                             ? "60%"
                             : "100%",
                       }}
                       aria-valuenow={
-                        t.status === 1 ? "20" : t.status === 2 ? "60" : "100"
+                        t.status === "requested"
+                          ? "20"
+                          : t.status === "directed"
+                          ? "60"
+                          : "100"
                       }
                       aria-valuemin="0"
                       aria-valuemax="100"
                     >
-                      {t.status === 1
+                      {t.status === "requested"
                         ? "Requested"
-                        : t.status === 2
+                        : t.status === "directed"
                         ? "Directed"
                         : "Completed"}
                     </div>
@@ -106,9 +135,10 @@ const CompleteGuidanceTickets = () => {
                     mainButton="View More"
                     body={
                       <CompleteForm
-                        formData={formData}
-                        setFormData={setFormData}
-                        handleSubmit={handleSubmit}
+                        onFormSubmit={onFormSubmit}
+                        ticket={t}
+                        ticketId={ticketId}
+                        setTicketId={setTicketId}
                       />
                     }
                   />

@@ -3,6 +3,7 @@ import CreateForum from "../components/Forums/CreateForum";
 import CreatePost from "../components/Forums/CreatePost";
 import EditForum from "../components/Forums/EditForum";
 import Forums from "../components/Forums/Forums";
+import ViewAttachment from "../components/Forums/ViewAttachment";
 import ViewForum from "../components/Forums/ViewForum";
 
 export const discussion_forum_routes = [
@@ -29,5 +30,13 @@ export const discussion_forum_routes = [
     {
         path: "/add-reply/:forumId/:commentId",
         ele: <AddReply/>
+    },
+    {
+        path: "/view-forum/:forumId/:postId",
+        ele: <ViewAttachment type="posts"/>
+    },
+    {
+        path: "/view-forum/:forumId/:postId/:replyId",
+        ele: <ViewAttachment type="replies"/>
     },
 ]

@@ -1,5 +1,4 @@
 import React from "react";
-import ModalBody from "../Ratings/ModalBody";
 
 const Modal = (props) => {
   return (
@@ -10,7 +9,6 @@ const Modal = (props) => {
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
         style={props.style}
-        // style={{ backgroundColor: "#1D9EEC", borderColor: "#1D9EEC" }}
       >
         {props.mainButton}
       </button>

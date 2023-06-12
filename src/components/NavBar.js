@@ -4,7 +4,7 @@ import "../css/Nav.css";
 import swal from "sweetalert";
 import RenderIfLoggedIn from "../utils/RenderIfLoggedIn";
 import jwt_decode from "jwt-decode";
-import { BsPersonFillGear, BsSendPlusFill, BsFillTelephoneFill } from 'react-icons/bs';
+import { BsPersonFillGear, BsSendPlusFill, BsFillTelephoneFill, BsFile, BsFileBarGraph, BsFileBarGraphFill } from 'react-icons/bs';
 import { GiTrophy } from 'react-icons/gi';
 import { FaTicketAlt, FaUserCheck } from 'react-icons/fa';
 import { AiFillHome } from 'react-icons/ai';
@@ -141,6 +141,16 @@ const NavBar = () => {
                           <Link className=" dropdown-item" to="/enrollrequestemployee">
                             <BsSendPlusFill className="me-2" />
                             Enroll Additional Chapter
+                          </Link>
+                        </li>
+                        <li>
+                          <hr className=" dropdown-divider" />
+                        </li>
+                        <li >
+                          <Link className=" dropdown-item" to="/chapterreport">
+                            
+                            <BsFileBarGraphFill className="me-2" />
+                            Chapter Report
                           </Link>
                         </li>
                         <li>
