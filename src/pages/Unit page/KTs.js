@@ -3,7 +3,8 @@ import Delete from './DeleteKT';
 import { Link } from "react-router-dom";
 import video from '../../images/video.png';
 
-const KTs = ({ KTsession }) => {
+const KTs = ({ KTsession,unitId }) => {
+   
     return(
         <div>
       <div className='card'>
@@ -14,7 +15,7 @@ const KTs = ({ KTsession }) => {
               {KTsession.sessionName}
             </h3>
              <div>              
-              <Edit key={KTsession._id} KTsession={KTsession} />            
+              <Edit key={KTsession._id} KTsession={KTsession} unitId={unitId}/>            
              </div>          
             <p>{KTsession.sessionDesc} </p>
             <div>         

@@ -110,5 +110,3 @@ console.log(updatedTodo)
 };
 
 export default EditEntry;
-
- 

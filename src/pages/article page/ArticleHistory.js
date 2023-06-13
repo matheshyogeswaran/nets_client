@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import NavBar from '../../components/NavBar';
+import NavBar from "../../components/NavBar";
 
 const Article = (props) => (
   <tr>
+    <td>
+      {props.article.chapterName}
+    </td>
     <td>
       {props.article.articleName}
     </td>
@@ -53,6 +56,7 @@ const UnitHistory = () => {
       <table className="table table-striped" style={{ marginTop: 20 }}>
         <thead>
           <tr>
+          <th>Chapter Name</th>
             <th>Article Name</th>
             <th>Article Description</th>
             <th>Previous Article Name</th>

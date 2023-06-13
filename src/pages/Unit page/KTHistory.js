@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import NavBar from '../../components/NavBar';
+import NavBar from "../../components/NavBar";
 
 const KT = (props) => (
   <tr>
-    {/* <td>
+    <td>
       {props.ktsession.unitName}
-    </td> */}
+    </td>
     <td>
       {props.ktsession.sessionName}
     </td>
@@ -56,7 +56,7 @@ const UnitHistory = () => {
       <table className="table table-striped" style={{ marginTop: 20 }}>
         <thead>
           <tr>
-          {/* <th>Unit Name</th> */}
+          <th>Unit Name</th>
             <th>KT Session Name</th>
             <th>KT Session Description</th>
             <th>Previous KT Session Name</th>

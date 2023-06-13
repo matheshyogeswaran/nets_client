@@ -1,11 +1,13 @@
 import React from 'react'
 import { useState } from 'react';
-
+import { useParams } from 'react-router-dom';
 import AddKT from './AddKT';
 import Header from '../../components/Header';
 import UnitList from './UnitList';
 
-function Unit() {
+function Unit(props) {
+  const { id } = useParams();
+
     const [showAddTask, setShowAddTask] = useState(false);  
   return (
     <div>
@@ -13,10 +15,10 @@ function Unit() {
         <h4 style={{ font: "25px" , color: "#000000" }}>KT Sessions</h4>
 <Header showForm={() => setShowAddTask(!showAddTask)}  changeTextAndColor={showAddTask} />
  
-{showAddTask && <AddKT   />}
+{showAddTask && <AddKT id={id}  />}
  <br></br>
 
-<UnitList></UnitList>
+<UnitList id={id}></UnitList>
 </div>
 </div> 
      

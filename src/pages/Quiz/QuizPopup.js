@@ -1,11 +1,15 @@
-
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import swal from 'sweetalert';
+import moment from 'moment';
 
 const QuizPopup = ({ id }) => {
-  const userid = "648050d3b39dcbdf90027b5a";
+  //const userid = "648050d3b39dcbdf90027b5a";
+  const userid = "64871101484b204b999a2a6e";
+  const depid = "6487de14172197d2235cd07f";
+  const chapterId = '64848a1cd792d9e0909c70e0';
+   
   const navigate = useNavigate();
   const [quizData, setQuizData] = useState({});
   const [startTime] = useState(+new Date());
@@ -14,9 +18,14 @@ const QuizPopup = ({ id }) => {
   const [quizSubmission, setQuizSubmission] = useState({
     unitId: id,
     questions: [],
+    attemptedTime: 0, // Add the attemptedTime field
   });
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [answers, setAnswers] = useState({});
+  const [attemptedTime, setAttemptedTime] = useState(0);
+  const [submitted, setSubmitted] = useState(false); // Add a state to track the submission status 
+  const [showQuiz, setShowQuiz] = useState(false);
+ 
 
   useEffect(() => {
     axios
@@ -31,6 +40,46 @@ const QuizPopup = ({ id }) => {
       });
   }, [id]);
 
+  //user can access the quiz only once
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:1337/submissions/find/${id}/${userid}`)
+  //     .then((response) => {
+  //       const existingSubmission = response.data;
+  //       if (existingSubmission) {
+  //         setSubmitted(true); // Set the hasSubmitted state to true if a submission exists
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       swal('Oops!', 'Something went wrong. Please try again.', 'error');
+  //     });
+  // }, [id, userid]);
+
+  const handleAttemptQuiz = useCallback(() => {
+    axios
+      .get(`http://localhost:1337/units/${id}`)
+      .then((response) => {
+        const quiz = response.data.quiz;
+
+        if (quiz.questions.length < 5) {
+          // Redirect the user to a different page or show an error message
+          swal('Error', 'The quiz does not have enough questions.', 'error');
+          navigate(`/quiz/view/${id}`);  
+          //setSubmitted(true);
+          return;
+        }
+
+        setQuizData(quiz);
+        setTimeLeft(quiz.timeLimit * 60); // Convert minutes to seconds
+        setSelectedAnswers(new Array(quiz.questions.length).fill(null));
+           
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [id, navigate]);
+
   const handleOptionChange = (event, questionIndex) => {
     const selectedOptionIndex = quizData.questions[questionIndex].options.findIndex(
       (option) => option === event.target.value
@@ -43,89 +92,186 @@ const QuizPopup = ({ id }) => {
     });
   
     handleAnswerSubmit(questionIndex, selectedOptionIndex);
-  };  
-
+  };
+  
   const handleAnswerSubmit = (questionIndex, selectedOptionIndex) => {
     const question = quizData.questions[questionIndex];
     const { question: questionValue, options: answers, correctAnswer } = question;
-
-    setQuizSubmission(prevSubmission => {
+  
+    setQuizSubmission((prevSubmission) => {
       const newQuestions = [...prevSubmission.questions];
+      const submittedAnswer = selectedOptionIndex === -1 ? null : selectedOptionIndex;
       newQuestions[questionIndex] = {
         questionValue,
         answers,
         correctAnswer,
-         
-        submittedAnswer: selectedOptionIndex,
+        submittedAnswer,
       };
       return { ...prevSubmission, questions: newQuestions };
     });
-  };
+  };  
    
   const saveQuizSubmission = useCallback(() => {
+    const updatedQuizSubmission = {
+      ...quizSubmission,
+      attemptedTime: attemptedTime, // Add the attempted time to the quiz submission
+       
+    };
+     
     axios
-      .post(`http://localhost:1337/submissions/${id}/${userid}`, quizSubmission)
-      .then((response) => {
-        console.log(response.data);
-        swal('Quiz submitted!', 'Your quiz has been submitted.', 'success');
-    navigate(`/quiz/view/${id}`);
-
-      })
+  .post(`http://localhost:1337/submissions/${id}/${userid}/${chapterId}/${depid}`, updatedQuizSubmission)
+  .then((response) => {
+    console.log(response.data);
+    swal('Quiz submitted!', 'Your quiz has been submitted.', 'success')
+      .then(() => {
+        setSubmitted(true); // Set the submission status to true
+        navigate(`/quiz/view/${id}`);
+        window.location.reload(); // Auto-refresh the page
+      });
+  })
       .catch((error) => {
         console.log(error);
         swal('Oops!', 'Something went wrong. Please try again.', 'error');
       });
       console.log(quizSubmission);
-  }, [quizSubmission]);
+  }, [quizSubmission, id, userid, attemptedTime]);
 
+   
   const calculateTimeLeft = () => {
-    const fullTime = quizData.timeLimit * 60 * 1000;
+    const fullTime = quizData.timeLimit * 60 * 1000; // Convert minutes to milliseconds
     const difference = fullTime - (+new Date() - startTime);
     let timeLeft = {};
-
+  
     if (difference > 0) {
+      const totalSeconds = Math.floor(difference / 1000);
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+  
       timeLeft = {
-        minutes: Math.floor(difference / (1000 * 60)),
-        seconds: Math.floor((difference / 1000) % 60),
+        hours: hours < 10 ? `0${hours}` : hours.toString(),
+        minutes: minutes < 10 ? `0${minutes}` : minutes.toString(),
+        seconds: seconds < 10 ? `0${seconds}` : seconds.toString(),
       };
     }
-
+  
     return timeLeft;
   };
+  
+  
+  const [timeLeft, setTimeLeft] = useState({});
 
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());   
+  //const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());   
 
+   
   useEffect(() => {
     const timer = setTimeout(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
-
+  
     return () => clearTimeout(timer);
-  });
-
+  }, [timeLeft]); // Add timeLeft as a dependency to the useEffect hook
+  
   const timerComponents = [];
-
-  if (timeLeft.minutes > 0 || timeLeft.seconds > 0) {
+  
+  if (timeLeft.hours > 0 || timeLeft.minutes > 0 || timeLeft.seconds > 0) {
     timerComponents.push(
       <span>
-        {timeLeft.minutes < 10 ? "0" : ""}
-        {timeLeft.minutes}:{timeLeft.seconds < 10 ? "0" : ""}
-        {timeLeft.seconds}
+        {timeLeft.hours}:{timeLeft.minutes}:{timeLeft.seconds}
       </span>
     );
   } else {
     timerComponents.push(<span>Time's up!</span>);
   }
+  
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setTimeLeft(calculateTimeLeft());
+  //   }, 1000);
+  
+  //   // Check if time is up and submit the quiz
+  //   if (timeLeft.hours === "00" && timeLeft.minutes === "00" && timeLeft.seconds === "00")  {
+  //     const endTime = +new Date(); // Get the current time
+  //     const attemptedTime = moment(endTime).format('YYYY-MM-DD hh:mm:ss A'); // Calculate the attempted time and format it
+  //     saveQuizSubmission(attemptedTime); // Pass the attempted time to saveQuizSubmission function
+  //   }
+  
+  //   return () => clearTimeout(timer);
+  // }, [timeLeft]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+  
+    // Check if time is up and submit the quiz
+    if (
+      timeLeft.hours === "00" &&
+      timeLeft.minutes === "00" &&
+      timeLeft.seconds === "00"
+    ) {
+      const endTime = +new Date(); // Get the current time
+      const attemptedTime = moment(endTime).format("YYYY-MM-DD hh:mm:ss A"); // Calculate the attempted time and format it
+      saveQuizSubmission(attemptedTime); // Pass the attempted time to saveQuizSubmission function
+    }
+  
+    return () => clearTimeout(timer);
+  }, [timeLeft]);
+  
+  
 
   const handleSubmit = () => {
+    //setShowQuiz(true);
+    const endTime = +new Date(); // Get the current time
+  const remainingTime = timeLeft.minutes * 60 + timeLeft.seconds; // Convert remaining time to seconds
+  const attemptedTime = moment(endTime - remainingTime).format('YYYY-MM-DD hh:mm:ss A'); // Calculate the attempted time and format it
+
+  setAttemptedTime(attemptedTime); // Store the attempted time in state
     setShowConfirmation(false);
   };
 
   const handleConfirm = () => {
     setshowSubmission(false);
+  
+    // Submit the quiz when the time is up
+    //saveQuizSubmission(attemptedTime);
+  
+    // Submit the quiz only if it hasn't been submitted yet
+    if (!submitted) {
+      swal({
+        title: 'Are you sure you want to submit the quiz?',
+        // icon: 'success',
+        buttons: ['No', 'Yes'],
+        dangerMode: true,
+      }).then((confirmed) => {
+        if (confirmed) {
+          saveQuizSubmission(attemptedTime)
+            .then(() => {
+              swal('Quiz submitted!', 'Your quiz has been submitted.', 'success');
+              setSubmitted(true); // Set the submission status to true
+              navigate(`/quiz/view/${id}`);
+              window.location.reload(); // Auto-refresh the page
+            })
+            .catch((error) => {
+              console.log(error);
+              swal('Oops!', 'Something went wrong. Please try again.', 'error');
+            });
+        }
+      });
+    }
   };
+  
+
 
   return (
+    <div>
+      {submitted ? ( // Check if the quiz has been submitted
+        <div>
+          <p>Quiz submitted!</p>
+          {/* Add a loading indicator or a message while redirecting */}
+        </div>
+      ) : (
+    
     <div>
       <button
         style={{width:"650px"}} 
@@ -133,6 +279,7 @@ const QuizPopup = ({ id }) => {
         type="button"
         data-bs-toggle="modal"
         data-bs-target="#confirm-modal"
+        onClick={handleAttemptQuiz}
       >
         Attempt Quiz
       </button>
@@ -259,7 +406,9 @@ const QuizPopup = ({ id }) => {
      </div>
      </div>
      </div>
-  );
+  )};
+  </div>
+  )
 };
  
 

@@ -7,16 +7,18 @@ import swal from "sweetalert";
 const Delete = ({ quiz ,id}) => {
     const navigate = useNavigate();  
 
+   
   const onDelete = () => {
-    axios.delete(`http://localhost:1337/units/${id}/delete/${quiz._id}`)  
-    .then((res) => {
-      console.log(res.data);
-          swal({
-            icon: "success",
-            text: "Successfully deleted",
-          });
-          
-         
+    axios
+      .delete(`http://localhost:1337/units/${id}/delete/${quiz._id}`)
+      .then((res) => {
+        console.log(res.data);
+        swal({
+          icon: "success",
+          text: "Successfully deleted",
+        }).then(() => {
+          window.location.reload(); // Refresh the page
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -25,9 +27,10 @@ const Delete = ({ quiz ,id}) => {
           text: "Error",
         });
       });
-    navigate(`/quiz/${id}`);
-     
-  }
+      navigate(`/quiz/${id}`);
+  };
+  
+  
 
   return (
     <div>

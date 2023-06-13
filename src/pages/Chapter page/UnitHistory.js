@@ -1,7 +1,6 @@
- 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import NavBar from '../../components/NavBar';
+import NavBar from "../../components/NavBar";
 
 const Unit = (props) => (
   <tr>
@@ -72,4 +71,3 @@ const UnitHistory = () => {
 };
 
 export default UnitHistory;
-

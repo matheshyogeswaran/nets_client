@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 import swal from 'sweetalert';
 import { ref, deleteObject } from 'firebase/storage';
-import { storage } from '../../../firebase';
+import { storage } from "../../Firebase config/firebase";
 
 const Delete = ({ KTsession }) => {
   const navigate = useNavigate();
@@ -22,6 +22,8 @@ const Delete = ({ KTsession }) => {
             swal({
               icon: 'success',
               text: 'Successfully deleted',
+            }).then(() => {
+              window.location.reload(); // Refresh the page
             });
             navigate('/Unit');
           })
@@ -41,6 +43,7 @@ const Delete = ({ KTsession }) => {
         });
       });
   };
+  
 
   return (
     <div>
