@@ -3,47 +3,31 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 import swal from 'sweetalert';
-import { ref, deleteObject } from 'firebase/storage';
-import { storage } from "../../Firebase config/firebase";
 
-const Delete = ({ KTsession }) => {
+const Delete = ({ unit }) => {
   const navigate = useNavigate();
 
   const onDelete = () => {
-    // Delete the video file from Firebase Storage
-    const videoRef = ref(storage, KTsession.sessionUrl);
-    deleteObject(videoRef)
-      .then(() => {
-        // Once the video file is deleted, delete the KT session from the backend
-        axios
-          .delete(`http://localhost:1337/kts/delete/${KTsession._id}`)
-          .then((res) => {
-            console.log(res.data);
-            swal({
-              icon: 'success',
-              text: 'Successfully deleted',
-            }).then(() => {
-              window.location.reload(); // Refresh the page
-            });
-            navigate('/Unit');
-          })
-          .catch((error) => {
-            console.log(error);
-            swal({
-              icon: 'warning',
-              text: 'Error',
-            });
-          });
+    axios
+      .delete(`http://localhost:1337/units/delete/${unit._id}`)
+      .then((res) => {
+        console.log(res.data);
+        swal({
+          icon: 'success',
+          text: 'Successfully deleted',
+        }).then(() => {
+          window.location.reload(); // Refresh the page
+        });
       })
       .catch((error) => {
-        console.log('Error deleting video:', error);
+        console.log(error);
         swal({
           icon: 'warning',
           text: 'Error',
         });
       });
+    navigate('/');
   };
-  
 
   return (
     <div>
@@ -54,10 +38,10 @@ const Delete = ({ KTsession }) => {
           type='button'
           style={{ color: 'red' }}
           data-bs-toggle='modal'
-          data-bs-target={`#delete-modal-${KTsession._id}`}
+          data-bs-target={`#delete-modal-${unit._id}`}
         />
       </p>
-      <div className='modal fade' id={`delete-modal-${KTsession._id}`} tabIndex='-1' aria-labelledby='delete-modal-label' aria-hidden='true'>
+      <div className='modal fade' id={`delete-modal-${unit._id}`} tabIndex='-1' aria-labelledby='delete-modal-label' aria-hidden='true'>
         <div className='modal-dialog'>
           <div className='modal-content'>
             <div className='modal-header'>
@@ -66,7 +50,7 @@ const Delete = ({ KTsession }) => {
               </h5>
               <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
             </div>
-            <div className='modal-body'>Are you sure you want to delete?</div>
+            <div className='modal-body'>Are you sure you want to delete this?</div>
             <div className='modal-footer'>
               <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>
                 Cancel

@@ -7,20 +7,20 @@ import { useParams } from "react-router-dom";
 
 const EditEntry = (props) => {
   const { id } = useParams();
-
   const [modal, setModal] = useState(null);
    
-  const [updatedTodo, setUpdatedTodo] = useState({
-    quizName: '',
-    quizDesc: '',
+const [updatedTodo, setUpdatedTodo] = useState({
+  quizName: '',
+  quizDesc: '',
+  timeLimit: 0, // Set the default value to 0
 });
 
 useEffect(() => {
   axios.get(`http://localhost:1337/units/${id}`)
     .then(response => {
        
-      const { quizName, quizDesc } = response.data.quiz;
-      setUpdatedTodo({ quizName, quizDesc });
+      const { quizName, quizDesc, timeLimit } = response.data.quiz;
+      setUpdatedTodo({ quizName, quizDesc, timeLimit });
        
     })
     .catch((err) => {
@@ -34,6 +34,7 @@ useEffect(() => {
       [e.target.name]: e.target.value
     });
   };
+   
 
   const onUpdate = (e) => {
     e.preventDefault();
@@ -53,6 +54,8 @@ useEffect(() => {
           text: "Error",
         });
       });
+   
+console.log(updatedTodo)
        
   };  
 
@@ -85,6 +88,10 @@ useEffect(() => {
                     <label htmlFor="quizDesc" className="form-label">Quiz Description</label>
                     <input type="text" className="form-control" id="quizDesc" name="quizDesc" value={updatedTodo.quizDesc} onChange={onChange} />
                   </div>
+                  <div className="mb-3">
+                    <label htmlFor="timeLimit" className="form-label">Time Duration in minutes</label>
+                    <input type="number" className="form-control" id="timeLimit" name="timeLimit" value={updatedTodo.timeLimit} onChange={onChange} />
+                  </div>
                   <div class="modal-footer">
                         <input type="submit" value="Update" className="btn btn-primary" />
                     </div>
@@ -103,5 +110,3 @@ useEffect(() => {
 };
 
 export default EditEntry;
-
- 
