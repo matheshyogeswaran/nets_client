@@ -4,8 +4,18 @@
   border-color: #8eabc0 !important;
 }
 
+.errorMessageAddFurtherDetails{
+  color: red;
+}
+
 .picside {
-  width: 240px;
+  width: 280px;
+  height: 193px;
+  float: right;
+}
+
+.picside2 {
+  width: 280px;
   float: right;
 }
 
@@ -13,7 +23,7 @@ input[type="text"] {
   width: 67.5%;
   padding: 5px 16px;
   border-radius: 4px;
-  border: 2px solid #53ade4;
+  border: 2px solid #7faea9;
 
   box-sizing: border-box;
   font-size: 15px;
@@ -31,7 +41,7 @@ input[type="text"] {
 }
 
 .showBut {
-  color: #1c87c9;
+  color: #0d8071;
 }
 
 .showBut:hover {
@@ -116,10 +126,10 @@ input[type="text"] {
 } */
 
 .heading {
-  background-color: #3384b2 !important;
+  background-color: #6ac1b8 !important;
   color: white !important;
 
-  border-color: #8bb2d2 !important;
+  border-color: #2db9ab !important;
 }
 
 .height {
@@ -127,7 +137,7 @@ input[type="text"] {
 }
 
 .a2 {
-  border: 1px solid #5091db !important;
+  border: 1px solid #40c2b5 !important;
 }
 
 /* Result page */

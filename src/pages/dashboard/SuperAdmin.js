@@ -91,7 +91,7 @@ const SuperAdmin = () => {
                 </div>
                 <div className="col-md-4 mb-3">
                     <div className="card shadow">
-                        <Link className="btn btn-outline-dark">
+                        <Link to="/viewchapter" className="btn btn-outline-dark">
                             <center>
                                 <img src={viewChap} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
                             </center>
@@ -102,16 +102,6 @@ const SuperAdmin = () => {
                     </div>
                 </div>
 
-            </div>
-            <div className="mt-5">
-                <div className="card rounded-1 shadow">
-                    <div className="card-header text-center text-white bg-dark">
-                        <h5>Common Chapters</h5>
-                    </div>
-                    <div className="card-body">
-                        {/* <ListAllChapters></ListAllChapters> */}
-                    </div>
-                </div>
             </div>
         </>
     );

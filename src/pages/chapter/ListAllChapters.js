@@ -1,18 +1,38 @@
 import { Link } from "react-router-dom";
-import NavBar from "../../components/NavBar";
-import Chapters from "../../data/Chapters.json"
 import Swal from "sweetalert2"
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Bs2CircleFill, BsFillChatTextFill } from "react-icons/bs";
+import { GiBirdCage } from "react-icons/gi";
 
 const ListAllChapters = () => {
-    const userid = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData._id
+    const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
+    const userid = userDocument._id;
+    const depid = userDocument.department;
+    const jobid = userDocument.jobPosition;
+
     const [isProjectAssigned, setisProjectAssigned] = useState();
+    const [chapters, setChapters] = useState([]);
+    const [additionalChapters, setAdditionalChapters] = useState([]);
     useEffect(() => {
         axios.get(`http://localhost:1337/finalprojectassignment/isProjectAssigned/${userid}`)
             .then(response => {
                 setisProjectAssigned(response.data.status);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        axios.get(`http://localhost:1337/chapters/loadAllocatedChapters/${depid}/${jobid}`)
+            .then(response => {
+                setChapters(response.data)
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        axios.get(`http://localhost:1337/chapters/loadAdditionalChapters/${userid}`)
+            .then(response => {
+                setAdditionalChapters(response.data)
             })
             .catch(function (error) {
                 console.log(error);
@@ -49,32 +69,77 @@ const ListAllChapters = () => {
     return (
         <div>
             <div className="container mt-3">
-                <div class="row">
-                    {
-                        Chapters.map((item) => {
-                            return (
-                                (item.department === "IT")
-                                    ?
-                                    (item.chapters).map((chapter) => {
-                                        return (
-                                            <div class="col-md-6 mt-3">
-                                                <div class="card shadow border border-2">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title"><i class="bi bi-journal-text me-2"></i>{chapter}</h5>
-                                                        <hr></hr>
-                                                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                                        <Link to="#" class=" btn btn-outline-secondary">Continue <i class="bi bi-arrow-right-circle"></i></Link>
-                                                    </div>
+                <div className="card">
+                    <div className="card-header">
+                        <h5> <BsFillChatTextFill></BsFillChatTextFill> Department Chapters</h5>
+                    </div>
+                    <div className="card-body">
+                        <div class="row">
+                            {
+                                chapters?.chaptersAllocated?.map((item) => {
+                                    return (
+                                        <div class="col-md-6 mt-3">
+                                            <div class="card shadow border border-2">
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><i class="bi bi-journal-text me-2"></i>{item?.chapterName}</h5>
+                                                    <hr></hr>
+                                                    <Link to={"/viewChapter/" + item?._id} class=" btn btn-outline-secondary">Continue <i class="bi bi-arrow-right-circle"></i></Link>
                                                 </div>
                                             </div>
-                                        )
-                                    })
-                                    :
-                                    null
-                            )
-                        })
-                    }
-
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div className="card mt-3">
+                    <div className="card-header">
+                        <h5>Common Chapters</h5>
+                    </div>
+                    <div className="card-body">
+                        <div class="row">
+                            {
+                                chapters?.chaptersAllocated?.map((item) => {
+                                    return (
+                                        <div class="col-md-6 mt-3">
+                                            <div class="card shadow border border-2">
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><i class="bi bi-journal-text me-2"></i>{item?.chapterName}</h5>
+                                                    <hr></hr>
+                                                    <Link to={"/viewChapter/" + item?._id} class=" btn btn-outline-secondary">Continue <i class="bi bi-arrow-right-circle"></i></Link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div className="card mt-3">
+                    <div className="card-header">
+                        <h5>Enrolled Additional Chapters:  <Link to="/enrollrequestemployee">Request More</Link></h5>
+                    </div>
+                    <div className="card-body">
+                        <div class="row">
+                            {
+                                additionalChapters?.acceptedAdditionalChapter?.map((item) => {
+                                    return (
+                                        <div class="col-md-6 mt-3">
+                                            <div class="card shadow border border-2">
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><i class="bi bi-journal-text me-2"></i>{item?.chapterName}</h5>
+                                                    <hr></hr>
+                                                    <Link to={"/viewChapter/" + item?._id} class=" btn btn-outline-secondary">Continue <i class="bi bi-arrow-right-circle"></i></Link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    </div>
                 </div>
                 {
                     isProjectAssigned &&

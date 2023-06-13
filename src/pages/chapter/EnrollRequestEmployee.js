@@ -96,7 +96,7 @@ const EnrollRequestEmployee = () => {
                       </div>
                       <div className="col-md-2">
                         <button
-                          className="btn btn-outline-primary form-control"
+                          className="btn btn-outline-success form-control"
                           onClick={() => { requestChapter(value?._id) }}
                           disabled={true && (value?.requested).includes(userID)}
                         >

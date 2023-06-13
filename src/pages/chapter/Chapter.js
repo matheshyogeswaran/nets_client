@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "../../components/NavBar";
 import axios from "axios";
 import swal from "sweetalert";
 import { useState, useEffect } from "react";
@@ -60,12 +59,21 @@ const Chapter = () => {
       <div className="container">
         <div className="alert mt-3 heading"><h5>Chapters</h5></div>
         <div className="row ">
-          <div className="col-md-12">
+          <div className="col-md-6">
             <Link
               to="/newchap"
               className="btn btn-outline-success form-control"
             >
               + Add New Chapter
+            </Link>
+            <hr className="mt-3"></hr>
+          </div>
+          <div className="col-md-6">
+            <Link
+              to="/permanentdeletechapter"
+              className="btn btn-outline-danger form-control"
+            >
+              Deleted Chapter
             </Link>
             <hr className="mt-3"></hr>
           </div>
