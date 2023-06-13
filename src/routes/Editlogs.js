@@ -2,7 +2,7 @@ import UnitHistory from "../pages/Chapter page/UnitHistory";
 import KTHistory from "../pages/Unit page/KTHistory";
 import ArticleHistory from "../pages/article page/ArticleHistory";
 import QuestionEditHistory from "../pages/quiz/QuestionEditHistory";
-import EditHistory from "../pages/EditHistory";
+// import EditHistory from "../page";
 
 export const editlogs_routes = [
   {
@@ -21,8 +21,8 @@ export const editlogs_routes = [
     path: "/editquestions",
     ele: <QuestionEditHistory />,
   },
-  {
-    path: "/edithistory",
-    ele: <EditHistory />,
-  },
+  //   {
+  //     path: "/edithistory",
+  //     ele: <EditHistory />,
+  //   },
 ];
