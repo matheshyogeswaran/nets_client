@@ -1,39 +1,43 @@
 import Tasks from './Tasks';
- 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
  
-const TodosList = () => {
-  const [todos, setTodos] = useState([]);
+const UnitList = () => {
+  const chapterId = '64848a1cd792d9e0909c70e0';
+  const [units, setunits] = useState([]);
+
+  // useEffect(() => {
+  //   axios.get('http://localhost:1337/units/')
+  //     .then(response => {
+  //       setunits(response.data);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // }, []);
 
   useEffect(() => {
-    axios.get('http://localhost:1337/units/')
+    axios.get(`http://localhost:1337/units?belongsToChapter=${chapterId}`)
       .then(response => {
-        setTodos(response.data);
+        setunits(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
+  }, [chapterId]);
 
-   
-   
 
   return (
-    <div>
-       
+    <div>       
             <div> 
-          {todos.map(todo => {
+          {units.map(unit => {
             return (
-              <Tasks key={todo._id} todo={todo} />
+              <Tasks key={unit._id} unit={unit} />
             )
           })}
-          </div>
-            
-          </div>
-         
-    
+          </div>         
+          </div>  
   );
 }
 
-export default TodosList;
+export default UnitList;

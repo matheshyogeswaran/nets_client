@@ -1,38 +1,99 @@
 import { Link } from "react-router-dom";
-
+import additionalChapterRequest from "../../images/Supervisor/additionalChapterRequest.svg";
+import leaderBoard from "../../images/Supervisor/leaderBoard.svg";
+import manageFinalProjectAssignment from "../../images/Supervisor/manageFinalProjectAssignment.svg";
+import manageGuidance from "../../images/Supervisor/manageGuidance.svg";
+import report from "../../images/Supervisor/report.svg";
+import viewChapter from "../../images/Supervisor/viewChapter.svg";
 const Supervisor = () => {
     return (
         <>
             <div className="row">
-                <div className="col-md-4 m-2">
-                    <Link to="/manageFinalProjectAssignment" className="btn btn-outline-primary form-control shadow">Manage Final Project Assignment</Link>
-                    <button className="btn btn-outline-primary form-control mt-2 shadow">Direct Guidance request</button>
-                    <Link to="/leaderboardsup" className="btn btn-outline-primary form-control mt-2 shadow">Show Leader Board</Link>
-                    <Link to="/viewchapter" className="btn btn-outline-primary form-control mt-2 shadow">View All Chapters</Link>
-                    <Link to="/manageFinalProjectAssignment" className="btn btn-outline-primary form-control mt-2 shadow">Manage Final Project Assignment</Link>
-                    <Link to="/enrollrequestsupervisor" className="btn btn-outline-primary form-control mt-2 shadow">Accept Additional Chapter Request</Link>
+                <div className="col-md-4 mb-3">
+                    <div className="card shadow">
+                        <Link to="/department" className="btn btn-outline-dark">
+                            <center>
+                                <img src={manageFinalProjectAssignment} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                            </center>
+                            <div className="card-body">
+                                <h6>Manage Final Project Assignment</h6>
+                            </div>
+                        </Link>
+                    </div>
                 </div>
+                <div className="col-md-4 mb-3">
+                    <div className="card shadow">
+                        <Link to="/department" className="btn btn-outline-dark">
+                            <center>
+                                <img src={manageGuidance} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                            </center>
+                            <div className="card-body">
+                                <h6>Direct Guidance request</h6>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+                <div className="col-md-4 mb-3">
+                    <div className="card shadow">
+                        <Link to="/leaderboardsup" className="btn btn-outline-dark">
+                            <center>
+                                <img src={leaderBoard} className="card-img-top" style={{ "width": "145px" }} alt="card" ></img>
+                            </center>
+                            <div className="card-body">
+                                <h6>Show Leader Board</h6>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+                <div className="col-md-4 mb-3">
+                    <div className="card shadow">
+                        <Link to="/viewchapter" className="btn btn-outline-dark">
+                            <center>
+                                <img src={viewChapter} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                            </center>
+                            <div className="card-body">
+                                <h6>View All Chapters</h6>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+                <div className="col-md-4 mb-3">
+                    <div className="card shadow">
+                        <Link to="/enrollrequestsupervisor" className="btn btn-outline-dark">
+                            <center>
+                                <img src={additionalChapterRequest} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                            </center>
+                            <div className="card-body">
+                                <h6>Accept Additional Chapter Request</h6>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+
+            </div>
+            <div className="row">
                 <div className="col-md-4 m-2">
                     <div className="border border-dark rounded shadow">
                         <div className="p-3">
-                            <div className="text-center"><b>View Employee Reports</b></div><hr></hr>
+                            <div className="card shadow">
+                                <Link to="/enrollrequestsupervisor" className="btn btn-outline-dark">
+                                    <center>
+                                        <img src={report} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                                    </center>
+                                    <div className="card-body">
+                                        <h6>View Employee Reports</h6>
+                                    </div>
+                                </Link>
+                            </div>
+                            <hr></hr>
                             <Link to="/report" className="btn btn-outline-success form-control mt-1 shadow">View Employee Report</Link>
-                            <Link to="/quizreportfront"className="btn btn-outline-success form-control mt-2 shadow">Quiz Report of Hired Employees</Link>
+                            <Link to="/quizreportfront" className="btn btn-outline-success form-control mt-2 shadow">Quiz Report of Hired Employees</Link>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-4"></div>
             </div>
-            <div className="mt-5">
-                <div className="card rounded-1 shadow">
-                    <div className="card-header text-white bg-dark">
-                        <h6>Department Chapters</h6>
-                    </div>
-                    <div className="card-body">
-                        {/* <ListAllChapters></ListAllChapters> */}
-                    </div>
-                </div>
-            </div>
+
         </>
     );
 }

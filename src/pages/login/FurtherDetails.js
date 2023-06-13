@@ -2,35 +2,54 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import swal from 'sweetalert'
 import Swal from 'sweetalert2'
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import "../../App.css";
 const FurtherDetails = (props) => {
-    // states to store form data
-    const [firstName, setFirstName] = useState(props.userData.given_name);
-    const [lastName, setLastName] = useState(props.userData.family_name);
-    const [gender, setGender] = useState();
-    const [dob, setDob] = useState();
-    const [phone, setPhone] = useState();
-    const [email] = useState(props.userData.email);
-    const [department, setDepartment] = useState();
-    const [jobTitle, setJobTitle] = useState();
-    const [userImage] = useState(props.userData.picture);
-    const [employeeID, setEmployeeID] = useState();
+
     // To store department data, it contains, department data and job titles data
     const [availableDepartments, setAvailableDepartments] = useState([]);
+
+    const schema = yup.object().shape({
+        firstName: yup.string().required('First Name is required'),
+        lastName: yup.string().required('Last Name is required'),
+        employeeID: yup.string().required('Employee ID is required'),
+        gender: yup
+            .string()
+            .oneOf(['Male', 'Female', 'No'], 'Invalid gender')
+            .required('Gender is required'),
+        dateOfBirth: yup.date("Invalid Date").required('Date of Birth is required').typeError('Date of Birth must be a valid date'),
+        phoneNumber: yup.string().matches(/^\d{10}$/, 'Phone Number must be a 10-digit number without spaces or dashes').required('Phone Number is required'),
+        email: yup.string().email('Invalid email').required('Email is required'),
+        department: (availableDepartments.length !== 0)?yup.string().required('Department is required'): yup.string(),
+        jobTitle: (availableDepartments.length !== 0)?yup.string().required('Job Title is required'): yup.string(),
+    });
+
+    const { register, handleSubmit, formState: { errors }, } = useForm({ resolver: yupResolver(schema), });
+
+    const [department, setDepartment] = useState();
+    const [userImage] = useState(props.userData.picture);
+
     // State to store, whether department is available or not
     // if department is available it will be set to true
     const [isDepAvailable, setIsDepAvailable] = useState(false);
+
     // if user collection is empty true else false will be assigned
     const [noUser, setNoUser] = useState(false);
+
     // to set calender's maximum and minimum date 
     const currentYear = new Date().getFullYear();
     const maxDate = `${currentYear - 15}-12-31`; // Set maximum date to last day of current year
     const minDate = `${currentYear - 80}-01-01`; // Set minimum date to first day of previous year
+
     // here use effect to used to fetch department and user availability data in first render
     useEffect(() => {
         axios
             .get("http://localhost:1337/departments/showAllDepartments")
             .then(function (response) {
                 setAvailableDepartments(response.data);
+                console.log(response.data);
                 if (response.data.length === 0) {
                     setIsDepAvailable(false);
                 } else {
@@ -43,21 +62,20 @@ const FurtherDetails = (props) => {
                 setNoUser(response.data.status);
             });
     }, [])
+
     // function to hande form submission
-    const submitFurtherDetails = (e) => {
-        // to handle page reloading after submission
-        e.preventDefault();
+    const submitFurtherDetails = (data) => {
         const postData = {
-            firstName: firstName,
-            lastName: lastName,
-            gender: gender,
-            dob: dob,
-            phone: phone,
-            email: email,
-            department: department,
-            jobTitle: jobTitle,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            gender: data.gender,
+            dob: data.dateOfBirth,
+            phone: data.phoneNumber,
+            email: data.email,
+            department: data.department,
+            jobTitle: data.jobTitle,
             userImage: userImage,
-            employeeID: employeeID
+            employeeID: data.employeeID
         }
         axios.post('http://localhost:1337/authentication/addFurtherDetails', postData)
             .then((res) => {
@@ -65,7 +83,7 @@ const FurtherDetails = (props) => {
                 if (res.data.status === "success") {
                     Swal.fire({
                         title: 'Further Details Added Successfully !',
-                        text: "You will be notified via email soon after verification process is complete, See You Soon !",
+                        text: res.data.message,
                         icon: 'success',
                         showCancelButton: false,
                         confirmButtonColor: '#3085d6',
@@ -82,8 +100,8 @@ const FurtherDetails = (props) => {
             }).catch((error) => {
                 swal("Error", "Error saving data to the database", "error");
             });
-
     }
+
     return (
         <React.Fragment>
             {
@@ -118,7 +136,7 @@ const FurtherDetails = (props) => {
                                     <img draggable={false} referrerPolicy="no-referrer" alt="userImage" src={props.userData.picture} className=" p-3 rounded-circle"></img>
                                 </center>
                             </div>
-                            <form onSubmit={submitFurtherDetails}>
+                            <form onSubmit={handleSubmit(submitFurtherDetails)}>
                                 <div className="card-body mt-3">
                                     <div className="row m-2">
                                         {/* First Name */}
@@ -127,32 +145,27 @@ const FurtherDetails = (props) => {
                                                 <input
                                                     type="text"
                                                     className="form-control"
-                                                    placeholder="First Name"
-                                                    value={firstName}
-                                                    onChange={e => setFirstName(e.target.value)}
-                                                    required
-                                                    id="fname"
+                                                    defaultValue={props.userData.given_name}
+                                                    {...register("firstName")}
                                                 >
                                                 </input>
                                                 <label htmlFor="fname">First Name</label>
                                             </div>
+                                            <p className="errorMessageAddFurtherDetails">{errors.firstName?.message}</p>
                                         </div>
                                         {/* Last Name */}
                                         <div className="col-md-6">
                                             <div className="form-floating mb-3">
                                                 <input
-                                                    required
                                                     type="text"
                                                     className="form-control"
-                                                    placeholder="Last Name"
-                                                    value={lastName}
-                                                    onChange={e => setLastName(e.target.value)}
-                                                    id="lastname"
+                                                    defaultValue={props.userData.family_name}
+                                                    {...register("lastName")}
                                                 >
                                                 </input>
                                                 <label htmlFor="lastname">Last Name</label>
                                             </div>
-
+                                            <p className="errorMessageAddFurtherDetails">{errors.lastname?.message}</p>
                                         </div>
                                     </div>
                                     <div className="row m-2">
@@ -164,26 +177,24 @@ const FurtherDetails = (props) => {
                                                         <input
                                                             type="text"
                                                             className="form-control"
-                                                            placeholder="First Name"
-                                                            value={employeeID}
-                                                            onChange={e => setEmployeeID(e.target.value)}
-                                                            required
-                                                            id="employeeid"
+                                                            {...register("employeeID")}
                                                         >
                                                         </input>
                                                         <label htmlFor="fname">Employee ID</label>
                                                     </div>
+                                                    <p className="errorMessageAddFurtherDetails">{errors.employeeID?.message}</p>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-floating mb-3">
-                                                        <select id="gender" required className="form-control" onChange={e => setGender(e.target.value)}>
+                                                        <select id="gender" className="form-control" {...register("gender")}>
                                                             <option selected value="" disabled>Select Gender</option>
                                                             <option value="Male">Male</option>
                                                             <option value="Female">Female</option>
-                                                            <option value="N/A">Prefer not to say</option>
+                                                            <option value="No">Prefer not to say</option>
                                                         </select>
                                                         <label htmlFor="gender">Select your gender</label>
                                                     </div>
+                                                    <p className="errorMessageAddFurtherDetails">{errors.gender?.message}</p>
                                                 </div>
                                             </div>
 
@@ -192,20 +203,16 @@ const FurtherDetails = (props) => {
                                         <div className="col-md-6">
                                             <div className="form-floating mb-3">
                                                 <input
-                                                    required
-                                                    type="text"
+                                                    type="date"
                                                     className="form-control"
-                                                    placeholder="Date of Birth"
                                                     max={maxDate}
                                                     min={minDate}
-                                                    onFocus={(e) => e.target.type = 'date'}
-                                                    value={dob}
-                                                    id="dob"
-                                                    onChange={e => setDob(e.target.value)}
+                                                    {...register("dateOfBirth")}
                                                 >
                                                 </input>
                                                 <label htmlFor="dob">Select your Date of Birth</label>
                                             </div>
+                                            <p className="errorMessageAddFurtherDetails">{errors.dateOfBirth?.message}</p>
 
                                         </div>
                                     </div>
@@ -214,34 +221,29 @@ const FurtherDetails = (props) => {
                                         <div className="col-md-6">
                                             <div className="form-floating mb-3">
                                                 <input
-                                                    required
                                                     type="text"
                                                     className="form-control"
-                                                    placeholder="Phone Number"
-                                                    value={phone}
-                                                    id="phone"
-                                                    onChange={e => setPhone(e.target.value)}>
+                                                    {...register("phoneNumber")}
+                                                >
                                                 </input>
                                                 <label htmlFor="phone">Phone Number</label>
                                             </div>
-
+                                            <p className="errorMessageAddFurtherDetails">{errors.phoneNumber?.message}</p>
                                         </div>
                                         {/* Email Address */}
                                         <div className="col-md-6">
                                             <div className="form-floating mb-3">
                                                 <input
-                                                    required
                                                     type="email"
                                                     className="form-control"
-                                                    placeholder="Email Address"
-                                                    value={email}
-                                                    id="email"
-                                                    disabled
-                                                // onChange={e => setEmail(e.target.value)}
+                                                    defaultValue={props.userData.email}
+                                                    {...register("email")}
+                                                    readOnly
                                                 >
                                                 </input>
                                                 <label htmlFor="email">Email Address</label>
                                             </div>
+                                            <p className="errorMessageAddFurtherDetails">{errors.email?.message}</p>
 
                                         </div>
                                     </div>
@@ -251,7 +253,7 @@ const FurtherDetails = (props) => {
                                         <div className="row m-2">
                                             <div className="col-md-6">
                                                 <div className="form-floating mb-3">
-                                                    <select id="dep" required className="form-control" onChange={e => setDepartment(e.target.value)}>
+                                                    <select id="dep" className="form-control" {...register("department")} onChange={e => setDepartment(e.target.value)}>
                                                         <option selected value="" disabled>Select Department</option>
                                                         {
                                                             availableDepartments.map((e) => {
@@ -263,15 +265,16 @@ const FurtherDetails = (props) => {
                                                     </select>
                                                     <label htmlFor="dep">Select your department</label>
                                                 </div>
+                                                <p className="errorMessageAddFurtherDetails">{errors.department?.message}</p>
                                             </div>
                                             {
 
                                                 <div className="col-md-6">
                                                     <div className="form-floating mb-3">
-                                                        <select id="jt" required className="form-control" onChange={e => setJobTitle(e.target.value)}>
+                                                        <select id="jt" className="form-control" {...register("jobTitle")}>
                                                             <option selected value="" disabled>Select Job Title</option>
                                                             {
-                                                                availableDepartments.find(jobTitle => jobTitle._id === department)?.Jobtitle.map((e) => {
+                                                                availableDepartments.find(dep => dep._id === department)?.Jobtitle.map((e) => {
                                                                     return (
                                                                         <option value={e?._id}>{e.jobTitlename}</option>
                                                                     )
@@ -280,7 +283,7 @@ const FurtherDetails = (props) => {
                                                         </select>
                                                         <label htmlFor="jt">Select your job title</label>
                                                     </div>
-
+                                                    <p className="errorMessageAddFurtherDetails">{errors.jobTitle?.message}</p>
                                                 </div>
                                             }
                                         </div>
