@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { UilFolderDownload } from "@iconscout/react-unicons";
 import axios from "axios";
 import swal from "sweetalert";
-import Search from "./../../subComponents/search";
+import Search from '../../components/search';
 
 const Submission = () => {
   //  Base URL of the API

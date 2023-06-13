@@ -1,6 +1,4 @@
 import React from "react";
-import NavBar from "../../components/NavBar";
-import users from "../../data/Users.json";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import swal from "sweetalert";

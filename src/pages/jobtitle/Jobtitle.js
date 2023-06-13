@@ -1,10 +1,8 @@
 import React from "react";
-import NavBar from "../../components/NavBar";
-import users from "../../data/Users.json";
 import swal from "sweetalert";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 const Jobtitle = () => {
   const [departments, setDepartments] = useState([]);
 
