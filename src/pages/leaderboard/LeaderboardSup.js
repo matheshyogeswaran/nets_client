@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import swal from "sweetalert";
 import axios from "axios";
-import Search from "../../subComponents/search";
+import Search from '../../components/search';
 const LeaderboardSup = () => {
   const API_BASE = "http://localhost:1337";
   const [score, setScore] = useState([]);

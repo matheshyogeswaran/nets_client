@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import NavBar from "../../components/NavBar";
-import users from "../../data/Users.json";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import jwt_decode from "jwt-decode";

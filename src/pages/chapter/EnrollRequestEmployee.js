@@ -4,7 +4,6 @@ import NavBar from "../../components/NavBar";
 import { Link } from "react-router-dom";
 import swal from "sweetalert";
 import axios from "axios";
-import Chapters from "../../data/Chapters.json";
 import jwt_decode from "jwt-decode";
 
 const EnrollRequestEmployee = () => {
@@ -55,11 +54,7 @@ const EnrollRequestEmployee = () => {
         setChapter(filteredChapters);
       });
   }, [reset]);
-  const [buttonStates, setButtonStates] = useState(
-    Array(Chapters.length)
-      .fill()
-      .map(() => Array(Chapters[0].chapters.length).fill(false))
-  );
+  const [buttonStates, setButtonStates] = useState();
 
   const handleClick = (chapterIndex, deptIndex) => {
     const confirmed = window.confirm("Are you sure you want to send request to this request?");
