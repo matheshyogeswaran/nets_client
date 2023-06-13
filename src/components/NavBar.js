@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/Nav.css";
 import swal from "sweetalert";
@@ -10,6 +10,16 @@ import { FaTicketAlt, FaUserCheck } from 'react-icons/fa';
 import { AiFillHome } from 'react-icons/ai';
 import { FiLogOut } from 'react-icons/fi';
 const NavBar = () => {
+
+  // state variable holds the state of the internet connection
+  const [isOnline, setOnline] = useState(true);
+  // On initization set the isOnline state.
+  useEffect(() => { setOnline(navigator.onLine) }, [])
+  // event listeners to update the state 
+  window.addEventListener('online', () => { setOnline(true) });
+  window.addEventListener('offline', () => { setOnline(false) });
+
+
   console.log("Nav Rendered")
   const localData = JSON.parse(localStorage.getItem("user"))
   let userData;
@@ -148,7 +158,7 @@ const NavBar = () => {
                         </li>
                         <li >
                           <Link className=" dropdown-item" to="/chapterreport">
-                            
+
                             <BsFileBarGraphFill className="me-2" />
                             Chapter Report
                           </Link>
@@ -170,6 +180,17 @@ const NavBar = () => {
           </div>
         </div>
       </nav>
+      {
+        (isOnline === false)
+          ?
+          <div className="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Warning:  No internet connection available </strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          :
+          null
+      }
+
     </React.Fragment >
   );
 };
