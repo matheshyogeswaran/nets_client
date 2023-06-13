@@ -20,12 +20,13 @@ import { quiz_routes } from "./QuizRoutes";
 import { report_routes } from "./ReportRoutes";
 import { unit_article_routes } from "./UnitArticleRoutes";
 import { user_role_routes } from "./UserRoleRoutes";
+import { editlogs_routes } from "./Editlogs";
 
 const AppRoutes = () => {
   const protectedRoutes = [
     ...chapter_routes, ...comment_routes, ...department_routes, ...discussion_forum_routes, ...final_project_assignment_routes,
     ...general_routes, ...guidance_request_routes, ...leader_board_routes, ...quiz_routes, ...report_routes,
-    ...unit_article_routes, ...user_role_routes
+    ...unit_article_routes, ...user_role_routes,...editlogs_routes
   ]
   const unprotectedRoutes = [...auth_routes]
 
