@@ -58,7 +58,7 @@ const AddDepartment = () => {
               <input
                 type="text"
                 name="cname"
-                className="input my-3 ml-5"
+                className="inputdata my-3 ml-5"
                 placeholder="Name"
                 value={depName}
                 onChange={(e) => setDepName(e.target.value)}
@@ -69,7 +69,7 @@ const AddDepartment = () => {
           <div className="control">
             <button
               type="submit"
-              className="btn btn-success mr-1 column is-half text-white"
+              className="btn btn-success mr-1 column is-half text-white col-md-7 my-3"
             >
               Save
             </button>
@@ -82,7 +82,7 @@ const AddDepartment = () => {
               alt="this is image"
             />
           </div>
-          <div className="field"></div>
+          {/* <div className="field"></div> */}
         </form>
       </div>
     </div>

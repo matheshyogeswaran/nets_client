@@ -66,19 +66,23 @@ const EditDepartment = () => {
                   setNewDepName(e.target.value);
                 }}
                 name="dname"
-                className="input my-3 ml-5"
+                className="inputdata my-3 ml-5"
                 placeholder="Name"
                 required
               />
             </div>
           </div>
+          <div>
+            <img src={image1} className="picside2" draggable={false} alt="this is image" />
+          </div>
+          <div className="field"></div>
           <div className="field">
             <label className="ml-5 createchap">Reason</label>
             <div className="control">
               <input
                 type="text"
                 name="dreason"
-                className="input my-3 ml-5"
+                className="inputdata my-3 ml-5"
                 placeholder="Reason"
                 required
                 value={reason}
@@ -92,16 +96,13 @@ const EditDepartment = () => {
           <div className="control">
             <button
               type="submit"
-              className="btn btn-success mr-1 column is-half text-white"
+              className="btn btn-success mr-1 column is-half text-white col-md-7 my-3"
             >
               Save
             </button>
           </div>
 
-          <div>
-            <img src={image1} className="picside2" draggable={false} alt="this is image" />
-          </div>
-          <div className="field"></div>
+
         </form>
       </div>
     </div>

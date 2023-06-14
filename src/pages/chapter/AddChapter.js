@@ -58,7 +58,7 @@ const AddChapter = () => {
               <input
                 type="text"
                 name="cname"
-                className="input my-3 ml-5"
+                className="inputdata my-3 ml-5"
                 placeholder="Name"
                 value={chaptername}
                 onChange={(e) => setChapterName(e.target.value)}
@@ -66,11 +66,11 @@ const AddChapter = () => {
               />
             </div>
           </div>
-          <br></br>
+
           <div className="control">
             <button
               type="submit"
-              className="btn btn-success mr-1 column is-half text-white"
+              className="btn btn-success mr-1 column is-half text-white col-md-7 my-3"
             >
               Save
             </button>

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import NavBar from "../../components/NavBar";
 import swal from 'sweetalert'
 import axios from "axios"
 
 const PromoteDemote = () => {
     const [users, setUsers] = useState([]);
     const [userCount, setCount] = useState([]);
-
     const [selectedRole, setSelectedRole] = useState("");
     const [loadAgain, setLoadAgain] = useState(1);
 
