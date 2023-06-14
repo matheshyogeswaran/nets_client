@@ -57,7 +57,7 @@ const Chapter = () => {
                 </div>{
                     (commonchapters.length === 0)
                         ?
-                        <div className="alert alert-info mt-4"> <b>No chapters Found !</b> </div>
+                        <div className="alert alert-info mt-4"> <b>No common chapters Found !</b> </div>
                         :
                         <table className="table">
                             <thead>

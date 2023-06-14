@@ -69,6 +69,7 @@ const PermanentDeleteChapter = () => {
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Chapter name</th>
+                  <th scope="col">Department</th>
                   <th scope="col">
                     <center>Actions</center>
                   </th>
@@ -82,6 +83,7 @@ const PermanentDeleteChapter = () => {
                       <tr className="align-middle" key={item._id}>
                         <th scope="row">{item._id}</th>
                         <td>{item.chapterName}</td>
+                        <td>{item.depID?.depName}</td>
                         <td>
                           <button type="submit" onClick={() => deletechapter(item._id)}
                             className="btn btn-outline-danger form-control"

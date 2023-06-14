@@ -95,11 +95,11 @@ const Chapter = () => {
         </div>{
           (chapters.length === 0)
             ?
-            <div className="alert alert-info mt-4"> <b>No chapters Found !</b> </div>
+            <div className="alert alert-info mt-4"> <b>No chapters have been created by the system adminis at the moment.   !</b> </div>
             :
             <table className="table">
               <thead>
-                <tr>
+                <tr style={{ "backgroundColor": "#f8f9fa" }}>
                   <th scope="col">#</th>
                   <th scope="col">Chapter name</th>
                   <th scope="col">Edit chapter</th>

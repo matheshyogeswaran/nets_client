@@ -76,14 +76,14 @@ const DepartmentChapter = () => {
                     :
                     <table className="table">
                         <thead>
-                            <tr>
+                            <tr style={{ "backgroundColor": "#b9e1dc" }}>
                                 <th scope="col">#</th>
                                 <th scope="col">Chapter name</th>
                                 <th scope="col">Edit chapter</th>
                                 <th scope="col">Delete chapter</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody style={{ "backgroundColor": "MintCream" }}>
                             {
                                 chapters.map((item) => {
                                     if (item.status === "notactive") {
