@@ -4,18 +4,29 @@ import Stars from "../Shared/Stars";
 import ModalBody from "./ModalBody";
 import axios from "axios";
 
-const Ratings = () => {
+const Ratings = (props) => {
   const [ratings, setRatings] = useState(0);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:1337/get-kt-ratings/641d6c69bd434511a89d27dd`)
-      .then((response) => {
-        setRatings(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    if (props.source === "KT") {
+      axios
+        .get(`http://localhost:1337/get-kt-ratings/${props.ID}`)
+        .then((response) => {
+          setRatings(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      axios
+        .get(`http://localhost:1337/get-article-ratings/${props.ID}`)
+        .then((response) => {
+          setRatings(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   }, []);
 
   return (
@@ -30,7 +41,7 @@ const Ratings = () => {
           title="Rate Under:"
           mainButton="Rate"
           button="Rate"
-          body={<ModalBody />}
+          body={<ModalBody ID={props.ID} source={props.source} />}
         />
       </div>
     </div>
