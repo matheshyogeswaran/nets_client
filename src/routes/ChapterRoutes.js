@@ -1,6 +1,8 @@
 import AddChapter from "../pages/chapter/AddChapter";
 import AllocateChapter from "../pages/chapter/AllocateChapter";
 import Chapter from "../pages/chapter/Chapter";
+import CommonChapter from "../pages/chapter/CommonChapter";
+import EditCommonChapter from "../pages/chapter/EditCommonChapter";
 import DeleteChapter from "../pages/chapter/DeleteChapter";
 import DepartmentAddChapter from "../pages/chapter/DepartmentAddChapter";
 import DepartmentChapter from "../pages/chapter/DepartmentChapter";
@@ -13,7 +15,7 @@ import PermanentDeleteChapter from "../pages/chapter/PermanentDeleteChapter";
 import ViewChapter from "../pages/chapter/ViewChapter";
 import DeleteChapterPermanent from "../pages/chapter/DeleteChapterPermanent";
 import Content from "../pages/Chapter page/Content";
-import EditTask from "../pages/Chapter page/EditTask";
+
 
 import { userRoles as ur } from "../data/userRole";
 
@@ -22,6 +24,14 @@ export const chapter_routes = [
         path: "/chapter",
         ele: <Chapter />,
         availability: [ur.superAdmin]
+    },
+    {
+        path: "/commonchapter",
+        ele: <CommonChapter />
+    },
+    {
+        path: "/editcommonchapter/:id/:name",
+        ele: <EditCommonChapter />
     },
     {
         path: "/newchap",
@@ -40,8 +50,10 @@ export const chapter_routes = [
     },
     {
         path: "/permanentdeletechapter",
+
         ele: <PermanentDeleteChapter />,
         availability: [ur.superAdmin]
+
     },
     {
         path: "/depchapter",
@@ -86,10 +98,7 @@ export const chapter_routes = [
     {
         path: "/chapterPage",
         ele: <Content />,
-        availability:[ur.superAdmin]
+        availability: [ur.superAdmin]
     },
-    {
-        path: "/edit/:id",
-        ele: <EditTask />
-    },
+
 ]
