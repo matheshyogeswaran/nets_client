@@ -1,15 +1,15 @@
-import { FaPencilAlt } from 'react-icons/fa';
-import React, { useState } from 'react';
-import axios from 'axios';
-import swal from 'sweetalert';
-import moment from 'moment';
+import { FaPencilAlt } from "react-icons/fa";
+import React, { useState } from "react";
+import axios from "axios";
+import swal from "sweetalert";
+import moment from "moment";
 import * as Yup from "yup";
 
 import {
   ref,
   uploadBytes,
   getDownloadURL,
-  deleteObject
+  deleteObject,
 } from "firebase/storage";
 import { storage } from "../../Firebase config/firebase";
 import { v4 } from "uuid";
@@ -23,17 +23,17 @@ const Edit = ({ article }) => {
   const [errors, setErrors] = useState({});
 
   const validationSchema = Yup.object().shape({
-    articleName: Yup.string().required('Article name is required'),
-    articleDesc: Yup.string().required('Description is required'),
+    articleName: Yup.string().required("Article name is required"),
+    articleDesc: Yup.string().required("Description is required"),
   });
 
   const onChange = (e) => {
-    if (e.target.type === 'file') {
+    if (e.target.type === "file") {
       setUpdatedFile(e.target.files[0]);
     } else {
       setUpdatedarticle({
         ...updatedarticle,
-        [e.target.name]: e.target.value
+        [e.target.name]: e.target.value,
       });
     }
   };
@@ -52,33 +52,35 @@ const Edit = ({ article }) => {
         deleteObject(articleRef)
           .then(() => {
             // Upload the new file to Firebase Storage
-            const newVideoRef = ref(storage, `Articles/${updatedFile.name + v4()}`);
+            const newVideoRef = ref(
+              storage,
+              `Articles/${updatedFile.name + v4()}`
+            );
             uploadBytes(newVideoRef, updatedFile)
               .then((snapshot) => {
                 // Get the download URL of the new file
-                getDownloadURL(snapshot.ref)
-                  .then((url) => {
-                    // Update the KT session with the new file's URL
-                    const updatedArticle = {
-                      ...updatedarticle,
-                      articleUrl: url
-                    };
-                    updateArticle(updatedArticle);
-                  });
+                getDownloadURL(snapshot.ref).then((url) => {
+                  // Update the KT session with the new file's URL
+                  const updatedArticle = {
+                    ...updatedarticle,
+                    articleUrl: url,
+                  };
+                  updateArticle(updatedArticle);
+                });
               })
               .catch((error) => {
-                console.log('Error uploading new article:', error);
+                console.log("Error uploading new article:", error);
                 swal({
-                  icon: 'warning',
-                  text: 'Error',
+                  icon: "warning",
+                  text: "Error",
                 });
               });
           })
           .catch((error) => {
-            console.log('Error deleting current article:', error);
+            console.log("Error deleting current article:", error);
             swal({
-              icon: 'warning',
-              text: 'Error',
+              icon: "warning",
+              text: "Error",
             });
           });
       } else {
@@ -100,12 +102,13 @@ const Edit = ({ article }) => {
   };
 
   const updateArticle = (updatedArticle) => {
-    axios.post(`http://localhost:1337/arts/update/${article._id}`, updatedArticle)
+    axios
+      .post(`http://localhost:1337/arts/update/${article._id}`, updatedArticle)
       .then(() => {
         setModal(null);
         swal({
-          icon: 'success',
-          text: 'Successfully updated',
+          icon: "success",
+          text: "Successfully updated",
         }).then(() => {
           window.location.reload(); // Refresh the page
         });
@@ -113,8 +116,8 @@ const Edit = ({ article }) => {
       .catch((err) => {
         console.log(err);
         swal({
-          icon: 'warning',
-          text: 'Error',
+          icon: "warning",
+          text: "Error",
         });
       });
 
@@ -127,10 +130,11 @@ const Edit = ({ article }) => {
         articleName: article.articleName,
         articleDesc: article.articleDesc,
       },
-      updated_at: moment.utc().format('YYYY-MM-DD hh:mm:ss A'),
+      updated_at: moment.utc().format("YYYY-MM-DD hh:mm:ss A"),
     };
 
-    axios.post("http://localhost:1337/editarticles/add", editData)
+    axios
+      .post("http://localhost:1337/editarticles/add", editData)
       .then(() => {
         console.log("Edit history data saved successfully");
       })
@@ -143,53 +147,94 @@ const Edit = ({ article }) => {
     <div>
       <p>
         <FaPencilAlt
-          className='editIcon'
-          type='button'
-          class='rounded float-end'
-          style={{ color: 'blue' }}
-          data-bs-toggle='modal'
+          className="editIcon"
+          type="button"
+          class="rounded float-end"
+          style={{ color: "blue" }}
+          data-bs-toggle="modal"
           data-bs-target={`#edit-modal-${article._id}`}
         />
       </p>
-      <div className="modal fade" id={`edit-modal-${article._id}`} tabIndex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
+      <div
+        className="modal fade"
+        id={`edit-modal-${article._id}`}
+        tabIndex="-1"
+        aria-labelledby="edit-modal-label"
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="edit-modal-label">Edit</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h5 className="modal-title" id="edit-modal-label">
+                Edit
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               <form onSubmit={onUpdate}>
                 <div className="mb-3">
-                  <label htmlFor="articleName" className="form-label">Article Name</label>
+                  <label htmlFor="articleName" className="form-label">
+                    Article Name
+                  </label>
                   <input
                     type="text"
-                    className={`form-control ${errors.articleName && 'is-invalid'}`}
+                    className={`form-control ${
+                      errors.articleName && "is-invalid"
+                    }`}
                     id="articleName"
                     name="articleName"
                     value={updatedarticle.articleName}
                     onChange={onChange}
                   />
-                  {errors.articleName && <div className="invalid-feedback">{errors.articleName}</div>}
+                  {errors.articleName && (
+                    <div className="invalid-feedback">{errors.articleName}</div>
+                  )}
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="articleDesc" className="form-label">Article Introduction</label>
+                  <label htmlFor="articleDesc" className="form-label">
+                    Article Introduction
+                  </label>
                   <input
                     type="text"
-                    className={`form-control ${errors.articleDesc && 'is-invalid'}`}
+                    className={`form-control ${
+                      errors.articleDesc && "is-invalid"
+                    }`}
                     id="articleDesc"
                     name="articleDesc"
                     value={updatedarticle.articleDesc}
                     onChange={onChange}
                   />
-                  {errors.articleDesc && <div className="invalid-feedback">{errors.articleDesc}</div>}
+                  {errors.articleDesc && (
+                    <div className="invalid-feedback">{errors.articleDesc}</div>
+                  )}
                 </div>
                 <div className="mb-3">
-                  <input type="file" accept=".pdf,.doc,.docx" className="form-control" aria-label="file example" onChange={onChange} />
+                  <label htmlFor="Attachment" className="form-label">
+                    Article Attachment
+                  </label>
+                </div>
+                <div className="mb-3">
+                  <p>If you want to change the file, add the new file here.</p>
+                  <input
+                    type="file"
+                    accept=".pdf,.doc,.docx"
+                    className="form-control"
+                    aria-label="file example"
+                    onChange={onChange}
+                  />
                   <p>Only pdf and word files are allowed.</p>
                 </div>
                 <div class="modal-footer">
-                  <input type="submit" value="Update Unit" className="btn btn-primary" />
+                  <input
+                    type="submit"
+                    value="Update Unit"
+                    className="btn btn-primary"
+                  />
                 </div>
               </form>
             </div>
@@ -201,4 +246,3 @@ const Edit = ({ article }) => {
 };
 
 export default Edit;
-

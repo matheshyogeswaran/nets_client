@@ -29,7 +29,7 @@ const RequestGuidanceTickets = () => {
     try {
       var data = {
         ...formData,
-        createdBy: "641db06699bb728ad6649957",
+        requestedBy: "641db06699bb728ad6649957",
       };
       console.log(data);
 

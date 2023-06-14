@@ -1,30 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import NavBar from "../../components/NavBar";
 
 const Article = (props) => (
   <tr>
-    <td>
-      {props.article.chapterName}
-    </td>
-    <td>
-      {props.article.articleName}
-    </td>
-    <td>
-      {props.article.articleDesc}
-    </td>
-    <td>
-      {props.article.old_data.articleName}
-    </td>
-    <td>
-       {props.article.old_data.articleDesc}
-    </td>
-    <td>
-       {props.article.updatedby}
-    </td>
-    <td>
-       {props.article.updated_at}
-    </td>
+    <td>{props.article.chapterName}</td>
+    <td>{props.article.articleName}</td>
+    <td>{props.article.articleDesc}</td>
+    <td>{props.article.old_data.articleName}</td>
+    <td>{props.article.old_data.articleDesc}</td>
+    <td>{props.article.updatedby}</td>
+    <td>{props.article.updated_at}</td>
   </tr>
 );
 
@@ -33,7 +19,7 @@ const UnitHistory = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:1337/editarticles/')
+      .get("http://localhost:1337/editarticles/")
       .then((response) => {
         seteditarticles(response.data);
       })
@@ -43,34 +29,32 @@ const UnitHistory = () => {
   }, []);
 
   const editarticlesList = () =>
-  editarticles.map((currentArticle, i) => <Article article={currentArticle} key={i} />);
+    editarticles.map((currentArticle, i) => (
+      <Article article={currentArticle} key={i} />
+    ));
 
   return (
-     
     <React.Fragment>
-            <div>
-             <NavBar></NavBar>
-             <div className="container p-4"> 
-     
-      <h3>Article Edit History</h3>
-      <table className="table table-striped" style={{ marginTop: 20 }}>
-        <thead>
-          <tr>
-          <th>Chapter Name</th>
-            <th>Article Name</th>
-            <th>Article Description</th>
-            <th>Previous Article Name</th>
-            <th>Previous Article Description</th>
-            <th>Updated By</th>
-            <th>Updated Time</th>
-          </tr>
-        </thead>
-        <tbody>{editarticlesList()}</tbody>
-      </table>
-    </div>
-    </div>
-        </React.Fragment>
-        
+      <div>
+        <div className="container p-4">
+          <h3>Article Edit History</h3>
+          <table className="table table-striped" style={{ marginTop: 20 }}>
+            <thead>
+              <tr>
+                <th>Chapter Name</th>
+                <th>Article Name</th>
+                <th>Article Description</th>
+                <th>Previous Article Name</th>
+                <th>Previous Article Description</th>
+                <th>Updated By</th>
+                <th>Updated Time</th>
+              </tr>
+            </thead>
+            <tbody>{editarticlesList()}</tbody>
+          </table>
+        </div>
+      </div>
+    </React.Fragment>
   );
 };
 
