@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import depChap from "../../images/systemAdmin/depChap.svg";
-import learning from "../../images/systemAdmin/learning.svg";
-import manageGuidance from "../../images/systemAdmin/manageGuidance.svg";
-import rating1 from "../../images/systemAdmin/rating1.svg";
+import image1 from "../../images/contentCr/depChap.svg"
+import image2 from "../../images/contentCr/learningChap.svg"
+import image3 from "../../images/contentCr/manageGuidance.svg"
+import image4 from "../../images/contentCr/rating1.svg"
 
 const ContentCreator = () => {
     return (
@@ -12,7 +12,7 @@ const ContentCreator = () => {
                     <div className="card shadow">
                         <Link to="/department" className="btn btn-outline-dark">
                             <center>
-                                <img src={manageGuidance} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                                <img src={image3} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
                             </center>
                             <div className="card-body">
                                 <h6>Complete Guidance request</h6>
@@ -24,7 +24,7 @@ const ContentCreator = () => {
                     <div className="card shadow">
                         <Link to="/department" className="btn btn-outline-dark">
                             <center>
-                                <img src={rating1} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                                <img src={image4} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
                             </center>
                             <div className="card-body">
                                 <h6>View My Ratings and Review</h6>
@@ -36,7 +36,7 @@ const ContentCreator = () => {
                     <div className="card shadow">
                         <Link to="/department" className="btn btn-outline-dark">
                             <center>
-                                <img src={learning} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                                <img src={image2} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
                             </center>
                             <div className="card-body">
                                 <h6>Show My Learning Materials</h6>
@@ -48,7 +48,7 @@ const ContentCreator = () => {
                     <div className="card shadow">
                         <Link to="/department" className="btn btn-outline-dark">
                             <center>
-                                <img src={depChap} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
+                                <img src={image1} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
                             </center>
                             <div className="card-body">
                                 <h6>Show Department Chapters</h6>

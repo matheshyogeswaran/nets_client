@@ -1,8 +1,8 @@
-import Edit from "./EditTask";
-import Delete from "./DeleteTask";
+import Edit from "./EditUnit";
+import Delete from "./DeleteUnit";
 import { Link } from "react-router-dom";
 
-const Tasks = ({ todo }) => {
+const Tasks = ({ unit }) => {
     return(
         <div>
       <div className='card'>
@@ -10,19 +10,14 @@ const Tasks = ({ todo }) => {
           <div class='col-lg-12'> 
          
         <h3 style={{ font: '25px', color: '#000000' }}>
-        <Link to={"/Unit/"+todo._id} style={{textDecoration:"none",color: "#000000"}}> {todo.unitName}</Link>
+        <Link to={"/Unit/"+unit._id} style={{textDecoration:"none",color: "#000000"}}> {unit.unitName}</Link>
             </h3>
-             <div>
-              
-              <Edit key={todo._id} todo={todo} />
-             
-             </div>
-              
-            <p>{todo.unitDesc} </p>
-            <div>
-              
-              <Delete key={todo._id} todo={todo} />
-             
+             <div>             
+              <Edit key={unit._id} unit={unit} />             
+             </div>              
+            <p>{unit.unitDesc} </p>
+            <div>             
+              <Delete key={unit._id} unit={unit} />            
              </div>
             </div>
             </div>

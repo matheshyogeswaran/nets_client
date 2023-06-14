@@ -1,36 +1,40 @@
 import Articles from './Articles';
- 
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
- 
 
 const ArticleList = () => {
-  const [todos, setTodos] = useState([]);
+  const chapterId = '64848a1cd792d9e0909c70e0';
+  const [articles, setarticles] = useState([]);
+
+  // useEffect(() => {
+  //   axios.get('http://localhost:1337/arts/')
+  //     .then(response => {
+  //       setarticles(response.data);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // }, []); 
 
   useEffect(() => {
-    axios.get('http://localhost:1337/arts/')
+    axios.get(`http://localhost:1337/arts?chapterId=${chapterId}`)
       .then(response => {
-        setTodos(response.data);
+        setarticles(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
-
-   
+  }, [chapterId]);
 
   return (
     <div>
-       
             <div> 
-          {todos.map(todo => {
+          {articles.map(article => {
             return (
-              <Articles key={todo._id} todo={todo} />
+              <Articles key={article._id} article={article} />
             )
           })}
-          </div>
-           
+          </div>       
           </div>
          
     

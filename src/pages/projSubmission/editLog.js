@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import swal from "sweetalert";
-import Search from "../../subComponents/search";
+import Search from '../../components/search';
 import { MdOutlineCheckCircle, MdOutlineCancel } from "react-icons/md";
 
 const Editlog = () => {

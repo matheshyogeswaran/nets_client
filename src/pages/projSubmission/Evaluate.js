@@ -3,7 +3,11 @@ import { useState, useEffect } from "react";
 import swal from "sweetalert";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import { MdEditNote, MdCheckCircleOutline } from "react-icons/md";
+import {
+  MdEditNote,
+  MdCheckCircleOutline,
+  MdOutlineRemoveRedEye,
+} from "react-icons/md";
 
 const Evaluate = () => {
   const API_BASE = "http://localhost:1337";
@@ -18,6 +22,8 @@ const Evaluate = () => {
   const [feedback, setFeedback] = useState("");
   const [show, setShow] = useState();
   const [userImage, setUserImage] = useState("");
+  const [description, setDescription] = useState("");
+  const [isDescription, setIsDescription] = useState();
 
   useEffect(() => {
     let empId = propsData?.empId;
@@ -28,6 +34,8 @@ const Evaluate = () => {
         setFeedback(res?.data?.feedback);
         setShow(res?.data?.show);
         setUserImage(res?.data?.userImage);
+        setDescription(res?.data?.description);
+        setIsDescription(res?.data?.isDescription);
       })
       .catch((error) => {
         if (error?.response && error?.response?.status === 404) {
@@ -222,13 +230,69 @@ const Evaluate = () => {
                 <label className="form-check-label fs-4">
                   Show feedback to employee
                 </label>
-                <div className="form-check checkbox-lg form-switch mt-3">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    checked={show}
-                    onChange={(e) => setShow(e.target.checked)}
-                  />
+                <div className="d-flex justify-content-between">
+                  <div className="form-check checkbox-lg form-switch mt-3">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      checked={show}
+                      onChange={(e) => setShow(e.target.checked)}
+                    />
+                  </div>
+
+                  {isDescription && (
+                    <>
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#descriptionModal"
+                      >
+                        <MdOutlineRemoveRedEye /> View Description
+                      </button>
+
+                      <div
+                        class="modal fade"
+                        id="descriptionModal"
+                        tabindex="-1"
+                        aria-labelledby="descriptionModalLabel"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1
+                                class="modal-title fs-5"
+                                id="descriptionModalLabel"
+                              >
+                                Description for Submission -{" "}
+                                {propsData?.firstName} {propsData?.lastName}
+                              </h1>
+                              <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              ></button>
+                            </div>
+                            <div
+                              class="modal-body"
+                              dangerouslySetInnerHTML={{ __html: description }}
+                            ></div>
+                            <div class="modal-footer">
+                              <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                              >
+                                Close
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 

@@ -1,12 +1,9 @@
 
 
 import React from "react";
-import NavBar from "../../components/NavBar";
-import users from "../../data/Users.json";
 import axios from "axios";
 import swal from "sweetalert";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 const PermanentDeleteChapter = () => {
   const [chapters, setChapter] = useState([]);
 

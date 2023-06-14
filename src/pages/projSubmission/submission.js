@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { UilFolderDownload } from "@iconscout/react-unicons";
 import axios from "axios";
 import swal from "sweetalert";
-import Search from "./../../subComponents/search";
+import Search from '../../components/search';
 
 const Submission = () => {
   //  Base URL of the API
@@ -147,14 +147,15 @@ const Submission = () => {
                           <td className="td-download-icon">
                             {emp.projectName}{" "}
                             {/* if downloadIcon is equal to current employeeID the download icon will appear */}
-                            {downloadIcon === emp.empId && (
-                              <UilFolderDownload
-                                color="#0198E1"
-                                className="download-icon"
-                                // click to download file and pass employeeId as argument
-                                onClick={() => handleGetZipFile(emp.empId)}
-                              />
-                            )}
+                            {emp?.isFileToDownload &&
+                              downloadIcon === emp.empId && (
+                                <UilFolderDownload
+                                  color="#0198E1"
+                                  className="download-icon"
+                                  // click to download file and pass employeeId as argument
+                                  onClick={() => handleGetZipFile(emp.empId)}
+                                />
+                              )}
                           </td>
 
                           <td className="text-center">
