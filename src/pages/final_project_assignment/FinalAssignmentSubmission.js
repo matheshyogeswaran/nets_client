@@ -30,7 +30,7 @@ const FinalAssignmentSubmission = () => {
     useEffect(() => {
         axios.get(`http://localhost:1337/finalprojectassignment/getOneAssignment/${userData}`)
             .then(response => {
-                if (response.data[0] !== null) {
+                if (response.data[0].isProjectAssigned === true) {
                     setIsAssignmentRequested(true);
                 } else {
                     Swal.fire("Info", "Request Assignment First", "info");
@@ -173,7 +173,7 @@ const FinalAssignmentSubmission = () => {
                                 data-bs-toggle="modal"
                                 data-bs-target={"#openModal"}
                             >
-                                {"  " + assignment?.acceptedBy.firstName + "  " + assignment?.acceptedBy.lastName}
+                                {"  " + assignment?.acceptedBy?.firstName + "  " + assignment?.acceptedBy?.lastName}
                             </button>
                         </h6>
                         {
@@ -203,14 +203,14 @@ const FinalAssignmentSubmission = () => {
                                                 width={150}
                                                 height={150}
                                                 alt="userImage"
-                                                src={assignment?.acceptedBy.userImage}
+                                                src={assignment?.acceptedBy?.userImage}
                                                 className="p-3 rounded-circle">
                                             </img>
                                         </center>
                                         <hr></hr>
-                                        <p>Phone: {assignment?.acceptedBy.phoneNumber}</p>
+                                        <p>Phone: {assignment?.acceptedBy?.phoneNumber}</p>
                                         <hr></hr>
-                                        <p>Email: <a href={"mailto:" + assignment?.acceptedBy.emailAddress}> {assignment?.acceptedBy.emailAddress} </a></p>
+                                        <p>Email: <a href={"mailto:" + assignment?.acceptedBy?.emailAddress}> {assignment?.acceptedBy?.emailAddress} </a></p>
                                         <hr></hr>
                                     </div>
                                 </div>
@@ -248,7 +248,7 @@ const FinalAssignmentSubmission = () => {
                                                 data-bs-toggle="modal"
                                                 data-bs-target={"#openModal"}
                                             >
-                                                {assignment?.acceptedBy.firstName + "  " + assignment?.acceptedBy.lastName}
+                                                {assignment?.acceptedBy?.firstName + "  " + assignment?.acceptedBy?.lastName}
                                             </button>
                                             {"  "}
                                             to reschedule.</strong></div>

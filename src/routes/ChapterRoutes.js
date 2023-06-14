@@ -13,7 +13,6 @@ import PermanentDeleteChapter from "../pages/chapter/PermanentDeleteChapter";
 import ViewChapter from "../pages/chapter/ViewChapter";
 import DeleteChapterPermanent from "../pages/chapter/DeleteChapterPermanent";
 import Content from "../pages/Chapter page/Content";
-import EditTask from "../pages/Chapter page/EditTask";
 
 import { userRoles as ur } from "../data/userRole";
 
@@ -87,9 +86,5 @@ export const chapter_routes = [
         path: "/chapterPage",
         ele: <Content />,
         availability:[ur.superAdmin]
-    },
-    {
-        path: "/edit/:id",
-        ele: <EditTask />
     },
 ]
