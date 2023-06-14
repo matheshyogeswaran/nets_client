@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { UilFolderDownload } from "@iconscout/react-unicons";
 import axios from "axios";
 import swal from "sweetalert";
-import Search from '../../components/search';
+import Search from "../../components/search";
 
 const Submission = () => {
   //  Base URL of the API
@@ -107,7 +107,7 @@ const Submission = () => {
                     <tr className="table-head ">
                       <th className="emp-id">ID</th>
                       <th className="emp-name">Name</th>
-                      <th className="emp-sub">Submitted date</th>
+                      <th className="emp-sub">Submitted Time</th>
                       <th className="emp-proName">Project Name</th>
                       <th className="emp-status">Status</th>
                     </tr>

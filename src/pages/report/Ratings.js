@@ -27,10 +27,28 @@ const RatingsReport = () => {
       .catch((error) => {
         if (error?.response && error?.response.status === 404) {
           // Handle "User not found" error
-          setErrorHandlingKTSession(error?.response.data.error);
+          return (
+            <div
+              className="shadow text-center bg-dark text-light"
+              width="90px"
+              height="90px"
+              style={{ margin: "15%", padding: "20px" }}
+            >
+              <h4>{error.response.data.error}</h4>
+            </div>
+          );
         } else {
           // Handle other errors
-          setErrorHandlingKTSession(error?.message);
+          return (
+            <div
+              className="shadow text-center bg-dark text-light"
+              width="90px"
+              height="90px"
+              style={{ margin: "15%", padding: "20px" }}
+            >
+              <h4>{error.message}</h4>
+            </div>
+          );
         }
       });
     axios
@@ -39,10 +57,28 @@ const RatingsReport = () => {
       .catch((error) => {
         if (error?.response && error?.response.status === 404) {
           // Handle "User not found" error
-          setErrorHandlingArticle(error?.response.data.error);
+          return (
+            <div
+              className="shadow text-center bg-dark text-light"
+              width="90px"
+              height="90px"
+              style={{ margin: "15%", padding: "20px" }}
+            >
+              <h4>{error.response.data.error}</h4>
+            </div>
+          );
         } else {
           // Handle other errors
-          setErrorHandlingArticle(error?.message);
+          return (
+            <div
+              className="shadow text-center bg-dark text-light"
+              width="90px"
+              height="90px"
+              style={{ margin: "15%", padding: "20px" }}
+            >
+              <h4>{error.message}</h4>
+            </div>
+          );
         }
       });
   }, []);
@@ -428,17 +464,6 @@ const RatingsReport = () => {
                 ))}
               </div>
             )}
-          </div>
-          <div
-            className="shadow text-center bg-dark text-light"
-            width="90px"
-            height="90px"
-            style={{ margin: "15%", padding: "20px" }}
-          >
-            <h4>
-              {errorHandlingArticle}
-              {errorHandlingKTSession}
-            </h4>
           </div>
         </>
       ) : (

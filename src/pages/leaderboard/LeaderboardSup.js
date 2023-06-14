@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import swal from "sweetalert";
 import axios from "axios";
-import Search from '../../components/search';
+import Search from "../../components/search";
 const LeaderboardSup = () => {
   const API_BASE = "http://localhost:1337";
   const [score, setScore] = useState([]);
@@ -136,7 +136,7 @@ const LeaderboardSup = () => {
             )}
           </div>
           {/* rank after 3 */}
-          {score?.length > 3 ? (
+          {score?.length > 3 && (
             <div className="leaderboard-table-wrapper ">
               <div div className="d-flex justify-content-between my-5">
                 <h4 className="top-gainers">All Employees</h4>
@@ -155,10 +155,10 @@ const LeaderboardSup = () => {
                       Name
                     </th>
                     <th className="leaderboard-th align-middle text-center">
-                      Total score
+                      Total Score
                     </th>
                     <th className="leaderboard-th align-middle text-center">
-                      Average score
+                      Average Score
                     </th>
                     <th className="leaderboard-th align-middle text-center">
                       Rank
@@ -216,8 +216,6 @@ const LeaderboardSup = () => {
                 </tbody>
               </table>
             </div>
-          ) : (
-            <></>
           )}
         </div>
       ) : (

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import swal from "sweetalert";
-import Search from '../../components/search';
+import Search from "../../components/search";
 import { MdOutlineCheckCircle, MdOutlineCancel } from "react-icons/md";
 
 const Editlog = () => {
@@ -64,13 +64,13 @@ const Editlog = () => {
               <thead>
                 <tr className="table-dark">
                   <th>Project Name</th>
-                  <th>Submitted by</th>
-                  <th>Previous score</th>
-                  <th>Changed score</th>
-                  <th>Previous show</th>
-                  <th>Changed show</th>
-                  <th>Updraded by</th>
-                  <th>Upgraded time</th>
+                  <th>Submitted By</th>
+                  <th>Previous Score</th>
+                  <th>Updated Score</th>
+                  <th>Previous Show</th>
+                  <th>Updated Show</th>
+                  <th>Updated By</th>
+                  <th>Updated Time</th>
                 </tr>
               </thead>
               <tbody>
@@ -191,7 +191,7 @@ const Editlog = () => {
                                                 </span>
                                                 <span className="border-end border-secondary border-2 mx-4"></span>
                                                 <span>
-                                                  <h4>Changed Feedback</h4>
+                                                  <h4>Updated Feedback</h4>
                                                   <span>{feedbackData}</span>
                                                 </span>
                                               </div>
