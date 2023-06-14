@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { MdOutlineCancel, MdOutlineCheckCircle } from "react-icons/md";
 import { swal } from "sweetalert";
-import Search from "./../../subComponents/search";
+import Search from '../../components/search';
 
 const ProjScore = () => {
   const API_BASE = "http://localhost:1337";

@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Search from "./../../subComponents/search";
+import Search from '../../components/search';
 import swal from "sweetalert";
 import quizReportBG from "../../images/quizreportbg.png";
 

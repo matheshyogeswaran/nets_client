@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Search from "./../../subComponents/search";
+import Search from '../../components/search';
 import axios from "axios";
 import swal from "sweetalert";
 

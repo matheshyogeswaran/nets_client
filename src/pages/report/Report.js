@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Search from "../../subComponents/search";
-import TabReport from "../../component/tabReport";
+import Search from '../../components/search';
+import TabReport from "../../components/tabReport";
 import axios from "axios";
 import swal from "sweetalert";
 
