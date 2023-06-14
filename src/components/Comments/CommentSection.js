@@ -4,7 +4,7 @@ import AddComments from "./AddComments";
 import Comment from "./Comment";
 import axios from "axios";
 
-const CommentSection = () => {
+const CommentSection = (props) => {
   const [showComments, setShowComments] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const [addReplies, setAddReplies] = useState(false);
@@ -12,16 +12,30 @@ const CommentSection = () => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(
-        `http://localhost:1337/get-kt-comments-by-kt-id/641d6c69bd434511a89d27dd`
-      )
-      .then((response) => {
-        setComments(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    console.log("comment id " + props.ID);
+    if (props.type === "KT") {
+      axios
+        .get(`http://localhost:1337/get-kt-comments-by-kt-id/${props.ID}`)
+        .then((response) => {
+          setComments(response.data);
+          console.log(response.data.comment);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      axios
+        .get(
+          `http://localhost:1337/get-article-comments-by-article-id/${props.ID}`
+        )
+        .then((response) => {
+          setComments(response.data);
+          console.log(response.data.comment);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   }, []);
 
   function formatDate(dateString) {
@@ -43,7 +57,7 @@ const CommentSection = () => {
   }
 
   return (
-    <div className="container mt-5">
+    <div className="container">
       <div className="d-flex justify-content-center row">
         <div className="col-md-12">
           <div
@@ -52,7 +66,6 @@ const CommentSection = () => {
               display: "block",
               borderRadius: "11px",
               boxShadow: "black",
-              marginTop: "5%",
               marginBottom: "5%",
               maxWidth: "1000px",
               marginLeft: "auto",
@@ -60,8 +73,8 @@ const CommentSection = () => {
               padding: "50px",
             }}
           >
-            <Ratings />
-            <AddComments type="comment" />
+            <Ratings ID={props.ID} source={props.type} />
+            <AddComments type="comment" ID={props.ID} source={props.type} />
             <div className="d-flex justify-content-between p-3">
               <span style={{ color: "#7D7575" }}>
                 {comments.length} comments
@@ -122,6 +135,8 @@ const CommentSection = () => {
                         <div className="mb-5">
                           <AddComments
                             type="reply"
+                            ID={props.ID}
+                            source={props.type}
                             selectedComment={selectedComment}
                           />
                         </div>
