@@ -1,14 +1,21 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import jwt_decode from "jwt-decode";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2"
 import ManageFinalProjectAssignmentNav from "./ManageFinalProjectAssignmentNav";
+
 const EditAssignedTasks = () => {
+    const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
+    const depid = userDocument.department;
     const [requests, setRequests] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:1337/finalprojectassignment/getAssigned')
+        axios.get(`http://localhost:1337/finalprojectassignment/getAssigned/${depid}`)
             .then(response => {
                 setRequests(response.data);
+                if(response.data.length === 0){
+                    Swal.fire("","No Assigned Final Project Assignments","warning");
+                }
             })
             .catch(function (error) {
                 console.log(error);
@@ -45,7 +52,7 @@ const EditAssignedTasks = () => {
         <>
             <div className="container mt-3">
                 <ManageFinalProjectAssignmentNav />
-                <div className="bg-dark text-white p-3 rounded ">
+                <div className="heading text-white p-3 rounded ">
                     Edit assigned final project assignments
                 </div>
                 <table className=" mt-3 table table-striped">

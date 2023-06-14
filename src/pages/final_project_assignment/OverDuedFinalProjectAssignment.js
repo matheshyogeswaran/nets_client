@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2"
+import jwt_decode from "jwt-decode";
 import ManageFinalProjectAssignmentNav from "./ManageFinalProjectAssignmentNav";
+import Swal from "sweetalert2"
 
 const OverDuedFinalProjectAssignment = () => {
+    const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
+    const depid = userDocument.department;
     const [requests, setRequests] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:1337/finalprojectassignment/getOverDuedAssignments')
+        axios.get(`http://localhost:1337/finalprojectassignment/getOverDuedAssignments/${depid}`)
             .then(response => {
                 setRequests(response.data);
+                if(response.data.length === 0){
+                    Swal.fire("","No Overdued Final Project Assignments found","warning");
+                }
             })
             .catch(function (error) {
                 console.log(error);
@@ -36,11 +42,11 @@ const OverDuedFinalProjectAssignment = () => {
 
     return (
         <div className="container mt-3">
-            <ManageFinalProjectAssignmentNav/>
-            <div className="bg-dark text-white p-3 rounded ">
+            <ManageFinalProjectAssignmentNav />
+            <div className="heading text-white p-3 rounded ">
                 Over Dued Assignments
             </div>
-            
+
             <table className=" mt-3 table table-striped">
                 <thead className="align-middle">
                     <tr >

@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import swal from 'sweetalert';
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-const RequireAuth = ({ children, userroles, currentRole }) => {
+const RequireAuth = ({ children, userroles }) => {
     let currentUserRole;
     if(localStorage.getItem("user")){
         currentUserRole = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.userRole;

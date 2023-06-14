@@ -15,7 +15,6 @@ import PermanentDeleteChapter from "../pages/chapter/PermanentDeleteChapter";
 import ViewChapter from "../pages/chapter/ViewChapter";
 import DeleteChapterPermanent from "../pages/chapter/DeleteChapterPermanent";
 import Content from "../pages/Chapter page/Content";
-import Edit from "../pages/Chapter page/EditUnit";
 
 import { userRoles as ur } from "../data/userRole";
 

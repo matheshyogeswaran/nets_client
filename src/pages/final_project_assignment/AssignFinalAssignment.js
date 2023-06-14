@@ -4,11 +4,12 @@ import "react-quill/dist/quill.snow.css";
 import Swal from "sweetalert2"
 import axios from "axios"
 import jwt_decode from "jwt-decode";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 const AssignFinalAssignment = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
-    const [title, setTitle] = useState();
-    const [description, setDescription] = useState();
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
     const [deadline, setDeadline] = useState();
     const [files, setFiles] = useState([]);
     const [showUploadFileInput, setShowUploadFileInput] = useState(false);
@@ -38,6 +39,16 @@ const AssignFinalAssignment = () => {
     const userData = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData._id
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (description.trim() === '' && files.length === 0) {
+            Swal.fire("Error In Submitting Assignment", "Note and File both can not be empty. Add note or upload file as assignment submission.", "error");
+            return;
+        }else if(title.trim()===""){
+            Swal.fire("Error In Submitting Assignment", "Title can not be empty.", "error");
+            return;
+        }else if(deadline === undefined){
+            Swal.fire("Error In Submitting Assignment", "Deadline can not be empty.", "error");
+            return;
+        }
         setLoading(true);
         const formData = new FormData();
         formData.append("title", title);
@@ -62,6 +73,7 @@ const AssignFinalAssignment = () => {
             }).then(res => {
                 if (res.data.status === true) {
                     Swal.fire("", "Assignment Submitted Successfully", "success");
+                    navigate("/finalProjectAssignmentRequests")
                 } else {
                     Swal.fire("Error", res.data.message, "error");
                 }
@@ -78,9 +90,9 @@ const AssignFinalAssignment = () => {
     }
     const date = new Date();
     // "2023-04-18T00:00"
-    const minDate = `${date.getFullYear().toString().padStart(4,"0")}-${(date.getMonth()+1).toString().padStart(2,"0")}-${date.getDate().toString().padStart(2,"0")}T${date.getHours().toString().padStart(2,"0")}:${date.getMinutes().toString().padStart(2,"0")}`
+    const minDate = `${date.getFullYear().toString().padStart(4, "0")}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}T${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`
     // const minDate = `${date.getFullYear().toString().padStart(4,"0")}-${(date.getMonth()+1).toString().padStart(2,"0")}-${date.getDate().toString().padStart(2,"0")}T11:10`
-    const maxDate = `${date.getFullYear().toString().padStart(4,"0")}-${(date.getMonth()+1+6).toString().padStart(2,"0")}-${date.getDate().toString().padStart(2,"0")}T${date.getHours().toString().padStart(2,"0")}:${date.getMinutes().toString().padStart(2,"0")}`
+    const maxDate = `${date.getFullYear().toString().padStart(4, "0")}-${(date.getMonth() + 1 + 6).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}T${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`
     console.log(minDate)
     console.log(maxDate)
     return (
@@ -92,7 +104,7 @@ const AssignFinalAssignment = () => {
                 <form className="mt-4" onSubmit={handleSubmit} method="POST" encType="multipart/form-data">
                     <div className="form-floating mb-3">
                         <input
-
+                            // required
                             type="text"
                             className="form-control"
                             placeholder="Final Project Assignment Title"
@@ -113,13 +125,13 @@ const AssignFinalAssignment = () => {
                     />
                     <div className="form-floating mb-3">
                         <input
-
                             type="text"
                             className="form-control"
                             placeholder="Deadline"
                             onFocus={(e) => (e.target.type = "datetime-local")}
                             min={minDate}
                             max={maxDate}
+                            // required
                             onChange={(e) => { setDeadline(e.target.value) }}
                             id="dl"></input>
                         <label htmlFor="dl">Select Deadline</label>
