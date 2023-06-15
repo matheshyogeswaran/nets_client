@@ -5,6 +5,8 @@ import Swal from "sweetalert2"
 import axios from "axios"
 import jwt_decode from "jwt-decode";
 import { useNavigate, useParams } from "react-router-dom";
+import { removeHTMLTags, getLoggedinUserData } from "../../utils/functions";
+import { modules } from "../../utils/ReactQuillModules";
 const AssignFinalAssignment = () => {
     const navigate = useNavigate();
     const { id } = useParams();
@@ -13,39 +15,29 @@ const AssignFinalAssignment = () => {
     const [deadline, setDeadline] = useState();
     const [files, setFiles] = useState([]);
     const [showUploadFileInput, setShowUploadFileInput] = useState(false);
+
     const handleShowUpload = () => {
         if (showUploadFileInput === false) {
             setShowUploadFileInput(true);
         } else {
             setShowUploadFileInput(false);
+            setFiles([])
         }
     }
-    const modules = {
-        toolbar: [
-            [{ font: [] }],
-            ["bold", "italic", "underline", "strike"],
-            [{ color: [] }, { background: [] }],
-            [{ align: [] }],
-            ["blockquote", "code-block"],
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ script: "sub" }, { script: "super" }],
-            [{ indent: "-1" }, { indent: "+1" }, { align: [] }],
-            ["link", "video"],
-        ],
-    };
 
     const [progress, setProgress] = useState(0);
     const [loading, setLoading] = useState(false);
     const userData = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData._id
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (description.trim() === '' && files.length === 0) {
+        console.log(files);
+        if ((removeHTMLTags(description).trim()) === '' && (files.length === 0) ) {
             Swal.fire("Error In Submitting Assignment", "Note and File both can not be empty. Add note or upload file as assignment submission.", "error");
             return;
         }else if(title.trim()===""){
             Swal.fire("Error In Submitting Assignment", "Title can not be empty.", "error");
             return;
-        }else if(deadline === undefined){
+        }else if(deadline === undefined || deadline.trim()===""){
             Swal.fire("Error In Submitting Assignment", "Deadline can not be empty.", "error");
             return;
         }
@@ -89,12 +81,9 @@ const AssignFinalAssignment = () => {
 
     }
     const date = new Date();
-    // "2023-04-18T00:00"
     const minDate = `${date.getFullYear().toString().padStart(4, "0")}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}T${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`
-    // const minDate = `${date.getFullYear().toString().padStart(4,"0")}-${(date.getMonth()+1).toString().padStart(2,"0")}-${date.getDate().toString().padStart(2,"0")}T11:10`
     const maxDate = `${date.getFullYear().toString().padStart(4, "0")}-${(date.getMonth() + 1 + 6).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}T${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`
-    console.log(minDate)
-    console.log(maxDate)
+    
     return (
         <React.Fragment>
             <div className="mt-4 container">
