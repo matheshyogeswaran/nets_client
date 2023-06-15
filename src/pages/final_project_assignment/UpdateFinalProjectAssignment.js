@@ -4,10 +4,11 @@ import "react-quill/dist/quill.snow.css";
 import Swal from "sweetalert2"
 import axios from "axios"
 import jwt_decode from "jwt-decode";
-import { Link, useNavigate, useParams } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
+import { removeHTMLTags, getLoggedinUserData, DateInputToday, DateInputGetMaxDate } from "../../utils/functions";
 const UpdateFinalProjectAssignment = () => {
-    const userData = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData._id
+    const userData = getLoggedinUserData()._id
+    console.log(userData);
     const { id } = useParams();
     // to store data from api
     const [fetchData, setFetchData] = useState({})
@@ -41,7 +42,7 @@ const UpdateFinalProjectAssignment = () => {
         const year = date.getFullYear().toString().padStart(4, '0');
         const hour = date.getHours().toString().padStart(2, '0');
         const min = date.getMinutes().toString().padStart(2, '0');
-        const month = (date.getMonth()+1).toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const day = date.getDate().toString().padStart(2, '0');
         const fullDate = `${year}-${month}-${day}T${hour}:${min}`
         console.log(fullDate)
@@ -53,12 +54,14 @@ const UpdateFinalProjectAssignment = () => {
             setShowUploadFileInput(true);
         } else {
             setShowUploadFileInput(false);
+            setNewFile([])
         }
     }
 
     const handleDeleteOption = () => {
         if (deleteUploadedFile === false) {
             Swal.fire("", "Attached file will be deleted when you click Submit button", "info");
+            setNewFile([])
             setDeleteUploadedFile(true);
         } else {
             Swal.fire("", "Your file is safe", "info");
@@ -83,6 +86,23 @@ const UpdateFinalProjectAssignment = () => {
     // handle submit
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(deadline);
+        if (!fetchData?.uploadedFileBySupervisor) {
+            if (removeHTMLTags(description).trim() === '' && newFile.length === 0) {
+                Swal.fire("Error In Submitting Assignment", "Note and File both can not be empty. Add note or upload file as assignment submission.", "error");
+                return;
+            }
+        } else if (deleteUploadedFile === true && newFile.length === 0 && removeHTMLTags(description).trim() === '') {
+            Swal.fire("Error In Submitting Assignment", "Note and File both can not be empty. You deleted added file previously. Add note or upload file as assignment submission.", "error");
+            return;
+        }
+        else if (title.trim() === "") {
+            Swal.fire("Error In Submitting Assignment", "Title can not be empty.", "error");
+            return;
+        } else if (deadline === undefined || deadline.trim() === "") {
+            Swal.fire("Error In Submitting Assignment", "Deadline can not be empty.", "error");
+            return;
+        }
         const formData = new FormData();
         formData.append("title", title);
         formData.append("finalprojectassignmentid", id);
@@ -118,6 +138,10 @@ const UpdateFinalProjectAssignment = () => {
         }
 
     }
+    const date = new Date();
+    const minDate = `${date.getFullYear().toString().padStart(4, "0")}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}T${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`
+    const maxDate = `${date.getFullYear().toString().padStart(4, "0")}-${(date.getMonth() + 1 + 6).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}T${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`
+    
     return (
         <React.Fragment>
             <div className="mt-4 container mb-5">
@@ -155,6 +179,8 @@ const UpdateFinalProjectAssignment = () => {
                             value={deadline}
                             className="form-control"
                             placeholder="Deadline"
+                            min={minDate}
+                            max={maxDate}
                             onChange={(e) => { setDeadline(e.target.value) }}
                             id="dl"
                         ></input>
@@ -183,6 +209,13 @@ const UpdateFinalProjectAssignment = () => {
                         }
 
                     </div>
+                    <p className="text-danger fw-bold">
+                        {
+                            (deleteUploadedFile === false && newFile.length !== 0)
+                                ? "Your new file will be uploaded automatically. To cancel uploading new file untick the checkbox."
+                                : null
+                        }
+                    </p>
                     <div className="form-control mb-3">
                         <input
                             type="checkbox"

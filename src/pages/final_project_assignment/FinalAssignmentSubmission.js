@@ -5,24 +5,13 @@ import "react-quill/dist/quill.snow.css";
 import Swal from "sweetalert2"
 import jwt_decode from "jwt-decode";
 import { Link, useNavigate } from "react-router-dom";
+import { getTimeFormat, removeHTMLTags } from "../../utils/functions";
+import { modules } from "../../utils/ReactQuillModules";
 const FinalAssignmentSubmission = () => {
     const navigate = useNavigate();
     const userData = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData._id
-    const modules = {
-        toolbar: [
-            [{ font: [] }],
-            ["bold", "italic", "underline", "strike"],
-            [{ color: [] }, { background: [] }],
-            [{ align: [] }],
-            ["blockquote", "code-block"],
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ script: "sub" }, { script: "super" }],
-            [{ indent: "-1" }, { indent: "+1" }, { align: [] }],
-            ["link", "video"],
-        ],
-    };
     const [assignment, setAssignment] = useState();
-
+    const [time, setTime] = useState({});
     const [note, setNote] = useState("");
     const [file, setFiles] = useState([]);
     const [isAssignmentRequested, setIsAssignmentRequested] = useState(false);
@@ -36,6 +25,7 @@ const FinalAssignmentSubmission = () => {
                     Swal.fire("Info", "Request Assignment First", "info");
                 }
                 setAssignment(response.data[0]);
+                setTime(getTimeFormat(response.data[0]?.projectDeadLine))
                 console.log(response.data[0]);
                 setIsAssignmentSubmitted((response?.data[0]?.submittedDate) ? true : false);
             })
@@ -44,14 +34,9 @@ const FinalAssignmentSubmission = () => {
             });
     }, [])
 
-    const assignmentDeadline = new Date(assignment?.projectDeadLine);
-    const now = new Date()
-    const diffInMs = (assignmentDeadline.getTime() - now.getTime()) / 60000;
-    console.log(file.length);
-    
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (note.trim() === '' && file.length === 0) {
+        if (removeHTMLTags(note).trim() === '' && file.length === 0) {
             Swal.fire("Error In Submitting Assignment", "Note and File both can not be empty. Add note or upload file as assignment submission.", "error");
             return;
         }
@@ -82,26 +67,6 @@ const FinalAssignmentSubmission = () => {
             console.log(err);
             alert("Error Occured")
         }
-    }
-
-    function formatDuration(minutes) {
-        let days = Math.floor(minutes / 1440);
-        let hours = Math.floor((minutes % 1440) / 60);
-        let remainingMinutes = minutes % 60;
-
-        let result = "";
-
-        if (days > 0) {
-            result += days + " day" + (days === 1 ? "" : "s") + ", ";
-        }
-
-        if (hours > 0) {
-            result += hours + " hour" + (hours === 1 ? "" : "s") + ", ";
-        }
-
-        result += remainingMinutes + " minute" + (remainingMinutes === 1 ? "" : "s");
-
-        return result;
     }
 
     return (
@@ -137,14 +102,14 @@ const FinalAssignmentSubmission = () => {
                                 <h6>
                                     Deadline Status:
                                     {
-                                        (diffInMs <= 0)
+                                        (time.status===false)
                                             ?
                                             <span style={{ "color": "red" }}>
-                                                {"Assignment overdued by " + formatDuration(Math.abs(Math.floor(diffInMs)))}
+                                                {" Assignment overdued by " + time.timeString}
                                             </span>
                                             :
                                             <span style={{ "color": "green" }}>
-                                                {formatDuration(Math.floor(diffInMs)) + " Left"}
+                                                {" " + time.timeString + " Left"}
                                             </span>
                                     }
                                 </h6>
@@ -237,9 +202,8 @@ const FinalAssignmentSubmission = () => {
                                 Submit Your Answer
                             </div>
                             {
-                                (diffInMs <= 0)
+                                (time.status===false)
                                     ?
-
                                     <div className="alert alert-danger mt-3">
                                         <strong>
                                             Assignment Overdued. Contact{"  "}

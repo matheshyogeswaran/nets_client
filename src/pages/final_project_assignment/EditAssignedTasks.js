@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2"
 import ManageFinalProjectAssignmentNav from "./ManageFinalProjectAssignmentNav";
-
+import { formatDuration, getTimeFormat } from "../../utils/functions";
 const EditAssignedTasks = () => {
     const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
     const depid = userDocument.department;
@@ -62,6 +62,7 @@ const EditAssignedTasks = () => {
                             <th scope="col">Assigned By</th>
                             <th scope="col">Requested On</th>
                             <th scope="col">Assigned On</th>
+                            <th scope="col">Deadline</th>
                             <th scope="col">Update</th>
                             <th scope="col">Delete</th>
                         </tr>
@@ -95,6 +96,7 @@ const EditAssignedTasks = () => {
                                         </td>
                                         <td>{new Date(item?.requestedDate).toLocaleString('en-US', { timeZone: 'Asia/Colombo' })}</td>
                                         <td>{new Date(item?.assignedOn).toLocaleString('en-US', { timeZone: 'Asia/Colombo' })}</td>
+                                        <td>{getTimeFormat(item?.projectDeadLine).timeString + " Left"}</td>
                                         <td>
                                             <Link to={"/updateFinalProjectAssignment/" + item?._id} className="btn btn-outline-success">
                                                 Update
