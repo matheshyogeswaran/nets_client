@@ -22,6 +22,15 @@ const EditChapter = () => {
       return;
     }
 
+    // Validate chapter name starts with a capital letter
+    if (!newChapterName.match(/^[A-Z]/)) {
+      swal({
+        icon: "warning",
+        text: "Chapter name must start with a capital letter.",
+      });
+      return;
+    }
+
     axios
       .post("http://localhost:1337/chapters/editChapter", {
         fromName: name,

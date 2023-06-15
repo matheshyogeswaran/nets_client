@@ -13,11 +13,11 @@ const AddDepartment = () => {
     e.preventDefault();
 
     // Validate department name
-    const regex = /^[A-Za-z\s]+$/; //contains alphabet,space
+    const regex = /^[A-Z][a-z\s]+$/; //contains alphabet,space
     if (!validator.matches(depName, regex)) {
       swal({
         icon: "warning",
-        text: "Department name must contain only alphabet letters.",
+        text: "Department name must start with a capital letter and contain only alphabet letters.",
       });
       return;
     }

@@ -41,7 +41,7 @@ export const chapter_routes = [
     {
         path: "/editchap/:id/:name",
         ele: <EditChapter />,
-        availability: [ur.systemAdmin]
+        availability: [ur.systemAdmin, ur.superAdmin]
     },
     {
         path: "/deletechap/:id",

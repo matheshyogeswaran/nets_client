@@ -21,16 +21,32 @@ const DepartmentAddChapter = () => {
                 console.log(error);
             });
     }, []);
-
     const selectedDepartmentName = departments.find(department => department._id === deptID)?.depName;
     // console.log(selectedDepartmentName);
+
     function submitChapter(e) {
         e.preventDefault();
-        // Validate chapter name
-        if (!validator.isAlpha(chaptername.replace(/[^A-Za-z]/g, ""))) {  //must contain atleast 1 alphabet
+        if (!validator.isAlpha(chaptername.replace(/[^A-Za-z]/g, ""))) {  // Must contain at least 1 alphabet
             swal({
                 icon: "warning",
                 text: "Chapter name must contain at least one alphabet letter.",
+            });
+            return;
+        }
+
+        // Validate chapter name starts with a capital letter
+        if (!chaptername.match(/^[A-Z]/)) {
+            swal({
+                icon: "warning",
+                text: "Chapter name must start with a capital letter.",
+            });
+            return;
+        }
+
+        if (!selectedDepartment) {
+            swal({
+                icon: "warning",
+                text: "Please select your department",
             });
             return;
         }
@@ -77,10 +93,8 @@ const DepartmentAddChapter = () => {
                                 required
                             />
                         </div>
-
                     </div>
-                    <label className="ml-5 createchap">Suitable Department</label>
-                    <br></br>
+                    <label className="ml-5 my-3 createchap">Suitable Department</label>
                     <div className="col-md-7">
                         <select style={{ "backgroundColor": "MintCream" }}
                             onChange={(e) => {

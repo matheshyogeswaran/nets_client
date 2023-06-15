@@ -14,11 +14,11 @@ const EditJobtitle = () => {
     e.preventDefault();
 
     // Validate jobtitle name
-    const regex = /^[A-Za-z\s-]+$/;  //contains alphabet,space,-
+    const regex = /^[A-Z][a-z\s-]+$/;  //contains alphabet,space,-
     if (!validator.matches(newJobtitleName, regex)) {
       swal({
         icon: "warning",
-        text: "Jobtitle name must contain only alphabet letters.",
+        text: "Jobtitle name must start with a capital letter and contain only alphabet letters",
       });
       return;
     }
@@ -95,8 +95,6 @@ const EditJobtitle = () => {
               Save
             </button>
           </div>
-
-          {/* <div className="field"></div> */}
         </form>
       </div>
     </div>

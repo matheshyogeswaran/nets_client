@@ -14,10 +14,19 @@ const EditChapter = () => {
         e.preventDefault();
 
         // Validate chapter name
-        if (!validator.isAlpha(newChapterName.replace(/[^A-Za-z]/g, ""))) {  //must contain atleast 1 alphabet
+        if (!validator.isAlpha(newChapterName.replace(/[^A-Za-z]/g, ""))) {  // Must contain at least 1 alphabet
             swal({
                 icon: "warning",
-                text: "Chapter name must contain at least one alphabet letter.",
+                text: "Common Chapter name must contain at least one alphabet letter.",
+            });
+            return;
+        }
+
+        // Validate chapter name starts with a capital letter
+        if (!newChapterName.match(/^[A-Z]/)) {
+            swal({
+                icon: "warning",
+                text: "Common Chapter name must start with a capital letter.",
             });
             return;
         }

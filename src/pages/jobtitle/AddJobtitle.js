@@ -22,11 +22,19 @@ const AddJobtitle = () => {
     console.log(selectedDepartment);
 
     // Validate jobtitle name
-    const regex = /^[A-Za-z\s-]+$/;  //contains alphabet,space,-
+    const regex = /^[A-Z][a-z\s-]+$/;  //contains alphabet,space,-
     if (!validator.matches(jobTitlename, regex)) {
       swal({
         icon: "warning",
-        text: "Jobtitle name must contain only alphabet letters.",
+        text: "Jobtitle name must start with a capital letter and contain only alphabet letters",
+      });
+      return;
+    }
+
+    if (!selectedDepartment) {
+      swal({
+        icon: "warning",
+        text: "Please select the suitable department",
       });
       return;
     }
