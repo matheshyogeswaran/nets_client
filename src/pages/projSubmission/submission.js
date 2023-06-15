@@ -4,6 +4,7 @@ import { UilFolderDownload } from "@iconscout/react-unicons";
 import axios from "axios";
 import swal from "sweetalert";
 import Search from "../../components/search";
+import jwt_decode from "jwt-decode";
 
 const Submission = () => {
   //  Base URL of the API
@@ -15,10 +16,14 @@ const Submission = () => {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState();
 
+  const supervisorId = jwt_decode(
+    JSON?.parse(localStorage?.getItem("user"))?.token
+  )?.userData?._id;
+
   // Fetch data on mount
   useEffect(() => {
     axios
-      .get(API_BASE + "/getSubmissionTable")
+      .get(API_BASE + "/getSubmissionTable/" + supervisorId)
       .then((res) => setSubmissionData(res.data))
       .catch((error) => {
         if (error.response && error.response.status === 404) {
@@ -147,8 +152,8 @@ const Submission = () => {
                           <td className="td-download-icon">
                             {emp.projectName}{" "}
                             {/* if downloadIcon is equal to current employeeID the download icon will appear */}
-                            {emp?.isFileToDownload &&
-                              downloadIcon === emp.empId && (
+                            {downloadIcon === emp.empId &&
+                              emp?.isFileToDownload && (
                                 <UilFolderDownload
                                   color="#0198E1"
                                   className="download-icon"

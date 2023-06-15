@@ -15,17 +15,14 @@ const RatingsReport = () => {
   // states for storing fetched data
   const [ktSessionRating, setKtSessionRating] = useState({});
   const [articleRating, setArticleRating] = useState({});
-  // states for error handling event
-  const [errorHandlingArticle, setErrorHandlingArticle] = useState("");
-  const [errorHandlingKTSession, setErrorHandlingKTSession] = useState("");
 
   useEffect(() => {
     let empId = propsData?.empId || localhostEmpId;
     axios
-      .get(API_BASE + "/ktsessionRatings/" + empId)
-      .then((res) => setKtSessionRating(res?.data))
+      .get(API_BASE + "/ktsessionRatingsReport/" + empId)
+      .then((res) => setKtSessionRating(res.data))
       .catch((error) => {
-        if (error?.response && error?.response.status === 404) {
+        if (error.response && error.response.status === 404) {
           // Handle "User not found" error
           return (
             <div
@@ -52,10 +49,10 @@ const RatingsReport = () => {
         }
       });
     axios
-      .get(API_BASE + "/articleRatings/" + empId)
-      .then((res) => setArticleRating(res?.data))
+      .get(API_BASE + "/articleRatingsReport/" + empId)
+      .then((res) => setArticleRating(res.data))
       .catch((error) => {
-        if (error?.response && error?.response.status === 404) {
+        if (error.response && error.response.status === 404) {
           // Handle "User not found" error
           return (
             <div
@@ -112,8 +109,8 @@ const RatingsReport = () => {
               </div>
             </div>
           </div>
-          {/* before ratings */}
-          <div className="ratings-grid ">
+          {/* before ratingsRepRatingsReport */}
+          <div className="ratingsRepRatingsReport-grid ">
             {Object.keys(ktSessionRating).length !== 0 && (
               <div className=" specific-chapter rounded d-flex flex-column align-items-center bg-light m-lg-5 my-5 shadow">
                 <div className="rounded d-flex justify-content-around w-100 text-light py-4 mb-3 fw-semibold fs-4 bg-secondary">
@@ -453,15 +450,17 @@ const RatingsReport = () => {
                   <span> Article Name</span>
                   <span>Rating</span>
                 </div>
-                {articleRating?.articleRatingsData?.map((article, index) => (
-                  <div
-                    key={index}
-                    className="specific-chapter w-75 kt-article-data shadow"
-                  >
-                    <span>{article?.articleName}</span>
-                    <span>{article?.overallRating}</span>
-                  </div>
-                ))}
+                {articleRating?.articleRatingsReportData?.map(
+                  (article, index) => (
+                    <div
+                      key={index}
+                      className="specific-chapter w-75 kt-article-data shadow"
+                    >
+                      <span>{article?.articleName}</span>
+                      <span>{article?.overallRating}</span>
+                    </div>
+                  )
+                )}
               </div>
             )}
           </div>

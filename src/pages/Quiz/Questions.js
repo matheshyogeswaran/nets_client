@@ -1,8 +1,8 @@
 import Edit from "./EditQ";
 import Delete from "./DeleteQ";
-import { useState } from 'react';
+import { useState } from "react";
 
-const Questions = ({ quiz, unitid, onQuestionSubmit }) => {
+const Questions = ({ quiz, unitid, onQuestionSubmit, questionNumber }) => {
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const { _id, question, options } = quiz;
 
@@ -11,13 +11,12 @@ const Questions = ({ quiz, unitid, onQuestionSubmit }) => {
     onQuestionSubmit(_id, index);
   };
 
-
   return (
-     
     <div>
       <div className="card">
         <div className="container">
           <br />
+          <p>Question {questionNumber}</p>
           <p>{question}</p>
 
           {options.map((option, index) => (
@@ -29,9 +28,7 @@ const Questions = ({ quiz, unitid, onQuestionSubmit }) => {
                   name={`question${_id}`}
                   id={`flexRadioDefault${index}`}
                   value={option}
-                           
                   onChange={(event) => handleOptionChange(event, index)}
-                   
                 />
               </div>
               <br></br>
@@ -48,8 +45,6 @@ const Questions = ({ quiz, unitid, onQuestionSubmit }) => {
 
           <br />
           <div className="container-fluid d-grid gap-2 d-md-flex justify-content-md-end">
-                       
-
             <Edit key={_id} quiz={quiz} id={unitid} />
             <Delete key={_id} quiz={quiz} id={unitid} />
           </div>
@@ -61,8 +56,3 @@ const Questions = ({ quiz, unitid, onQuestionSubmit }) => {
 };
 
 export default Questions;
-
- 
-
-
- 

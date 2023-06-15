@@ -71,6 +71,7 @@ const Editlog = () => {
                   <th>Updated Show</th>
                   <th>Updated By</th>
                   <th>Updated Time</th>
+                  <th>Department</th>
                 </tr>
               </thead>
               <tbody>
@@ -81,8 +82,8 @@ const Editlog = () => {
                       return log;
                     } else if (
                       log?.submittedBy
-                        .toLowerCase()
-                        .includes(search.toLowerCase())
+                        ?.toLowerCase()
+                        ?.includes(search?.toLowerCase())
                     ) {
                       return log;
                     }
@@ -170,9 +171,10 @@ const Editlog = () => {
                                     <td
                                       dangerouslySetInnerHTML={{ __html: date }}
                                     ></td>
+                                    <td>{log.department}</td>
                                   </tr>
                                   {showFeedback === indexi + log?.userEmpId && (
-                                    <tr className="shadow score-edit-log-feedback ">
+                                    <tr className="shadow">
                                       {log?.feedback?.map(
                                         (feedbackData, indexf) =>
                                           indexf > 0 &&
@@ -180,7 +182,7 @@ const Editlog = () => {
                                             <td
                                               key={indexf}
                                               className=" score-edit-log-feedback-td fw-semibold p-4"
-                                              colSpan="8"
+                                              colSpan="9"
                                             >
                                               <div className="d-flex justify-content-between">
                                                 <span>

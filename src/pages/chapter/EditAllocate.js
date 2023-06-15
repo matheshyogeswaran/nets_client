@@ -4,6 +4,7 @@ import swal from "sweetalert";
 import NavBar from "../../components/NavBar";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import image1 from "../../images/4.svg";
 
 const EditAllocate = () => {
   const department = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.department;
@@ -64,41 +65,49 @@ const EditAllocate = () => {
         <div className="alert mt-3 heading">
           <h5>Edit Allocate Chapters</h5>
         </div>
-        <br></br> <br></br>
-        <table className="table">
-          <tbody>
-            {chaptername.map((item) => {
-              return (
-                <div key={item._id} className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value={item._id}
-                    id={item._id}
-                    onChange={(e) => { updateArray(e) }}
-                  />
-                  <label
-                    className="form-check-label"
-                  >
-                    {item.chapterName}
-                  </label>
-                </div>
-              );
-            })}
-            <input
-              type="submit"
-              className="btn btn-success mt-4"
-              value="     Allocated default chapters     "
-              onClick={submitEdit}
-            />{" "}
-            &nbsp;
-            {/* <input
+        <div>
+          <img src={image1} className="picside3" draggable={false} alt="this is image" />
+        </div>
+        <br></br>{
+          <table className="table">
+            <tbody>
+              {
+                (chaptername.length === 0)
+                  ?
+                  <div className="alert alert-info mt-4"> <b>No Chapters Found related to your Department !</b> </div>
+                  : chaptername.map((item) => {
+                    return (
+                      <div key={item._id} className="form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value={item._id}
+                          id={item._id}
+                          onChange={(e) => { updateArray(e) }}
+                        />
+                        <label
+                          className="form-check-label"
+                        >
+                          {item.chapterName}
+                        </label>
+                      </div>
+                    );
+                  })}
+              <input
+                type="submit"
+                className="btn btn-success mt-4"
+                value="     Allocated default chapters     "
+                onClick={submitEdit}
+              />{" "}
+              &nbsp;
+              {/* <input
               type="reset"
               className="btn btn-warning"
               value="Reset"
             /> */}
-          </tbody>
-        </table>
+            </tbody>
+          </table>}
+
       </div>
     </React.Fragment>
   );

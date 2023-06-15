@@ -16,7 +16,8 @@ function ProfileOverview(props) {
       .catch(function (error) {
         console.log(error);
       });
-  },[userID])
+  }, [userID]);
+
   return (
     <div className="container">
       <div className="row justify-content-center ">
@@ -74,7 +75,7 @@ function ProfileOverview(props) {
                   </div>
                 </div>
 
-                {data?.jobTitle &&
+                {data?.jobTitle?.jobTitle &&
                   <div className="row mt-2 justify-content-center">
                     <div className="col-md-2"></div>
                     <div className="form-group col-md-3">
@@ -93,7 +94,7 @@ function ProfileOverview(props) {
                 }
 
                 {
-                  data.department &&
+                  data?.department?.departmentName &&
                   <div className="row mt-2 justify-content-center">
                     <div className="col-md-2"></div>
                     <div className="form-group col-md-3">
@@ -184,3 +185,5 @@ function ProfileOverview(props) {
 }
 
 export default ProfileOverview;
+
+

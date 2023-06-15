@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { FaPencilAlt } from 'react-icons/fa';
-import swal from 'sweetalert';
-import moment from 'moment';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { FaPencilAlt } from "react-icons/fa";
+import swal from "sweetalert";
+import moment from "moment";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { storage } from "../../Firebase config/firebase";
-import { v4 } from 'uuid';
-import * as Yup from 'yup';
+import { v4 } from "uuid";
+import * as Yup from "yup";
 
 const Edit = ({ KTsession, unitId }) => {
-  const userid = '648050d3b39dcbdf90027b5a';
+  const userid = "648050d3b39dcbdf90027b5a";
   const [updatedFile, setUpdatedFile] = useState(null);
   const [modal, setModal] = useState(null);
   const [editkts, seteditkts] = useState([]);
@@ -17,17 +22,26 @@ const Edit = ({ KTsession, unitId }) => {
   const [errors, setErrors] = useState({});
 
   const validationSchema = Yup.object().shape({
-    sessionName: Yup.string().required('KT Session name is required'),
-    sessionDesc: Yup.string().required('Description is required'),
-    sessionFile: Yup.mixed().test('fileFormat', 'Only video files are allowed', (value) => {
-      if (!value) return true;
-      const allowedFormats = ['video/mp4', 'video/mpeg', 'video/quicktime', 'video/x-msvideo'];
-      return allowedFormats.includes(value.type);
-    }),
+    sessionName: Yup.string().required("KT Session name is required"),
+    sessionDesc: Yup.string().required("Description is required"),
+    sessionFile: Yup.mixed().test(
+      "fileFormat",
+      "Only video files are allowed",
+      (value) => {
+        if (!value) return true;
+        const allowedFormats = [
+          "video/mp4",
+          "video/mpeg",
+          "video/quicktime",
+          "video/x-msvideo",
+        ];
+        return allowedFormats.includes(value.type);
+      }
+    ),
   });
 
   const onChange = (e) => {
-    if (e.target.type === 'file') {
+    if (e.target.type === "file") {
       setUpdatedFile(e.target.files[0]);
     } else {
       setUpdatedKTsession({
@@ -60,8 +74,8 @@ const Edit = ({ KTsession, unitId }) => {
       });
       setErrors(validationErrors);
       swal({
-        icon: 'warning',
-        text: 'Error',
+        icon: "warning",
+        text: "Error",
       });
       return;
     }
@@ -74,33 +88,35 @@ const Edit = ({ KTsession, unitId }) => {
       deleteObject(videoRef)
         .then(() => {
           // Upload the new file to Firebase Storage
-          const newVideoRef = ref(storage, `KTsessions/${updatedFile.name + v4()}`);
+          const newVideoRef = ref(
+            storage,
+            `KTsessions/${updatedFile.name + v4()}`
+          );
           uploadBytes(newVideoRef, updatedFile)
             .then((snapshot) => {
               // Get the download URL of the new file
-              getDownloadURL(snapshot.ref)
-                .then((url) => {
-                  // Update the KT session with the new file's URL
-                  const updatedSession = {
-                    ...updatedKTsession,
-                    sessionUrl: url,
-                  };
-                  updateKTSession(updatedSession);
-                });
+              getDownloadURL(snapshot.ref).then((url) => {
+                // Update the KT session with the new file's URL
+                const updatedSession = {
+                  ...updatedKTsession,
+                  sessionUrl: url,
+                };
+                updateKTSession(updatedSession);
+              });
             })
             .catch((error) => {
-              console.log('Error uploading new video:', error);
+              console.log("Error uploading new video:", error);
               swal({
-                icon: 'warning',
-                text: 'Error',
+                icon: "warning",
+                text: "Error",
               });
             });
         })
         .catch((error) => {
-          console.log('Error deleting current video:', error);
+          console.log("Error deleting current video:", error);
           swal({
-            icon: 'warning',
-            text: 'Error',
+            icon: "warning",
+            text: "Error",
           });
         });
     } else {
@@ -115,8 +131,8 @@ const Edit = ({ KTsession, unitId }) => {
       .then(() => {
         setModal(null);
         swal({
-          icon: 'success',
-          text: 'Successfully updated',
+          icon: "success",
+          text: "Successfully updated",
         }).then(() => {
           window.location.reload(); // Refresh the page
         });
@@ -124,8 +140,8 @@ const Edit = ({ KTsession, unitId }) => {
       .catch((err) => {
         console.log(err);
         swal({
-          icon: 'warning',
-          text: 'Error',
+          icon: "warning",
+          text: "Error",
         });
       });
 
@@ -138,13 +154,13 @@ const Edit = ({ KTsession, unitId }) => {
         sessionName: KTsession.sessionName,
         sessionDesc: KTsession.sessionDesc,
       },
-      updated_at: moment.utc().format('YYYY-MM-DD hh:mm:ss A'),
+      updated_at: moment.utc().format("YYYY-MM-DD hh:mm:ss A"),
     };
 
     axios
-      .post('http://localhost:1337/editkts/add', editData)
+      .post("http://localhost:1337/editkts/add", editData)
       .then(() => {
-        console.log('Edit history data saved successfully');
+        console.log("Edit history data saved successfully");
       })
       .catch((err) => {
         console.log(err);
@@ -158,19 +174,30 @@ const Edit = ({ KTsession, unitId }) => {
           className="editIcon"
           type="button"
           class="rounded float-end"
-          style={{ color: 'blue' }}
+          style={{ color: "blue" }}
           data-bs-toggle="modal"
           data-bs-target={`#edit-modal-${KTsession._id}`}
         />
       </p>
-      <div className="modal fade" id={`edit-modal-${KTsession._id}`} tabIndex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
+      <div
+        className="modal fade"
+        id={`edit-modal-${KTsession._id}`}
+        tabIndex="-1"
+        aria-labelledby="edit-modal-label"
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="edit-modal-label">
                 Edit
               </h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               <form onSubmit={onUpdate}>
@@ -180,13 +207,17 @@ const Edit = ({ KTsession, unitId }) => {
                   </label>
                   <input
                     type="text"
-                    className={`form-control ${errors.sessionName && 'is-invalid'}`}
+                    className={`form-control ${
+                      errors.sessionName && "is-invalid"
+                    }`}
                     id="sessionName"
                     name="sessionName"
                     value={updatedKTsession.sessionName}
                     onChange={onChange}
                   />
-                  {errors.sessionName && <div className="invalid-feedback">{errors.sessionName}</div>}
+                  {errors.sessionName && (
+                    <div className="invalid-feedback">{errors.sessionName}</div>
+                  )}
                 </div>
                 <div className="mb-3">
                   <label htmlFor="sessionDesc" className="form-label">
@@ -194,27 +225,45 @@ const Edit = ({ KTsession, unitId }) => {
                   </label>
                   <input
                     type="text"
-                    className={`form-control ${errors.sessionDesc && 'is-invalid'}`}
+                    className={`form-control ${
+                      errors.sessionDesc && "is-invalid"
+                    }`}
                     id="sessionDesc"
                     name="sessionDesc"
                     value={updatedKTsession.sessionDesc}
                     onChange={onChange}
                   />
-                  {errors.sessionDesc && <div className="invalid-feedback">{errors.sessionDesc}</div>}
+                  {errors.sessionDesc && (
+                    <div className="invalid-feedback">{errors.sessionDesc}</div>
+                  )}
                 </div>
                 <div className="mb-3">
+                  <label htmlFor="Attachment" className="form-label">
+                    Article Attachment
+                  </label>
+                </div>
+                <div className="mb-3">
+                  <p>If you want to change the file, add the new file here.</p>
                   <input
                     type="file"
                     accept="video/mp4,video/mpeg,video/quicktime,video/x-msvideo"
-                    className={`form-control ${errors.sessionFile && 'is-invalid'}`}
+                    className={`form-control ${
+                      errors.sessionFile && "is-invalid"
+                    }`}
                     aria-label="file example"
                     onChange={onChange}
                   />
                   <p>Only video files are allowed.</p>
-                  {errors.sessionFile && <div className="invalid-feedback">{errors.sessionFile}</div>}
+                  {errors.sessionFile && (
+                    <div className="invalid-feedback">{errors.sessionFile}</div>
+                  )}
                 </div>
                 <div className="modal-footer">
-                  <input type="submit" value="Update KT Session" className="btn btn-primary" />
+                  <input
+                    type="submit"
+                    value="Update KT Session"
+                    className="btn btn-primary"
+                  />
                 </div>
               </form>
             </div>

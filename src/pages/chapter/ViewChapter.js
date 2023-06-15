@@ -53,29 +53,34 @@ const ViewChapter = () => {
             ))}
           </select>
           <hr className="mt-3"></hr>
-        </div>
-        <table className="table">
-          <thead>
-            <tr style={{ "backgroundColor": "#b9e1dc" }}>
-              <th scope="col">#</th>
-              <th scope="col">Chapter name</th>
-              <th scope="col">Related department</th>
-              <th scope="col">Created by</th>
-            </tr>
-          </thead>
-          <tbody style={{ "backgroundColor": "MintCream" }}>
-            {filteredChapters.map((chapter) => (
-              <tr className="align-middle" key={chapter._id}>
-                <th scope="row">{chapter._id}</th>
-                <td>{chapter.chapterName}</td>
-                <td>{chapter.depID?.depName}</td>
-                <td>{chapter.createdBy?.empId}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        </div>{
+          (filteredChapters.length === 0)
+            ?
+            <div className="alert alert-info mt-4" ><b>No chapters Found !</b></div>
+            :
+            <table className="table">
+              <thead>
+                <tr style={{ "backgroundColor": "#b9e1dc" }}>
+                  <th scope="col">#</th>
+                  <th scope="col">Chapter name</th>
+                  <th scope="col">Related department</th>
+                  <th scope="col">Created by</th>
+                </tr>
+              </thead>
+              <tbody style={{ "backgroundColor": "MintCream" }}>
+                {
+                  filteredChapters.map((chapter) => (
+                    < tr className="align-middle" key={chapter._id} >
+                      <th scope="row">{chapter._id}</th>
+                      <td>{chapter.chapterName}</td>
+                      <td>{chapter.depID?.depName}</td>
+                      <td>{chapter.createdBy?.empId}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>}
       </div>
-    </React.Fragment>
+    </React.Fragment >
   );
 };
 
