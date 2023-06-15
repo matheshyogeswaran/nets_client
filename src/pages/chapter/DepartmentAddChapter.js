@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import image4 from "../../images/1.svg";
 import "../../App.css";
 import swal from "sweetalert";
-import { Link } from "react-router-dom";
 import validator from "validator";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
@@ -25,10 +24,8 @@ const DepartmentAddChapter = () => {
 
     const selectedDepartmentName = departments.find(department => department._id === deptID)?.depName;
     // console.log(selectedDepartmentName);
-
     function submitChapter(e) {
         e.preventDefault();
-
         // Validate chapter name
         if (!validator.isAlpha(chaptername.replace(/[^A-Za-z]/g, ""))) {  //must contain atleast 1 alphabet
             swal({
@@ -73,17 +70,18 @@ const DepartmentAddChapter = () => {
                             <input
                                 type="text"
                                 name="cname"
-                                className="input my-3 ml-5"
+                                className="inputdata my-3 ml-5"
                                 placeholder="Name"
                                 value={chaptername}
                                 onChange={(e) => setChapterName(e.target.value)}
                                 required
                             />
                         </div>
+
                     </div>
                     <label className="ml-5 createchap">Suitable Department</label>
                     <br></br>
-                    <div className="col-md-2">
+                    <div className="col-md-7">
                         <select style={{ "backgroundColor": "MintCream" }}
                             onChange={(e) => {
                                 setSelectedDepartment(e.target.value);
@@ -99,19 +97,18 @@ const DepartmentAddChapter = () => {
                             }
                         </select>
                     </div>
+                    <div>
+                        <img src={image4} className="picside" draggable={false} alt="this is image" />
+                    </div>
                     <br></br>
                     <div className="control">
                         <button
                             type="submit"
-                            className="btn btn-success mr-1 column is-half text-white"
+                            className="btn btn-success mr-1 column is-half text-white col-md-7 my-3"
                         >
                             Save
                         </button>
                     </div>
-                    <div>
-                        <img src={image4} className="picside" draggable={false} alt="this is image" />
-                    </div>
-                    <div className="field"></div>
                 </form>
             </div>
         </div>
