@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
+import NavBar from "../../components/NavBar";
 import swal from 'sweetalert'
 import axios from "axios"
+import jwt_decode from "jwt-decode";
 
-const PromoteDemote = () => {
+const PromoteDemoteSystemAdmin = () => {
+    const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
+    const depid = userDocument.department;
     const [users, setUsers] = useState([]);
-    const [userCount, setCount] = useState([]);
+
     const [selectedRole, setSelectedRole] = useState("");
     const [loadAgain, setLoadAgain] = useState(1);
 
     useEffect(() => {
         // /userRoles/groupbyuserrole
-        axios.get('http://localhost:1337/users/showAllUsers', {
+        axios.get(`http://localhost:1337/users/showAllUsers/systemadmin/${depid}`, {
             headers: {
                 'token': JSON.parse(localStorage.getItem("user")).token,
                 'Content-Type': 'application/json'
@@ -18,13 +22,6 @@ const PromoteDemote = () => {
         })
             .then(response => {
                 setUsers(response.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-        axios.get('http://localhost:1337/userRoles/groupbyuserrole')
-            .then(response => {
-                setCount(response.data);
             })
             .catch(function (error) {
                 console.log(error);
@@ -77,13 +74,12 @@ const PromoteDemote = () => {
     return (
         <React.Fragment>
             <div className="container mt-5">
-                <div className="alert shadow alert-success"><h4>Promote or Demote User</h4></div>
+                <div className="shadow p-3 heading rounded-3 mb-3"><h4>Promote or Demote User</h4></div>
                 <select className="form-control" onChange={(e) => setSelectedRole(e.target.value)}>
                     <option selected disabled> Select User Role to View</option>
-                    <option value={"Hired Employee"} >Hired Employee ({userCount?.find((item) => item._id === "Hired Employee")?.count || 0})</option>
-                    <option value={"Content Creator"} >Content Creator ({userCount?.find((item) => item._id === "Content Creator")?.count || 0})</option>
-                    <option value={"Supervisor"} >Supervisor ({userCount?.find((item) => item._id === "Supervisor")?.count || 0})</option>
-                    <option value={"System Admin"} >System Admin ({userCount?.find((item) => item._id === "System Admin")?.count || 0})</option>
+                    <option value={"Hired Employee"} >Hired Employee</option>
+                    <option value={"Content Creator"} >Content Creator</option>
+                    <option value={"Supervisor"} >Supervisor</option>
                 </select>
                 {
                     (selectedRole === "")
@@ -139,4 +135,4 @@ const PromoteDemote = () => {
         </React.Fragment>
     );
 }
-export default PromoteDemote;
+export default PromoteDemoteSystemAdmin;

@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import swal from 'sweetalert';
-import axios from "axios"
-const PendingUserApproval = () => {
+import axios from "axios";
+import jwt_decode from "jwt-decode"
+
+const PendingUserApprovalDepartment = () => {
     // to set unverified users from user collection
     const [unverifiedUsers, setUnverifiedUsers] = useState([]);
     const [refresh, setRefresh] = useState(1);
     const [loading, setLoading] = useState(false);
     const [currentActiveButton, setCurrentActiveButton] = useState();
+    const depID = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.department;
     useEffect(() => {
-        axios.get('http://localhost:1337/users/getAllUnverifiedUsers')
+        axios.get(`http://localhost:1337/users/getAllUnverifiedUsersDepartment/${depID}`)
             .then(response => {
                 setUnverifiedUsers(response.data);
             })
@@ -68,14 +71,14 @@ const PendingUserApproval = () => {
     return (
         <React.Fragment>
             <div className="container">
-                <div className="form-control mt-3 bg-dark text-white"><b>Hired Employee Requests</b></div>
+                <div className="form-control mt-3 bg-dark text-white"><b>Hired Employee Requests from your department</b></div>
                 {
                     (unverifiedUsers.length === 0)
                         ?
                         <div className="alert alert-info mt-4"> <b>No Unverified Users Found !</b> </div>
                         :
                         <div className="table-responsive">
-                            <table className=" text-center mt-3 table table-striped">
+                            <table className=" mt-3 table table-striped">
                                 <thead>
                                     <tr>
                                         <th scope="col">Image</th>
@@ -83,7 +86,6 @@ const PendingUserApproval = () => {
                                         <th scope="col">First Name</th>
                                         <th scope="col">Last Name</th>
                                         <th scope="col">Job Title</th>
-                                        <th scope="col">Department</th>
                                         <th scope="col">Requested On</th>
                                         <th scope="col">Contact</th>
                                         <th scope="col">Allow</th>
@@ -100,8 +102,7 @@ const PendingUserApproval = () => {
                                                     <th>{item?.fname}</th>
                                                     <th>{item?.lname}</th>
                                                     <td>{item?.jobTitle?.jobTitle}</td>
-                                                    <td>{item?.department?.departmentName}</td>
-                                                    <td>{ new Date(item?.submittedOn).toLocaleString('en-US', { timeZone: 'Asia/Colombo' })}</td>
+                                                    <td>{new Date(item?.submittedOn).toLocaleString('en-US', { timeZone: 'Asia/Colombo' })}</td>
                                                     <td>
                                                         <button type="button" class="btn btn-outline-primary form-control" data-bs-toggle="modal" data-bs-target={"#exampleModal" + item?.userID}>
                                                             Show Contact
@@ -167,4 +168,4 @@ const PendingUserApproval = () => {
         </React.Fragment>
     );
 }
-export default PendingUserApproval;
+export default PendingUserApprovalDepartment;

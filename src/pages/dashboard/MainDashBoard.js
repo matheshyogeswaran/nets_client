@@ -1,7 +1,4 @@
 import jwt_decode from "jwt-decode";
-
-import NavBar from "../../components/NavBar"
-
 import HiredEmployee from "./HiredEmployee";
 import SuperAdmin from "./SuperAdmin";
 import Supervisor from "./Supervisor";

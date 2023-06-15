@@ -36,7 +36,7 @@ const DirectForm = (props) => {
         </div>
         <div className="row">
           <p className="col-sm-12">
-            Attachment :{/* {props.ticket.attachment} */}
+            {props.ticket.attachment && <>Attachment :</>}
           </p>
         </div>
         <div className="row">

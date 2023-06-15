@@ -49,7 +49,7 @@ const ListAllChapters = () => {
             confirmButtonText: 'Yes, Request'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.get(`http://localhost:1337/finalprojectassignment/request/${userid}`)
+                axios.get(`http://localhost:1337/finalprojectassignment/request/${userid}/${depid}`)
                     .then((res) => {
                         console.log(res.data);
                         if (res.data.status === true) {
@@ -70,8 +70,8 @@ const ListAllChapters = () => {
         <div>
             <div className="container mt-3">
                 <div className="card">
-                    <div className="card-header">
-                        <h5> <BsFillChatTextFill></BsFillChatTextFill> Department Chapters</h5>
+                    <div className="card-header heading">
+                        <h5> Department Chapters</h5>
                     </div>
                     <div className="card-body">
                         <div class="row">
@@ -94,7 +94,7 @@ const ListAllChapters = () => {
                     </div>
                 </div>
                 <div className="card mt-3">
-                    <div className="card-header">
+                    <div className="card-header heading">
                         <h5>Common Chapters</h5>
                     </div>
                     <div className="card-body">
@@ -118,7 +118,7 @@ const ListAllChapters = () => {
                     </div>
                 </div>
                 <div className="card mt-3">
-                    <div className="card-header">
+                    <div className="card-header heading">
                         <h5>Enrolled Additional Chapters:  <Link to="/enrollrequestemployee">Request More</Link></h5>
                     </div>
                     <div className="card-body">
