@@ -65,7 +65,7 @@ const AddJobtitle = () => {
               <input
                 type="text"
                 name="cname"
-                className="input my-3 ml-5"
+                className="inputdata my-2 ml-5"
                 placeholder="Name"
                 value={jobTitlename}
                 onChange={(e) => setJobName(e.target.value)}
@@ -73,9 +73,12 @@ const AddJobtitle = () => {
               />
             </div>
           </div>
-          <label className="ml-5 createchap">Suitable Department</label>
-          <br></br>
-          <div className="col-md-2">
+          <label className="ml-5 my-3 createchap">Suitable Department</label>
+          <div>
+            <img src={image4} className="picside" draggable={false} alt="this is image" />
+          </div>
+          <div className="field"></div>
+          <div className="col-md-7">
             <select style={{ "backgroundColor": "MintCream" }}
               onChange={(e) => {
                 setSelectedDepartment(e.target.value);
@@ -93,15 +96,12 @@ const AddJobtitle = () => {
           <div className="control">
             <button
               type="submit"
-              className="btn btn-success mr-1 column is-half text-white"
+              className="btn btn-success mr-1 column is-half text-white col-md-7 my-3"
             >
               Save
             </button>
           </div>
-          <div>
-            <img src={image4} className="picside" draggable={false} alt="this is image" />
-          </div>
-          <div className="field"></div>
+
         </form>
       </div>
     </div>
