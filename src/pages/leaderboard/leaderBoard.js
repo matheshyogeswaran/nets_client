@@ -16,31 +16,39 @@ const LeaderBoard = () => {
   let filtering = 3;
 
   const currentUser = jwt_decode(
-    JSON?.parse(localStorage?.getItem("user"))?.token
+    JSON?.parse(localStorage?.getItem("user")).token
   )?.userData?._id;
+  const currentUserDep = jwt_decode(
+    JSON?.parse(localStorage?.getItem("user")).token
+  )?.userData?.department;
 
   useEffect(() => {
     axios
-      .get(API_BASE + "/getLeaderboardData/" + currentUser)
-      .then((res) => setScore(res?.data))
+      .get(API_BASE + "/getCurrentUserLeaderboardData", {
+        params: { currentUser, currentUserDep },
+      })
+      .then((res) => setScore(res.data))
       .catch((error) => {
         // Handle errors
         swal({
-          title: error?.message,
+          title: "Error",
+          text: error.message,
           icon: "warning",
           dangerMode: true,
         });
       });
   }, []);
+
   const getSearchValue = (search, showSearch) => {
     setSearch(search);
     setShowSearch(showSearch);
   };
+
   return (
     <div>
-      {/* if num of employees are less than 2 no point in displaying leaderboard */}
       {score?.lbData?.length > 1 ? (
         <div className="container-md bg-light my-lg-3 p-md-4">
+          {/* Top gainers section */}
           <h2 className="top-gainers">Top Gainers</h2>
           <div className="row m-0 justify-content-center gy-3">
             {/* Top gainer 1 */}
@@ -149,14 +157,14 @@ const LeaderBoard = () => {
           </div>
           {/* Only show the badge for the employees who are below the rank 4 */}
           <div className="d-flex justify-content-center mt-5">
-            {score?.rank < 3 && (
+            {score?.currentUserRank < 4 && (
               <img
                 src={
-                  score?.rank === 0
+                  score?.currentUserRank === 1
                     ? rank1
-                    : score?.rank === 1
+                    : score?.currentUserRank === 2
                     ? rank2
-                    : score?.rank === 2
+                    : score?.currentUserRank === 3
                     ? rank3
                     : ""
                 }
@@ -166,14 +174,16 @@ const LeaderBoard = () => {
               />
             )}
             {/* if the current User is rank 1 system will not display this beat message */}
-            {score?.lbData?.[0]?.averageScore !== score?.currentUserScore && (
+            {score?.lbData?.[0]?.averageScore !==
+              score?.currentUserAvgScore && (
               <div className=" d-flex justify-content-center ">
                 <div className="score-alert alert alert-info ms-5" role="alert">
                   You Need
                   <span className="text-primary fw-bold">
                     {" "}
                     {(
-                      score?.lbData?.[0]?.averageScore - score?.currentUserScore
+                      score?.lbData?.[0]?.averageScore -
+                      score?.currentUserAvgScore
                     ).toFixed(2)}{" "}
                   </span>
                   score on average to beat
@@ -233,7 +243,7 @@ const LeaderBoard = () => {
                     })
                     ?.map(
                       (emp, index) =>
-                        index > filtering && (
+                        index >= filtering && (
                           <tr className="leaderboard-tr" key={index}>
                             <td className="leaderboard-td align-middle text-center">
                               <div className="d-flex align-items-center h-100">
@@ -244,22 +254,22 @@ const LeaderBoard = () => {
                                 />
                                 <div className="d-flex flex-column px-3">
                                   <span className="text-start leaderboard-table-name">
-                                    {emp.empId}
+                                    {emp?.empId}
                                   </span>
                                 </div>
                               </div>
                             </td>
                             <td className="leaderboard-td align-middle text-center">
-                              {emp.firstName} {emp.lastName}
+                              {emp?.firstName} {emp?.lastName}
                             </td>
                             <td className="leaderboard-td align-middle text-center">
-                              {emp.totalScore.toFixed(2)}
+                              {emp?.totalScore.toFixed(2)}
                             </td>
                             <td className="leaderboard-td align-middle text-center">
-                              {emp.averageScore.toFixed(2)}
+                              {emp?.averageScore.toFixed(2)}
                             </td>
                             <td className="leaderboard-td align-middle text-center">
-                              {score?.lbData?.indexOf(emp) + 1}
+                              {emp?.rank}
                             </td>
                           </tr>
                         )

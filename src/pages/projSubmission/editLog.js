@@ -63,15 +63,15 @@ const Editlog = () => {
             <table className="table table-hover ">
               <thead>
                 <tr className="table-dark">
-                  <th>Project Name</th>
-                  <th>Submitted By</th>
-                  <th>Previous Score</th>
-                  <th>Updated Score</th>
-                  <th>Previous Show</th>
-                  <th>Updated Show</th>
-                  <th>Updated By</th>
-                  <th>Updated Time</th>
-                  <th>Department</th>
+                  <th className="fw-medium">Project Name</th>
+                  <th className="fw-medium">Submitted By</th>
+                  <th className="fw-medium">Previous Score</th>
+                  <th className="fw-medium">Updated Score</th>
+                  <th className="fw-medium">Previous Show</th>
+                  <th className="fw-medium">Updated Show</th>
+                  <th className="fw-medium">Updated By</th>
+                  <th className="fw-medium">Updated Time</th>
+                  <th className="fw-medium">Department</th>
                 </tr>
               </thead>
               <tbody>
@@ -103,7 +103,7 @@ const Editlog = () => {
                                 <>
                                   <tr
                                     key={index}
-                                    className="score-editlog-pointer-event"
+                                    className="score-editlog-pointer-event vertical-align"
                                     onClick={() =>
                                       setShowFeedback(indexi + log?.userEmpId)
                                     }

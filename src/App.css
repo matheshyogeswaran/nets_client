@@ -436,6 +436,9 @@
   margin: 5rem 0rem 4rem 0rem;
   text-align: center;
 }
+.leaderboard-department-select {
+  width: 20% !important;
+}
 /* End of Leaderboard Page */
 /* Feedback of submission */
 .feedback {
@@ -607,11 +610,17 @@
 .score-editlog-pointer-event {
   cursor: pointer;
 }
+.vertical-align {
+  vertical-align: middle;
+}
 /* End of score edit log */
 /* For large devices */
 @media screen and (max-width: 1220px) {
   .specific-chapter {
-    width: 100%;
+    width: 100% !important;
+  }
+  .leaderboard-department-select {
+    width: 31% !important;
   }
 }
 
@@ -619,8 +628,11 @@
   .leaderboard-table-wrapper {
     margin: 0rem;
   }
+  .leaderboard-department-select {
+    width: 40%;
+  }
   .result-header {
-    width: 100%;
+    width: 100% !important;
   }
   .evaluate-grid {
     display: grid;
@@ -637,7 +649,7 @@
   }
 
   .chap-name-select select {
-    width: 98%;
+    width: 98% !important;
   }
 
   .ratings-grid {
@@ -680,5 +692,8 @@
 @media screen and (max-width: 576px) {
   .specific-chapter {
     width: 98% !important;
+  }
+  .leaderboard-department-select {
+    width: 91% !important;
   }
 }
