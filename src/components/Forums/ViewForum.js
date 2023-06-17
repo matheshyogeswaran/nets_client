@@ -85,7 +85,7 @@ const ViewForum = () => {
                   <Comment
                     id={p?._id}
                     user={p?.createdBy?.firstName + " " + p?.createdBy?.lastName}
-                    role="Employee"
+                    role={p?.createdBy?.userRole}
                     time={formatDate(p?.createdOn)}
                     message={p?.description}
                   />
@@ -193,7 +193,7 @@ const ViewForum = () => {
                                 " " +
                                 r.createdBy.lastName
                               }
-                              role={"Employee"}
+                              role={r?.createdBy?.userRole}
                               time={formatDate(r?.createdOn)}
                               message={r?.description}
                             />

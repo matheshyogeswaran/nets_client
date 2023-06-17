@@ -8,9 +8,11 @@ export function removeHTMLTags(str) {
         str = str.toString();
     return str.replace(/(<([^>]+)>)/ig, '');
 }
+
 export function getLoggedinUserData() {
     return jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData
 }
+
 export function getTimeFormat(timeString) {
     const assignmentDeadline = new Date(timeString);
     const now = new Date()
@@ -35,6 +37,7 @@ export function getTimeFormat(timeString) {
     }
     return { "timeString": result, "status": status };
 }
+
 export function DateInputToday() {
     const minDate = `
         ${date.getFullYear().toString().padStart(4, "0")}
@@ -49,6 +52,7 @@ export function DateInputToday() {
     `;
     return minDate
 }
+
 export function DateInputGetMaxDate(months) {
     const maxDate = `
     ${date.getFullYear().toString().padStart(4, "0")}
