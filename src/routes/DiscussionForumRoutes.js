@@ -8,35 +8,35 @@ import ViewForum from "../components/Forums/ViewForum";
 
 export const discussion_forum_routes = [
     {
-        path: "/forums",
-        ele: <Forums/>
+        path: "/forums/:chapterID/:chapterName",
+        ele: <Forums />
     },
     {
         path: "/view-forum/:forumId",
-        ele: <ViewForum/>
+        ele: <ViewForum />
     },
     {
-        path: "/create-forum",
-        ele: <CreateForum/>
+        path: "/create-forum/:chapterID",
+        ele: <CreateForum />
     },
     {
         path: "/edit-forum/:forumId",
-        ele: <EditForum/>
+        ele: <EditForum />
     },
     {
         path: "/create-post/:forumId",
-        ele: <CreatePost/>
+        ele: <CreatePost />
     },
     {
         path: "/add-reply/:forumId/:commentId",
-        ele: <AddReply/>
+        ele: <AddReply />
     },
     {
         path: "/view-forum/:forumId/:postId",
-        ele: <ViewAttachment type="posts"/>
+        ele: <ViewAttachment type="posts" />
     },
     {
         path: "/view-forum/:forumId/:postId/:replyId",
-        ele: <ViewAttachment type="replies"/>
+        ele: <ViewAttachment type="replies" />
     },
 ]

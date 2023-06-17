@@ -5,9 +5,10 @@ import Swal from "sweetalert2"
 import axios from "axios"
 import jwt_decode from "jwt-decode";
 import { useNavigate, useParams } from "react-router-dom";
-import { removeHTMLTags, getLoggedinUserData, DateInputToday, DateInputGetMaxDate } from "../../utils/functions";
+import { removeHTMLTags } from "../../utils/functions";
+
 const UpdateFinalProjectAssignment = () => {
-    const userData = getLoggedinUserData()._id
+    const userData = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData?._id
     console.log(userData);
     const { id } = useParams();
     // to store data from api
@@ -88,18 +89,21 @@ const UpdateFinalProjectAssignment = () => {
         e.preventDefault();
         console.log(deadline);
         if (!fetchData?.uploadedFileBySupervisor) {
+            console.log("Hello")
             if (removeHTMLTags(description).trim() === '' && newFile.length === 0) {
                 Swal.fire("Error In Submitting Assignment", "Note and File both can not be empty. Add note or upload file as assignment submission.", "error");
                 return;
             }
-        } else if (deleteUploadedFile === true && newFile.length === 0 && removeHTMLTags(description).trim() === '') {
+        }
+        if (deleteUploadedFile === true && newFile.length === 0 && removeHTMLTags(description).trim() === '') {
             Swal.fire("Error In Submitting Assignment", "Note and File both can not be empty. You deleted added file previously. Add note or upload file as assignment submission.", "error");
             return;
         }
-        else if (title.trim() === "") {
+        if (title.trim() === "") {
             Swal.fire("Error In Submitting Assignment", "Title can not be empty.", "error");
             return;
-        } else if (deadline === undefined || deadline.trim() === "") {
+        }
+        if (deadline === undefined || deadline.trim() === "") {
             Swal.fire("Error In Submitting Assignment", "Deadline can not be empty.", "error");
             return;
         }
@@ -138,10 +142,11 @@ const UpdateFinalProjectAssignment = () => {
         }
 
     }
+
     const date = new Date();
     const minDate = `${date.getFullYear().toString().padStart(4, "0")}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}T${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`
     const maxDate = `${date.getFullYear().toString().padStart(4, "0")}-${(date.getMonth() + 1 + 6).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}T${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`
-    
+
     return (
         <React.Fragment>
             <div className="mt-4 container mb-5">

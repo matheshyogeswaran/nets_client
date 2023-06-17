@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import Stars from "../Shared/Stars";
 import swal from "sweetalert";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 const ModalBody = (props) => {
+  const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
+  const userID = userDocument._id;
   const [times, setTimes] = useState(0);
   const [isRated, setIsRated] = useState(false);
   const [formData, setFormData] = useState({
@@ -15,7 +18,7 @@ const ModalBody = (props) => {
   const handleSubmit = (event) => {
     const data = {
       ...formData,
-      userId: "641db06699bb728ad6649957",
+      userId: userID,
     };
     event.preventDefault();
     if (props.source === "KT") {
