@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { MdOutlineCancel, MdOutlineCheckCircle } from "react-icons/md";
 import { swal } from "sweetalert";
-import Search from '../../components/search';
+import Search from "../../components/search";
+import jwt_decode from "jwt-decode";
 
 const ProjScore = () => {
   const API_BASE = "http://localhost:1337";
@@ -11,9 +12,13 @@ const ProjScore = () => {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState();
 
+  const supervisorId = jwt_decode(
+    JSON?.parse(localStorage?.getItem("user"))?.token
+  )?.userData?._id;
+
   useEffect(() => {
     axios
-      .get(API_BASE + "/getProjScore")
+      .get(API_BASE + "/getProjScore/" + supervisorId)
       .then((res) => setGradeData(res.data))
       .catch((error) => {
         if (error.response && error.response.status === 404) {
@@ -58,14 +63,26 @@ const ProjScore = () => {
           <div className="leaderboard-table-wrapper px-lg-3">
             <table className="table table-responsive leaderboard-table">
               <thead>
-                <tr className="score-table-header">
-                  <th className="leaderboard-th">Project Name</th>
-                  <th className="leaderboard-th ">Submitted by</th>
-                  <th className="leaderboard-th ">Grade</th>
-                  <th className="leaderboard-th ">Visible status</th>
-                  <th className="leaderboard-th ">Submitted Time</th>
-                  <th className="leaderboard-th ">Graded by</th>
-                  <th className="leaderboard-th ">Graded Time</th>
+                <tr>
+                  <th className="leaderboard-th score-table-header">
+                    Project Name
+                  </th>
+                  <th className="leaderboard-th score-table-header">
+                    Submitted by
+                  </th>
+                  <th className="leaderboard-th score-table-header">Grade</th>
+                  <th className="leaderboard-th score-table-header">
+                    Visible status
+                  </th>
+                  <th className="leaderboard-th score-table-header">
+                    Submitted Time
+                  </th>
+                  <th className="leaderboard-th score-table-header">
+                    Graded by
+                  </th>
+                  <th className="leaderboard-th score-table-header">
+                    Graded Time
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -87,13 +104,13 @@ const ProjScore = () => {
                       <>
                         <tr
                           key={index}
-                          className="leaderboard-tr score-table-body"
+                          className="leaderboard-tr"
                           onClick={() => setShowFeedback(index)}
                         >
-                          <td className="leaderboard-td">
+                          <td className="leaderboard-td score-table-body">
                             {data?.projectName}
                           </td>
-                          <td className="leaderboard-td">
+                          <td className="leaderboard-td score-table-body">
                             <span className="ms-3">
                               <img
                                 className="img-fluid rounded-circle supervisor-avatar"
@@ -106,18 +123,20 @@ const ProjScore = () => {
                             <br></br>
                             {data?.submittedName}
                           </td>
-                          <td className="leaderboard-td">{data?.grade}</td>
-                          <td className="pt-4 text-center">
+                          <td className="leaderboard-td score-table-body">
+                            {data?.grade}
+                          </td>
+                          <td className="pt-4 text-center score-table-body">
                             {data?.show ? (
                               <MdOutlineCheckCircle color="green" size={25} />
                             ) : (
                               <MdOutlineCancel color="red" size={25} />
                             )}
                           </td>
-                          <td className="leaderboard-td">
+                          <td className="leaderboard-td score-table-body">
                             {data?.submittedTime}
                           </td>
-                          <td className="leaderboard-td">
+                          <td className="leaderboard-td score-table-body">
                             <span className="ms-3">
                               <img
                                 className="img-fluid rounded-circle supervisor-avatar"
@@ -130,10 +149,12 @@ const ProjScore = () => {
                             <br></br>
                             {data?.gradedName}
                           </td>
-                          <td className="leaderboard-td">{data?.gradedTime}</td>
+                          <td className="leaderboard-td score-table-body">
+                            {data?.gradedTime}
+                          </td>
                         </tr>
                         {showFeedback === index && (
-                          <tr className=" score-table-feedback">
+                          <tr>
                             <td
                               className=" score-table-feedback-td leaderboard-td fw-semibold p-4"
                               colSpan="7"

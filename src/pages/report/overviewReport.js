@@ -18,14 +18,14 @@ const OverviewReport = () => {
   const [badges, setBadges] = useState({});
 
   const location = useLocation();
-  const propsData = location?.state;
+  const propsData = location.state;
   const navigate = useNavigate();
 
   // handle select options
   const handleOptionChange = (event) => {
-    setSelectedOption(event?.target?.value);
+    setSelectedOption(event.target.value);
     //pass the states to the selected option
-    navigate(event?.target?.value, {
+    navigate(event.target.value, {
       state: {
         empId: overviewReportDetails?.userData?.empId,
         empName: overviewReportDetails?.userData?.empName,
@@ -104,6 +104,9 @@ const OverviewReport = () => {
                           # Units
                         </th>
                         <th className="leaderboard-th align-middle text-center">
+                          Department Name
+                        </th>
+                        <th className="leaderboard-th align-middle text-center">
                           Total Score
                         </th>
                         <th className="leaderboard-th align-middle text-center">
@@ -118,7 +121,12 @@ const OverviewReport = () => {
                         (overviewItem, index) => (
                           <tr
                             key={index}
-                            className=" bg-primary bg-opacity-10 leaderboard-tr fw-semibold"
+                            className={`${
+                              overviewItem?.depName ===
+                              overviewReportDetails?.userData?.userDepartment
+                                ? " bg-primary bg-opacity-10 leaderboard-tr fw-semibold"
+                                : " bg-info  bg-opacity-10 leaderboard-tr fw-semibold"
+                            }`}
                           >
                             <td className="leaderboard-td align-middle text-center">
                               {overviewItem?.chapterName}
@@ -126,7 +134,9 @@ const OverviewReport = () => {
                             <td className="leaderboard-td align-middle text-center">
                               {overviewItem?.unitCount}
                             </td>
-
+                            <td className="leaderboard-td align-middle text-center">
+                              {overviewItem?.depName}
+                            </td>
                             <td className="leaderboard-td align-middle text-center">
                               {overviewItem?.score}
                             </td>

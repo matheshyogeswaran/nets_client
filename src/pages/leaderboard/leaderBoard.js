@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode"; //To decode JSON web tokens
 import swal from "sweetalert"; //SweetAlert library for displaying alerts
+import Search from "../../components/search";
 import rank1 from "../../images/gold.png"; // Import images for leaderboard ranks
 import rank2 from "../../images/silver.png";
 import rank3 from "../../images/bronze.png";
@@ -10,6 +11,9 @@ import rank3 from "../../images/bronze.png";
 const LeaderBoard = () => {
   const API_BASE = "http://localhost:1337";
   const [score, setScore] = useState([]);
+  const [search, setSearch] = useState();
+  const [showSearch, setShowSearch] = useState();
+  let filtering = 3;
 
   const currentUser = jwt_decode(
     JSON?.parse(localStorage?.getItem("user"))?.token
@@ -28,7 +32,10 @@ const LeaderBoard = () => {
         });
       });
   }, []);
-  console.log(score);
+  const getSearchValue = (search, showSearch) => {
+    setSearch(search);
+    setShowSearch(showSearch);
+  };
   return (
     <div>
       {/* if num of employees are less than 2 no point in displaying leaderboard */}
@@ -180,9 +187,17 @@ const LeaderBoard = () => {
             )}
           </div>
           {/* rank after 3 */}
-          {score?.lbData?.length > 3 ? (
+          {score?.lbData?.length > 3 && (
             <div className="leaderboard-table-wrapper">
-              <h4 className="top-gainers">All Employees</h4>
+              <div div className="d-flex justify-content-between my-5">
+                <h4 className="top-gainers">All Employees</h4>
+                <div id="" className="mt-2 float-end">
+                  <Search
+                    handleGetSearchValue={getSearchValue}
+                    width={{ width: "w-auto" }}
+                  />
+                </div>
+              </div>
               <table className="table leaderboard-table">
                 <thead>
                   <tr className="table-head">
@@ -191,10 +206,10 @@ const LeaderBoard = () => {
                       Name
                     </th>
                     <th className="leaderboard-th align-middle text-center">
-                      Total score
+                      Total Score
                     </th>
                     <th className="leaderboard-th align-middle text-center">
-                      Average score
+                      Average Score
                     </th>
                     <th className="leaderboard-th align-middle text-center">
                       Rank
@@ -202,44 +217,56 @@ const LeaderBoard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {score?.lbData?.map(
-                    (emp, index) =>
-                      index > 2 && (
-                        <tr className="leaderboard-tr" key={index}>
-                          <td className="leaderboard-td align-middle text-center">
-                            <div className="d-flex align-items-center h-100">
-                              <img
-                                className="img-fluid rounded-circle supervisor-avatar"
-                                src={emp?.userImage}
-                                alt={emp?.firstName}
-                              />
-                              <div className="d-flex flex-column px-3">
-                                <span className="text-start leaderboard-table-name">
-                                  {emp.empId}
-                                </span>
+                  {score?.lbData
+                    ?.filter((emp1) => {
+                      let name = emp1?.firstName + " " + emp1?.lastName;
+                      if (showSearch) {
+                        // works at normal stage and click search
+                        return emp1;
+                      } else if (
+                        name?.toLowerCase().includes(search?.toLowerCase())
+                      ) {
+                        // works when filtering
+                        filtering = 0;
+                        return emp1;
+                      }
+                    })
+                    ?.map(
+                      (emp, index) =>
+                        index > filtering && (
+                          <tr className="leaderboard-tr" key={index}>
+                            <td className="leaderboard-td align-middle text-center">
+                              <div className="d-flex align-items-center h-100">
+                                <img
+                                  className="img-fluid rounded-circle supervisor-avatar"
+                                  src={emp?.userImage}
+                                  alt={emp?.firstName}
+                                />
+                                <div className="d-flex flex-column px-3">
+                                  <span className="text-start leaderboard-table-name">
+                                    {emp.empId}
+                                  </span>
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                          <td className="leaderboard-td align-middle text-center">
-                            {emp.firstName} {emp.lastName}
-                          </td>
-                          <td className="leaderboard-td align-middle text-center">
-                            {emp.totalScore.toFixed(2)}
-                          </td>
-                          <td className="leaderboard-td align-middle text-center">
-                            {emp.averageScore.toFixed(2)}
-                          </td>
-                          <td className="leaderboard-td align-middle text-center">
-                            {score?.lbData?.indexOf(emp) + 1}
-                          </td>
-                        </tr>
-                      )
-                  )}
+                            </td>
+                            <td className="leaderboard-td align-middle text-center">
+                              {emp.firstName} {emp.lastName}
+                            </td>
+                            <td className="leaderboard-td align-middle text-center">
+                              {emp.totalScore.toFixed(2)}
+                            </td>
+                            <td className="leaderboard-td align-middle text-center">
+                              {emp.averageScore.toFixed(2)}
+                            </td>
+                            <td className="leaderboard-td align-middle text-center">
+                              {score?.lbData?.indexOf(emp) + 1}
+                            </td>
+                          </tr>
+                        )
+                    )}
                 </tbody>
               </table>
             </div>
-          ) : (
-            <></>
           )}
         </div>
       ) : (
