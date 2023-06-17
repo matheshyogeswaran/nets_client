@@ -106,15 +106,15 @@ const Submission = () => {
                   />
                 </div>
               </div>
-              <div className="submission table-responsive container-lg">
+              <div className="table-responsive container-lg">
                 <table className="table table-striped table-hover mt-sm-5 mt-lg-5">
                   <thead>
-                    <tr className="table-head ">
-                      <th className="emp-id">ID</th>
-                      <th className="emp-name">Name</th>
-                      <th className="emp-sub">Submitted Time</th>
-                      <th className="emp-proName">Project Name</th>
-                      <th className="emp-status">Status</th>
+                    <tr className="table-head">
+                      <th className="emp-id fw-normal">ID</th>
+                      <th className="emp-name fw-normal">Name</th>
+                      <th className="emp-sub fw-normal">Submitted Time</th>
+                      <th className="emp-proName fw-normal">Project Name</th>
+                      <th className="emp-status fw-normal">Status</th>
                     </tr>
                   </thead>
                   <tbody>
