@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Search from '../../components/search';
+import Search from "../../components/search";
 import axios from "axios";
 import swal from "sweetalert";
 
@@ -29,16 +29,14 @@ const QuizReport = () => {
         if (error.response && error.response.status === 404) {
           // Handle "User not found" error
           swal({
-            title: "Error",
-            text: error.response.data.error,
+            title: error.response.data.error,
             icon: "warning",
             dangerMode: true,
           });
         } else {
           // Handle other errors
           swal({
-            title: "Error",
-            text: error.message,
+            title: error.message,
             icon: "warning",
             dangerMode: true,
           });
@@ -69,6 +67,7 @@ const QuizReport = () => {
             <tr className="table-head table-dark">
               <th>ID</th>
               <th>Name</th>
+              <th>Department</th>
               <th>Attempted Time</th>
               <th>Submitted Time</th>
               <th>Time Taken</th>
@@ -82,7 +81,7 @@ const QuizReport = () => {
                 if (showSearch) {
                   return emp;
                 } else if (
-                  emp?.name.toLowerCase().includes(search.toLowerCase())
+                  emp.name.toLowerCase().includes(search.toLowerCase())
                 ) {
                   return emp;
                 }
@@ -109,6 +108,7 @@ const QuizReport = () => {
                     {emp?.empId}
                   </td>
                   <td>{emp?.name}</td>
+                  <td>{emp?.department}</td>
                   <td
                     dangerouslySetInnerHTML={{ __html: emp?.attemptedTime }}
                   ></td>

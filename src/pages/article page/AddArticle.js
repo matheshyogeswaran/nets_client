@@ -5,11 +5,13 @@ import * as Yup from 'yup';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from "../../Firebase config/firebase";
 import { v4 } from 'uuid';
-
-function AddArticle() {
-  const chapterId = '64848a1cd792d9e0909c70e0';
-  const userid = '648050d3b39dcbdf90027b5a';
+import jwt_decode from "jwt-decode";
+function AddArticle(props) {
+  const chapterId = props.chapterId;
+  const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
+  const userid = userDocument._id;
   const [articleUpload, setArticleUpload] = useState(null);
+  const [articleUploadStatus, setArticleUploadStatus] = useState(false);
 
   const validationSchema = Yup.object().shape({
     articleName: Yup.string().required('Article name is required'),
@@ -41,6 +43,7 @@ function AddArticle() {
 
   async function onSubmit(e) {
     e.preventDefault();
+    setArticleUploadStatus(true);
     try {
       await validationSchema.validate(
         { articleName: articleName, articleDesc: articleDesc, articleFile: articleUpload },
@@ -67,6 +70,7 @@ function AddArticle() {
           newArticle = { ...newArticle, articleUrl: url };
           axios.post('http://localhost:1337/arts/add', newArticle).then((res) => {
             console.log(res.data);
+            setArticleUploadStatus(false);
             swal({
               icon: 'success',
               text: 'Successfully created',
@@ -80,6 +84,7 @@ function AddArticle() {
         });
       });
     } catch (err) {
+      setArticleUploadStatus(false);
       console.error(err);
       const validationErrors = {};
       err.inner.forEach((e) => {
@@ -127,7 +132,18 @@ function AddArticle() {
           {errors.articleFile && <div className="invalid-feedback">{errors.articleFile}</div>}
           <p>Only pdf and word files are allowed.</p>
           <br></br>
-          <input type="submit" value="Save Article" className="btn btn-primary" />
+          <button type="submit" className="btn btn-primary" disabled={articleUploadStatus && true}>
+            {
+              (articleUploadStatus)
+                ?
+                <>
+                  <span className='spinner-grow spinner-grow-sm me-3' role="status"></span>
+                  Saving...
+                </>
+                :
+                "Save Article"
+            }
+          </button>
         </div>
       </form>
     </div>

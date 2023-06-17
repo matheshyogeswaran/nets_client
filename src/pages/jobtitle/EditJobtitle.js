@@ -14,11 +14,12 @@ const EditJobtitle = () => {
     e.preventDefault();
 
     // Validate jobtitle name
-    const regex = /^[A-Za-z\s-]+$/;  //contains alphabet,space,-
+    const regex = /^[A-Z][a-z\s-]+$/;  //contains alphabet,space,-
     if (!validator.matches(newJobtitleName, regex)) {
       swal({
         icon: "warning",
-        text: "Jobtitle name must contain only alphabet letters.",
+        title: "Invalid",
+        text: "Jobtitle name must start with a capital letter and contain only alphabet letters",
       });
       return;
     }
@@ -50,55 +51,63 @@ const EditJobtitle = () => {
   return (
     <div className="container">
       <div className="alert mt-3 heading"><h5>Edit Jobtitles</h5></div>
-      <div className="columns mt-5">
-        <form name="myForm" onSubmit={submitEdit}>
-          <div className="field">
-            <label className="ml-5 createchap">Jobtitle Name after edit</label>
-            <div className="control">
-              <input
-                type="text"
-                value={newJobtitleName}
-                onChange={(e) => {
-                  setNewJobtitleName(e.target.value);
-                }}
-                name="jname"
-                className="input my-3 ml-5"
-                placeholder="Name"
-                required
-              />
-            </div>
+      <div className="columns mt-4">
+        <div>
+          <img src={image1} className="picside2" draggable={false} alt="this is image" />
+        </div>
+        <div class="card" style={{ borderRadius: "15px", backgroundColor: "#f1f8f5", boxShadow: "0px 0px 5px 2px rgba(151,196,177, 0.5)" }} >
+          <div class="card-body">
+            <form name="myForm" onSubmit={submitEdit}>
+
+              <div className="field">
+                <label className="ml-5 createchap">Rename Jobtitle</label>
+                <div className="control">
+                  <input
+                    type="text"
+                    value={newJobtitleName}
+                    onChange={(e) => {
+                      setNewJobtitleName(e.target.value);
+                    }}
+                    name="jname"
+                    className="inputdata2 my-2 ml-5"
+                    placeholder="Enter Jobtitle Name"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="field">
+                <label className="ml-5 createchap">Reason</label>
+                <div className="control">
+                  <input
+                    type="text"
+                    name="dreason"
+                    className="inputdata2 my-2 ml-5"
+                    placeholder="Reason"
+                    required
+                    value={reason}
+                    onChange={(e) => {
+                      setReason(e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="control">
+                <center>
+                  <button
+                    type="submit"
+                    className="btn btn-success mr-1 column is-half text-white col-md-3 my-3"
+                  >
+                    Save
+                  </button>
+                </center>
+              </div>
+            </form>
           </div>
-          <div className="field">
-            <label className="ml-5 createchap">Reason</label>
-            <div className="control">
-              <input
-                type="text"
-                name="dreason"
-                className="input my-3 ml-5"
-                placeholder="Reason"
-                required
-                value={reason}
-                onChange={(e) => {
-                  setReason(e.target.value);
-                }}
-              />
-            </div>
-          </div>
-          <div className="control">
-            <button
-              type="submit"
-              className="btn btn-success mr-1 column is-half text-white"
-            >
-              Save
-            </button>
-          </div>
-          <div>
-            <img src={image1} className="picside2" draggable={false} alt="this is image" />
-          </div>
-          <div className="field"></div>
-        </form>
+        </div>
       </div>
-    </div>
+    </div >
   );
 };
 

@@ -3,9 +3,14 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import jwt_decode from "jwt-decode";
+import Swal from "sweetalert2";
 
 const AddQuestion = () => {
-  const userid = "648050d3b39dcbdf90027b5a";
+  const userDocument = jwt_decode(
+    JSON.parse(localStorage.getItem("user")).token
+  ).userData;
+  const userid = userDocument._id;
   const { id } = useParams();
   const [questionCount, setQuestionCount] = useState(0);
 
@@ -44,7 +49,17 @@ const AddQuestion = () => {
       .post(`http://localhost:1337/units/${id}/quiz/${userid}`, newQuestion)
       .then((res) => {
         console.log(res.data);
-        // window.location.reload(); // Refresh the page
+        Swal.fire({
+          title: "Success",
+          text: "Quizzes successfully created",
+          icon: "success",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          window.location.reload(); // Refresh the page
+        });
       })
       .catch((err) => console.log(err));
 

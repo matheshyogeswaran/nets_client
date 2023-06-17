@@ -1,0 +1,25 @@
+{
+  "userData": {
+    "_id": "6488832531c9480c79bd5395",
+    "userRole": "System Admin",
+    "empId": "ESP002",
+    "firstName": "Sarvalogeswary",
+    "lastName": "Sivanantham",
+    "gender": "Male",
+    "dob": "2008-12-17T18:30:00.000Z",
+    "phoneNumber": 779353156,
+    "emailAddress": "sarvalogeswary@gmail.com",
+    "verified": true,
+    "userStatus": "active",
+    "userImage": "https://lh3.googleusercontent.com/a/AAcHTtcfI4565q5GtoT_BDnJrKWeDH1z082qrraC3d7Y=s96-c",
+    "department": "648752b52655315bf709de9a",
+    "jobPosition": "648880c8a5dcb12f8959022b",
+    "isProjectRequested": false,
+    "acceptedAdditionalChapter": [],
+    "SubmittedOn": "1686668069418",
+    "badges": [],
+    "__v": 0
+  },
+  "iat": 1686668104,
+  "exp": 1686754504
+}

@@ -3,23 +3,25 @@ import AllocateChapter from "../pages/chapter/AllocateChapter";
 import Chapter from "../pages/chapter/Chapter";
 import CommonChapter from "../pages/chapter/CommonChapter";
 import EditCommonChapter from "../pages/chapter/EditCommonChapter";
-import DeleteChapter from "../pages/chapter/DeleteChapter";
 import DepartmentAddChapter from "../pages/chapter/DepartmentAddChapter";
 import DepartmentChapter from "../pages/chapter/DepartmentChapter";
 import EditAllocate from "../pages/chapter/EditAllocate";
 import EditChapter from "../pages/chapter/EditChapter";
 import EnrollRequestEmployee from "../pages/chapter/EnrollRequestEmployee";
 import EnrollRequestSupervisor from "../pages/chapter/EnrollRequestSupervisor";
-import ListAllChapters from "../pages/chapter/ListAllChapters";
 import PermanentDeleteChapter from "../pages/chapter/PermanentDeleteChapter";
 import ViewChapter from "../pages/chapter/ViewChapter";
-import DeleteChapterPermanent from "../pages/chapter/DeleteChapterPermanent";
 import Content from "../pages/Chapter page/Content";
-import Edit from "../pages/Chapter page/EditUnit";
 
 import { userRoles as ur } from "../data/userRole";
+import ConCreChaps from "../pages/dashboard/ConCreChaps";
 
 export const chapter_routes = [
+  {
+    path: "/chapter/department/all",
+    ele: <ConCreChaps />,
+    availability: [ur.contentCreator],
+  },
   {
     path: "/chapter",
     ele: <Chapter />,
@@ -43,14 +45,9 @@ export const chapter_routes = [
     ele: <EditChapter />,
     availability: [ur.systemAdmin],
   },
-  {
-    path: "/deletechap/:id",
-    ele: <DeleteChapter />,
-    availability: [ur.systemAdmin],
-  },
+
   {
     path: "/permanentdeletechapter",
-
     ele: <PermanentDeleteChapter />,
     availability: [ur.superAdmin],
   },
@@ -94,14 +91,10 @@ export const chapter_routes = [
     ele: <DepartmentAddChapter />,
     availability: [ur.systemAdmin],
   },
+
   {
-    path: "/deletechapper/:id",
-    ele: <DeleteChapterPermanent />,
-    availability: [ur.superAdmin],
-  },
-  {
-    path: "/chapterPage",
+    path: "/chapterPage/:chapterId/:chapterName",
     ele: <Content />,
-    availability: [ur.superAdmin],
+    availability: [ur.hiredEmployee, ur.contentCreator],
   },
 ];

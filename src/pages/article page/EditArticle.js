@@ -21,6 +21,7 @@ const Edit = ({ article }) => {
   const [modal, setModal] = useState(null);
   const [updatedarticle, setUpdatedarticle] = useState(article);
   const [errors, setErrors] = useState({});
+  const [articleUpdateStatus, setArticleUpdateStatus] = useState(false);
 
   const validationSchema = Yup.object().shape({
     articleName: Yup.string().required("Article name is required"),
@@ -40,7 +41,7 @@ const Edit = ({ article }) => {
 
   const onUpdate = async (e) => {
     e.preventDefault();
-
+    setArticleUpdateStatus(true);
     try {
       await validationSchema.validate(updatedarticle, { abortEarly: false });
 
@@ -69,6 +70,7 @@ const Edit = ({ article }) => {
                 });
               })
               .catch((error) => {
+                setArticleUpdateStatus(false);
                 console.log("Error uploading new article:", error);
                 swal({
                   icon: "warning",
@@ -77,6 +79,7 @@ const Edit = ({ article }) => {
               });
           })
           .catch((error) => {
+            setArticleUpdateStatus(false);
             console.log("Error deleting current article:", error);
             swal({
               icon: "warning",
@@ -89,6 +92,7 @@ const Edit = ({ article }) => {
       }
     } catch (err) {
       console.error(err);
+      setArticleUpdateStatus(false);
       const validationErrors = {};
       err.inner.forEach((e) => {
         validationErrors[e.path] = e.message;
@@ -106,6 +110,7 @@ const Edit = ({ article }) => {
       .post(`http://localhost:1337/arts/update/${article._id}`, updatedArticle)
       .then(() => {
         setModal(null);
+        setArticleUpdateStatus(false);
         swal({
           icon: "success",
           text: "Successfully updated",
@@ -230,11 +235,19 @@ const Edit = ({ article }) => {
                   <p>Only pdf and word files are allowed.</p>
                 </div>
                 <div class="modal-footer">
-                  <input
-                    type="submit"
-                    value="Update Article"
-                    className="btn btn-primary"
-                  />
+                  <button type="submit" className="btn btn-primary">
+                    {articleUpdateStatus ? (
+                      <>
+                        <span
+                          className="spinner-grow spinner-grow-sm me-3"
+                          role="status"
+                        ></span>
+                        Updating...
+                      </>
+                    ) : (
+                      "Update Article"
+                    )}
+                  </button>
                 </div>
               </form>
             </div>

@@ -14,10 +14,19 @@ const EditChapter = () => {
         e.preventDefault();
 
         // Validate chapter name
-        if (!validator.isAlpha(newChapterName.replace(/[^A-Za-z]/g, ""))) {  //must contain atleast 1 alphabet
+        if (!validator.isAlpha(newChapterName.replace(/[^A-Za-z]/g, ""))) {  // Must contain at least 1 alphabet
             swal({
                 icon: "warning",
-                text: "Chapter name must contain at least one alphabet letter.",
+                text: "Common Chapter name must contain at least one alphabet letter.",
+            });
+            return;
+        }
+
+        // Validate chapter name starts with a capital letter
+        if (!newChapterName.match(/^[A-Z]/)) {
+            swal({
+                icon: "warning",
+                text: "Common Chapter name must start with a capital letter.",
             });
             return;
         }
@@ -50,55 +59,60 @@ const EditChapter = () => {
     return (
         <div className="container">
             <div className="alert mt-3 heading"><h5>Edit Common Chapter</h5></div>
-            <div className="columns mt-5">
-                <form name="myForm" onSubmit={submitEdit}>
-                    <div className="field">
-                        <label className="ml-5 createchap">Chapter Name after edit</label>
-                        <div className="control">
-                            <input
-                                type="text"
-                                value={newChapterName}
-                                onChange={(e) => {
-                                    setNewChapterName(e.target.value);
-                                }}
-                                name="cname"
-                                className="input my-3 ml-5"
-                                placeholder="Name"
-                                required
-                            />
-                        </div>
-                    </div>
-                    <div className="field">
-                        <label className="ml-5 createchap">Reason</label>
-                        <div className="control">
-                            <input
-                                type="text"
-                                name="dreason"
-                                className="input my-3 ml-5"
-                                placeholder="Reason"
-                                required
-                                value={reason}
-                                onChange={(e) => {
-                                    setReason(e.target.value);
-                                }}
-                            />
-                        </div>
-                    </div>
+            <div className="columns mt-4">
+                <div>
+                    <img src={image1} className="picside2" draggable={false} alt="this is image" />
+                </div>
+                <div class="card" style={{ borderRadius: "15px", backgroundColor: "#f1f8f5", boxShadow: "0px 0px 5px 2px rgba(151,196,177, 0.5)" }} >
+                    <div class="card-body">
+                        <form name="myForm" onSubmit={submitEdit}>
+                            <div className="field">
+                                <label className="ml-5 createchap">Rename Common Chapter</label>
+                                <div className="control">
+                                    <input
+                                        type="text"
+                                        value={newChapterName}
+                                        onChange={(e) => {
+                                            setNewChapterName(e.target.value);
+                                        }}
+                                        name="cname"
+                                        className="inputdata2 my-2 ml-5"
+                                        placeholder="Enter Common chapter name"
+                                        required
+                                    />
+                                </div>
+                            </div>
 
-                    <div className="control">
-                        <button
-                            type="submit"
-                            className="btn btn-success mr-1 column is-half text-white"
-                        >
-                            Save
-                        </button>
-                    </div>
+                            <div className="field">
+                                <label className="ml-5 createchap">Reason</label>
+                                <div className="control">
+                                    <input
+                                        type="text"
+                                        name="dreason"
+                                        className="inputdata2 my-2 ml-5"
+                                        placeholder="Reason"
+                                        required
+                                        value={reason}
+                                        onChange={(e) => {
+                                            setReason(e.target.value);
+                                        }}
+                                    />
+                                </div>
+                            </div>
 
-                    <div>
-                        <img src={image1} className="picside2" draggable={false} alt="this is image" />
+                            <div className="control">
+                                <center>
+                                    <button
+                                        type="submit"
+                                        className="btn btn-success mr-1 column is-half text-white col-md-3 my-3"
+                                    >
+                                        Save
+                                    </button>
+                                </center>
+                            </div>
+                        </form>
                     </div>
-                    <div className="field"></div>
-                </form>
+                </div>
             </div>
         </div>
     );

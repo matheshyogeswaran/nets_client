@@ -9,6 +9,7 @@ import { GiTrophy } from 'react-icons/gi';
 import { FaTicketAlt, FaUserCheck } from 'react-icons/fa';
 import { AiFillHome } from 'react-icons/ai';
 import { FiLogOut } from 'react-icons/fi';
+import {ImBooks} from "react-icons/im"
 const NavBar = () => {
 
   // state variable holds the state of the internet connection
@@ -73,6 +74,21 @@ const NavBar = () => {
                   </Link>
                 </li>
               </RenderIfLoggedIn>
+              {
+                (userData?.userRole === "Content Creator") &&
+                <RenderIfLoggedIn>
+                  <li className="nav-item rounded">
+                    <Link
+                      className="nav-link active"
+                      aria-current="page"
+                      to="/chapter/department/all"
+                    >
+                      <ImBooks className="me-2" /> Chapters
+                    </Link>
+                  </li>
+                </RenderIfLoggedIn>
+              }
+
               <li className="nav-item rounded">
                 <a className="nav-link active" href="tel:0772116778">
                   <BsFillTelephoneFill className="me-2" />Contact

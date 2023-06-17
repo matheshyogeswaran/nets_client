@@ -9,7 +9,7 @@ import axios from "axios";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../Firebase config/firebase";
 import { v4 } from "uuid";
-
+import jwt_decode from "jwt-decode";
 const CreatePost = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -18,6 +18,9 @@ const CreatePost = () => {
   const [attachment, setAttachment] = useState(null);
   const [uploading, setUploading] = useState(false); // New state for tracking upload status
 
+  const userDocument = jwt_decode(
+    JSON.parse(localStorage.getItem("user")).token
+  ).userData;
   useEffect(() => {
     axios
       .get(
@@ -44,7 +47,7 @@ const CreatePost = () => {
     try {
       var data = {
         description: formData.description,
-        createdBy: "641db06699bb728ad6649957",
+        createdBy: userDocument._id,
       };
       console.log(data);
 

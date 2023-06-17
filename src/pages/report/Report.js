@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Search from '../../components/search';
+import Search from "../../components/search";
 import TabReport from "../../components/tabReport";
 import axios from "axios";
 import swal from "sweetalert";
@@ -126,7 +126,7 @@ const Report = () => {
                               className="img-fluid rounded-circle supervisor-avatar"
                               src={emp?.userImage}
                               alt={emp?.firstName}
-                            />
+                            />{" "}
                             {emp?.empId}
                           </td>
                           <td>

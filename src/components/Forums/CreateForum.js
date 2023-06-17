@@ -1,15 +1,20 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Header from "../Shared/Header";
 import swal from "sweetalert";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 const CreateForum = () => {
   const navigate = useNavigate();
 
+  const { chapterID } = useParams();
+  const userDocument = jwt_decode(
+    JSON.parse(localStorage.getItem("user")).token
+  ).userData;
   const formSchema = Yup.object().shape({
     topic: Yup.string().required("* topic is required"),
     description: Yup.string().required("* description is required"),
@@ -25,8 +30,8 @@ const CreateForum = () => {
   const onFormSubmit = (formData) => {
     const data = {
       ...formData,
-      createdBy: "641db06699bb728ad6649957",
-      belongsToChapter: "6419e53e4d27e2edbce99300",
+      createdBy: userDocument?._id,
+      belongsToChapter: chapterID,
     };
     console.log(data);
 

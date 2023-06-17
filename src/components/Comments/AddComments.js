@@ -6,8 +6,10 @@ import Avatar from "../Shared/Avatar";
 import Button from "../Shared/Button";
 import swal from "sweetalert";
 import axios from "axios";
-
+import jwt_decode from "jwt-decode";
 const AddComments = (props) => {
+  const userID = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData._id;
+
   const formSchema = Yup.object().shape({
     comment: Yup.string().required("* comment is required"),
   });
@@ -20,7 +22,7 @@ const AddComments = (props) => {
     console.log("data", formData);
     if (props.type === "comment") {
       const data = {
-        addedBy: "641db06699bb728ad6649957",
+        addedBy: userID,
         comment: formData.comment,
       };
       if (props.source === "KT") {
@@ -72,7 +74,7 @@ const AddComments = (props) => {
       }
     } else {
       const data = {
-        addedBy: "641db06699bb728ad6649957",
+        addedBy: userID,
         reply: formData.comment,
       };
 
