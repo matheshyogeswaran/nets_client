@@ -54,7 +54,6 @@ export const chapter_routes = [
   },
   {
     path: "/permanentdeletechapter",
-
     ele: <PermanentDeleteChapter />,
     availability: [ur.superAdmin],
   },

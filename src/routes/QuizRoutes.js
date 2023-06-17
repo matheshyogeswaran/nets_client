@@ -1,18 +1,18 @@
-import QuizEntry from "../pages/Quiz/QuizEntry";
-import Quizpage from "../pages/Quiz/Quizpage";
-import QuizDisplay from "../pages/Quiz/QuizDisplay";
-// import Result from "../pages/quiz/result";
-// import Review from "../pages/quiz/review";
+import QuizEntry from "../pages/quiz/QuizEntry";
+import Quizpage from "../pages/quiz/Quizpage";
+import QuizDisplay from "../pages/quiz/QuizDisplay";
+import Result from "../pages/quiz/result";
+import Review from "../pages/quiz/review";
 
 export const quiz_routes = [
-  // {
-  //   path: "/result",
-  //   ele: <Result />,
-  // },
-  // {
-  //   path: "/review",
-  //   ele: <Review />,
-  // },
+  {
+    path: "/result",
+    ele: <Result />,
+  },
+  {
+    path: "/review",
+    ele: <Review />,
+  },
   {
     path: "/quiz/view",
     ele: <QuizEntry />,
