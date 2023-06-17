@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import swal from "sweetalert";
-import Search from '../../components/search';
+import Search from "../../components/search";
 import { MdOutlineCheckCircle, MdOutlineCancel } from "react-icons/md";
 
 const Editlog = () => {
@@ -172,14 +172,14 @@ const Editlog = () => {
                                     ></td>
                                   </tr>
                                   {showFeedback === indexi + log?.userEmpId && (
-                                    <tr className="shadow score-edit-log-feedback ">
+                                    <tr>
                                       {log?.feedback?.map(
                                         (feedbackData, indexf) =>
                                           indexf > 0 &&
                                           indexf === indexi && (
                                             <td
                                               key={indexf}
-                                              className=" score-edit-log-feedback-td fw-semibold p-4"
+                                              className=" score-edit-log-feedback-td  p-4"
                                               colSpan="8"
                                             >
                                               <div className="d-flex justify-content-between">

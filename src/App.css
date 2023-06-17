@@ -25,7 +25,6 @@
   float: left;
 }
 
-
 .inputdata {
   width: 58.5%;
   padding: 5px 16px;
@@ -299,7 +298,7 @@
 
 .emp-id {
   background-color: #452f94d3 !important;
-  color: white;
+  color: white !important;
   border-radius: 0.3rem;
   text-align: center;
   border-color: #f5f8ff;
@@ -308,7 +307,7 @@
 
 .emp-name {
   background-color: #170f8fba !important;
-  color: white;
+  color: white !important;
   border-radius: 0.3rem;
   text-align: center;
   border-color: #f5f8ff;
@@ -317,7 +316,7 @@
 
 .emp-sub {
   background-color: #1616c7a6 !important;
-  color: white;
+  color: white !important;
   border-radius: 0.3rem;
   text-align: center;
   border-color: #f5f8ff;
@@ -326,7 +325,7 @@
 
 .emp-proName {
   background-color: #2f22e9d4 !important;
-  color: white;
+  color: white !important;
   border-radius: 0.3rem;
   text-align: center;
   border-color: #f5f8ff;
@@ -335,7 +334,7 @@
 
 .emp-status {
   background-color: #764bc5 !important;
-  color: white;
+  color: white !important;
   border-radius: 0.4rem;
   text-align: center;
   border-color: 2px solid white;
@@ -637,23 +636,20 @@
 
 /* End of Ratings report Page */
 /* project score page */
-.score-table-feedback {
-  color: #3d414d;
-  background-color: #d9daff;
-}
-
 .score-table-feedback-td {
   border: 2px solid #5d5fa3;
   border-top: 0;
+  color: #3d414d !important;
+  background-color: #d9daff !important;
 }
 
 .score-table-header {
-  background-color: #fcfcfc;
+  background-color: #fcfcfc !important;
   color: #040507;
 }
 
 .score-table-body {
-  background-color: #f3f1f1;
+  background-color: #faf0facf !important;
   cursor: pointer;
   color: rgb(7, 2, 15);
 }
@@ -663,10 +659,7 @@
 .score-edit-log-feedback-td {
   border: 2px solid #024a7d;
   border-top: 0;
-}
-
-.score-edit-log-feedback {
-  background-color: #c8e4f9;
+  background-color: #c8e4f9 !important;
 }
 
 .score-editlog-pointer-event {
