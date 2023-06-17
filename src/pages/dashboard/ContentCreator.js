@@ -34,24 +34,12 @@ const ContentCreator = () => {
                 </div>
                 <div className="col-md-4 mb-3">
                     <div className="card shadow">
-                        <Link to="/department" className="btn btn-outline-dark">
+                        <Link to="/chapter/department/all" className="btn btn-outline-dark">
                             <center>
                                 <img src={image2} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
                             </center>
                             <div className="card-body">
-                                <h6>Show My Learning Materials</h6>
-                            </div>
-                        </Link>
-                    </div>
-                </div>
-                <div className="col-md-4 mb-3">
-                    <div className="card shadow">
-                        <Link to="/department" className="btn btn-outline-dark">
-                            <center>
-                                <img src={image1} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
-                            </center>
-                            <div className="card-body">
-                                <h6>Show Department Chapters</h6>
+                                <h6>Chapters</h6>
                             </div>
                         </Link>
                     </div>

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Header from "../Shared/Header";
 import swal from "sweetalert";
 import axios from "axios";
 
 const Forums = () => {
   const [forumTopics, setForumTopics] = useState([]);
-
+  const { chapterID, chapterName } = useParams();
   useEffect(() => {
     axios
       .get(
-        "http://localhost:1337/get-forums-by-chapter/6419e53e4d27e2edbce99300"
+        `http://localhost:1337/get-forums-by-chapter/${chapterID}`
       )
       .then((response) => {
         setForumTopics(response.data);
@@ -53,9 +53,34 @@ const Forums = () => {
 
   return (
     <div className="container my-5">
-      <Header title="NETS: Discussion Forums" />
+      <h4 className="heading p-3 rounded">{chapterName + ": Discussion Forums"}</h4>
+      <nav className="navbar navbar-expand-lg">
+        <div
+          className="collapse navbar-collapse"
+          id="navbarSupportedContent"
+        >
+          <ul className="navbar-nav me-auto mb-5 mb-lg-0">
+            <li className="nav-item" style={{ fontWeight: "bold" }}>
+              <Link to={"/chapterPage/" + chapterID + "/" + chapterName} className="nav-link active">
+                Units
+              </Link>
+            </li>
+            <li className="nav-item" style={{ fontWeight: "bold" }}>
+              <Link to={"/article/" + chapterID + "/" + chapterName} className="nav-link">
+                Articles
+              </Link>
+            </li>
+            <li className="nav-item" style={{ fontWeight: "bold" }}>
+              <Link to={"/forums/" + chapterID + "/" + chapterName} className="nav-link">
+                Discussion Forums
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      {/* <Header title="NETS: Discussion Forums" /> */}
       <div className="text-center mt-5">
-        <Link to="/create-forum">
+        <Link to={"/create-forum/" + chapterID}>
           <button type="button" className="btn btn-outline-success">
             Create New Discussion Forum Topic
           </button>
@@ -63,7 +88,7 @@ const Forums = () => {
       </div>
       <div className="mt-5">
         <div
-          className="row py-4 text-center d-none d-sm-flex"
+          className="row py-4 text-center d-none d-sm-flex rounded fw-bold"
           style={{ backgroundColor: "#D3D3D3" }}
         >
           <div className="col-sm-3">Forum Topic</div>
@@ -73,34 +98,34 @@ const Forums = () => {
         </div>
         {forumTopics?.map((f) => (
           <div
-            key={f._id}
-            className="row mt-3 py-4 text-center"
+            key={f?._id}
+            className="row mt-3 py-4 text-center rounded"
             style={{
-              backgroundColor: f.status === "Active" ? "#ADD8E6" : "#D3D3D3",
+              backgroundColor: f?.status === "Active" ? "#ADD8E6" : "#D3D3D3",
             }}
           >
             <div className="col-sm-3">
               {" "}
               <Link
-                to={`/view-forum/${f._id}`}
+                to={`/view-forum/${f?._id}`}
                 className="text-decoration-none"
                 style={{ color: "black" }}
               >
-                {f.topic}{" "}
+                {f?.topic}{" "}
               </Link>
             </div>
 
             <div className="col-sm-3">
-              {f.createdBy.firstName + " " + f.createdBy.lastName}{" "}
+              {f?.createdBy.firstName + " " + f?.createdBy.lastName}{" "}
             </div>
             <div className="col-sm-2">{f.posts.length}</div>
 
-            {f.status === "Active" ? (
+            {f?.status === "Active" ? (
               <div
                 className="d-flex flex-row mx-auto col-sm-4"
                 style={{ display: "flex", justifyContent: "center" }}
               >
-                <Link to={`/edit-forum/${f._id}`}>
+                <Link to={`/edit-forum/${f?._id}`}>
                   <button
                     type="button"
                     className="btn btn-outline-primary mx-2"
@@ -113,7 +138,7 @@ const Forums = () => {
                   <button
                     type="button"
                     className="btn btn-outline-danger"
-                    onClick={() => LockForum(f._id)}
+                    onClick={() => LockForum(f?._id)}
                   >
                     Lock
                   </button>

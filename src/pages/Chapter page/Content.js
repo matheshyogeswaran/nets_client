@@ -1,56 +1,48 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
-import NavBar from "../../components/NavBar";
+import { Link, useParams } from "react-router-dom";
 import Chapter from "./Chapter";
 
 const Content = () => {
+  const { chapterId, chapterName } = useParams();
+  console.log(chapterId);
   return (
     <React.Fragment>
       <div style={{ backgroundColor: "#fefefe" }}>
-        <div className="container p-4">
-          <div className="card" style={{ backgroundColor: "#70B9E6" }}>
-            <div className="card-body">
-              <h1 style={{ font: "25px", color: "#ffffff" }}>
-                NETS: UML Diagrams
-              </h1>
+        <div className="container my-5">
+          {/* chapter name here */}
+          <h4 className="heading p-3 rounded">
+            {chapterName + ": Units"}
+          </h4>
+          <nav className="navbar navbar-expand-lg">
+            <div
+              className="collapse navbar-collapse"
+              id="navbarSupportedContent"
+            >
+              <ul className="navbar-nav me-auto mb-5 mb-lg-0">
+                <li className="nav-item" style={{ fontWeight: "bold" }}>
+                  <Link to={"/chapterPage/" + chapterId + "/" + chapterName} className="nav-link active">
+                    Units
+                  </Link>
+                </li>
+                <li className="nav-item" style={{ fontWeight: "bold" }}>
+                  <Link to={"/article/" + chapterId + "/" + chapterName} className="nav-link">
+                    Articles
+                  </Link>
+                </li>
+                <li className="nav-item" style={{ fontWeight: "bold" }}>
+                  <Link to={"/forums/" + chapterId + "/" + chapterName} className="nav-link">
+                    Discussion Forums
+                  </Link>
+                </li>
+              </ul>
             </div>
-          </div>
+          </nav>
         </div>
-        <div className="container p-4">
+        <div className="container">
           <div className="card">
-            <div className="card-header">
-              <nav
-                className="navbar navbar-expand-lg"
-                style={{ backgroundColor: "#f7f7f7" }}
-              >
-                <div
-                  className="collapse navbar-collapse"
-                  id="navbarSupportedContent"
-                >
-                  <ul className="navbar-nav me-auto mb-5 mb-lg-0">
-                    <li className="nav-item" style={{ fontWeight: "bold" }}>
-                      <Link to="/chapterPage" className="nav-link active">
-                        Units
-                      </Link>
-                    </li>
-                    <li className="nav-item" style={{ fontWeight: "bold" }}>
-                      <Link to="/article" className="nav-link">
-                        Articles
-                      </Link>
-                    </li>
-                    <li className="nav-item" style={{ fontWeight: "bold" }}>
-                      <Link to="/forums" className="nav-link">
-                        Discussion Forums
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </nav>
-            </div>
             <div className="card-body">
               <div className="container p-3">
-                <Chapter></Chapter>
+                <Chapter chapterID={chapterId} chapterName={chapterName}></Chapter>
               </div>
             </div>
           </div>

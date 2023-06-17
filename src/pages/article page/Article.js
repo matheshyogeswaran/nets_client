@@ -4,21 +4,21 @@ import { useState } from 'react';
 import AddArticle from './AddArticle';
 import Header from '../../components/Header';
 import ArticleList from './ArticleList';
- 
-function Article() {
-    const [showAddTask, setShowAddTask] = useState(false);  
+
+function Article(props) {
+  const [showAddTask, setShowAddTask] = useState(false);
   return (
     <div>
-        <div className="container">
-        <h4 style={{ font: "25px" , color: "#000000" }}>Articles</h4>
-          <Header showForm={() => setShowAddTask(!showAddTask)} changeTextAndColor={showAddTask}  />
-            {showAddTask && <AddArticle   />}
-            <br></br>
+      <div className="container">
+        <h4 style={{ font: "25px", color: "#000000" }}>Articles</h4>
+        <Header showForm={() => setShowAddTask(!showAddTask)} changeTextAndColor={showAddTask} />
+        {showAddTask && <AddArticle chapterId={props.chapterId} />}
+        <br></br>
 
-          <ArticleList></ArticleList>
-        </div>
-    </div> 
-    
+        <ArticleList chapterId={props.chapterId} chapterName={props.chapterName}></ArticleList>
+      </div>
+    </div>
+
   )
 }
 

@@ -10,19 +10,19 @@ export const unit_article_routes = [
         ele: <UnitContent/>
     },
     {
-        path: "/Unit/:id",
+        path: "/Unit/:chapterID/:chapterName/:id/:unitName",
         ele: <UnitContent/>
     },
     {
-        path: "/Unit/View/:id",
+        path: "/Unit/View/:chapterID/:chapterName/:id/:unitName/:KTid/:KTName",
         ele: <ViewKT/>
     },
     {
-        path: "/article",
+        path: "/article/:chapterId/:chapterName",
         ele: <ArticleContent/>
     },
     {
-        path: "/article/View/:id",
+        path: "/article/View/:id/:articleName/:chapterID/:chapterName",
         ele: <ViewContent/>
     },
     {

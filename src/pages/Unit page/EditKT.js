@@ -20,6 +20,7 @@ const Edit = ({ KTsession, unitId }) => {
   const [editkts, seteditkts] = useState([]);
   const [updatedKTsession, setUpdatedKTsession] = useState(KTsession);
   const [errors, setErrors] = useState({});
+  const [updateStatus, setUpdateStatus] = useState(false);
 
   const validationSchema = Yup.object().shape({
     sessionName: Yup.string().required("KT Session name is required"),
@@ -64,7 +65,7 @@ const Edit = ({ KTsession, unitId }) => {
 
   const onUpdate = (e) => {
     e.preventDefault();
-
+    setUpdateStatus(true);
     try {
       validationSchema.validateSync(updatedKTsession, { abortEarly: false });
     } catch (err) {
@@ -77,6 +78,7 @@ const Edit = ({ KTsession, unitId }) => {
         icon: "warning",
         text: "Error",
       });
+      setUpdateStatus(false);
       return;
     }
 
@@ -106,6 +108,7 @@ const Edit = ({ KTsession, unitId }) => {
             })
             .catch((error) => {
               console.log("Error uploading new video:", error);
+              setUpdateStatus(false);
               swal({
                 icon: "warning",
                 text: "Error",
@@ -114,6 +117,7 @@ const Edit = ({ KTsession, unitId }) => {
         })
         .catch((error) => {
           console.log("Error deleting current video:", error);
+          setUpdateStatus(false);
           swal({
             icon: "warning",
             text: "Error",
@@ -129,6 +133,7 @@ const Edit = ({ KTsession, unitId }) => {
     axios
       .post(`http://localhost:1337/kts/update/${KTsession._id}`, updatedSession)
       .then(() => {
+        setUpdateStatus(false);
         setModal(null);
         swal({
           icon: "success",
@@ -139,6 +144,7 @@ const Edit = ({ KTsession, unitId }) => {
       })
       .catch((err) => {
         console.log(err);
+        setUpdateStatus(false);
         swal({
           icon: "warning",
           text: "Error",
@@ -207,9 +213,8 @@ const Edit = ({ KTsession, unitId }) => {
                   </label>
                   <input
                     type="text"
-                    className={`form-control ${
-                      errors.sessionName && "is-invalid"
-                    }`}
+                    className={`form-control ${errors.sessionName && "is-invalid"
+                      }`}
                     id="sessionName"
                     name="sessionName"
                     value={updatedKTsession.sessionName}
@@ -225,9 +230,8 @@ const Edit = ({ KTsession, unitId }) => {
                   </label>
                   <input
                     type="text"
-                    className={`form-control ${
-                      errors.sessionDesc && "is-invalid"
-                    }`}
+                    className={`form-control ${errors.sessionDesc && "is-invalid"
+                      }`}
                     id="sessionDesc"
                     name="sessionDesc"
                     value={updatedKTsession.sessionDesc}
@@ -247,9 +251,8 @@ const Edit = ({ KTsession, unitId }) => {
                   <input
                     type="file"
                     accept="video/mp4,video/mpeg,video/quicktime,video/x-msvideo"
-                    className={`form-control ${
-                      errors.sessionFile && "is-invalid"
-                    }`}
+                    className={`form-control ${errors.sessionFile && "is-invalid"
+                      }`}
                     aria-label="file example"
                     onChange={onChange}
                   />
@@ -259,11 +262,23 @@ const Edit = ({ KTsession, unitId }) => {
                   )}
                 </div>
                 <div className="modal-footer">
-                  <input
+                  <button
                     type="submit"
-                    value="Update KT Session"
                     className="btn btn-primary"
-                  />
+                    disabled = {updateStatus && true}
+                  >
+                    {
+                      (updateStatus)
+                        ?
+                        <>
+                          <span className='spinner-grow spinner-grow-sm me-3' role="status"></span>
+                          Updating...
+                        </>
+                        :
+                        "Update KT Session"
+                    }
+
+                  </button>
                 </div>
               </form>
             </div>
