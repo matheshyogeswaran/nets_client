@@ -9,7 +9,6 @@ import NavBar from "../components/NavBar";
 import { auth_routes } from "./AuthRoutes";
 // protectedRoutes
 import { chapter_routes } from "./ChapterRoutes";
-import { comment_routes } from "./CommentRoutes";
 import { department_routes } from "./DepartmentRoutes";
 import { discussion_forum_routes } from "./DiscussionForumRoutes";
 import { final_project_assignment_routes } from "./FinalProjectAssignmentRoutes";
@@ -25,7 +24,6 @@ import { editlogs_routes } from "./Editlogs";
 const AppRoutes = () => {
   const protectedRoutes = [
     ...chapter_routes,
-    ...comment_routes,
     ...department_routes,
     ...discussion_forum_routes,
     ...final_project_assignment_routes,
@@ -51,7 +49,7 @@ const AppRoutes = () => {
               exact
               path={e.path}
               element={<RedirectIfLoggedIn>{e.ele}</RedirectIfLoggedIn>}
-              // element={e.ele}
+            // element={e.ele}
             />
           );
         })}
@@ -65,7 +63,7 @@ const AppRoutes = () => {
               element={
                 <RequireAuth userroles={e?.availability}>{e.ele}</RequireAuth>
               }
-              // element={e.ele}
+            // element={e.ele}
             />
           );
         })}

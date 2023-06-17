@@ -4,15 +4,16 @@ import LargeModal from "../../Shared/LargeModal";
 import CompleteForm from "./CompleteForm";
 import swal from "sweetalert";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 const CompleteGuidanceTickets = () => {
   const [tickets, setTickets] = useState([]);
   const [ticketId, setTicketId] = useState([]);
-
+  const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
   useEffect(() => {
     axios
       .get(
-        "http://localhost:1337/get-tickets-by-assigned-user-id/642460786b0919c07966a2f3"
+        `http://localhost:1337/get-tickets-by-assigned-user-id/${userDocument?._id}`
       )
       .then((response) => {
         setTickets(response.data);
@@ -105,15 +106,15 @@ const CompleteGuidanceTickets = () => {
                           t.status === "requested"
                             ? "20%"
                             : t.status === "directed"
-                            ? "60%"
-                            : "100%",
+                              ? "60%"
+                              : "100%",
                       }}
                       aria-valuenow={
                         t.status === "requested"
                           ? "20"
                           : t.status === "directed"
-                          ? "60"
-                          : "100"
+                            ? "60"
+                            : "100"
                       }
                       aria-valuemin="0"
                       aria-valuemax="100"
@@ -121,8 +122,8 @@ const CompleteGuidanceTickets = () => {
                       {t.status === "requested"
                         ? "Requested"
                         : t.status === "directed"
-                        ? "Directed"
-                        : "Completed"}
+                          ? "Directed"
+                          : "Completed"}
                     </div>
                   </div>
                 </div>
