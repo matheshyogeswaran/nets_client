@@ -12,6 +12,9 @@ const Result = () => {
   const currentUser = jwt_decode(
     JSON?.parse(localStorage?.getItem("user"))?.token
   )?.userData?._id;
+  const department = jwt_decode(
+    JSON?.parse(localStorage?.getItem("user"))?.token
+  )?.userData?.department;
 
   const location = useLocation();
   const propsData = location.state;
@@ -37,7 +40,7 @@ const Result = () => {
           // Handle other errors
           swal({
             title: "Error",
-            text: error?.message,
+            text: error.message,
             icon: "warning",
             dangerMode: true,
           });
@@ -45,7 +48,7 @@ const Result = () => {
       });
     // store badge for the current user if he will be below rank 4
     axios
-      .post(API_BASE + "/storeBadge", { currentUser, unitId })
+      .post(API_BASE + "/storeBadge", { currentUser, unitId, department })
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
   }, []);
