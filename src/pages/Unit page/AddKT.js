@@ -33,6 +33,7 @@ const AddKT = (props) => {
   const [sessionName, setsessionName] = useState('');
   const [sessionDesc, setsessionDesc] = useState('');
   const [errors, setErrors] = useState({});
+  const [submitStatus, setSubmitStatus] = useState(false);
 
   const onChangeKtName = (e) => {
     setsessionName(e.target.value);
@@ -68,6 +69,7 @@ const AddKT = (props) => {
       };
 
       if (KTUpload == null) return;
+      setSubmitStatus(true);
       const KTRef = ref(storage, `KTsessions/${KTUpload.name + v4()}`);
 
       uploadBytes(KTRef, KTUpload).then((snapshot) => {
@@ -77,11 +79,13 @@ const AddKT = (props) => {
           axios
             .post(`http://localhost:1337/kts/add/${id}`, newKT)
             .then((res) => {
+              setSubmitStatus(false);
               console.log(res.data);
               swal({
                 icon: 'success',
                 text: 'Successfully created',
               }).then(() => {
+                // setSubmitStatus(false);
                 window.location.reload(); // Refresh the page
               });
               setsessionName('');
@@ -103,6 +107,7 @@ const AddKT = (props) => {
         text: 'Error',
       });
     }
+
   }
 
   return (
@@ -129,7 +134,19 @@ const AddKT = (props) => {
           {errors.sessionFile && <div className="error">{errors.sessionFile}</div>}
           <p>Only video files are allowed.</p>
           <br></br>
-          <input type="submit" value="Save KT Session" className="btn btn-primary" />
+          <button type="submit" className="btn btn-primary" disabled={submitStatus && true}>
+            {
+              (submitStatus === false)
+                ?
+                <span>Save KT Session</span>
+                :
+                <>
+                  <span className='spinner-grow spinner-grow-sm me-3' role="status"></span>
+                  Saving...
+                </>
+
+            }
+          </button>
         </div>
       </form>
     </div>

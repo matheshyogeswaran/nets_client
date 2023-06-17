@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-
 import axios from "axios";
-
-import NavBar from "../../components/NavBar";
 import KT from "./KT";
 import CommentSection from "../../components/Comments/CommentSection";
 
 const ViewKT = () => {
-  const KTid = useParams();
+  const { KTid, KTName, id, unitName, chapterID, chapterName } = useParams();
   const [kts, setkts] = useState([]);
   useEffect(() => {
     console.log(KTid.id);
     axios
-      .get(`http://localhost:1337/kts/${KTid.id}`)
+      .get(`http://localhost:1337/kts/${KTid}`)
       .then((response) => {
         setkts(response.data);
         console.log(response.data);
@@ -21,51 +18,47 @@ const ViewKT = () => {
       .catch(function (error) {
         console.log(error);
       });
-  }, [KTid.id]);
+  }, [KTid]);
 
   return (
     <React.Fragment>
       <div style={{ backgroundColor: "#fefefe" }}>
-        <div className="container p-4">
-          <div className="card" style={{ backgroundColor: "#70B9E6" }}>
-            <div className="card-body">
-              <h1 style={{ font: "25px", color: "#ffffff" }}>
-                NETS: UML Diagrams
-              </h1>
+        <div className="container my-5">
+        <h4 className="heading p-3 rounded">
+            {chapterName + ": " + unitName+": "}
+            <Link to={"/Unit/"+chapterID+"/"+chapterName+"/"+id+"/"+unitName}>
+              {"KT Sessions"}
+            </Link>
+            {": "+KTName}
+          </h4>
+          <nav className="navbar navbar-expand-lg">
+            <div
+              className="collapse navbar-collapse"
+              id="navbarSupportedContent"
+            >
+              <ul className="navbar-nav me-auto mb-5 mb-lg-0">
+                <li className="nav-item" style={{ fontWeight: "bold" }}>
+                  <Link to={"/chapterPage/" + chapterID + "/" + chapterName} className="nav-link active">
+                    Units
+                  </Link>
+                </li>
+                <li className="nav-item" style={{ fontWeight: "bold" }}>
+                  <Link to={"/article/" + chapterID + "/" + chapterName} className="nav-link">
+                    Articles
+                  </Link>
+                </li>
+                <li className="nav-item" style={{ fontWeight: "bold" }}>
+                  <Link to={"/forums/" + chapterID + "/" + chapterName} className="nav-link">
+                    Discussion Forums
+                  </Link>
+                </li>
+              </ul>
             </div>
-          </div>
+          </nav>
+          
         </div>
-        <div className="container p-4">
+        <div className="container">
           <div className="card">
-            <div className="card-header">
-              <nav
-                className="navbar navbar-expand-lg"
-                style={{ backgroundColor: "#f7f7f7" }}
-              >
-                <div
-                  className="collapse navbar-collapse"
-                  id="navbarSupportedContent"
-                >
-                  <ul className="navbar-nav me-auto mb-5 mb-lg-0">
-                    <li className="nav-item" style={{ fontWeight: "bold" }}>
-                      <Link to="/chapterPage" className="nav-link active">
-                        Units
-                      </Link>
-                    </li>
-                    <li className="nav-item" style={{ fontWeight: "bold" }}>
-                      <Link to="/article" className="nav-link">
-                        Articles
-                      </Link>
-                    </li>
-                    <li className="nav-item" style={{ fontWeight: "bold" }}>
-                      <Link to="/forums" className="nav-link">
-                        Discussion Forums
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </nav>
-            </div>
             <div className="card-body">
               <div className="container pt-3">
                 <h4 style={{ font: "25px", color: "#000000" }}>
@@ -73,7 +66,7 @@ const ViewKT = () => {
                 </h4>
                 <br></br>
                 <KT url={kts} />
-                <CommentSection ID={KTid.id} type="KT" />
+                <CommentSection ID={KTid} type="KT" />
               </div>
             </div>
           </div>

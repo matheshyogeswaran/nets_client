@@ -64,13 +64,14 @@ const Editlog = () => {
               <thead>
                 <tr className="table-dark">
                   <th>Project Name</th>
-                  <th>Submitted by</th>
-                  <th>Previous score</th>
-                  <th>Changed score</th>
-                  <th>Previous show</th>
-                  <th>Changed show</th>
-                  <th>Updraded by</th>
-                  <th>Upgraded time</th>
+                  <th>Submitted By</th>
+                  <th>Previous Score</th>
+                  <th>Updated Score</th>
+                  <th>Previous Show</th>
+                  <th>Updated Show</th>
+                  <th>Updated By</th>
+                  <th>Updated Time</th>
+                  <th>Department</th>
                 </tr>
               </thead>
               <tbody>
@@ -81,8 +82,8 @@ const Editlog = () => {
                       return log;
                     } else if (
                       log?.submittedBy
-                        .toLowerCase()
-                        .includes(search.toLowerCase())
+                        ?.toLowerCase()
+                        ?.includes(search?.toLowerCase())
                     ) {
                       return log;
                     }
@@ -170,6 +171,7 @@ const Editlog = () => {
                                     <td
                                       dangerouslySetInnerHTML={{ __html: date }}
                                     ></td>
+                                    <td>{log.department}</td>
                                   </tr>
                                   {showFeedback === indexi + log?.userEmpId && (
                                     <tr>
@@ -179,8 +181,8 @@ const Editlog = () => {
                                           indexf === indexi && (
                                             <td
                                               key={indexf}
-                                              className=" score-edit-log-feedback-td  p-4"
-                                              colSpan="8"
+                                              className=" score-edit-log-feedback-td p-4"
+                                              colSpan="9"
                                             >
                                               <div className="d-flex justify-content-between">
                                                 <span>
@@ -191,7 +193,7 @@ const Editlog = () => {
                                                 </span>
                                                 <span className="border-end border-secondary border-2 mx-4"></span>
                                                 <span>
-                                                  <h4>Changed Feedback</h4>
+                                                  <h4>Updated Feedback</h4>
                                                   <span>{feedbackData}</span>
                                                 </span>
                                               </div>

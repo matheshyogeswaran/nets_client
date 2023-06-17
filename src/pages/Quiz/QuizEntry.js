@@ -90,7 +90,8 @@ const QuizEntry = (props) => {
                     View Quiz
                   </button>
                 </Link>
-                <QuizComponent id={id} />
+                <QuizPopup id={id}></QuizPopup>
+                {/* <QuizComponent id={id} /> */}
               </div>
 
               <br></br>

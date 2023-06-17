@@ -1,9 +1,10 @@
 import Tasks from './Tasks';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
- 
-const UnitList = () => {
-  const chapterId = '64848a1cd792d9e0909c70e0';
+
+const UnitList = (props) => {
+  const chapterId = props.chapterID;
+  console.log("This is a data" + chapterId)
   const [units, setunits] = useState([]);
 
   // useEffect(() => {
@@ -17,26 +18,28 @@ const UnitList = () => {
   // }, []);
 
   useEffect(() => {
-    axios.get(`http://localhost:1337/units?belongsToChapter=${chapterId}`)
+    // axios.get(`http://localhost:1337/units?belongsToChapter=${chapterId}`)
+    axios.get(`http://localhost:1337/units?chapterId=${chapterId}`)
       .then(response => {
         setunits(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
-  }, [chapterId]);
+    // }, [chapterId]);
+  }, [props.toDoRefresh, chapterId]);
 
 
   return (
-    <div>       
-            <div> 
-          {units.map(unit => {
-            return (
-              <Tasks key={unit._id} unit={unit} />
-            )
-          })}
-          </div>         
-          </div>  
+    <div>
+      <div>
+        {units.map(unit => {
+          return (
+            <Tasks chapterID={props.chapterID} chapterName={props.chapterName} key={unit._id} unit={unit} />
+          )
+        })}
+      </div>
+    </div>
   );
 }
 

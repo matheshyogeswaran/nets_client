@@ -186,11 +186,12 @@
 
 .score-header {
   margin-bottom: 2.5rem;
+  color: #022185;
 }
 
 .cong-msg {
-  margin: 3rem auto 3rem auto;
-  color: #2c51af;
+  margin: 1rem auto 1.4rem auto;
+  color: #03226e;
 }
 
 /* End result page */
@@ -285,7 +286,6 @@
   background-color: #4fdc6e53;
   border-radius: 15px;
 }
-
 /* End of review page */
 /* Submission */
 .td-download-icon {
@@ -345,7 +345,6 @@
 .download-icon {
   cursor: pointer;
 }
-
 /* End of submission table page */
 /* Evaluate Page */
 .evaluate {
@@ -366,65 +365,52 @@
 .checkbox-lg .form-check-input {
   scale: 1.4;
 }
-
 .checkbox-lg {
   margin-left: 0.8rem;
 }
-
 .shadow .form-control {
   background-color: #eff7fb;
 }
-
 /* End of Evaluate Page */
 /* Leaderboard */
 .rank-badge {
   width: 200px;
   height: 200px;
 }
-
 .leaderboard-card {
   height: 300px;
   margin: 0 auto;
 }
-
 .leaderboard-header {
   height: 150px;
   background-color: #4b248f;
   color: rgb(255, 248, 248);
 }
-
 .leaderboard-avatar {
   width: 90px;
   height: 90px;
 }
-
 .leaderboard-avatar-wrapper {
   position: relative;
   top: -40px;
 }
-
 .leaderboard-title {
   margin-top: -40px;
 }
-
 .leaderboard-desc {
   font-size: 1rem;
   color: #71678d;
 }
-
 .leaderboard-empId {
   padding-left: 8rem !important;
 }
-
 .leaderboard-table-wrapper {
   margin-top: 20px;
 }
-
 .leaderboard-table {
   border-collapse: separate;
   border-spacing: 0 15px;
 }
-
 .leaderboard-tr {
   position: relative;
   height: 80px;
@@ -433,28 +419,23 @@
   box-shadow: 0px 5px 8px -2px rgb(218, 218, 218);
   font-weight: 500;
 }
-
 .leaderboard-td,
 .leaderboard-th {
   border: none;
   font-size: 1.1rem;
 }
-
 .leaderboard-table-avatar {
   height: 50px;
   width: 50px;
 }
-
 .leaderboard-table-username {
   font-size: 1rem;
   color: #a8a8a8;
 }
-
 .score-alert {
   margin: 5rem 0rem 4rem 0rem;
   text-align: center;
 }
-
 /* End of Leaderboard Page */
 /* Feedback of submission */
 .feedback {
@@ -464,12 +445,10 @@
   font-size: large;
   font-weight: 500;
 }
-
 .supervisor-avatar {
   width: 70px;
   height: 70px;
 }
-
 .feedback-title {
   background-color: #080335;
   color: #f9f9f9;
@@ -484,11 +463,9 @@
   color: rgb(70, 67, 67);
   padding-bottom: 3rem;
 }
-
 .feedback-body span {
   padding: 1rem;
 }
-
 /* End of Feedback Page */
 /* Report  */
 .report-head {
@@ -497,31 +474,25 @@
   padding: 1rem 0rem;
   text-align: center;
 }
-
 .report-tab {
   margin-right: 1rem;
 }
-
 .empTable {
   width: 95%;
   margin-left: 2rem;
 }
-
 .report-body {
   padding-top: 40px;
 }
-
 .empTable td {
   cursor: pointer;
 }
-
 /* End of Report Page */
 /* Chapter report */
 .chapter-content {
   display: grid;
   grid-template-columns: 15% 1fr;
 }
-
 .chap-name-select {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -533,46 +504,27 @@
   justify-self: center;
   align-self: center;
 }
-
 /* End of Chapter Report Page */
 /* Overview Report */
 .overview-grid {
   display: grid;
   grid-template-columns: 2fr 0.5fr;
 }
-
 /* End of Overview Page */
 /* Quiz report front */
 .quiz-report-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
 }
-
-.quiz-report-img-section {
-  margin-top: 12rem;
-}
-
-.quiz-report-front {
-  background-color: #f9f9f9;
-  margin: 3rem 3rem;
-}
-
-.quiz-report-front .btn {
-  margin: 2rem;
-}
-
 #quiz-report {
-  padding-inline-start: 7rem;
-  padding-inline-end: 3rem;
+  padding-inline: 4rem;
 }
-
 /* End of quiz report front page */
 /* Ratings */
 .ratings-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
 }
-
 .rating {
   display: inline-block;
   unicode-bidi: bidi-override;
@@ -584,7 +536,6 @@
   position: relative;
   padding: 0;
 }
-
 .rating-upper {
   color: #f9a51d;
   padding: 0;
@@ -595,13 +546,11 @@
   left: 0;
   overflow: hidden;
 }
-
 .rating-lower {
   padding: 0;
   display: flex;
   z-index: 0;
 }
-
 .kt-article-data {
   display: flex;
   justify-content: space-between;
@@ -609,31 +558,25 @@
   margin: 20px;
   padding: 15px;
 }
-
 .specific-chapter {
   background-color: #a2dde1;
   border-radius: 2rem;
 }
-
 .progress-bar {
   background-color: orange;
 }
-
 .rating-type {
   margin-left: 2rem;
   margin-bottom: 2.5rem;
 }
-
 .progress-bar-rate {
   display: flex;
   margin-left: 2.6rem;
   margin-top: 20px;
 }
-
 .kt-art-progress-bar {
   margin-left: 2rem;
 }
-
 /* End of Ratings report Page */
 /* project score page */
 .score-table-feedback-td {
@@ -644,28 +587,26 @@
 }
 
 .score-table-header {
-  background-color: #fcfcfc !important;
+  background-color: #ffffff;
+  border-radius: 2px;
   color: #040507;
 }
 
 .score-table-body {
-  background-color: #faf0facf !important;
+  background-color: #f4eff9 !important;
   cursor: pointer;
   color: rgb(7, 2, 15);
 }
-
 /* End of Project score page */
 /*score edit log */
 .score-edit-log-feedback-td {
   border: 2px solid #024a7d;
-  border-top: 0;
   background-color: #c8e4f9 !important;
+  border-top: 0;
 }
-
 .score-editlog-pointer-event {
   cursor: pointer;
 }
-
 /* End of score edit log */
 /* For large devices */
 @media screen and (max-width: 1220px) {
@@ -678,16 +619,13 @@
   .leaderboard-table-wrapper {
     margin: 0rem;
   }
-
   .result-header {
     width: 100%;
   }
-
   .evaluate-grid {
     display: grid;
     grid-template-columns: 0.1fr 1fr 0.1fr;
   }
-
   .overview-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
@@ -708,16 +646,12 @@
   }
 
   #quiz-report {
-    padding-inline-start: 2rem;
+    padding-inline: 0.2rem;
   }
 
   .quiz-report-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-  }
-
-  .quiz-report-grid .quiz-report-img-section {
-    display: none;
   }
 }
 

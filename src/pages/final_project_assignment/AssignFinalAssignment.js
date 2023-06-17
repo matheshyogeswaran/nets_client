@@ -5,7 +5,7 @@ import Swal from "sweetalert2"
 import axios from "axios"
 import jwt_decode from "jwt-decode";
 import { useNavigate, useParams } from "react-router-dom";
-import { removeHTMLTags, getLoggedinUserData } from "../../utils/functions";
+import { removeHTMLTags } from "../../utils/functions";
 import { modules } from "../../utils/ReactQuillModules";
 const AssignFinalAssignment = () => {
     const navigate = useNavigate();
@@ -31,13 +31,13 @@ const AssignFinalAssignment = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(files);
-        if ((removeHTMLTags(description).trim()) === '' && (files.length === 0) ) {
+        if ((removeHTMLTags(description).trim()) === '' && (files.length === 0)) {
             Swal.fire("Error In Submitting Assignment", "Note and File both can not be empty. Add note or upload file as assignment submission.", "error");
             return;
-        }else if(title.trim()===""){
+        } else if (title.trim() === "") {
             Swal.fire("Error In Submitting Assignment", "Title can not be empty.", "error");
             return;
-        }else if(deadline === undefined || deadline.trim()===""){
+        } else if (deadline === undefined || deadline.trim() === "") {
             Swal.fire("Error In Submitting Assignment", "Deadline can not be empty.", "error");
             return;
         }
@@ -64,8 +64,19 @@ const AssignFinalAssignment = () => {
                 }
             }).then(res => {
                 if (res.data.status === true) {
-                    Swal.fire("", "Assignment Submitted Successfully", "success");
-                    navigate("/finalProjectAssignmentRequests")
+                    Swal.fire({
+                        title: '',
+                        text: "Assignment Submitted Successfully",
+                        icon: 'success',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            navigate("/finalProjectAssignmentRequests")
+                        }
+                    })
                 } else {
                     Swal.fire("Error", res.data.message, "error");
                 }
@@ -83,7 +94,7 @@ const AssignFinalAssignment = () => {
     const date = new Date();
     const minDate = `${date.getFullYear().toString().padStart(4, "0")}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}T${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`
     const maxDate = `${date.getFullYear().toString().padStart(4, "0")}-${(date.getMonth() + 1 + 6).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}T${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`
-    
+
     return (
         <React.Fragment>
             <div className="mt-4 container">
