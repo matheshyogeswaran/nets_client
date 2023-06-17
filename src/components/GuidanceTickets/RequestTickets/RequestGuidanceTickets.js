@@ -7,15 +7,17 @@ import axios from "axios";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../../Firebase config/firebase";
 import { v4 } from "uuid";
+import jwt_decode from "jwt-decode";
 
 const RequestGuidanceTickets = () => {
   const [tickets, setTickets] = useState([]);
   const [attachment, setAttachment] = useState(null);
+  const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
 
   useEffect(() => {
     axios
       .get(
-        "http://localhost:1337/get-tickets-by-requested-user-id/641db06699bb728ad6649957"
+        `http://localhost:1337/get-tickets-by-requested-user-id/${userDocument._id}`
       )
       .then((response) => {
         setTickets(response.data);
@@ -29,7 +31,7 @@ const RequestGuidanceTickets = () => {
     try {
       var data = {
         ...formData,
-        createdBy: "641db06699bb728ad6649957",
+        requestedBy: userDocument._id,
       };
       console.log(data);
 
@@ -179,15 +181,15 @@ const RequestGuidanceTickets = () => {
                           t.status === "requested"
                             ? "20%"
                             : t.status === "directed"
-                            ? "60%"
-                            : "100%",
+                              ? "60%"
+                              : "100%",
                       }}
                       aria-valuenow={
                         t.status === "requested"
                           ? "20"
                           : t.status === "directed"
-                          ? "60"
-                          : "100"
+                            ? "60"
+                            : "100"
                       }
                       aria-valuemin="0"
                       aria-valuemax="100"
@@ -195,8 +197,8 @@ const RequestGuidanceTickets = () => {
                       {t.status === "requested"
                         ? "Requested"
                         : t.status === "directed"
-                        ? "Directed"
-                        : "Completed"}
+                          ? "Directed"
+                          : "Completed"}
                     </div>
                   </div>
                 </div>

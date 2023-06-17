@@ -4,7 +4,7 @@ import AddComments from "./AddComments";
 import Comment from "./Comment";
 import axios from "axios";
 
-const CommentSection = () => {
+const CommentSection = (props) => {
   const [showComments, setShowComments] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const [addReplies, setAddReplies] = useState(false);
@@ -12,16 +12,30 @@ const CommentSection = () => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(
-        `http://localhost:1337/get-kt-comments-by-kt-id/641d6c69bd434511a89d27dd`
-      )
-      .then((response) => {
-        setComments(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    console.log("comment id " + props.ID);
+    if (props.type === "KT") {
+      axios
+        .get(`http://localhost:1337/get-kt-comments-by-kt-id/${props.ID}`)
+        .then((response) => {
+          setComments(response.data);
+          console.log(response.data.comment);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      axios
+        .get(
+          `http://localhost:1337/get-article-comments-by-article-id/${props.ID}`
+        )
+        .then((response) => {
+          setComments(response.data);
+          console.log(response.data.comment);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   }, []);
 
   function formatDate(dateString) {
@@ -43,7 +57,7 @@ const CommentSection = () => {
   }
 
   return (
-    <div className="container mt-5">
+    <div className="container">
       <div className="d-flex justify-content-center row">
         <div className="col-md-12">
           <div
@@ -52,7 +66,6 @@ const CommentSection = () => {
               display: "block",
               borderRadius: "11px",
               boxShadow: "black",
-              marginTop: "5%",
               marginBottom: "5%",
               maxWidth: "1000px",
               marginLeft: "auto",
@@ -60,8 +73,8 @@ const CommentSection = () => {
               padding: "50px",
             }}
           >
-            <Ratings />
-            <AddComments type="comment" />
+            <Ratings ID={props.ID} source={props.type} />
+            <AddComments type="comment" ID={props.ID} source={props.type} />
             <div className="d-flex justify-content-between p-3">
               <span style={{ color: "#7D7575" }}>
                 {comments.length} comments
@@ -109,58 +122,48 @@ const CommentSection = () => {
             </div>
             {showComments
               ? comments.map((c) => (
-                  <>
-                    <Comment
-                      id={c._id}
-                      user={c.addedBy.firstName + " " + c.addedBy.lastName}
-                      role={"Employee"}
-                      time={formatDate(c.commentedOn)}
-                      message={c.comment}
-                    />
-                    {addReplies ? (
-                      selectedComment === c._id ? (
-                        <div className="mb-5">
-                          <AddComments
-                            type="reply"
-                            selectedComment={selectedComment}
-                          />
-                        </div>
-                      ) : null
-                    ) : null}
+                <>
+                  <Comment
+                    id={c._id}
+                    user={c.addedBy.firstName + " " + c.addedBy.lastName}
+                    role={c.addedBy.userRole}
+                    time={formatDate(c.commentedOn)}
+                    message={c.comment}
+                  />
+                  {addReplies ? (
+                    selectedComment === c._id ? (
+                      <div className="mb-5">
+                        <AddComments
+                          type="reply"
+                          ID={props.ID}
+                          source={props.type}
+                          selectedComment={selectedComment}
+                        />
+                      </div>
+                    ) : null
+                  ) : null}
 
-                    <div className="d-flex justify-content-between p-3">
-                      <span
-                        style={{ cursor: "pointer", color: "#1D9EEC" }}
-                        onClick={() => {
-                          setAddReplies(false);
-                          setShowReplies(!showReplies);
-                          setSelectedComment(c._id);
-                        }}
-                      >
-                        {showReplies ? (
-                          selectedComment === c._id ? (
-                            c.replies.length === 0 ? null : (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-caret-up-fill mx-2"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
-                              </svg>
-                            )
-                          ) : c.replies.length === 0 ? null : (
+                  <div className="d-flex justify-content-between p-3">
+                    <span
+                      style={{ cursor: "pointer", color: "#1D9EEC" }}
+                      onClick={() => {
+                        setAddReplies(false);
+                        setShowReplies(!showReplies);
+                        setSelectedComment(c._id);
+                      }}
+                    >
+                      {showReplies ? (
+                        selectedComment === c._id ? (
+                          c.replies.length === 0 ? null : (
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="16"
                               height="16"
                               fill="currentColor"
-                              className="bi bi-caret-down-fill mx-2"
+                              className="bi bi-caret-up-fill mx-2"
                               viewBox="0 0 16 16"
                             >
-                              <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                              <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
                             </svg>
                           )
                         ) : c.replies.length === 0 ? null : (
@@ -174,56 +177,68 @@ const CommentSection = () => {
                           >
                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                           </svg>
-                        )}
-                        {c.replies.length === 0
-                          ? "No replies yet"
-                          : c.replies.length + " replies"}
-                      </span>
-                      <div className="d-flex align-items-center border-left px-3">
-                        <i className="fa fa-comment"></i>
-                        <span
-                          className="ml-2"
-                          style={{
-                            cursor: "pointer",
-                            color: addReplies
-                              ? selectedComment === c._id
-                                ? "#DC3545"
-                                : "#1D9EEC"
-                              : "#1D9EEC",
-                          }}
-                          onClick={() => {
-                            setShowReplies(false);
-                            setAddReplies(!addReplies);
-                            setSelectedComment(c._id);
-                          }}
+                        )
+                      ) : c.replies.length === 0 ? null : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          className="bi bi-caret-down-fill mx-2"
+                          viewBox="0 0 16 16"
                         >
-                          {addReplies
+                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                        </svg>
+                      )}
+                      {c.replies.length === 0
+                        ? "No replies yet"
+                        : c.replies.length + " replies"}
+                    </span>
+                    <div className="d-flex align-items-center border-left px-3">
+                      <i className="fa fa-comment"></i>
+                      <span
+                        className="ml-2"
+                        style={{
+                          cursor: "pointer",
+                          color: addReplies
                             ? selectedComment === c._id
-                              ? "Close"
-                              : "Reply"
-                            : "Reply"}
-                        </span>
-                      </div>
+                              ? "#DC3545"
+                              : "#1D9EEC"
+                            : "#1D9EEC",
+                        }}
+                        onClick={() => {
+                          setShowReplies(false);
+                          setAddReplies(!addReplies);
+                          setSelectedComment(c._id);
+                        }}
+                      >
+                        {addReplies
+                          ? selectedComment === c._id
+                            ? "Close"
+                            : "Reply"
+                          : "Reply"}
+                      </span>
                     </div>
-                    {showReplies
-                      ? selectedComment === c._id
-                        ? c.replies.map((r) => (
-                            <div className="p-2" style={{ marginLeft: "20px" }}>
-                              <Comment
-                                id={r._id}
-                                user={
-                                  r.addedBy.firstName + " " + r.addedBy.lastName
-                                }
-                                role={"Employee"}
-                                time={formatDate(r.repliedOn)}
-                                message={r.reply}
-                              />
-                            </div>
-                          ))
-                        : null
-                      : null}
-                  </>
-                ))
+                  </div>
+                  {showReplies
+                    ? selectedComment === c._id
+                      ? c.replies.map((r) => (
+                        <div className="p-2" style={{ marginLeft: "20px" }}>
+                          <Comment
+                            id={r._id}
+                            user={
+                              r.addedBy.firstName + " " + r.addedBy.lastName
+                            }
+                            role={r.addedBy.userRole}
+                            time={formatDate(r.repliedOn)}
+                            message={r.reply}
+                          />
+                        </div>
+                      ))
+                      : null
+                    : null}
+                </>
+              ))
               : null}
           </div>
         </div>

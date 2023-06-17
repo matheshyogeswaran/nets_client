@@ -15,34 +15,67 @@ const RatingsReport = () => {
   // states for storing fetched data
   const [ktSessionRating, setKtSessionRating] = useState({});
   const [articleRating, setArticleRating] = useState({});
-  // states for error handling event
-  const [errorHandlingArticle, setErrorHandlingArticle] = useState("");
-  const [errorHandlingKTSession, setErrorHandlingKTSession] = useState("");
 
   useEffect(() => {
     let empId = propsData?.empId || localhostEmpId;
     axios
-      .get(API_BASE + "/ktsessionRatings/" + empId)
-      .then((res) => setKtSessionRating(res?.data))
+      .get(API_BASE + "/ktsessionRatingsReport/" + empId)
+      .then((res) => setKtSessionRating(res.data))
       .catch((error) => {
-        if (error?.response && error?.response.status === 404) {
+        if (error.response && error.response.status === 404) {
           // Handle "User not found" error
-          setErrorHandlingKTSession(error?.response.data.error);
+          return (
+            <div
+              className="shadow text-center bg-dark text-light"
+              width="90px"
+              height="90px"
+              style={{ margin: "15%", padding: "20px" }}
+            >
+              <h4>{error.response.data.error}</h4>
+            </div>
+          );
         } else {
           // Handle other errors
-          setErrorHandlingKTSession(error?.message);
+          return (
+            <div
+              className="shadow text-center bg-dark text-light"
+              width="90px"
+              height="90px"
+              style={{ margin: "15%", padding: "20px" }}
+            >
+              <h4>{error.message}</h4>
+            </div>
+          );
         }
       });
     axios
-      .get(API_BASE + "/articleRatings/" + empId)
-      .then((res) => setArticleRating(res?.data))
+      .get(API_BASE + "/articleRatingsReport/" + empId)
+      .then((res) => setArticleRating(res.data))
       .catch((error) => {
-        if (error?.response && error?.response.status === 404) {
+        if (error.response && error.response.status === 404) {
           // Handle "User not found" error
-          setErrorHandlingArticle(error?.response.data.error);
+          return (
+            <div
+              className="shadow text-center bg-dark text-light"
+              width="90px"
+              height="90px"
+              style={{ margin: "15%", padding: "20px" }}
+            >
+              <h4>{error.response.data.error}</h4>
+            </div>
+          );
         } else {
           // Handle other errors
-          setErrorHandlingArticle(error?.message);
+          return (
+            <div
+              className="shadow text-center bg-dark text-light"
+              width="90px"
+              height="90px"
+              style={{ margin: "15%", padding: "20px" }}
+            >
+              <h4>{error.message}</h4>
+            </div>
+          );
         }
       });
   }, []);
@@ -76,8 +109,8 @@ const RatingsReport = () => {
               </div>
             </div>
           </div>
-          {/* before ratings */}
-          <div className="ratings-grid ">
+          {/* before ratingsRepRatingsReport */}
+          <div className="ratingsRepRatingsReport-grid ">
             {Object.keys(ktSessionRating).length !== 0 && (
               <div className=" specific-chapter rounded d-flex flex-column align-items-center bg-light m-lg-5 my-5 shadow">
                 <div className="rounded d-flex justify-content-around w-100 text-light py-4 mb-3 fw-semibold fs-4 bg-secondary">
@@ -417,28 +450,19 @@ const RatingsReport = () => {
                   <span> Article Name</span>
                   <span>Rating</span>
                 </div>
-                {articleRating?.articleRatingsData?.map((article, index) => (
-                  <div
-                    key={index}
-                    className="specific-chapter w-75 kt-article-data shadow"
-                  >
-                    <span>{article?.articleName}</span>
-                    <span>{article?.overallRating}</span>
-                  </div>
-                ))}
+                {articleRating?.articleRatingsReportData?.map(
+                  (article, index) => (
+                    <div
+                      key={index}
+                      className="specific-chapter w-75 kt-article-data shadow"
+                    >
+                      <span>{article?.articleName}</span>
+                      <span>{article?.overallRating}</span>
+                    </div>
+                  )
+                )}
               </div>
             )}
-          </div>
-          <div
-            className="shadow text-center bg-dark text-light"
-            width="90px"
-            height="90px"
-            style={{ margin: "15%", padding: "20px" }}
-          >
-            <h4>
-              {errorHandlingArticle}
-              {errorHandlingKTSession}
-            </h4>
           </div>
         </>
       ) : (

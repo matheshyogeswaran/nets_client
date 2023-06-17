@@ -11,7 +11,7 @@ const Supervisor = () => {
             <div className="row">
                 <div className="col-md-4 mb-3">
                     <div className="card shadow">
-                        <Link to="/department" className="btn btn-outline-dark">
+                        <Link to="/manageFinalProjectAssignment" className="btn btn-outline-dark">
                             <center>
                                 <img src={manageFinalProjectAssignment} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
                             </center>
@@ -23,7 +23,7 @@ const Supervisor = () => {
                 </div>
                 <div className="col-md-4 mb-3">
                     <div className="card shadow">
-                        <Link to="/department" className="btn btn-outline-dark">
+                        <Link to="/direct-guidance-ticket" className="btn btn-outline-dark">
                             <center>
                                 <img src={manageGuidance} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
                             </center>
@@ -76,7 +76,7 @@ const Supervisor = () => {
                     <div className="border border-dark rounded shadow">
                         <div className="p-3">
                             <div className="card shadow">
-                                <Link to="/enrollrequestsupervisor" className="btn btn-outline-dark">
+                                <Link className="btn btn-outline-dark">
                                     <center>
                                         <img src={report} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
                                     </center>
@@ -86,8 +86,8 @@ const Supervisor = () => {
                                 </Link>
                             </div>
                             <hr></hr>
-                            <Link to="/report" className="btn btn-outline-success form-control mt-1 shadow">View Employee Report</Link>
-                            <Link to="/quizreportfront" className="btn btn-outline-success form-control mt-2 shadow">Quiz Report of Hired Employees</Link>
+                            <Link to="/report" className="btn btn-outline-dark form-control mt-1 shadow">View Employee Report</Link>
+                            <Link to="/quizreportfront" className="btn btn-outline-dark form-control mt-2 shadow">Quiz Report of Hired Employees</Link>
                         </div>
                     </div>
                 </div>

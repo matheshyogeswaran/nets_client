@@ -6,8 +6,10 @@ import Avatar from "../Shared/Avatar";
 import Button from "../Shared/Button";
 import swal from "sweetalert";
 import axios from "axios";
-
+import jwt_decode from "jwt-decode";
 const AddComments = (props) => {
+  const userID = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData._id;
+
   const formSchema = Yup.object().shape({
     comment: Yup.string().required("* comment is required"),
   });
@@ -20,62 +22,107 @@ const AddComments = (props) => {
     console.log("data", formData);
     if (props.type === "comment") {
       const data = {
-        addedBy: "641db06699bb728ad6649957",
+        addedBy: userID,
         comment: formData.comment,
       };
-
-      axios
-        .post(
-          "http://localhost:1337/add-kt-comment/641d6c69bd434511a89d27dd",
-          data
-        )
-        .then((res) => {
-          console.log(res.data);
-          swal({
-            title: "Thank you!",
-            text: "Your comment was successfully saved!",
-            icon: "success",
-            button: "Close",
+      if (props.source === "KT") {
+        axios
+          .post(`http://localhost:1337/add-kt-comment/${props.ID}`, data)
+          .then((res) => {
+            console.log(res.data);
+            swal({
+              title: "Thank you!",
+              text: "Your comment was successfully saved!",
+              icon: "success",
+              button: "Close",
+            });
+            reset();
+          })
+          .catch((error) => {
+            console.log(error);
+            swal({
+              title: "Opzz!",
+              text: "Something went wrong, Please try again!",
+              icon: "warning",
+            });
           });
-          reset();
-        })
-        .catch((error) => {
-          console.log(error);
-          swal({
-            title: "Opzz!",
-            text: "Something went wrong, Please try again!",
-            icon: "warning",
+      } else {
+        axios
+          .post(`http://localhost:1337/add-article-comment/${props.ID}`, data)
+          .then((res) => {
+            console.log(res.data);
+            swal({
+              title: "Thank you!",
+              text: "Your comment was successfully saved!",
+              icon: "success",
+              button: "Close",
+            });
+            reset();
+          })
+          .catch((error) => {
+            console.log(error);
+            swal({
+              title: "Opzz!",
+              text: "Something went wrong, Please try again!",
+              icon: "warning",
+            });
           });
-        });
+      }
     } else {
       const data = {
-        addedBy: "641db06699bb728ad6649957",
+        addedBy: userID,
         reply: formData.comment,
       };
 
-      axios
-        .post(
-          `http://localhost:1337/add-kt-comment-replies/641d6c69bd434511a89d27dd/${props.selectedComment}`,
-          data
-        )
-        .then((res) => {
-          console.log(res.data);
-          swal({
-            title: "Thank you!",
-            text: "Your reply was successfully saved!",
-            icon: "success",
-            button: "Close",
+      if (props.source === "KT") {
+        axios
+          .post(
+            `http://localhost:1337/add-kt-comment-replies/${props.ID}/${props.selectedComment}`,
+            data
+          )
+          .then((res) => {
+            console.log(res.data);
+            swal({
+              title: "Thank you!",
+              text: "Your reply was successfully saved!",
+              icon: "success",
+              button: "Close",
+            });
+            reset();
+          })
+          .catch((error) => {
+            console.log(error);
+            swal({
+              title: "Opzz!",
+              text: "Something went wrong, Please try again!",
+              icon: "warning",
+            });
           });
-          reset();
-        })
-        .catch((error) => {
-          console.log(error);
-          swal({
-            title: "Opzz!",
-            text: "Something went wrong, Please try again!",
-            icon: "warning",
+      } else {
+        axios
+          .post(
+            `http://localhost:1337/add-article-comment-replies/${props.ID}/${props.selectedComment}`,
+            data
+          )
+          .then((res) => {
+            console.log(res.data);
+            swal({
+              title: "Thank you!",
+              text: "Your reply was successfully saved!",
+              icon: "success",
+              button: "Close",
+            });
+            reset();
+          })
+          .catch((error) => {
+            console.log(error);
+            swal({
+              title: "Opzz!",
+              text: "Something went wrong, Please try again!",
+              icon: "warning",
+            });
           });
-        });
+      }
     }
 
     return false;

@@ -54,7 +54,7 @@ const ViewForum = () => {
       </div>
       <div className="text-center mt-5">
         {status === "Active" ? (
-          <Link to={`/create-post/${params.forumId}`}>
+          <Link to={`/create-post/${params?.forumId}`}>
             <button type="button" className="btn btn-outline-success">
               Add Post
             </button>
@@ -63,7 +63,7 @@ const ViewForum = () => {
       </div>
 
       <div className="col-md-12">
-        {forum.map((f) => (
+        {forum?.map((f) => (
           <div
             className="bg-white"
             style={{
@@ -77,21 +77,21 @@ const ViewForum = () => {
               marginRight: "auto",
             }}
           >
-            {f.posts.length === 0 ? (
+            {f?.posts.length === 0 ? (
               <h3 className="text-center my-5">No Posts yet</h3>
             ) : (
-              f.posts.map((p) => (
+              f?.posts.map((p) => (
                 <>
                   <Comment
-                    id={p._id}
-                    user={p.createdBy.firstName + " " + p.createdBy.lastName}
-                    role="Employee"
-                    time={formatDate(p.createdOn)}
-                    message={p.description}
+                    id={p?._id}
+                    user={p?.createdBy?.firstName + " " + p?.createdBy?.lastName}
+                    role={p?.createdBy?.userRole}
+                    time={formatDate(p?.createdOn)}
+                    message={p?.description}
                   />
                   {p.attachment && (
                     <Link
-                      to={`/view-forum/${params.forumId}/${p._id}`}
+                      to={`/view-forum/${params?.forumId}/${p?._id}`}
                       className="text-decoration-none text-secondary"
                     >
                       <svg
@@ -116,12 +116,12 @@ const ViewForum = () => {
                       style={{ cursor: "pointer", color: "#1D9EEC" }}
                       onClick={() => {
                         setShowReplies(!showReplies);
-                        setSelectedComment(p._id);
+                        setSelectedComment(p?._id);
                       }}
                     >
                       {showReplies ? (
-                        selectedComment === p._id ? (
-                          p.replies.length === 0 ? null : (
+                        selectedComment === p?._id ? (
+                          p?.replies?.length === 0 ? null : (
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="16"
@@ -133,7 +133,7 @@ const ViewForum = () => {
                               <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
                             </svg>
                           )
-                        ) : p.replies.length === 0 ? null : (
+                        ) : p?.replies?.length === 0 ? null : (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="16"
@@ -145,7 +145,7 @@ const ViewForum = () => {
                             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                           </svg>
                         )
-                      ) : p.replies.length === 0 ? null : (
+                      ) : p?.replies?.length === 0 ? null : (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
@@ -157,15 +157,15 @@ const ViewForum = () => {
                           <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                         </svg>
                       )}
-                      {p.replies.length === 0
+                      {p?.replies?.length === 0
                         ? "No replies yet"
-                        : p.replies.length + " replies"}
+                        : p?.replies?.length + " replies"}
                     </span>
 
                     <div className="d-flex align-items-center border-left px-3">
                       {status === "Active" ? (
                         <Link
-                          to={`/add-reply/${params.forumId}/${p._id}`}
+                          to={`/add-reply/${params?.forumId}/${p?._id}`}
                           className="text-decoration-none"
                         >
                           <i className="fa fa-comment"></i>
@@ -183,23 +183,23 @@ const ViewForum = () => {
                     </div>
                   </div>
                   {showReplies
-                    ? selectedComment === p._id
-                      ? p.replies.map((r) => (
+                    ? selectedComment === p?._id
+                      ? p?.replies.map((r) => (
                           <div className="p-2" style={{ marginLeft: "20px" }}>
                             <Comment
-                              id={r._id}
+                              id={r?._id}
                               user={
-                                r.createdBy.firstName +
+                                r?.createdBy?.firstName +
                                 " " +
                                 r.createdBy.lastName
                               }
-                              role={"Employee"}
-                              time={formatDate(r.createdOn)}
-                              message={r.description}
+                              role={r?.createdBy?.userRole}
+                              time={formatDate(r?.createdOn)}
+                              message={r?.description}
                             />
-                            {r.attachment && (
+                            {r?.attachment && (
                               <Link
-                                to={`/view-forum/${params.forumId}/${p._id}/${r._id}`}
+                                to={`/view-forum/${params.forumId}/${p?._id}/${r?._id}`}
                                 className="text-decoration-none text-secondary"
                               >
                                 <svg

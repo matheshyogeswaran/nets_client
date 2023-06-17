@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import Stars from "../Shared/Stars";
 import swal from "sweetalert";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
-const ModalBody = () => {
+const ModalBody = (props) => {
+  const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
+  const userID = userDocument._id;
   const [times, setTimes] = useState(0);
   const [isRated, setIsRated] = useState(false);
   const [formData, setFormData] = useState({
@@ -15,38 +18,65 @@ const ModalBody = () => {
   const handleSubmit = (event) => {
     const data = {
       ...formData,
-      userId: "641db06699bb728ad6649957",
+      userId: userID,
     };
     event.preventDefault();
-    axios
-      .post(
-        "http://localhost:1337/save-kt-ratings/641d6c69bd434511a89d27dd",
-        data
-      )
-      .then((res) => {
-        console.log(res.data);
-        setIsRated(true);
-        swal({
-          title: "Thank you!",
-          text: "Your rating was successfully saved!",
-          icon: "success",
-          button: "Close",
+    if (props.source === "KT") {
+      axios
+        .post(`http://localhost:1337/save-kt-ratings/${props.ID}`, data)
+        .then((res) => {
+          console.log(res.data);
+          setIsRated(true);
+          swal({
+            title: "Thank you!",
+            text: "Your rating was successfully saved!",
+            icon: "success",
+            button: "Close",
+          });
+          setFormData({
+            qualityRate: "",
+            clarityRate: "",
+            knowledgeAndSkillRate: "",
+            commRate: "",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          swal({
+            title: "Opzz!",
+            text: "Something went wrong, Please try again!",
+            icon: "warning",
+          });
         });
-        setFormData({
-          qualityRate: "",
-          clarityRate: "",
-          knowledgeAndSkillRate: "",
-          commRate: "",
+    } else {
+      axios
+        .post(`http://localhost:1337/save-article-ratings/${props.ID}`, data)
+        .then((res) => {
+          console.log(res.data);
+          setIsRated(true);
+          swal({
+            title: "Thank you!",
+            text: "Your rating was successfully saved!",
+            icon: "success",
+            button: "Close",
+          });
+          setFormData({
+            qualityRate: "",
+            clarityRate: "",
+            knowledgeAndSkillRate: "",
+            commRate: "",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          swal({
+            title: "Opzz!",
+            text: "Something went wrong, Please try again!",
+            icon: "warning",
+          });
         });
-      })
-      .catch((error) => {
-        console.log(error);
-        swal({
-          title: "Opzz!",
-          text: "Something went wrong, Please try again!",
-          icon: "warning",
-        });
-      });
+    }
+
     console.log("Submitted form data:", formData);
 
     return false;

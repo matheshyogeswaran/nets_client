@@ -2,10 +2,15 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import swal from 'sweetalert';
 import * as Yup from 'yup';
+import jwt_decode from "jwt-decode";
 
-export default function AddUnit() {
-  const chapterId = '64848a1cd792d9e0909c70e0';
-  const userid = '648050d3b39dcbdf90027b5a';
+export default function AddUnit(props) {
+  const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
+  const chapterId = props.chapterID;
+  const userRole = userDocument?.userRole;
+  const userid = userDocument._id;
+  console.log("from addunit " + chapterId + "/" + userid)
+
   const [unitName, setunitName] = useState('');
   const [unitDesc, setunitDesc] = useState('');
   const [errors, setErrors] = useState({});
@@ -45,7 +50,8 @@ export default function AddUnit() {
         setunitName('');
         setunitDesc('');
         setErrors({});
-        window.location.reload(); // Refresh the page
+        props.sendData(props.toDoRefresh + 1);
+        // window.location.reload(); // Refresh the page
       });
     } catch (err) {
       console.error(err);

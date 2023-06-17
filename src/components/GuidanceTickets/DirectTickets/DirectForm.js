@@ -19,32 +19,32 @@ const DirectForm = (props) => {
 
   return (
     <div className="container bg-white">
-      <form onSubmit={handleSubmit(props.onFormSubmit)}>
+      <form onSubmit={handleSubmit(props?.onFormSubmit)}>
         <div className="row">
-          <p className="col-sm-6">Request No. {props.ticket._id}</p>
-          <p className="col-sm-6"> Request Type : {props.ticket.requestType}</p>
+          <p className="col-sm-6">Request No. {props?.ticket._id}</p>
+          <p className="col-sm-6"> Request Type : {props?.ticket.requestType}</p>
         </div>
         <div className="row">
           <p className="col-sm-12">
-            Request Title : {props.ticket.requestTitle}
+            Request Title : {props?.ticket.requestTitle}
           </p>
         </div>
         <div className="row">
           <p className="col-sm-12">
-            Short Description : {props.ticket.description}
+            Short Description : {props?.ticket.description}
           </p>
         </div>
         <div className="row">
           <p className="col-sm-12">
-            Attachment :{/* {props.ticket.attachment} */}
+            {props?.ticket.attachment && <>Attachment :</>}
           </p>
         </div>
         <div className="row">
           <p className="col-sm-12">
             Requested by :{" "}
-            {props.ticket.requestedBy.firstName +
+            {props?.ticket?.requestedBy?.firstName +
               " " +
-              props.ticket.requestedBy.lastName}{" "}
+              props?.ticket?.requestedBy?.lastName}{" "}
           </p>
         </div>
         <div className="row">
@@ -79,7 +79,7 @@ const DirectForm = (props) => {
               backgroundColor: "#1D9EEC",
               borderColor: "#1D9EEC",
             }}
-            onClick={() => props.setTicketId(props.ticket._id)}
+            onClick={() => props?.setTicketId(props?.ticket._id)}
           >
             Direct
           </button>

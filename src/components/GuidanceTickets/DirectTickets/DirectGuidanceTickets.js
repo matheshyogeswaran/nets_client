@@ -4,15 +4,16 @@ import LargeModal from "../../Shared/LargeModal";
 import DirectForm from "./DirectForm";
 import swal from "sweetalert";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 const DirectGuidanceTickets = () => {
   const [tickets, setTickets] = useState([]);
   const [ticketId, setTicketId] = useState(0);
-
+  const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
   useEffect(() => {
     axios
       .get(
-        "http://localhost:1337/get-tickets-by-directed-department-id/6424079010411d8de2cc7178"
+        `http://localhost:1337/get-tickets-by-directed-department-id/${userDocument?.department}`
       )
       .then((response) => {
         setTickets(response.data);
@@ -27,7 +28,7 @@ const DirectGuidanceTickets = () => {
       ...formData,
       status: "directed",
       isAssigned: true,
-      directedBy: "642461066b0919c07966a2f4",
+      directedBy: userDocument?._id,
     };
     console.log("id", ticketId);
 
@@ -74,18 +75,18 @@ const DirectGuidanceTickets = () => {
           paddingTop: "50px",
         }}
       >
-        {tickets.map((t) => (
+        {tickets?.map((t) => (
           <div
             className="card mb-5"
             style={{
               borderColor: "#1D9EEC",
-              backgroundColor: t.status === "requested" ? "#DDEDF8" : "#F8F8F8",
+              backgroundColor: t?.status === "requested" ? "#DDEDF8" : "#F8F8F8",
             }}
           >
             <div className="card-body">
               <div className="row">
-                <p className="col-sm-6">Request No. {t._id}</p>
-                <p className="col-sm-6"> Request Type : {t.requestType}</p>
+                <p className="col-sm-6">Request No. {t?._id}</p>
+                <p className="col-sm-6"> Request Type : {t?.requestType}</p>
               </div>
               <div className="row">
                 <p className="col-sm-6">
@@ -103,9 +104,9 @@ const DirectGuidanceTickets = () => {
                     />
                   ) : (
                     "Assigned to : " +
-                    t.assignedTo.firstName +
+                    t?.assignedTo.firstName +
                     " " +
-                    t.assignedTo.lastName
+                    t?.assignedTo.lastName
                   )}
                 </p>
                 <p className="col-sm-6">
@@ -120,27 +121,27 @@ const DirectGuidanceTickets = () => {
                       role="progressbar"
                       style={{
                         width:
-                          t.status === "requested"
+                          t?.status === "requested"
                             ? "20%"
-                            : t.status === "directed"
-                            ? "60%"
-                            : "100%",
+                            : t?.status === "directed"
+                              ? "60%"
+                              : "100%",
                       }}
                       aria-valuenow={
-                        t.status === "requested"
+                        t?.status === "requested"
                           ? "20"
-                          : t.status === "directed"
-                          ? "60"
-                          : "100"
+                          : t?.status === "directed"
+                            ? "60"
+                            : "100"
                       }
                       aria-valuemin="0"
                       aria-valuemax="100"
                     >
-                      {t.status === "requested"
+                      {t?.status === "requested"
                         ? "Requested"
                         : t.status === "directed"
-                        ? "Directed"
-                        : "Completed"}
+                          ? "Directed"
+                          : "Completed"}
                     </div>
                   </div>
                 </div>

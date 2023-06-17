@@ -1,0 +1,23 @@
+{
+  "userData": {
+    "_id": "648752912655315bf709de93",
+    "userRole": "Super Admin",
+    "empId": "fdgdfh",
+    "firstName": "NETS",
+    "lastName": "LAMBDA",
+    "gender": "Female",
+    "dob": "2008-12-11T18:30:00.000Z",
+    "phoneNumber": 5656565656,
+    "emailAddress": "netslambda2023@gmail.com",
+    "verified": true,
+    "userStatus": "active",
+    "userImage": "https://lh3.googleusercontent.com/a/AAcHTtfMN6ZNobUWztaiziibhJABOhzExrRm047xQ0Zd=s96-c",
+    "isProjectRequested": false,
+    "acceptedAdditionalChapter": [],
+    "SubmittedOn": "1686590097637",
+    "badges": [],
+    "__v": 0
+  },
+  "iat": 1686590115,
+  "exp": 1686676515
+}

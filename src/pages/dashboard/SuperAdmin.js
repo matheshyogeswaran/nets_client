@@ -67,7 +67,7 @@ const SuperAdmin = () => {
                 </div>
                 <div className="col-md-4 mb-3">
                     <div className="card shadow">
-                        <Link to="/promoteDemoteUser" className="btn btn-outline-dark">
+                        <Link to="/promoteDemoteUser/superadmin" className="btn btn-outline-dark">
                             <center>
                                 <img src={promote} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
                             </center>
