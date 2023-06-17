@@ -1,6 +1,6 @@
 import jwt_decode from "jwt-decode";
 import React, { useState, useEffect } from "react";
-import image4 from "../../images/1.svg";
+import common from "../../images/common.svg";
 import "../../App.css";
 import swal from "sweetalert";
 import validator from "validator";
@@ -9,16 +9,13 @@ import axios from "axios";
 const AddChapter = () => {
   const [chaptername, setChapterName] = useState("");
 
-
   function submitChapter(e) {
-    // console.log(chaptername);
-
     e.preventDefault();
-
     // Validate chapter name
     if (!validator.isAlpha(chaptername.replace(/[^A-Za-z]/g, ""))) {  // Must contain at least 1 alphabet
       swal({
         icon: "warning",
+        title: "Invalid",
         text: "Common Chapter name must contain at least one alphabet letter.",
       });
       return;
@@ -28,11 +25,11 @@ const AddChapter = () => {
     if (!chaptername.match(/^[A-Z]/)) {
       swal({
         icon: "warning",
+        title: "Invalid",
         text: "Common Chapter name must start with a capital letter.",
       });
       return;
     }
-
 
     axios
       .post("http://localhost:1337/commonchapters/addChapter", {
@@ -61,35 +58,41 @@ const AddChapter = () => {
     <div className="container">
       <div className="alert mt-3 heading"><h5>Create Common Chapter</h5></div>
       <div className="columns mt-4">
-        <form name="myForm" onSubmit={submitChapter}>
-          <div className="field">
-            <label className="ml-5">Chapter Name</label>
-            <div className="control">
-              <input
-                type="text"
-                name="cname"
-                className="inputdata my-3 ml-5"
-                placeholder="Name"
-                value={chaptername}
-                onChange={(e) => setChapterName(e.target.value)}
-                required
-              />
-            </div>
-          </div>
+        <div>
+          <img src={common} className="picside7" draggable={false} alt="this is image" />
+        </div>
+        <div class="card" style={{ borderRadius: "15px", backgroundColor: "#f1f8f5", boxShadow: "0px 0px 5px 2px rgba(151,196,177, 0.5)" }} >
+          <div class="card-body">
+            <form name="myForm" onSubmit={submitChapter}>
+              <div className="field">
+                <label className="ml-5">Common Chapter Name</label>
+                <div className="control">
+                  <input
+                    type="text"
+                    name="cname"
+                    className="inputdata2 my-3 ml-5"
+                    placeholder="Name"
+                    value={chaptername}
+                    onChange={(e) => setChapterName(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
 
-          <div className="control">
-            <button
-              type="submit"
-              className="btn btn-success mr-1 column is-half text-white col-md-7 my-3"
-            >
-              Save
-            </button>
+              <div className="control">
+                <center>
+                  <button
+                    type="submit"
+                    className="btn btn-success mr-1 column is-half text-white col-md-3 my-3"
+                  >
+                    Save
+                  </button>
+                </center>
+              </div>
+
+            </form>
           </div>
-          <div>
-            <img src={image4} className="picside" draggable={false} alt="this is image" />
-          </div>
-          <div className="field"></div>
-        </form>
+        </div>
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ const AllocateChapter = () => {
   return (
     <React.Fragment>
       <div className="container">
-        <div className="alert mt-3 heading"><h5>Allocate Chapters</h5></div>
+        <div className="alert mt-3 heading"><h5>Allocate Default Chapters</h5></div>
         <br></br> <br></br>
         <table className="table">
 

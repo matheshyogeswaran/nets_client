@@ -6,6 +6,7 @@ import jwt_decode from "jwt-decode";
 
 const EnrollRequestEmployee = () => {
   const [chapters, setChapter] = useState([]);
+  // const user_accepted_chapter = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.acceptedAdditionalChapter
   const userID = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData._id;
   console.log(jwt_decode(JSON.parse(localStorage.getItem("user")).token));
   const [reset, setReset] = useState();
@@ -48,7 +49,8 @@ const EnrollRequestEmployee = () => {
     axios
       .get("http://localhost:1337/chapters/showAllChapters")
       .then(function (response) {
-        const filteredChapters = response.data.filter(chapter => chapter.depID !== null);
+        const filteredChapters = response.data.filter(chapter => chapter.depID !== null && chapter.status !== "notactive");
+        // const filteredChapters = response.data.filter(chapter => chapter.depID !== null && chapter._id !== user_accepted_chapter);
         setChapter(filteredChapters);
       });
   }, [reset]);

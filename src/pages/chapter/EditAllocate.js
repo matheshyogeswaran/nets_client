@@ -9,6 +9,7 @@ import image1 from "../../images/4.svg";
 const EditAllocate = () => {
   const department = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.department;
   const [chaptername, setChapter] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
   let selectedChapters = []
@@ -49,6 +50,7 @@ const EditAllocate = () => {
   //-----
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get("http://localhost:1337/chapters/showAllChapters")
       .then(function (response) {
@@ -56,6 +58,7 @@ const EditAllocate = () => {
         // const filteredChapters = response.data.filter(chapter => chapter.depID !== null);
         setChapter(filteredChapters);
         console.log(filteredChapters)
+        setLoading(false);
       });
   }, []);
 
@@ -63,51 +66,54 @@ const EditAllocate = () => {
     <React.Fragment>
       <div className="container">
         <div className="alert mt-3 heading">
-          <h5>Edit Allocate Chapters</h5>
+          <h5>Allocate Chapters For Jobtitle</h5>
         </div>
         <div>
           <img src={image1} className="picside3" draggable={false} alt="this is image" />
         </div>
-        <br></br>{
-          <table className="table">
-            <tbody>
-              {
-                (chaptername.length === 0)
-                  ?
-                  <div className="alert alert-info mt-4"> <b>No Chapters Found related to your Department !</b> </div>
-                  : chaptername.map((item) => {
-                    return (
-                      <div key={item._id} className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value={item._id}
-                          id={item._id}
-                          onChange={(e) => { updateArray(e) }}
-                        />
-                        <label
-                          className="form-check-label"
-                        >
-                          {item.chapterName}
-                        </label>
-                      </div>
-                    );
-                  })}
-              <input
-                type="submit"
-                className="btn btn-success mt-4"
-                value="     Allocated default chapters     "
-                onClick={submitEdit}
-              />{" "}
-              &nbsp;
-              {/* <input
-              type="reset"
-              className="btn btn-warning"
-              value="Reset"
-            /> */}
-            </tbody>
-          </table>}
+        <div class="card" style={{ borderRadius: "15px", backgroundColor: "#f1f8f5", boxShadow: "0px 0px 5px 2px rgba(151,196,177, 0.5)" }} >
+          <div class="card-body">
+            <br></br>{
+              <table className="table">
+                <tbody>
+                  {
+                    (loading)
+                      ?
+                      <center><div className="spinner-grow mt-3" role="status"></div></center>
+                      :
+                      (chaptername.length === 0)
+                        ?
+                        <div className="alert alert-info mt-4"> <b>No Chapters Found related to your Department !</b> </div>
+                        : chaptername.map((item) => {
+                          return (
 
+                            <div key={item._id} className="form-check">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                value={item._id}
+                                id={item._id}
+                                onChange={(e) => { updateArray(e) }}
+                              />
+                              <label
+                                className="form-check-label"
+                              >
+                                {item.chapterName}
+                              </label>
+                            </div>
+                          );
+                        })}
+                  <input
+                    type="submit"
+                    className="btn btn-success mt-4 col-md-12"
+                    value="     Allocate     "
+                    onClick={submitEdit}
+                  />
+
+                </tbody>
+              </table>}
+          </div>
+        </div>
       </div>
     </React.Fragment>
   );

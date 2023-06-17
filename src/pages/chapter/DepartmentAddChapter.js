@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import image4 from "../../images/1.svg";
+import image4 from "../../images/deptadd.svg";
 import "../../App.css";
 import swal from "sweetalert";
 import validator from "validator";
@@ -77,53 +77,60 @@ const DepartmentAddChapter = () => {
     }
     return (
         <div className="container">
-            <div className="alert mt-3 heading"><h5>Create Chapter for your department</h5></div>
+            <div className="alert mt-3 heading"><h5>Create Chapter</h5></div>
             <div className="columns mt-4">
-                <form name="myForm" onSubmit={submitChapter}>
-                    <div className="field">
-                        <label className="ml-5">Chapter Name</label>
-                        <div className="control">
-                            <input
-                                type="text"
-                                name="cname"
-                                className="inputdata my-3 ml-5"
-                                placeholder="Name"
-                                value={chaptername}
-                                onChange={(e) => setChapterName(e.target.value)}
-                                required
-                            />
-                        </div>
+                <div>
+                    <img src={image4} className="picside7" draggable={false} alt="this is image" />
+                </div>
+                <div class="card" style={{ borderRadius: "15px", backgroundColor: "#f1f8f5", boxShadow: "0px 0px 5px 2px rgba(151,196,177, 0.5)" }} >
+                    <div class="card-body">
+                        <form name="myForm" onSubmit={submitChapter}>
+                            <div className="field">
+                                <label className="ml-5">New Chapter Name</label>
+                                <div className="control">
+                                    <input
+                                        type="text"
+                                        name="cname"
+                                        className="inputdata2 my-2 ml-5"
+                                        placeholder="Enter Chapter Name"
+                                        value={chaptername}
+                                        onChange={(e) => setChapterName(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <label className="ml-5 my-2 createchap">Suitable Department</label>
+                            <div className="col-md-14">
+                                <select style={{ "backgroundColor": "#fafafa" }}
+                                    onChange={(e) => {
+                                        setSelectedDepartment(e.target.value);
+                                    }}
+                                    className="form-select"
+                                    aria-label="Default select example"
+                                >
+                                    <option disabled selected>Department</option>
+                                    {
+                                        <option value={deptID}>
+                                            {selectedDepartmentName}
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <br></br>
+                            <div className="control">
+                                <center>
+                                    <button
+                                        type="submit"
+                                        className="btn btn-success mr-1 column is-half text-white col-md-3 my-3"
+                                    >
+                                        Save
+                                    </button>
+                                </center>
+                            </div>
+                        </form>
                     </div>
-                    <label className="ml-5 my-3 createchap">Suitable Department</label>
-                    <div className="col-md-7">
-                        <select style={{ "backgroundColor": "MintCream" }}
-                            onChange={(e) => {
-                                setSelectedDepartment(e.target.value);
-                            }}
-                            className="form-select"
-                            aria-label="Default select example"
-                        >
-                            <option disabled selected>Department</option>
-                            {
-                                <option value={deptID}>
-                                    {selectedDepartmentName}
-                                </option>
-                            }
-                        </select>
-                    </div>
-                    <div>
-                        <img src={image4} className="picside" draggable={false} alt="this is image" />
-                    </div>
-                    <br></br>
-                    <div className="control">
-                        <button
-                            type="submit"
-                            className="btn btn-success mr-1 column is-half text-white col-md-7 my-3"
-                        >
-                            Save
-                        </button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     );
