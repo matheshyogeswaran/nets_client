@@ -5,12 +5,15 @@ import Swal from "sweetalert2"
 const EnrollRequestSupervisor = () => {
   const depID = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData.department;
   const [chapters, setChapter] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get(`http://localhost:1337/chapters/getEnrolledChapters/${depID}`)
       .then(function (response) {
         setChapter(response.data);
+        setLoading(false);
       });
   }, []);
 
@@ -62,60 +65,64 @@ const EnrollRequestSupervisor = () => {
         <hr className="mt-3"></hr>
         <div class="accordion accordion-flush" id="accordionFlushExample">
           {
-            (chapters.length === 0)
+            (loading)
               ?
-              <div className="alert alert-info mt-4"> <b>No requests Found !</b> </div>
+              <center><div className="spinner-grow mt-3" role="status"></div></center>
               :
-              chapters?.map((item) => {
-                return (
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id={"chapter1" + item._id}>
-                      <button style={{ "backgroundColor": "#e5f4f7" }} class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target={"#open" + item._id} aria-expanded="false" aria-controls={"open" + item._id}>
-                        <b>{item.chapterName}</b>
-                      </button>
-                    </h2>
-                    <br></br>
-                    <div id={"open" + item._id} class="accordion-collapse collapse" aria-labelledby={"chapter1" + item._id} data-bs-parent="#accordionFlushExample">
-                      <div class="accordion-body">
-                        <table class="table">
-                          <thead>
-                            <tr style={{ "backgroundColor": "#b9e1dc" }}>
-                              <th scope="col">Image</th>
-                              <th scope="col">Employee ID</th>
-                              <th scope="col">Employee Name</th>
-                              {/* <th scope="col">Department</th>
+              (chapters.length === 0)
+                ?
+                <div className="alert alert-info mt-4"> <b>No requests Found !</b> </div>
+                :
+                chapters?.map((item) => {
+                  return (
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id={"chapter1" + item._id}>
+                        <button style={{ "backgroundColor": "#e5f4f7" }} class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target={"#open" + item._id} aria-expanded="false" aria-controls={"open" + item._id}>
+                          <b>{item.chapterName}</b>
+                        </button>
+                      </h2>
+                      <br></br>
+                      <div id={"open" + item._id} class="accordion-collapse collapse" aria-labelledby={"chapter1" + item._id} data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                          <table class="table">
+                            <thead>
+                              <tr style={{ "backgroundColor": "#b9e1dc" }}>
+                                <th scope="col">Image</th>
+                                <th scope="col">Employee ID</th>
+                                <th scope="col">Employee Name</th>
+                                {/* <th scope="col">Department</th>
                               <th scope="col">JobTitle</th> */}
-                              <th scope="col"><center>Action</center></th>
-                            </tr>
-                          </thead>
-                          <tbody style={{ "backgroundColor": "MintCream" }}>
-                            {
-                              item?.requested?.map((emps) => {
-                                return (
-                                  <tr>
-                                    <th scope="col"><img draggable={false} referrerPolicy="no-referrer" className="shadow rounded-circle" style={{ "width": "40px" }} alt="user" src={emps.userImage}></img></th>
-                                    <th scope="col">{emps.empId}</th>
-                                    <th scope="col">{emps.firstName}</th>
-                                    {/* <th scope="col">{emps.department}</th>
+                                <th scope="col"><center>Action</center></th>
+                              </tr>
+                            </thead>
+                            <tbody style={{ "backgroundColor": "MintCream" }}>
+                              {
+                                item?.requested?.map((emps) => {
+                                  return (
+                                    <tr>
+                                      <th scope="col"><img draggable={false} referrerPolicy="no-referrer" className="shadow rounded-circle" style={{ "width": "40px" }} alt="user" src={emps.userImage}></img></th>
+                                      <th scope="col">{emps.empId}</th>
+                                      <th scope="col">{emps.firstName}</th>
+                                      {/* <th scope="col">{emps.department}</th>
                                     <th scope="col">{emps.jobPosition}</th> */}
-                                    <th scope="col">
-                                      <select className="form-control" onChange={(e) => { handleAction(emps._id, item._id, e.target.value) }}>
-                                        <option disabled selected>Select your action</option>
-                                        <option value={1}>Accept</option>
-                                        <option value={0}>Decline</option>
-                                      </select>
-                                    </th>
-                                  </tr>
-                                )
-                              })
-                            }
-                          </tbody>
-                        </table>
+                                      <th scope="col">
+                                        <select className="form-control" onChange={(e) => { handleAction(emps._id, item._id, e.target.value) }}>
+                                          <option disabled selected>Select your action</option>
+                                          <option value={1}>Accept</option>
+                                          <option value={0}>Decline</option>
+                                        </select>
+                                      </th>
+                                    </tr>
+                                  )
+                                })
+                              }
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )
-              })
+                  )
+                })
           }
         </div>
       </div>

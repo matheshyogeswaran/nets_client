@@ -3,8 +3,11 @@ import swal from "sweetalert";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import add from "../../images/create.png";
+
 const Jobtitle = () => {
   const [departments, setDepartments] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   function deletemsg(id) {
     swal({
@@ -18,7 +21,6 @@ const Jobtitle = () => {
         axios
           .post("http://localhost:1337/jobtitles/deleteJobtitle", {
             id: id,
-            // reason: reason,
           })
           .then((res) => {
             if (res.data.status === true) {
@@ -43,10 +45,12 @@ const Jobtitle = () => {
   }
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get("http://localhost:1337/jobtitles/showAllJobtitles")
       .then(function (response) {
         setDepartments(response.data);
+        setLoading(false);
       });
   }, []);
 
@@ -54,142 +58,62 @@ const Jobtitle = () => {
     <React.Fragment>
       <div className="container">
         <div className="alert mt-3 heading"><h5>Jobtitles</h5></div>
-        <div className="row ">
-          <div className="col-md-12">
-            <Link to="/newjob" className="btn btn-outline-success form-control">
-              + Add New Jobtitle
-            </Link>
-            <hr className="mt-3"></hr>
-          </div>
-        </div>{
-          (departments.length === 0)
+        <div className="row ">{
+          (loading)
             ?
-            <div className="alert alert-danger mt-4"> <b>Department Creation Required !</b> </div>
+            <center><div className="spinner-grow mt-3" role="status"></div></center>
             :
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">Department name</th>
-                  <th scope="col">Jobtitle_ID</th>
-                  <th scope="col">Jobtitle name</th>
-                  <th scope="col">Edit jobtitle </th>
-                  <th scope="col">Delete jobtitle </th>
-                </tr>
-              </thead>
-              <tbody>
-                {departments.map((department, index) => {
-                  return department.Jobtitle.map((jobtitle, j) => {
-                    return (
-                      <tr className="align-middle" key={jobtitle._id}>
-                        {j === 0 ? <td>{department.depName}</td> : <td></td>}
-                        <td>{jobtitle._id}</td>
-                        <td>{jobtitle.jobTitlename}</td>
-                        <td>
-                          <Link
-                            to={"/editjob/" + jobtitle._id + "/" + jobtitle.jobTitlename}
-                            className="btn btn-outline-primary form-control"
-                          >
-                            Edit
-                          </Link>
-                        </td>
-                        <td>
-                          <button type="submit" onClick={() => deletemsg(jobtitle._id)}
-                            className="btn btn-outline-danger form-control"
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })
-                })}
-              </tbody>
-            </table>}
+            (departments.length === 0) ? <div className="alert alert-danger mt-4"> <b>Department Creation Required !</b> </div> :
+              <div className="col-md-12">
+                < Link to="/newjob" className="btn btn-outline-success form-control">
+                  <img src={add} className="picside5" /> Add New Jobtitle
+                </Link>
+                <hr className="mt-3"></hr>
+              </div>}
+        </div>
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Department name</th>
+              <th scope="col">Jobtitle_ID</th>
+              <th scope="col">Jobtitle name</th>
+              <th scope="col">Edit jobtitle </th>
+              <th scope="col">Delete jobtitle </th>
+            </tr>
+          </thead>
+          <tbody>
+            {departments.map((department, index) => {
+              return department.Jobtitle.map((jobtitle, j) => {
+                return (
+                  <tr className="align-middle" key={jobtitle._id}>
+                    {j === 0 ? <td>{department.depName}</td> : <td></td>}
+                    <td>{jobtitle._id}</td>
+                    <td>{jobtitle.jobTitlename}</td>
+                    <td>
+                      <Link
+                        to={"/editjob/" + jobtitle._id + "/" + jobtitle.jobTitlename}
+                        className="btn btn-outline-primary form-control"
+                      >
+                        Edit
+                      </Link>
+                    </td>
+                    <td>
+                      <button type="submit" onClick={() => deletemsg(jobtitle._id)}
+                        className="btn btn-outline-danger form-control"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
+            })}
+          </tbody>
+        </table>
       </div>
-    </React.Fragment>
+    </React.Fragment >
   );
 };
 export default Jobtitle;
 
 
-
-// import React from "react";
-// import NavBar from "../../components/NavBar";
-// import users from "../../data/Users.json";
-// import axios from "axios";
-// import { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
-// const Jobtitle = () => {
-//   const [departments, setDepartments] = useState([]);
-
-//   useEffect(() => {
-//     axios
-//       .get("http://localhost:1337/jobtitles/showAllJobtitles")
-//       .then(function (response) {
-//         setDepartments(response.data);
-//       });
-//   }, []);
-
-//   return (
-//     <React.Fragment>
-//       <NavBar></NavBar>
-//       <div className="container">
-//         <div className="form-control mt-3 heading">Jobtitles</div>
-//         <br></br>
-//         <div className="row ">
-//           <div className="col-md-12">
-//             <Link to="/newjob" className="btn btn-outline-success form-control">
-//               Add New Jobtitle
-//             </Link>
-//           </div>
-//         </div>
-//         <br></br> <br></br>
-//         <table className="table">
-//           <thead>
-//             <tr>
-//               <th scope="col">Department name</th>
-//               <th scope="col">Jobtitle_ID</th>
-//               <th scope="col">Jobtitle name</th>
-
-//               <th scope="col">
-//                 <center>Actions</center>
-//               </th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {departments.map((department, index) => {
-//               return department.Jobtitle.map((jobtitle, j) => {
-//                 return (
-//                   <tr className="align-middle" key={jobtitle._id}>
-//                     {/* {j === 0 ? <th scope="row">{index + 1}</th> : <td></td>} */}
-//                     {j === 0 ? <td>{department.depName}</td> : <td></td>}
-//                     <td>{jobtitle._id}</td>
-//                     <td>{jobtitle.jobTitlename}</td>
-//                     <td></td>
-//                     <td>
-//                       <Link
-//                         to={"/editjob/" + jobtitle._id + "/" + jobtitle.jobTitlename}
-//                         className="btn btn-outline-primary form-control"
-//                       >
-//                         Edit
-//                       </Link>
-//                     </td>
-//                     <td>
-//                       <button
-//                         // to={"/deletejob/" + jobtitle._id}
-//                         className="btn btn-outline-danger form-control"
-//                       >
-//                         Delete
-//                       </button>
-//                     </td>
-//                   </tr>
-//                 );
-//               })
-//             })}
-//           </tbody>
-//         </table>
-//       </div>
-//     </React.Fragment>
-//   );
-// };
-// export default Jobtitle;

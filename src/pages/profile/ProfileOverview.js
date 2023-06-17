@@ -157,21 +157,6 @@ function ProfileOverview(props) {
                     />
                   </div>
                 </div>
-                <div className="row mt-2 justify-content-center">
-                  <div className="col-md-2"></div>
-                  <div className="form-group col-md-3">
-                    <label for="inputEmail4">Date Of Birth </label>
-                  </div>
-                  <div className="form-group col-md-5">
-                    <input
-                      type="email"
-                      className="form-control a2"
-                      id="inputEmail4"
-                      value={data.dob}
-                      disabled={true}
-                    />
-                  </div>
-                </div>
                 <div className="row mt-2 ">
                   <div className="col-md-2"></div>
                 </div>

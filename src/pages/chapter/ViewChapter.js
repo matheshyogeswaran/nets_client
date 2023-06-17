@@ -5,13 +5,16 @@ import { useState, useEffect } from "react";
 const ViewChapter = () => {
   const [chapters, setChapters] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get("http://localhost:1337/chapters/showAllChapters")
       .then(function (response) {
         const filteredChapters = response.data.filter(chapter => chapter.depID !== null && chapter.status === "active");
         setChapters(filteredChapters);
+        setLoading(false);
       });
   }, []);
 
@@ -54,31 +57,35 @@ const ViewChapter = () => {
           </select>
           <hr className="mt-3"></hr>
         </div>{
-          (filteredChapters.length === 0)
+          (loading)
             ?
-            <div className="alert alert-info mt-4" ><b>No chapters Found !</b></div>
+            <center><div className="spinner-grow mt-3" role="status"></div></center>
             :
-            <table className="table">
-              <thead>
-                <tr style={{ "backgroundColor": "#b9e1dc" }}>
-                  <th scope="col">#</th>
-                  <th scope="col">Chapter name</th>
-                  <th scope="col">Related department</th>
-                  <th scope="col">Created by</th>
-                </tr>
-              </thead>
-              <tbody style={{ "backgroundColor": "MintCream" }}>
-                {
-                  filteredChapters.map((chapter) => (
-                    < tr className="align-middle" key={chapter._id} >
-                      <th scope="row">{chapter._id}</th>
-                      <td>{chapter.chapterName}</td>
-                      <td>{chapter.depID?.depName}</td>
-                      <td>{chapter.createdBy?.empId}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>}
+            (filteredChapters.length === 0)
+              ?
+              <div className="alert alert-info mt-4" ><b>No chapters Found !</b></div>
+              :
+              <table className="table">
+                <thead>
+                  <tr style={{ "backgroundColor": "#b9e1dc" }}>
+                    <th scope="col">#</th>
+                    <th scope="col">Chapter name</th>
+                    <th scope="col">Related department</th>
+                    <th scope="col">Created by</th>
+                  </tr>
+                </thead>
+                <tbody style={{ "backgroundColor": "MintCream" }}>
+                  {
+                    filteredChapters.map((chapter) => (
+                      < tr className="align-middle" key={chapter._id} >
+                        <th scope="row">{chapter._id}</th>
+                        <td>{chapter.chapterName}</td>
+                        <td>{chapter.depID?.depName}</td>
+                        <td>{chapter.createdBy?.empId}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>}
       </div>
     </React.Fragment >
   );

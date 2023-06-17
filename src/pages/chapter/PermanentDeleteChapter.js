@@ -6,6 +6,7 @@ import swal from "sweetalert";
 import { useState, useEffect } from "react";
 const PermanentDeleteChapter = () => {
   const [chapters, setChapter] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   function deletechapter(id) {
     swal({
@@ -44,10 +45,12 @@ const PermanentDeleteChapter = () => {
   }
 
   useEffect(() => {
+    setLoading(true);
     axios.get("http://localhost:1337/chapters/showAllChapters")
       .then(function (response) {
         const filteredChapters = response.data.filter(chapter => chapter.depID !== null && chapter.status === "notactive");
         setChapter(filteredChapters);
+        setLoading(false);
       });
   }, []);
 
@@ -56,43 +59,47 @@ const PermanentDeleteChapter = () => {
       <div className="container">
         <div className="alert mt-3 heading"><h5>Deleted Chapters</h5></div>
         <hr className="mt-3"></hr>{
-          (chapters.length === 0)
+          (loading)
             ?
-            <div className="alert alert-info mt-4"> <b>No tempararily deleted chapters Found !</b> </div>
+            <center><div className="spinner-grow mt-3" role="status"></div></center>
             :
-            <table className="table">
+            (chapters.length === 0)
+              ?
+              <div className="alert alert-info mt-4"> <b>No tempararily deleted chapters Found !</b> </div>
+              :
+              <table className="table">
 
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Chapter name</th>
-                  <th scope="col">Department</th>
-                  <th scope="col">
-                    <center>Actions</center>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Chapter name</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">
+                      <center>Actions</center>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
 
-                  chapters.map((item) => {
-                    return (
-                      <tr className="align-middle" key={item._id}>
-                        <th scope="row">{item._id}</th>
-                        <td>{item.chapterName}</td>
-                        <td>{item.depID?.depName}</td>
-                        <td>
-                          <button type="submit" onClick={() => deletechapter(item._id)}
-                            className="btn btn-outline-danger form-control"
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>}
+                    chapters.map((item) => {
+                      return (
+                        <tr className="align-middle" key={item._id}>
+                          <th scope="row">{item._id}</th>
+                          <td>{item.chapterName}</td>
+                          <td>{item.depID?.depName}</td>
+                          <td>
+                            <button type="submit" onClick={() => deletechapter(item._id)}
+                              className="btn btn-outline-danger form-control"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>}
       </div>
     </React.Fragment>
   );
