@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -8,6 +8,8 @@ import swal from "sweetalert";
 import axios from "axios";
 
 const CreateForum = () => {
+  const navigate = useNavigate();
+
   const formSchema = Yup.object().shape({
     topic: Yup.string().required("* topic is required"),
     description: Yup.string().required("* description is required"),
@@ -37,6 +39,8 @@ const CreateForum = () => {
           text: "You have successfully created a new Discussion Forum Topic!",
           icon: "success",
           button: "Close",
+        }).then(() => {
+          navigate("/forums"); // Refresh the page
         });
         reset();
       })

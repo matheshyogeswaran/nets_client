@@ -51,8 +51,10 @@ const CommentSection = (props) => {
       return `${diffDays} ${diffDays === 1 ? "day" : "days"} ago`;
     } else if (diffHours > 0) {
       return `${diffHours} ${diffHours === 1 ? "hour" : "hours"} ago`;
-    } else {
+    } else if (diffMins > 0) {
       return `${diffMins} ${diffMins === 1 ? "minute" : "minutes"} ago`;
+    } else {
+      return "Just now";
     }
   }
 

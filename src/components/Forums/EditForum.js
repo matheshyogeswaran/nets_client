@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -9,6 +8,8 @@ import swal from "sweetalert";
 import axios from "axios";
 
 const EditForum = () => {
+  const navigate = useNavigate();
+
   const formSchema = Yup.object().shape({
     topic: Yup.string().required("* topic is required"),
     description: Yup.string().required("* description is required"),
@@ -48,6 +49,8 @@ const EditForum = () => {
           text: "Your changes was successfully saved!",
           icon: "success",
           button: "Close",
+        }).then(() => {
+          navigate("/forums");
         });
       })
       .catch((error) => {

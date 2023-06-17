@@ -130,7 +130,7 @@ const Edit = ({ article }) => {
         articleName: article.articleName,
         articleDesc: article.articleDesc,
       },
-      updated_at: moment.utc().format("YYYY-MM-DD hh:mm:ss A"),
+      // updated_at: moment.utc().format("YYYY-MM-DD hh:mm:ss A"),
     };
 
     axios
@@ -232,7 +232,7 @@ const Edit = ({ article }) => {
                 <div class="modal-footer">
                   <input
                     type="submit"
-                    value="Update Unit"
+                    value="Update Article"
                     className="btn btn-primary"
                   />
                 </div>

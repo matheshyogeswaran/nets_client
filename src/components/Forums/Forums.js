@@ -34,6 +34,8 @@ const Forums = () => {
           if (willDelete) {
             swal("Forum has been locked!", {
               icon: "success",
+            }).then(() => {
+              window.location.reload(); // Refresh the page
             });
             console.log("Submitted form data:", id);
           }

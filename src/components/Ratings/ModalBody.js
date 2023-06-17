@@ -29,6 +29,8 @@ const ModalBody = (props) => {
             text: "Your rating was successfully saved!",
             icon: "success",
             button: "Close",
+          }).then(() => {
+            window.location.reload(); // Refresh the page
           });
           setFormData({
             qualityRate: "",
@@ -56,6 +58,8 @@ const ModalBody = (props) => {
             text: "Your rating was successfully saved!",
             icon: "success",
             button: "Close",
+          }).then(() => {
+            window.location.reload(); // Refresh the page
           });
           setFormData({
             qualityRate: "",

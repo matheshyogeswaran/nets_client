@@ -29,30 +29,28 @@ const AddQuestion = () => {
   });
 
   const onSubmit = (values, { resetForm }) => {
-    if (questionCount >= 7) {
-      alert("You cannot add more than 5 questions.");
+    if (questionCount >= 30) {
+      alert("You cannot add more than 30 questions.");
       return;
     }
 
     const newQuestion = {
-      createdBy: userid,
       question: values.question,
       options: values.options,
       correctAnswer: values.correctAnswer,
     };
 
-  axios
-      .post(`http://localhost:1337/units/${id}/quiz`, newQuestion)
+    axios
+      .post(`http://localhost:1337/units/${id}/quiz/${userid}`, newQuestion)
       .then((res) => {
         console.log(res.data);
-        window.location.reload(); // Refresh the page
+        // window.location.reload(); // Refresh the page
       })
       .catch((err) => console.log(err));
 
     resetForm();
     setQuestionCount(questionCount + 1);
   };
-
 
   const formik = useFormik({
     initialValues,
@@ -123,8 +121,7 @@ const AddQuestion = () => {
               <label>Correct Answer:</label>
               <select
                 className={`form-select ${
-                  formik.touched.correctAnswer &&
-                  formik.errors.correctAnswer
+                  formik.touched.correctAnswer && formik.errors.correctAnswer
                     ? "is-invalid"
                     : ""
                 }`}
@@ -140,12 +137,11 @@ const AddQuestion = () => {
                   </option>
                 ))}
               </select>
-              {formik.touched.correctAnswer &&
-                formik.errors.correctAnswer && (
-                  <div className="invalid-feedback">
-                    {formik.errors.correctAnswer}
-                  </div>
-                )}
+              {formik.touched.correctAnswer && formik.errors.correctAnswer && (
+                <div className="invalid-feedback">
+                  {formik.errors.correctAnswer}
+                </div>
+              )}
 
               <br />
               <input
@@ -165,5 +161,3 @@ const AddQuestion = () => {
 };
 
 export default AddQuestion;
-
-     
