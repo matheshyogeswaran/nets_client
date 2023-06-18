@@ -104,9 +104,9 @@ const DirectGuidanceTickets = () => {
                     />
                   ) : (
                     "Assigned to : " +
-                    t?.assignedTo.firstName +
+                    t?.assignedTo?.firstName +
                     " " +
-                    t?.assignedTo.lastName
+                    t?.assignedTo?.lastName
                   )}
                 </p>
                 <p className="col-sm-6">

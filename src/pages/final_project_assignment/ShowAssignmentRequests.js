@@ -98,7 +98,7 @@ const ShowAssignmentRequests = () => {
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <Link to={"/assignFinalProjectAssignment/" + item?._id} className="btn btn-outline-success">
+                                                        <Link to={"/assignFinalProjectAssignment/" + item?._id + "/" + item?.userId?._id} className="btn btn-outline-success">
                                                             Assign
                                                         </Link>
                                                     </td>

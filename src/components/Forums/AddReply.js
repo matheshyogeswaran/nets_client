@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -13,8 +12,11 @@ import { v4 } from "uuid";
 
 const AddReply = () => {
   const params = useParams();
+  const navigate = useNavigate();
+
   const [attachmentAllowed, setAttachmentAllowwed] = useState(false);
   const [attachment, setAttachment] = useState(null);
+  const [uploading, setUploading] = useState(false); // New state for tracking upload status
 
   useEffect(() => {
     axios
@@ -58,6 +60,8 @@ const AddReply = () => {
               text: "Your reply was successfully saved!",
               icon: "success",
               button: "Close",
+            }).then(() => {
+              navigate(`/view-forum/${params.forumId}`);
             });
             reset();
           })
@@ -77,6 +81,8 @@ const AddReply = () => {
         `forums/repliesAttachments/${attachment.name + v4()}`
       );
 
+      setUploading(true);
+
       uploadBytes(AttachmentRef, attachment).then((a) => {
         getDownloadURL(a.ref).then((url) => {
           console.log(url);
@@ -93,6 +99,8 @@ const AddReply = () => {
                 text: "Your reply was successfully saved!",
                 icon: "success",
                 button: "Close",
+              }).then(() => {
+                navigate(`/view-forum/${params.forumId}`);
               });
               reset();
             })
@@ -103,6 +111,9 @@ const AddReply = () => {
                 text: "Something went wrong, Please try again!",
                 icon: "warning",
               });
+            })
+            .finally(() => {
+              setUploading(false); // Set the uploading state to false once the upload is complete
             });
         });
       });
@@ -145,26 +156,29 @@ const AddReply = () => {
               {errors.description?.message}
             </p>
           </div>
-          <div className="form-group mt-4">
-            <label for="attachment" className="font-weight-bold">
-              Attachment:
-            </label>
-            <div className="form-group">
-              <input
-                type="file"
-                accept=".pdf,.jpg,.png,.jpeg"
-                className="form-control-file mt-4"
-                id="attachment"
-                name="attachment"
-                onChange={(event) => {
-                  setAttachment(event.target.files[0]);
-                }}
-              />
-              <p className="font-italic">
-                allowed file types: .pdf,.jpg,.png,.jpeg
-              </p>
+          {attachmentAllowed && (
+            <div className="form-group mt-4">
+              <label for="attachment" className="font-weight-bold">
+                Attachment:
+              </label>
+              <div className="form-group">
+                <input
+                  type="file"
+                  accept=".pdf,.jpg,.png,.jpeg"
+                  className="form-control-file mt-4"
+                  id="attachment"
+                  name="attachment"
+                  onChange={(event) => {
+                    setAttachment(event.target.files[0]);
+                  }}
+                />
+                <p className="font-italic">
+                  allowed file types: .pdf,.jpg,.png,.jpeg
+                </p>
+              </div>
             </div>
-          </div>
+          )}
+
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <button
               type="submit"
@@ -173,8 +187,9 @@ const AddReply = () => {
                 backgroundColor: "#1D9EEC",
                 borderColor: "#1D9EEC",
               }}
+              disabled={uploading}
             >
-              Add
+              {uploading ? "Uploading..." : "Add"}
             </button>
             <Link to={`/view-forum/${params.forumId}`}>
               <button

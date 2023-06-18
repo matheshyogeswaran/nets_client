@@ -135,7 +135,7 @@ const Edit = ({ article }) => {
         articleName: article.articleName,
         articleDesc: article.articleDesc,
       },
-      updated_at: moment.utc().format("YYYY-MM-DD hh:mm:ss A"),
+      // updated_at: moment.utc().format("YYYY-MM-DD hh:mm:ss A"),
     };
 
     axios
@@ -188,8 +188,9 @@ const Edit = ({ article }) => {
                   </label>
                   <input
                     type="text"
-                    className={`form-control ${errors.articleName && "is-invalid"
-                      }`}
+                    className={`form-control ${
+                      errors.articleName && "is-invalid"
+                    }`}
                     id="articleName"
                     name="articleName"
                     value={updatedarticle.articleName}
@@ -205,8 +206,9 @@ const Edit = ({ article }) => {
                   </label>
                   <input
                     type="text"
-                    className={`form-control ${errors.articleDesc && "is-invalid"
-                      }`}
+                    className={`form-control ${
+                      errors.articleDesc && "is-invalid"
+                    }`}
                     id="articleDesc"
                     name="articleDesc"
                     value={updatedarticle.articleDesc}
@@ -234,16 +236,17 @@ const Edit = ({ article }) => {
                 </div>
                 <div class="modal-footer">
                   <button type="submit" className="btn btn-primary">
-                    {
-                      (articleUpdateStatus)
-                        ?
-                        <>
-                          <span className='spinner-grow spinner-grow-sm me-3' role="status"></span>
-                          Updating...
-                        </>
-                        :
-                        "Update Article"
-                    }
+                    {articleUpdateStatus ? (
+                      <>
+                        <span
+                          className="spinner-grow spinner-grow-sm me-3"
+                          role="status"
+                        ></span>
+                        Updating...
+                      </>
+                    ) : (
+                      "Update Article"
+                    )}
                   </button>
                 </div>
               </form>

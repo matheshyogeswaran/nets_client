@@ -20,7 +20,7 @@ export const chapter_routes = [
   {
     path: "/chapter/department/all",
     ele: <ConCreChaps />,
-    availability: [ur.contentCreator],
+    availability: [ur.contentCreator, ur.supervisor],
   },
   {
     path: "/chapter",
@@ -95,6 +95,6 @@ export const chapter_routes = [
   {
     path: "/chapterPage/:chapterId/:chapterName",
     ele: <Content />,
-    availability: [ur.hiredEmployee, ur.contentCreator],
+    availability: [ur.hiredEmployee, ur.contentCreator, ur.supervisor],
   },
 ];
