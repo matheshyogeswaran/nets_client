@@ -12,7 +12,9 @@ import jwt_decode from "jwt-decode";
 const RequestGuidanceTickets = () => {
   const [tickets, setTickets] = useState([]);
   const [attachment, setAttachment] = useState(null);
-  const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
+  const userDocument = jwt_decode(
+    JSON.parse(localStorage.getItem("user")).token
+  ).userData;
 
   useEffect(() => {
     axios
@@ -148,7 +150,14 @@ const RequestGuidanceTickets = () => {
             <div className="card-body">
               <div className="row">
                 <p className="col-sm-6">Request No. {t._id}</p>
-                <p className="col-sm-6"> Request Type : {t.requestType}</p>
+                <p className="col-sm-6">
+                  {" "}
+                  Directed Department : {t.directedDepartmentID.depName}
+                </p>
+              </div>
+              <div className="row">
+                <p className="col-sm-6">Request Type : {t.requestType}</p>
+                <p className="col-sm-6"> Request Title : {t.requestTitle}</p>
               </div>
               <div className="row">
                 <p className="col-sm-6">
@@ -181,15 +190,15 @@ const RequestGuidanceTickets = () => {
                           t.status === "requested"
                             ? "20%"
                             : t.status === "directed"
-                              ? "60%"
-                              : "100%",
+                            ? "60%"
+                            : "100%",
                       }}
                       aria-valuenow={
                         t.status === "requested"
                           ? "20"
                           : t.status === "directed"
-                            ? "60"
-                            : "100"
+                          ? "60"
+                          : "100"
                       }
                       aria-valuemin="0"
                       aria-valuemax="100"
@@ -197,8 +206,8 @@ const RequestGuidanceTickets = () => {
                       {t.status === "requested"
                         ? "Requested"
                         : t.status === "directed"
-                          ? "Directed"
-                          : "Completed"}
+                        ? "Directed"
+                        : "Completed"}
                     </div>
                   </div>
                 </div>

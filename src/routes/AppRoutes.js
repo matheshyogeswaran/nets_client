@@ -51,7 +51,7 @@ const AppRoutes = () => {
               exact
               path={e.path}
               element={<RedirectIfLoggedIn>{e.ele}</RedirectIfLoggedIn>}
-            // element={e.ele}
+              // element={e.ele}
             />
           );
         })}
@@ -65,7 +65,7 @@ const AppRoutes = () => {
               element={
                 <RequireAuth userroles={e?.availability}>{e.ele}</RequireAuth>
               }
-            // element={e.ele}
+              // element={e.ele}
             />
           );
         })}
