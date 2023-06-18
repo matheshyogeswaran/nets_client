@@ -7,7 +7,7 @@ import jwt_decode from "jwt-decode";
 import { BsPersonFillGear, BsSendPlusFill, BsFillTelephoneFill, BsFileBarGraphFill } from 'react-icons/bs';
 import { GiTrophy } from 'react-icons/gi';
 import { FaTicketAlt, FaUserCheck } from 'react-icons/fa';
-import { AiFillHome } from 'react-icons/ai';
+import { AiFillHome, AiFillBell, AiFillPhone } from 'react-icons/ai';
 import { FiLogOut } from 'react-icons/fi';
 import { ImBooks } from "react-icons/im"
 import { GrNotification } from "react-icons/gr";
@@ -71,7 +71,8 @@ const NavBar = () => {
                     aria-current="page"
                     to="/home"
                   >
-                    <AiFillHome className="me-2" /> Home
+                    <AiFillHome className="me-2" />
+                    <span className="align-middle">Home</span>
                   </Link>
                 </li>
 
@@ -81,8 +82,9 @@ const NavBar = () => {
                     aria-current="page"
                     to="/notifications"
                   >
-                    {/* <GrNotification className="me-2" /> */}
-                    Notifications
+                    <AiFillBell className="me-2" />
+                    <span className="align-middle">Notifications</span>
+
                   </Link>
                 </li>
               </RenderIfLoggedIn>
