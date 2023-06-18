@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode"; //To decode JSON web tokens
 import swal from "sweetalert"; //SweetAlert library for displaying alerts
+import Swal from "sweetalert2";
 import Search from "../../components/search";
 import rank1 from "../../images/gold.png"; // Import images for leaderboard ranks
 import rank2 from "../../images/silver.png";
@@ -23,6 +24,11 @@ const LeaderBoard = () => {
   )?.userData?.department;
 
   useEffect(() => {
+    Swal.fire(
+      `Need to know!`,
+      "The leaderboard is determined based on the average score of department chapters.",
+      "info"
+    );
     axios
       .get(API_BASE + "/getCurrentUserLeaderboardData", {
         params: { currentUser, currentUserDep },
