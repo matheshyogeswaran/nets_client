@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { FaPencilAlt } from 'react-icons/fa';
-import swal from 'sweetalert';
-import moment from 'moment';
-import * as Yup from 'yup';
-import { useFormik } from 'formik';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { FaPencilAlt } from "react-icons/fa";
+import swal from "sweetalert";
+import moment from "moment";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
 const Edit = ({ quiz, id }) => {
-  const userid = '648050d3b39dcbdf90027b5a';
+  const userid = "648050d3b39dcbdf90027b5a";
   const [units, setunits] = useState([]);
   const [modal, setModal] = useState(null);
   const [updatedQuestion, setUpdatedQuestion] = useState({
@@ -58,9 +58,9 @@ const Edit = ({ quiz, id }) => {
   };
 
   const validationSchema = Yup.object().shape({
-    question: Yup.string().required('Please enter a question'),
-    options: Yup.array().of(Yup.string().required('Please enter an option')),
-    correctAnswer: Yup.string().required('Please select the correct answer'),
+    question: Yup.string().required("Please enter a question"),
+    options: Yup.array().of(Yup.string().required("Please enter an option")),
+    correctAnswer: Yup.string().required("Please select the correct answer"),
   });
 
   const onSubmit = (values) => {
@@ -73,8 +73,8 @@ const Edit = ({ quiz, id }) => {
       .then(() => {
         setModal(null);
         swal({
-          icon: 'success',
-          text: 'Successfully updated',
+          icon: "success",
+          text: "Successfully updated",
         }).then(() => {
           window.location.reload(); // Reload the page
         });
@@ -82,8 +82,8 @@ const Edit = ({ quiz, id }) => {
       .catch((err) => {
         console.log(err);
         swal({
-          icon: 'warning',
-          text: 'Error',
+          icon: "warning",
+          text: "Error",
         });
       });
 
@@ -99,13 +99,13 @@ const Edit = ({ quiz, id }) => {
         options: quiz.options,
         correctAnswer: quiz.correctAnswer,
       },
-      updated_at: moment.utc().format('YYYY-MM-DD hh:mm:ss A'),
+      // updated_at: moment.utc().format('YYYY-MM-DD hh:mm:ss A'),
     };
 
     axios
-      .post('http://localhost:1337/editquestions/add', editData)
+      .post("http://localhost:1337/editquestions/add", editData)
       .then(() => {
-        console.log('Edit history data saved successfully');
+        console.log("Edit history data saved successfully");
       })
       .catch((err) => {
         console.log(err);
@@ -125,7 +125,7 @@ const Edit = ({ quiz, id }) => {
           className="editIcon"
           type="button"
           class="rounded float-end"
-          style={{ color: 'blue' }}
+          style={{ color: "blue" }}
           data-bs-toggle="modal"
           data-bs-target={`#edit-modal-${quiz._id}`}
         />
@@ -159,7 +159,7 @@ const Edit = ({ quiz, id }) => {
                     className={`form-control ${
                       formik.touched.question &&
                       formik.errors.question &&
-                      'is-invalid'
+                      "is-invalid"
                     }`}
                     id="question"
                     name="question"
@@ -181,7 +181,7 @@ const Edit = ({ quiz, id }) => {
                       formik.touched.options[0] &&
                       formik.errors.options &&
                       formik.errors.options[0] &&
-                      'is-invalid'
+                      "is-invalid"
                     }`}
                     id="option1"
                     name="options[0]"
@@ -206,7 +206,7 @@ const Edit = ({ quiz, id }) => {
                       formik.touched.options[1] &&
                       formik.errors.options &&
                       formik.errors.options[1] &&
-                      'is-invalid'
+                      "is-invalid"
                     }`}
                     id="option2"
                     name="options[1]"
@@ -231,7 +231,7 @@ const Edit = ({ quiz, id }) => {
                       formik.touched.options[2] &&
                       formik.errors.options &&
                       formik.errors.options[2] &&
-                      'is-invalid'
+                      "is-invalid"
                     }`}
                     id="option3"
                     name="options[2]"
@@ -256,7 +256,7 @@ const Edit = ({ quiz, id }) => {
                       formik.touched.options[3] &&
                       formik.errors.options &&
                       formik.errors.options[3] &&
-                      'is-invalid'
+                      "is-invalid"
                     }`}
                     id="option4"
                     name="options[3]"
@@ -278,7 +278,7 @@ const Edit = ({ quiz, id }) => {
                     className={`form-select ${
                       formik.touched.correctAnswer &&
                       formik.errors.correctAnswer &&
-                      'is-invalid'
+                      "is-invalid"
                     }`}
                     value={formik.values.correctAnswer}
                     onChange={formik.handleChange}
@@ -314,6 +314,3 @@ const Edit = ({ quiz, id }) => {
 };
 
 export default Edit;
- 
-
-   

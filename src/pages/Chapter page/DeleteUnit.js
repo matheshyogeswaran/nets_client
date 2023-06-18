@@ -6,6 +6,8 @@ import swal from "sweetalert";
 
 const Delete = ({ unit }) => {
   const navigate = useNavigate();
+  const chapterName = "diagrams";
+  const userid = "648050d3b39dcbdf90027b5a";
 
   const onDelete = () => {
     axios
@@ -26,6 +28,25 @@ const Delete = ({ unit }) => {
           text: "Error",
         });
       });
+
+    const deleteData = {
+      chapterName: chapterName,
+      unitName: unit.unitName,
+      unitDesc: unit.unitDesc,
+      createdBy: unit.createdBy,
+      deletedBy: userid,
+      // updated_at: moment().format('YYYY-MM-DD hh:mm:ss.SS A'),
+    };
+
+    axios
+      .post("http://localhost:1337/deleteunits/add", deleteData)
+      .then(() => {
+        console.log("Delete history data saved successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     navigate("/chapterPage");
   };
 

@@ -35,6 +35,8 @@ const AddComments = (props) => {
               text: "Your comment was successfully saved!",
               icon: "success",
               button: "Close",
+            }).then(() => {
+              window.location.reload(); // Refresh the page
             });
             reset();
           })
@@ -56,6 +58,8 @@ const AddComments = (props) => {
               text: "Your comment was successfully saved!",
               icon: "success",
               button: "Close",
+            }).then(() => {
+              window.location.reload(); // Refresh the page
             });
             reset();
           })
@@ -87,6 +91,8 @@ const AddComments = (props) => {
               text: "Your reply was successfully saved!",
               icon: "success",
               button: "Close",
+            }).then(() => {
+              window.location.reload(); // Refresh the page
             });
             reset();
           })
@@ -111,6 +117,8 @@ const AddComments = (props) => {
               text: "Your reply was successfully saved!",
               icon: "success",
               button: "Close",
+            }).then(() => {
+              window.location.reload(); // Refresh the page
             });
             reset();
           })
