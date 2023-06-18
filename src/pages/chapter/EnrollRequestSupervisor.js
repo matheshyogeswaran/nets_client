@@ -90,28 +90,28 @@ const EnrollRequestSupervisor = () => {
                                 <th scope="col">Image</th>
                                 <th scope="col">Employee ID</th>
                                 <th scope="col">Employee Name</th>
-                                {/* <th scope="col">Department</th>
-                              <th scope="col">JobTitle</th> */}
+                                {/* <th scope="col">Department</th> */}
+                                {/* <th scope="col">JobTitle</th>  */}
                                 <th scope="col"><center>Action</center></th>
                               </tr>
                             </thead>
-                            <tbody style={{ "backgroundColor": "MintCream" }}>
+                            <tbody style={{ "backgroundColor": "MintCream !important" }}>
                               {
                                 item?.requested?.map((emps) => {
                                   return (
                                     <tr>
-                                      <th scope="col"><img draggable={false} referrerPolicy="no-referrer" className="shadow rounded-circle" style={{ "width": "40px" }} alt="user" src={emps.userImage}></img></th>
-                                      <th scope="col">{emps.empId}</th>
-                                      <th scope="col">{emps.firstName}</th>
-                                      {/* <th scope="col">{emps.department}</th>
-                                    <th scope="col">{emps.jobPosition}</th> */}
-                                      <th scope="col">
+                                      <td scope="col"><img draggable={false} referrerPolicy="no-referrer" className="shadow rounded-circle" style={{ "width": "40px" }} alt="user" src={emps.userImage}></img></td>
+                                      <td scope="col">{emps.empId}</td>
+                                      <td scope="col">{emps.firstName}{" "}{emps?.lastName}</td>
+                                      {/* <td scope="col">{emps?.department?.departmentName}</td> */}
+                                      {/* <th scope="col">{emps.jobPosition}</th>  */}
+                                      <td scope="col">
                                         <select className="form-control" onChange={(e) => { handleAction(emps._id, item._id, e.target.value) }}>
                                           <option disabled selected>Select your action</option>
                                           <option value={1}>Accept</option>
                                           <option value={0}>Decline</option>
                                         </select>
-                                      </th>
+                                      </td>
                                     </tr>
                                   )
                                 })
