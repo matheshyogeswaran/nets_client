@@ -45,6 +45,7 @@ const FinalAssignmentSubmission = () => {
         const formData = new FormData();
         formData.append("note", note);
         formData.append("finalProjectAssignmentID", assignment?._id);
+        formData.append("supervisor", assignment?.acceptedBy?._id);
         if (file.length !== 0) {
             formData.append("ufile", file[0]);
         }

@@ -3,8 +3,10 @@ import { Link, useParams } from "react-router-dom";
 import Header from "../Shared/Header";
 import swal from "sweetalert";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 const Forums = () => {
+  const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
   const [forumTopics, setForumTopics] = useState([]);
   const { chapterID, chapterName } = useParams();
   useEffect(() => {
@@ -81,13 +83,18 @@ const Forums = () => {
         </div>
       </nav>
       {/* <Header title="NETS: Discussion Forums" /> */}
-      <div className="text-center mt-5">
-        <Link to={"/create-forum/" + chapterID}>
-          <button type="button" className="btn btn-outline-success">
-            Create New Discussion Forum Topic
-          </button>
-        </Link>
-      </div>
+      {
+        (userDocument.userRole === "Content Creator" || userDocument.userRole === "Supervisor")
+        &&
+        <div className="text-center mt-5">
+          <Link to={"/create-forum/" + chapterID}>
+            <button type="button" className="btn btn-outline-success">
+              Create New Discussion Forum Topic
+            </button>
+          </Link>
+        </div>
+      }
+
       <div className="mt-5">
         <div
           className="row py-4 text-center d-none d-sm-flex rounded fw-bold"
@@ -96,7 +103,11 @@ const Forums = () => {
           <div className="col-sm-3">Forum Topic</div>
           <div className="col-sm-3">Created by</div>
           <div className="col-sm-2">Number of posts</div>
-          <div className="col-sm-4">Actions</div>
+          {
+            (userDocument.userRole === "Content Creator" || userDocument.userRole === "Supervisor")
+            &&
+            <div className="col-sm-4">Actions</div>
+          }
         </div>
         {forumTopics?.map((f) => (
           <div
@@ -123,6 +134,8 @@ const Forums = () => {
             <div className="col-sm-2">{f.posts.length}</div>
 
             {f?.status === "Active" ? (
+              (userDocument.userRole === "Content Creator" || userDocument.userRole === "Supervisor")
+              &&
               <div
                 className="d-flex flex-row mx-auto col-sm-4"
                 style={{ display: "flex", justifyContent: "center" }}

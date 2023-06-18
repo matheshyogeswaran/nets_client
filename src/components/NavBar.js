@@ -9,7 +9,8 @@ import { GiTrophy } from 'react-icons/gi';
 import { FaTicketAlt, FaUserCheck } from 'react-icons/fa';
 import { AiFillHome } from 'react-icons/ai';
 import { FiLogOut } from 'react-icons/fi';
-import {ImBooks} from "react-icons/im"
+import { ImBooks } from "react-icons/im"
+import { GrNotification } from "react-icons/gr";
 const NavBar = () => {
 
   // state variable holds the state of the internet connection
@@ -71,6 +72,17 @@ const NavBar = () => {
                     to="/home"
                   >
                     <AiFillHome className="me-2" /> Home
+                  </Link>
+                </li>
+
+                <li className="nav-item rounded">
+                  <Link
+                    className="nav-link active"
+                    aria-current="page"
+                    to="/notifications"
+                  >
+                    {/* <GrNotification className="me-2" /> */}
+                    Notifications
                   </Link>
                 </li>
               </RenderIfLoggedIn>
