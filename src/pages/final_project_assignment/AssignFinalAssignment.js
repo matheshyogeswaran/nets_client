@@ -9,7 +9,7 @@ import { removeHTMLTags } from "../../utils/functions";
 import { modules } from "../../utils/ReactQuillModules";
 const AssignFinalAssignment = () => {
     const navigate = useNavigate();
-    const { id } = useParams();
+    const { id, userID } = useParams();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [deadline, setDeadline] = useState();
@@ -44,6 +44,7 @@ const AssignFinalAssignment = () => {
         setLoading(true);
         const formData = new FormData();
         formData.append("title", title);
+        formData.append("requestedby", userID);
         formData.append("finalprojectassignmentid", id);
         formData.append("description", description);
         formData.append("deadline", deadline);

@@ -12,7 +12,7 @@ import Editlog from "./../pages/projSubmission/editLog";
 import ProjScore from "./../pages/projSubmission/projectScore";
 export const final_project_assignment_routes = [
   {
-    path: "/assignFinalProjectAssignment/:id",
+    path: "/assignFinalProjectAssignment/:id/:userID",
     ele: <AssignFinalAssignment />,
     availability: ["Supervisor"],
   },

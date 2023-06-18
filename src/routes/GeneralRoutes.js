@@ -3,6 +3,7 @@ import MainDashBoard from "../pages/dashboard/MainDashBoard";
 import ProfileOverview from "../pages/profile/ProfileOverview";
 import PendingUserApproval from "../pages/login/PendingUserApproval";
 import PendingUserApprovalDepartment from "../pages/login/PendingUserApprovalDepartment";
+import Notifications from "../pages/Notifications";
 export const general_routes = [
     {
         path: "/home",
@@ -23,5 +24,9 @@ export const general_routes = [
     {
         path: "/ratings",
         ele: <Ratings />
+    },
+    {
+        path: "/notifications",
+        ele: <Notifications />
     },
 ]
