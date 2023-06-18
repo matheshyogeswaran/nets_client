@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -9,8 +9,12 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 
 const CreateForum = () => {
+  const navigate = useNavigate();
+
   const { chapterID } = useParams();
-  const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
+  const userDocument = jwt_decode(
+    JSON.parse(localStorage.getItem("user")).token
+  ).userData;
   const formSchema = Yup.object().shape({
     topic: Yup.string().required("* topic is required"),
     description: Yup.string().required("* description is required"),
@@ -40,6 +44,8 @@ const CreateForum = () => {
           text: "You have successfully created a new Discussion Forum Topic!",
           icon: "success",
           button: "Close",
+        }).then(() => {
+          navigate("/forums"); // Refresh the page
         });
         reset();
       })

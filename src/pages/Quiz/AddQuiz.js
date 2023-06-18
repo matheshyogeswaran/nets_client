@@ -4,10 +4,12 @@ import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import jwt_decode from "jwt-decode";
-import Swal from "sweetalert2"
+import Swal from "sweetalert2";
 
 const AddQuestion = () => {
-  const userDocument = jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData;
+  const userDocument = jwt_decode(
+    JSON.parse(localStorage.getItem("user")).token
+  ).userData;
   const userid = userDocument._id;
   const { id } = useParams();
   const [questionCount, setQuestionCount] = useState(0);
@@ -32,40 +34,38 @@ const AddQuestion = () => {
   });
 
   const onSubmit = (values, { resetForm }) => {
-    if (questionCount >= 7) {
-      alert("You cannot add more than 5 questions.");
+    if (questionCount >= 30) {
+      alert("You cannot add more than 30 questions.");
       return;
     }
 
     const newQuestion = {
-      createdBy: userid,
       question: values.question,
       options: values.options,
       correctAnswer: values.correctAnswer,
     };
 
     axios
-      .post(`http://localhost:1337/units/${id}/quiz`, newQuestion)
+      .post(`http://localhost:1337/units/${id}/quiz/${userid}`, newQuestion)
       .then((res) => {
         console.log(res.data);
         Swal.fire({
-          title: 'Success',
+          title: "Success",
           text: "Quizzes successfully created",
-          icon: 'success',
+          icon: "success",
           showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'OK'
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "OK",
         }).then((result) => {
           window.location.reload(); // Refresh the page
-        })
+        });
       })
       .catch((err) => console.log(err));
 
     resetForm();
     setQuestionCount(questionCount + 1);
   };
-
 
   const formik = useFormik({
     initialValues,
@@ -86,10 +86,11 @@ const AddQuestion = () => {
               <div className="input-group mb-3">
                 <input
                   type="text"
-                  className={`form-control ${formik.touched.question && formik.errors.question
-                    ? "is-invalid"
-                    : ""
-                    }`}
+                  className={`form-control ${
+                    formik.touched.question && formik.errors.question
+                      ? "is-invalid"
+                      : ""
+                  }`}
                   name="question"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -107,13 +108,14 @@ const AddQuestion = () => {
                 <div className="input-group mb-3" key={index}>
                   <input
                     type="text"
-                    className={`form-control ${formik.touched.options &&
+                    className={`form-control ${
+                      formik.touched.options &&
                       formik.touched.options[index] &&
                       formik.errors.options &&
                       formik.errors.options[index]
-                      ? "is-invalid"
-                      : ""
-                      }`}
+                        ? "is-invalid"
+                        : ""
+                    }`}
                     name={`options[${index}]`}
                     placeholder={`Option ${index + 1}`}
                     onChange={formik.handleChange}
@@ -133,11 +135,11 @@ const AddQuestion = () => {
 
               <label>Correct Answer:</label>
               <select
-                className={`form-select ${formik.touched.correctAnswer &&
-                  formik.errors.correctAnswer
-                  ? "is-invalid"
-                  : ""
-                  }`}
+                className={`form-select ${
+                  formik.touched.correctAnswer && formik.errors.correctAnswer
+                    ? "is-invalid"
+                    : ""
+                }`}
                 name="correctAnswer"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -150,12 +152,11 @@ const AddQuestion = () => {
                   </option>
                 ))}
               </select>
-              {formik.touched.correctAnswer &&
-                formik.errors.correctAnswer && (
-                  <div className="invalid-feedback">
-                    {formik.errors.correctAnswer}
-                  </div>
-                )}
+              {formik.touched.correctAnswer && formik.errors.correctAnswer && (
+                <div className="invalid-feedback">
+                  {formik.errors.correctAnswer}
+                </div>
+              )}
 
               <br />
               <input
@@ -175,4 +176,3 @@ const AddQuestion = () => {
 };
 
 export default AddQuestion;
-
