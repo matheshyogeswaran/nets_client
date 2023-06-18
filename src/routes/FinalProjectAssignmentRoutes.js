@@ -10,65 +10,66 @@ import UpdateFinalProjectAssignment from "../pages/final_project_assignment/Upda
 import OverDuedFinalProjectAssignment from "../pages/final_project_assignment/OverDuedFinalProjectAssignment";
 import Editlog from "./../pages/projSubmission/editLog";
 import ProjScore from "./../pages/projSubmission/projectScore";
+import { userRoles as ur } from "../data/userRole";
 export const final_project_assignment_routes = [
   {
-    path: "/assignFinalProjectAssignment/:id",
+    path: "/assignFinalProjectAssignment/:id/:userID",
     ele: <AssignFinalAssignment />,
-    availability: ["Supervisor"],
+    availability: [ur.supervisor],
   },
   {
     path: "/updateFinalProjectAssignment/:id",
     ele: <UpdateFinalProjectAssignment />,
-    availability: ["Supervisor"],
+    availability: [ur.supervisor],
   },
   {
     path: "/submission",
     ele: <Submission />,
-    availability: ["Supervisor"],
+    availability: [ur.supervisor],
   },
   {
     path: "/evaluate",
     ele: <Evaluate />,
-    availability: ["Supervisor"],
+    availability: [ur.supervisor],
   },
   {
     path: "/projectScore",
     ele: <ProjScore />,
-    availability: ["Supervisor"],
+    availability: [ur.supervisor],
   },
   {
     path: "/feedback",
     ele: <Feedback />,
-    availability: ["Hired Employee"],
+    availability: [ur.hiredEmployee],
   },
   {
     path: "/scoreEditLog",
     ele: <Editlog />,
-    availability: ["System Admin"],
+    availability: [ur.systemAdmin],
   },
   {
     path: "/submitanswer",
     ele: <FinalAssignmentSubmission />,
-    availability: ["Hired Employee"],
+    availability: [ur.hiredEmployee],
   },
   {
     path: "/finalProjectAssignmentRequests",
     ele: <ShowAssignmentRequests />,
-    availability: ["Supervisor"],
+    availability: [ur.supervisor],
   },
   {
     path: "/editAssignedProjectAssignment",
     ele: <EditAssignedTasks />,
-    availability: ["Supervisor"],
+    availability: [ur.supervisor],
   },
   {
     path: "/manageFinalProjectAssignment",
     ele: <ManageFinalProjectAssignment />,
-    availability: ["Supervisor"],
+    availability: [ur.supervisor],
   },
   {
     path: "/overduedAssignments",
     ele: <OverDuedFinalProjectAssignment />,
-    availability: ["Supervisor"],
+    availability: [ur.supervisor],
   },
 ];

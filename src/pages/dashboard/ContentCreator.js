@@ -10,7 +10,7 @@ const ContentCreator = () => {
             <div className="row">
                 <div className="col-md-4 mb-3">
                     <div className="card shadow">
-                        <Link to="/department" className="btn btn-outline-dark">
+                        <Link to="/complete-guidance-ticket" className="btn btn-outline-dark">
                             <center>
                                 <img src={image3} className="card-img-top" style={{ "width": "100px" }} alt="card" ></img>
                             </center>

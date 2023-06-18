@@ -20,6 +20,7 @@ import { report_routes } from "./ReportRoutes";
 import { unit_article_routes } from "./UnitArticleRoutes";
 import { user_role_routes } from "./UserRoleRoutes";
 import { editlogs_routes } from "./Editlogs";
+import Footer from "../components/Footer";
 import { deletelogs_routes } from "./Deletelogs";
 
 const AppRoutes = () => {
@@ -70,6 +71,7 @@ const AppRoutes = () => {
           );
         })}
       </Routes>
+      {/* <Footer></Footer> */}
     </BrowserRouter>
   );
 };

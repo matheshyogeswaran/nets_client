@@ -3,15 +3,18 @@ import Quizpage from "../pages/Quiz/Quizpage";
 import QuizDisplay from "../pages/Quiz/QuizDisplay";
 import Result from "../pages/Quiz/result";
 import Review from "../pages/Quiz/review";
+import { userRoles as ur } from "../data/userRole";
 
 export const quiz_routes = [
   {
     path: "/result",
     ele: <Result />,
+    availability: [ur.hiredEmployee],
   },
   {
     path: "/review",
     ele: <Review />,
+    availability: [ur.hiredEmployee, ur.supervisor],
   },
   {
     path: "/quiz/view",
