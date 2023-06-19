@@ -53,7 +53,7 @@ const Review = () => {
         </div>
       )}
       {Object.keys(review).length !== 0 ? (
-        <div className=" container-md">
+        <div className=" container-md pt-3">
           {review?.reviewData?.map((review, index) => (
             <div key={index}>
               <div className="question" key={index}>

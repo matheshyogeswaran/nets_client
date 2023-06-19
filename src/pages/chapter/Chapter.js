@@ -109,8 +109,9 @@ const Chapter = () => {
               <table className="table">
                 <thead>
                   <tr style={{ "backgroundColor": "#f8f9fa" }}>
-                    <th scope="col">#</th>
+                    <th scope="col">ChapterID</th>
                     <th scope="col">Chapter name</th>
+                    <th>Created On</th>
                     <th scope="col">Edit chapter</th>
                     <th scope="col">Delete chapter</th>
                   </tr>
@@ -123,10 +124,9 @@ const Chapter = () => {
                       }
                       return (
                         <tr className="align-middle" key={item._id}>
-                          <th scope="row">{item._id}</th>
-
+                          <th scope="row">{item.chapId}</th>
                           <td>{item.chapterName}</td>
-
+                          <td> {new Date(item?.createdOn).toLocaleString('en-US', { timeZone: 'Asia/Colombo' })}</td>
                           <td>
                             <Link
                               to={"/editchap/" + item._id + "/" + item.chapterName}

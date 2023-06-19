@@ -1,6 +1,7 @@
 import jwt_decode from "jwt-decode";
 import React, { useState, useEffect } from "react";
 import common from "../../images/common.svg";
+import save from "../../images/save3.png";
 import "../../App.css";
 import swal from "sweetalert";
 import validator from "validator";
@@ -8,9 +9,20 @@ import axios from "axios";
 
 const AddChapter = () => {
   const [chaptername, setChapterName] = useState("");
+  const [chapId, setChapId] = useState("");
 
   function submitChapter(e) {
+
     e.preventDefault();
+    // Validate chapter ID starts with a capital "C" +numbeer
+    if (!chapId.match(/^[C][O][0-9]/)) {
+      swal({
+        icon: "warning",
+        text: "Invalid Chapter ID",
+      });
+      return;
+    }
+
     // Validate chapter name
     if (!validator.isAlpha(chaptername.replace(/[^A-Za-z]/g, ""))) {  // Must contain at least 1 alphabet
       swal({
@@ -34,6 +46,7 @@ const AddChapter = () => {
     axios
       .post(process.env.REACT_APP_API_BASE+"/commonchapters/addChapter", {
         chapterName: chaptername,
+        chapId: chapId,
         userID: jwt_decode(JSON.parse(localStorage.getItem("user")).token).userData._id
       })
       .then((res) => {
@@ -43,6 +56,8 @@ const AddChapter = () => {
             text: res.data.message,
           });
           setChapterName("");
+          setChapId("");
+
         } else {
           swal({
             icon: "warning",
@@ -64,6 +79,22 @@ const AddChapter = () => {
         <div class="card" style={{ borderRadius: "15px", backgroundColor: "#f1f8f5", boxShadow: "0px 0px 5px 2px rgba(151,196,177, 0.5)" }} >
           <div class="card-body">
             <form name="myForm" onSubmit={submitChapter}>
+
+              <div className="field">
+                <label className="ml-5">Chapter ID</label>
+                <div className="control">
+                  <input
+                    type="text"
+                    name="cname"
+                    className="inputdata2 my-3 ml-5"
+                    placeholder="Enter Chapter ID"
+                    value={chapId}
+                    onChange={(e) => setChapId(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+
               <div className="field">
                 <label className="ml-5">Common Chapter Name</label>
                 <div className="control">
@@ -71,7 +102,7 @@ const AddChapter = () => {
                     type="text"
                     name="cname"
                     className="inputdata2 my-3 ml-5"
-                    placeholder="Name"
+                    placeholder="Enter Chapter Name"
                     value={chaptername}
                     onChange={(e) => setChapterName(e.target.value)}
                     required
@@ -79,13 +110,15 @@ const AddChapter = () => {
                 </div>
               </div>
 
+
+
               <div className="control">
                 <center>
                   <button
                     type="submit"
                     className="btn btn-success mr-1 column is-half text-white col-md-3 my-3"
                   >
-                    Save
+                    Save <img src={save} className="picside5" alt="add_symbol" />
                   </button>
                 </center>
               </div>
