@@ -9,6 +9,8 @@ import axios from "axios";
 
 const EditForum = () => {
   const navigate = useNavigate();
+  const userid = "648050d3b39dcbdf90027b5a";
+  const chapterName = "diagrams";
 
   const formSchema = Yup.object().shape({
     topic: Yup.string().required("* topic is required"),
@@ -62,6 +64,30 @@ const EditForum = () => {
         });
       });
     console.log("Submitted form data:", formData);
+
+    const editData = {
+      chapterName: chapterName,
+      updatedby: userid,
+      forumTopic: formData.topic,
+      forumDesc: formData.description,
+      attachmentStatus: formData.attachmentAllowed,
+      old_data: {
+        topic: forum[0].topic,
+        description: forum[0].description,
+        attachmentAllowed: forum[0].attachmentAllowed,
+      },
+    };
+    console.log(editData);
+
+    axios
+      .post("http://localhost:1337/editForums/add", editData)
+      .then(() => {
+        console.log("Edit history data saved successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     return false;
   };
 

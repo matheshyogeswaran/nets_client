@@ -1,8 +1,9 @@
 import UnitHistory from "../pages/Chapter page/UnitHistory";
 import KTHistory from "../pages/Unit page/KTHistory";
 import ArticleHistory from "../pages/article page/ArticleHistory";
-import QuestionEditHistory from "../pages/quiz/QuestionEditHistory";
+import QuestionEditHistory from "../pages/Quiz/QuestionEditHistory";
 import EditHistory from "../components/EditHistory";
+import ForumHistory from "../components/Forums/ForumHistory";
 
 export const editlogs_routes = [
   {
@@ -16,6 +17,10 @@ export const editlogs_routes = [
   {
     path: "/editarticles",
     ele: <ArticleHistory />,
+  },
+  {
+    path: "/editforums",
+    ele: <ForumHistory />,
   },
   {
     path: "/editquestions",
