@@ -9,7 +9,6 @@ import rank2 from "../../images/silver.png";
 import rank3 from "../../images/bronze.png";
 
 const LeaderBoard = () => {
-  const API_BASE = "http://localhost:1337";
   const [score, setScore] = useState([]);
   const [search, setSearch] = useState();
   const [showSearch, setShowSearch] = useState();
@@ -24,7 +23,7 @@ const LeaderBoard = () => {
 
   useEffect(() => {
     axios
-      .get(API_BASE + "/getCurrentUserLeaderboardData", {
+      .get(process.env.REACT_APP_API_BASE+"/getCurrentUserLeaderboardData", {
         params: { currentUser, currentUserDep },
       })
       .then((res) => setScore(res.data))

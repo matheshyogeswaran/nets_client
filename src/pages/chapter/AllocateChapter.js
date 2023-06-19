@@ -8,7 +8,7 @@ const AllocateChapter = () => {
   const [departments, setDepartments] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:1337/jobtitles/showAllJobtitles")
+      .get(process.env.REACT_APP_API_BASE+"/jobtitles/showAllJobtitles")
       .then(function (response) {
         setDepartments(response.data);
       });

@@ -20,7 +20,7 @@ const DepartmentChapter = () => {
         }).then((willDelete) => {
             if (willDelete) {
                 axios
-                    .put(`http://localhost:1337/chapters/${id}`, {
+                    .put(process.env.REACT_APP_API_BASE+`/chapters/${id}`, {
                         status: "notactive",
                     })
                     .then((res) => {
@@ -48,7 +48,7 @@ const DepartmentChapter = () => {
 
     useEffect(() => {
         setLoading(true);
-        axios.get("http://localhost:1337/chapters/showAllChapters")
+        axios.get(process.env.REACT_APP_API_BASE+"/chapters/showAllChapters")
             .then(function (response) {
                 const filteredChapters = response.data.filter(chapter => chapter.depID !== null && chapter.depID._id === userdepartment);
                 setChapter(filteredChapters);
