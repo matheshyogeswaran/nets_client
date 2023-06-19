@@ -1,8 +1,8 @@
-import QuizEntry from "../pages/quiz/QuizEntry";
-import Quizpage from "../pages/quiz/Quizpage";
+import QuizEntry from "../pages/Quiz/QuizEntry";
+import Quizpage from "../pages/Quiz/Quizpage";
 import QuizDisplay from "../pages/quiz/QuizDisplay";
-import Result from "../pages/quiz/result";
-import Review from "../pages/quiz/review";
+import Result from "../pages/Quiz/result";
+import Review from "../pages/Quiz/review";
 import { userRoles as ur } from "../data/userRole";
 
 export const quiz_routes = [
@@ -19,21 +19,21 @@ export const quiz_routes = [
   {
     path: "/quiz/view",
     ele: <QuizEntry />,
-    availability: [ur.hiredEmployee, ur.supervisor, ur.contentCreator]
+    availability: [ur.hiredEmployee, ur.supervisor, ur.contentCreator],
   },
   {
     path: "/quiz/view/:id",
     ele: <QuizEntry />,
-    availability: [ur.hiredEmployee, ur.supervisor, ur.contentCreator]
+    availability: [ur.hiredEmployee, ur.supervisor, ur.contentCreator],
   },
   {
     path: "/quiz",
     ele: <Quizpage />,
-    availability: [ur.hiredEmployee, ur.supervisor, ur.contentCreator]
+    availability: [ur.hiredEmployee, ur.supervisor, ur.contentCreator],
   },
   {
     path: "/quiz/:id",
     ele: <Quizpage />,
-    availability: [ur.hiredEmployee, ur.supervisor, ur.contentCreator]
+    availability: [ur.hiredEmployee, ur.supervisor, ur.contentCreator],
   },
 ];
