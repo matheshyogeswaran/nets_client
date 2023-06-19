@@ -22,7 +22,7 @@ const EnrollRequestEmployee = () => {
       .then((confirmed) => {
         if (confirmed) {
           axios
-            .post("http://localhost:1337/chapters/enrollChapter", {
+            .post(process.env.REACT_APP_API_BASE+"/chapters/enrollChapter", {
               chapID: chapID,
               userID: userID,
             })
@@ -49,7 +49,7 @@ const EnrollRequestEmployee = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:1337/chapters/showAllChapters")
+      .get(process.env.REACT_APP_API_BASE+"/chapters/showAllChapters")
       .then(function (response) {
         const filteredChapters = response.data.filter(chapter => chapter.depID !== null && chapter.status !== "notactive");
         // const filteredChapters = response.data.filter(chapter => chapter.depID !== null && chapter._id !== user_accepted_chapter);

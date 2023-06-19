@@ -10,7 +10,7 @@ const EnrollRequestSupervisor = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:1337/chapters/getEnrolledChapters/${depID}`)
+      .get(process.env.REACT_APP_API_BASE+`/chapters/getEnrolledChapters/${depID}`)
       .then(function (response) {
         setChapter(response.data);
         setLoading(false);
@@ -32,7 +32,7 @@ const EnrollRequestSupervisor = () => {
           chapid: chapterid,
           action: action
         }
-        axios.post('http://localhost:1337/chapters/acceptRequest', bodytData)
+        axios.post(process.env.REACT_APP_API_BASE+'/chapters/acceptRequest', bodytData)
           .then((res) => {
             if (res.data.status === true) {
               Swal.fire(
@@ -161,7 +161,7 @@ export default EnrollRequestSupervisor;
 
 //   useEffect(() => {
 //     axios
-//       .get(`http://localhost:1337/chapters/getEnrolledChapters/${depID}`)
+//       .get(process.env.REACT_APP_API_BASE+`/chapters/getEnrolledChapters/${depID}`)
 //       .then(function (response) {
 //         const filteredChapters = response.data.filter(
 //           (chapter) => chapter.depID !== null
@@ -305,7 +305,7 @@ export default EnrollRequestSupervisor;
 //   const [chapters, setChapter] = useState([]);
 
 //   useEffect(() => {
-//     axios.get(`http://localhost:1337/chapters/getEnrolledChapters/${depID}`)
+//     axios.get(process.env.REACT_APP_API_BASE+`/chapters/getEnrolledChapters/${depID}`)
 //       .then(function (response) {
 //         const filteredChapters = response.data.filter(chapter => chapter.depID !== null);
 //         setChapter(filteredChapters);
