@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import swal from "sweetalert";
+import Swal from "sweetalert2";
 import axios from "axios";
 import Search from "../../components/search";
 const LeaderboardSup = () => {
@@ -13,6 +14,11 @@ const LeaderboardSup = () => {
   let filtering = 3;
 
   useEffect(() => {
+    Swal.fire(
+      `Need to know!`,
+      "The leaderboard is determined based on the average score of department chapters.",
+      "info"
+    );
     axios
       .get(API_BASE + "/getLeaderboardData")
       .then((res) => setScore(res.data))
