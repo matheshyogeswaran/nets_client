@@ -83,7 +83,7 @@ const EditAllocate = () => {
                       :
                       (chaptername.length === 0)
                         ?
-                        <div className="alert alert-info mt-4"> <b>No Chapters Found related to your Department !</b> </div>
+                        (<div className="alert alert-info mt-4"> No Chapters Found related to your Department !</div>)
                         : chaptername.map((item) => {
                           return (
 
@@ -98,17 +98,20 @@ const EditAllocate = () => {
                               <label
                                 className="form-check-label"
                               >
+                                {item.chapId}{" "} -{" "}
                                 {item.chapterName}
                               </label>
                             </div>
                           );
                         })}
-                  <input
-                    type="submit"
-                    className="btn btn-success mt-4 col-md-12"
-                    value="     Allocate     "
-                    onClick={submitEdit}
-                  />
+                  {(chaptername.length === 0)
+                    ? "" :
+                    <input
+                      type="submit"
+                      className="btn btn-success mt-4 col-md-12"
+                      value="     Allocate     "
+                      onClick={submitEdit}
+                    />}
 
                 </tbody>
               </table>}
