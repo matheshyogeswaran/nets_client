@@ -212,22 +212,22 @@
 
 /* Result page */
 .result-greater-than-75 {
-  background-image: url("../src/images/resultGT75.png");
+  background-image: url("..\/src\/images\/resultGT75.png");
   background-size: contain;
 }
 
 .result-greater-than-50 {
-  background-image: url("../src/images/resultGT50.png");
+  background-image: url("..\/src\/images\/resultGT50.png");
   background-size: contain;
 }
 
 .result-greater-than-30 {
-  background-image: url("../src/images/resultGT30.png");
+  background-image: url("..\/src\/images\/resultGT30.png");
   background-size: contain;
 }
 
 .result {
-  background-image: url("../src/images/result.png");
+  background-image: url("..\/src\/images\/result.png");
   background-size: contain;
 }
 
