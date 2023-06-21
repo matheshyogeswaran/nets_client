@@ -1,7 +1,7 @@
 /* imgcolor-64A386 */
 
 .heading {
-  background-color: #55a3cae3 !important;
+  background-color: \#55a3cae3 !important;
   color: rgb(255, 255, 255) !important;
   border-color: #8eabc0 !important;
 }
@@ -105,8 +105,6 @@
   appearance: none;
 }
 
-
-
 .showBut {
   color: #0d8071;
 }
@@ -193,7 +191,6 @@
 } */
 
 .heading {
-
   /* background-color: #65b9af !important; */
   background-color: #32766e !important;
   /* background-color: #6fb193 !important; */
